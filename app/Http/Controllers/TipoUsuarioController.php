@@ -18,6 +18,7 @@ class TipoUsuarioController extends Controller
     {
         $tipoUsuarios = TipoUsuario::orderBy('id','desc')->paginate();       
         return view('admin.tipoUsuarios.index', compact('tipoUsuarios'));  
+        
     }
    
     /**
@@ -44,8 +45,9 @@ class TipoUsuarioController extends Controller
         ]);
 
         $tipoUsuario = TipoUsuario::create($request->all());
-        return redirect()->route('tipoUsuarios.index',$tipoUsuario->id);
+        return redirect()->route('tipoUsuarios.index',$tipoUsuario->id)->with('info','Tipo usuario creado correctamente');
 
+        // return $request->all();
     }
 
 
@@ -90,7 +92,7 @@ class TipoUsuarioController extends Controller
         ]);
         //ASINACION MASIVA DE VARIABLES A LOS CAMPOS
         $tipoUsuario->update($request->all());
-        return redirect()->route('tipoUsuarios.index',$tipoUsuario->id);
+        return redirect()->route('tipoUsuarios.index',$tipoUsuario->id)->with('info','la categoria se actualizo con exito');//with mensaje de sesion
        
     }
 
@@ -121,6 +123,6 @@ class TipoUsuarioController extends Controller
     public function destroy(TipoUsuario $tipoUsuario)
     {
         $tipoUsuario->delete();
-        return redirect()->route('tipoUsuarios.index');        
+        return redirect()->route('tipoUsuarios.index')->with('info1','Tipo usuario eliminado correctamente');      
     }
 }

@@ -16,4 +16,5 @@ class AsignacionMulta extends Model
     public function tipoMulta(){
         return $this->belongsTo('App\Models\TipoMulta');
     }
+    
 }

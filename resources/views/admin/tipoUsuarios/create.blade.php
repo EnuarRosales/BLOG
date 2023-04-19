@@ -1,8 +1,99 @@
-@extends('layouts.plantilla')
+@extends('adminlte::page')
+
+@section('title', 'Dashboard')
+
+@section('content_header')
+    <h1>Editar tipo Usuario</h1>
+@stop
+
+@section('content')
+
+<div class="card">
+    <div class="card-body">
+        {!! Form::open(['route' => 'tipoUsuarios.store']) !!}
+
+        <div class="form-group">
+            {!! Form::label('name', 'Nombre') !!}
+            {{-- ojo que en la linea siguiente va el nombre de la columa =( --}}
+            {!! Form::text('nombre', null, ['class' => 'form-control', 'placeholder' => 'Favor ingrese un tipo usuario']) !!}
+
+            @error('nombre')
+                <br>
+                <span class="text-danger">{{ $message }}</span>
+                <br>
+            @enderror
+
+        </div>
+        
+            {!! Form::submit('Crear Categoria', ['class' => 'btn btn-primary']) !!}
+            {!! Form::close() !!}      
+
+    </div>
+
+</div>
+
+
+@stop
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+{{-- @extends('layouts.plantilla')
 @section('title', 'create')
 @section('content')
     <h1>en esta parte podras crear un Tipo Usuario</h1>
-    <form action="{{ route('tipoUsuarios.store') }}" method="POST">
+
+    <div class="card">
+        <div class="card-body">
+            {!! Form::open(['route' => 'tipoUsuarios.store']) !!}
+
+            <div class="form-group">
+                {!! Form::label('name', 'Nombre') !!}
+                {{-- ojo que en la linea siguiente va el nombre de la columa =( --}}
+                {{-- {!! Form::text('nombre', null, ['class' => 'form-control', 'placeholder' => 'Favor ingrese un tipo usuario']) !!}
+
+                @error('nombre')
+                    <br>
+                    <span class="text-danger">{{ $message }}</span>
+                    <br>
+                @enderror
+
+            </div>
+            
+                {!! Form::submit('Crear Categoria', ['class' => 'btn btn-primary']) !!}
+                {!! Form::close() !!}
+            --}}
+
+        {{-- </div>
+
+
+    </div> --}} 
+
+    {{-- FORMULARIO CON LARAVEL COLECTI --}}
+
+
+    {{-- <form action="{{ route('tipoUsuarios.store') }}" method="POST">
         @csrf
         <div class="mb-3">
             <label for="formGroupExampleInput" class="form-label">NOMBRE</label>
@@ -18,6 +109,6 @@
         <br>
 
         <button type="submit"> Enviar formulario</button>
-    </form>
+    </form> --}}
 
-@endsection
+{{-- @endsection --}}

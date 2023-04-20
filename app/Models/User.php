@@ -67,15 +67,15 @@ class User extends Authenticatable
 
     
 
+   //RELACION UNO A MUCHOS INVERSA
+   public function tipoUsuario(){
+    return $this->belongsTo('App\Models\TipoUsuario');
+}
+   
     //RELACION UNO A MUCHOS 
     public function asignacionRooms(){
         return $this->hasMany('App\Models\AsignacionRoom');
-    }
-
-    //RELACION UNO A MUCHOS INVERSA
-    public function tipoUsuario(){
-        return $this->belongsTo('App\Models\TipoUsuario');
-    }
+    }    
 
     //RELACION DE UNO A MUCHOS 
     public function asignacionTurnos(){

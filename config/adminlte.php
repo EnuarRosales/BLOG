@@ -319,8 +319,8 @@ return [
         ], //ojo que aca inicia para modificar el menu
         ['header' => 'ADMINISTRADOR'],
         [
-            'text' => 'TipoUsuarios',
-            'route'  => 'admin.tipoUsuarios.index',
+            'text' => 'Personal',
+            'route'  => 'admin.users.index',
             'icon' => 'fas fa-fw fa-user',
         ],
         [
@@ -328,13 +328,15 @@ return [
             'url'  => 'admin/settings',
             'icon' => 'fas fa-fw fa-lock',
         ],
+
+        //MULTINIVEL
         [
-            'text'    => 'multilevel',
+            'text'    => 'Configuracion',
             'icon'    => 'fas fa-fw fa-share',
             'submenu' => [
                 [
-                    'text' => 'level_one',
-                    'url'  => '#',
+                    'text' => 'Tipo Usuarios',
+                    'route'  => 'admin.tipoUsuarios.index',
                 ],
                 [
                     'text'    => 'level_one',

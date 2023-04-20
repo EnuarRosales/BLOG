@@ -2,12 +2,14 @@
 
 use App\Http\Controllers\Admin\HomeController;
 use App\Http\Controllers\Admin\TipoUsuarioController;
+use App\Http\Controllers\Admin\UserController;
 use App\Models\TipoUsuario;
 use Illuminate\Support\Facades\Route;
 
 Route::get('',[HomeController::class,'index']);
 
 Route::resource('tipoUsuarios', TipoUsuarioController::class)->names('admin.tipoUsuarios'); 
+Route::resource('users', UserController::class)->names('admin.users'); 
 
 //RUTA TIPO CONTROLLER
 

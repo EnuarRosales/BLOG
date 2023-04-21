@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Models;
+
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -22,6 +23,7 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        
     ];
 
     /**
@@ -43,6 +45,9 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
+    //CON ESTO LOGRAMOS HACER LA ASIGNACION MASIVA
+    protected $guarded = [];
+
     /*
 
     //ESTOS ES CUANDO ESTEMOS EN LARABEL 9>
@@ -56,49 +61,67 @@ class User extends Authenticatable
 	}*/
 
     //ACCESOR
-    public function getNameAttribute($value){
+    public function getNameAttribute($value)
+    {
         return ucwords($value);
-    }   
-
-    //MUTADOR
-    public function setNameAttribute($value){
-        $this->attributes['name']= strtolower($value);
     }
 
-    
+    //MUTADOR
+    public function setNameAttribute($value)
+    {
+        $this->attributes['name'] = strtolower($value);
+    }
 
-   //RELACION UNO A MUCHOS INVERSA
-   public function tipoUsuario(){
-    return $this->belongsTo('App\Models\TipoUsuario');
-}
+
+
+    //RELACION UNO A MUCHOS INVERSA
    
+    public function tipoUsuario()
+    {
+        return $this->belongsTo('App\Models\TipoUsuario');
+    }
+
+    // public function tipoUsuarios()
+    // {
+    //     return $this->belongsTo(TipoUsuario::class);
+    // }
+
+ 
+ 
+
     //RELACION UNO A MUCHOS 
-    public function asignacionRooms(){
+    public function asignacionRooms()
+    {
         return $this->hasMany('App\Models\AsignacionRoom');
-    }    
+    }
 
     //RELACION DE UNO A MUCHOS 
-    public function asignacionTurnos(){
+    public function asignacionTurnos()
+    {
         return $this->hasMany('App\Models\AsignacionTurno');
     }
 
     //RELACION DE UNO A MUCHOS 
-    public function asignacionMultas(){
+    public function asignacionMultas()
+    {
         return $this->hasMany('App\Models\AsignacionMulta');
     }
 
-     //RELACION DE UNO A MUCHOS      
-     public function asistencias(){
+    //RELACION DE UNO A MUCHOS      
+    public function asistencias()
+    {
         return $this->hasMany('App\Models\Asistencia');
     }
 
     //RELACION DE UNO A MUCHOS      
-    public function registroProducidos(){
+    public function registroProducidos()
+    {
         return $this->hasMany('App\Models\RegistroProducido');
     }
 
     //RELACION DE UNO A MUCHOS      
-    public function descuentos(){
+    public function descuentos()
+    {
         return $this->hasMany('App\Models\Descuento');
     }
 
@@ -117,8 +140,4 @@ class User extends Authenticatable
     public function tipoUsuario(){
         return $this->hasOne('App\Models\TipoUsuarios');
     }*/
-
-
-
 }
-    

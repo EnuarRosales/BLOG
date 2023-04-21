@@ -7,8 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class AsignacionTurno extends Model
 {
-    use HasFactory;
-
+    use HasFactory; 
     //CON ESTO LOGRAMOS HACER LA ASIGNACION MASIVA
     protected $guarded = [];
 
@@ -21,5 +20,6 @@ class AsignacionTurno extends Model
     public function user(){
         return $this->belongsTo('App\Models\User');
     }
+    
    
 }

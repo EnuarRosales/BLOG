@@ -21,16 +21,15 @@ class CreateUsersTable extends Migration
             $table->string('password');                        
             $table->rememberToken(); 
 
+           
+            
             $table->unsignedBigInteger('tipoUsuario_id');//campo para relacion 
             $table->foreign('tipoUsuario_id')->nullable()
                     ->references('id')->on('tipo_usuarios')//tabla
                     ->onDelete('cascade');    
             $table->timestamps();
-            //$table->unsignedBigInteger('tipoUsuario_id');
-            /* //relaciones de uno a muchos
-           $table->foreign('tipoUsuario_id')            
-             ->references('id')->on('tipo_usuarios')
-             ->onDelete('cascade');*/
+
+
         });
     }
 

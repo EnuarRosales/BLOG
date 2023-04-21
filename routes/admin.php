@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Admin\AsignacionTurnoController;
 use App\Http\Controllers\Admin\HomeController;
 use App\Http\Controllers\Admin\TipoUsuarioController;
 use App\Http\Controllers\Admin\UserController;
@@ -10,6 +11,7 @@ Route::get('',[HomeController::class,'index']);
 
 Route::resource('tipoUsuarios', TipoUsuarioController::class)->names('admin.tipoUsuarios'); 
 Route::resource('users', UserController::class)->names('admin.users'); 
+Route::resource('asignacionTurnos',AsignacionTurnoController::class)->names('admin.asignacionTurnos');
 
 //RUTA TIPO CONTROLLER
 

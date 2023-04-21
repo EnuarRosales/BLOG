@@ -325,7 +325,7 @@ return [
         ],
         [
             'text' => 'change_password',
-            'url'  => 'admin/settings',
+            'route'  => 'admin.asignacionTurnos.index',
             'icon' => 'fas fa-fw fa-lock',
         ],
 

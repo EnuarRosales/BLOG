@@ -10,7 +10,7 @@ class CreateAsignacionTurnosTable extends Migration
      * Run the migrations.
      *
      * @return void
-     */
+     */ 
     public function up()
     {
         Schema::create('asignacion_turnos', function (Blueprint $table) {

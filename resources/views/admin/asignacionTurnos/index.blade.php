@@ -3,7 +3,7 @@
 @section('title', 'Dashboard')
 
 @section('content_header')
-    <h1>Personal</h1>
+    <h1>Asignacion Turno</h1>
 @stop
 
 @section('content')
@@ -16,15 +16,14 @@
         
     <div class="card">
         <div class="card-body">
-            <a class="btn btn-primary" href="#">Agregar Usuario</a>
+            <a class="btn btn-primary" href="#">Agregar Asignacion Turno</a>
         </div>
         <table class="table table-striped">
             <thead>
                 <tr>
                     <th>ID</th>
-                    <th>Nombre</th>
-                    <th>Email</th>
-                    <th>Tipo Usuario</th>
+                    <th>Nombre</th>                    
+                    <th>Turno Asignado</th>
                     <th colspan="2"</th>
 
                 </tr>
@@ -32,13 +31,13 @@
 
 
             <tbody>
-                @foreach ($users as $user)
+                @foreach ($asignacionTurnos as $asignacionTurno)
                     <tr>
-                        <td>{{ $user->id }}</td>
-                        <td>{{ $user->name}}</td>
-                        <td>{{ $user->email}}</td>
-                        <td>{{ $user->tipoUsuario_id}}</td>
+                        <td>{{ $asignacionTurno->id }}</td>
+                        <td>{{ $asignacionTurno->user->name}}</td>
+                        <td>{{ $asignacionTurno->turno->nombre}}</td>
                         
+                                                
                         
                         <td width="10px">
                             <a class="btn btn-secondary btn-sm"
@@ -62,5 +61,3 @@
     </div>
 
 @stop
-
-

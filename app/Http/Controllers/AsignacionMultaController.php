@@ -24,7 +24,7 @@ class AsignacionMultaController extends Controller
      */
     public function create()
     {
-        //
+        return "hola muendo";
     }
 
     /**

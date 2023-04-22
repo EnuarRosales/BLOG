@@ -13,8 +13,8 @@
     @endif
     <div class="card">
         <div class="card-body">
-            {!! Form::model($tipoUsuario, ['route' => ['tipoUsuarios.update', $tipoUsuario], 'method' => 'put']) !!}
-
+            {!! Form::model($tipoUsuario, ['route' => ['admin.tipoUsuarios.update', $tipoUsuario], 'method' => 'put']) !!}
+             
             <div class="form-group">
                 {!! Form::label('name', 'Nombre') !!}
                 {{-- ojo que en la linea siguiente va el nombre de la columa =( --}}

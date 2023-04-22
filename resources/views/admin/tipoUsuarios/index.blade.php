@@ -17,7 +17,7 @@
         
     <div class="card">
         <div class="card-body">
-            <a class="btn btn-primary" href="{{ route('tipoUsuarios.create') }}">Agregar TipoUsuario</a>
+            <a class="btn btn-primary" href="{{ route('admin.tipoUsuarios.create') }}">Agregar TipoUsuario</a>
         </div>
         <table class="table table-striped">
             <thead>
@@ -37,11 +37,11 @@
                         <td>{{ $tipoUsuario->nombre }}</td>
                         <td width="10px">
                             <a class="btn btn-secondary btn-sm"
-                                href="{{ route('tipoUsuarios.edit', $tipoUsuario) }}">Editar</a>
+                                href="{{ route('admin.tipoUsuarios.edit', $tipoUsuario) }}">Editar</a>
                         </td>
 
                         <td width="10px">
-                            <form action="{{ route('tipoUsuarios.destroy', $tipoUsuario) }}" method="POST">
+                            <form action="{{ route('admin.tipoUsuarios.destroy', $tipoUsuario) }}" method="POST">
                                 @csrf
                                 @method('delete')
                                 <button type="submit" class="btn btn-dark btn-sm">Eliminar</button>

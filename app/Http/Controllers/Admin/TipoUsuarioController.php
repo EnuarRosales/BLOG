@@ -6,16 +6,17 @@ use App\Http\Controllers\Controller;
 use App\Models\TipoUsuario;
 use Illuminate\Http\Request;
 
+
 class TipoUsuarioController extends Controller
-{
+{ 
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
-     */
+     */ 
     public function index()
     {
-        $tipoUsuarios = TipoUsuario::orderBy('id','desc')->paginate();       
+        $tipoUsuarios = TipoUsuario::orderBy('id','desc')->paginate();         
         return view('admin.tipoUsuarios.index', compact('tipoUsuarios'));  
         
     }
@@ -29,7 +30,7 @@ class TipoUsuarioController extends Controller
     {
         return view('admin.tipoUsuarios.create');
     }
-
+ 
     /**
      * Store a newly created resource in storage.
      *
@@ -44,9 +45,9 @@ class TipoUsuarioController extends Controller
         ]);
 
         $tipoUsuario = TipoUsuario::create($request->all());
-        return redirect()->route('tipoUsuarios.index',$tipoUsuario->id)->with('info','Tipo usuario creado correctamente');
+        return redirect()->route('admin.tipoUsuarios.index',$tipoUsuario->id)->with('info','Tipo usuario creado correctamente');
 
-        // return $request->all();
+        
     }
 
 
@@ -59,9 +60,9 @@ class TipoUsuarioController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(TipoUsuario $tipoUsuario)
     {
-        //
+        return view('admin.tipoUsuarios.index',compact('tipoUsuario'));
     }
 
     /**
@@ -90,8 +91,9 @@ class TipoUsuarioController extends Controller
             'nombre'=>'required'
         ]);
         //ASINACION MASIVA DE VARIABLES A LOS CAMPOS
-        $tipoUsuario->update($request->all());
-        return redirect()->route('tipoUsuarios.index',$tipoUsuario->id)->with('info','la categoria se actualizo con exito');//with mensaje de sesion
+        $tipoUsuario->update($request->all());             
+        
+        return redirect()->route('admin.tipoUsuarios.index',$tipoUsuario->id)->with('info','la categoria se actualizo con exito');//with mensaje de sesion
        
     }
 
@@ -122,6 +124,6 @@ class TipoUsuarioController extends Controller
     public function destroy(TipoUsuario $tipoUsuario)
     {
         $tipoUsuario->delete();
-        return redirect()->route('tipoUsuarios.index')->with('info','Tipo usuario eliminado correctamente');      
+        return redirect()->route('admin.tipoUsuarios.index')->with('info','Tipo usuario eliminado correctamente');      
     }
 }

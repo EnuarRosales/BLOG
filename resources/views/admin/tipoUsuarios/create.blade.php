@@ -10,10 +10,11 @@
 
 <div class="card">
     <div class="card-body">
-        {!! Form::open(['route' => 'tipoUsuarios.store']) !!}
+        {!! Form::open(['route'=>'admin.tipoUsuarios.store'])!!}
+        {{-- @csrf{!! Form::model($tipoUsuario, ['route' => ['admin.tipoUsuarios.update', $tipoUsuario], 'method' => 'put']) !!} --}}
 
         <div class="form-group">
-            {!! Form::label('name', 'Nombre') !!}
+            {!! Form::label('nombre', 'Nombre') !!}
             {{-- ojo que en la linea siguiente va el nombre de la columa =( --}}
             {!! Form::text('nombre', null, ['class' => 'form-control', 'placeholder' => 'Favor ingrese un tipo usuario']) !!}
 
@@ -26,12 +27,12 @@
         </div>
         
             {!! Form::submit('Crear Categoria', ['class' => 'btn btn-primary']) !!}
+
             {!! Form::close() !!}      
 
     </div>
 
 </div>
-
 
 @stop
 

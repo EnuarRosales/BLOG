@@ -16,7 +16,7 @@
         
     <div class="card">
         <div class="card-body">
-            <a class="btn btn-primary" href="#">Agregar Asignacion Turno</a>
+            <a class="btn btn-primary" href="{{route('admin.asignacionTurnos.create') }}">Agregar Asignacion Turno</a>
         </div>
         <table class="table table-striped">
             <thead>

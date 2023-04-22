@@ -4,6 +4,8 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\AsignacionTurno;
+use App\Models\Turno;
+use App\Models\User;
 use Illuminate\Http\Request;
 
 class AsignacionTurnoController extends Controller
@@ -26,7 +28,10 @@ class AsignacionTurnoController extends Controller
      */
     public function create()
     {
-        //
+        // $asignacionTurnos = AsignacionTurno::pluck('created_at','id')->toArray();
+        $users = User::orderBy('id','desc'); 
+        $turnos = Turno::orderBy('id','desc'); 
+        return view('admin.asignacionTurnos.create', compact('users'),compact('turnos'));
     }
 
     /**
@@ -37,7 +42,16 @@ class AsignacionTurnoController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        //VALiDACION FORMULARIO 
+        $request->validate([
+            'user_id'=>'required',
+            'turno_id'=>'required',         
+        ]);
+
+        $asignacionTurno = AsignacionTurno::create($request->all());
+        return redirect()->route('admin.asignacionTurnos.index',$asignacionTurno->id)->with('info','Asignacion de turno agregada correctamente');
+
+        
     }
 
     /**

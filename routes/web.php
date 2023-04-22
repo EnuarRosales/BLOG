@@ -5,7 +5,7 @@ use App\Http\Controllers\CursoController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\TipoUsuarioController;
-
+ 
 //RUTA CURSOS
 Route::get('/', HomeController::class);
 Route::get('cursos', [CursoController::class,'index'])->name('cursos.index');
@@ -27,14 +27,14 @@ Route::put('asignacionMultas/{asignacionMulta}',[AsignacionMultaController::clas
 Route::delete('asignacionMultas/{asignacionMulta}',[AsignacionMultaController::class,'destroy'])->name('asignacionMultas.destroy');
 
 //RUTA TIPO CONTROLLER
-Route::get('/', HomeController::class);
-Route::get('tipoUsuarios', [TipoUsuarioController::class,'index'])->name('tipoUsuarios.index');
-Route::get('tipoUsuarios/create', [TipoUsuarioController::class,'create'])->name('tipoUsuarios.create');
-Route::post('tipoUsuarios',[TipoUsuarioController::class,'store'])->name('tipoUsuarios.store');
-Route::get('tipoUsuarios/{tipoUsuario}', [TipoUsuarioController::class,'show'])->name('tipoUsuarios.show');
-Route::get('tipoUsuarios/{tipoUsuario}/edit', [TipoUsuarioController::class,'edit'])->name('tipoUsuarios.edit');
-Route::put('tipoUsuarios/{tipoUsuario}',[TipoUsuarioController::class,'update'])->name('tipoUsuarios.update');
-Route::delete('tipoUsuarios/{tipoUsuario}',[TipoUsuarioController::class,'destroy'])->name('tipoUsuarios.destroy');
+//Route::get('/', HomeController::class);
+// Route::get('tipoUsuarios', [TipoUsuarioController::class,'index'])->name('tipoUsuarios.index');
+// Route::get('tipoUsuarios/create', [TipoUsuarioController::class,'create'])->name('tipoUsuarios.create');
+// Route::post('tipoUsuarios',[TipoUsuarioController::class,'store'])->name('tipoUsuarios.store');
+// Route::get('tipoUsuarios/{tipoUsuario}', [TipoUsuarioController::class,'show'])->name('tipoUsuarios.show');
+// Route::get('tipoUsuarios/{tipoUsuario}/edit', [TipoUsuarioController::class,'edit'])->name('tipoUsuarios.edit');
+// Route::put('tipoUsuarios/{tipoUsuario}',[TipoUsuarioController::class,'update'])->name('tipoUsuarios.update');
+// Route::delete('tipoUsuarios/{tipoUsuario}',[TipoUsuarioController::class,'destroy'])->name('tipoUsuarios.destroy');
 
 
 

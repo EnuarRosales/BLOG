@@ -150,7 +150,7 @@ return [
 
     'layout_topnav' => null,
     'layout_boxed' => null,
-    'layout_fixed_sidebar' => null,
+    'layout_fixed_sidebar' => true,
     'layout_fixed_navbar' => null,
     'layout_fixed_footer' => null,
     'layout_dark_mode' => null,
@@ -217,7 +217,7 @@ return [
     'sidebar_collapse_remember_no_transition' => true,
     'sidebar_scrollbar_theme' => 'os-theme-light',
     'sidebar_scrollbar_auto_hide' => 'l',
-    'sidebar_nav_accordion' => true,
+    'sidebar_nav_accordion' => false,
     'sidebar_nav_animation_speed' => 300,
 
     /*
@@ -322,10 +322,34 @@ return [
             'text' => 'Personal',
             'route'  => 'admin.users.index',
             'icon' => 'fas fa-fw fa-user',
+            'submenu' => [
+
+                [
+                    'text' => 'Usuarios',
+                    'route'  => 'admin.users.index',
+                    'icon' => 'fas fa-fw fa-user',
+                ],
+
+                [
+                    'text' => 'Asignacion Turno',
+                    'route'  => 'admin.asignacionTurnos.index',
+                    'icon' => '	far fa-address-book', 
+                ],
+                [
+                    'text' => 'Asignacion Room',
+                    'url'  => '#',
+                    'icon' => ' fas fa-house-user',
+                ],
+
+            ]
         ],
+
+
+
+        
         [
             'text' => 'change_password',
-            'route'  => 'admin.asignacionTurnos.index',
+            'url'  => '#',
             'icon' => 'fas fa-fw fa-lock',
         ],
 
@@ -338,16 +362,46 @@ return [
                     'text' => 'Tipo Usuarios',
                     'route'  => 'admin.tipoUsuarios.index',
                 ],
+
                 [
-                    'text'    => 'level_one',
+                    'text' => 'Tipo Turnos',
+                    'url'  => '#',
+                ],
+
+                [
+                    'text' => 'Tipo Rooms',
+                    'url'  => '#',
+                ],
+                [
+                    'text' => 'Tipo Multas',
+                    'url'  => '#',
+                ],
+                [
+                    'text' => 'Tipo Descuentos',
+                    'url'  => '#',
+                ],
+
+                [
+                    'text' => 'Tipo Metas',
+                    'url'  => '#',
+                ],
+                
+                
+                [
+                    'text'    => 'Paginas WC',
                     'url'     => '#',
                     'submenu' => [
                         [
-                            'text' => 'level_two',
+                            'text' => 'Tipo Moneda Paginas',
                             'url'  => '#',
                         ],
                         [
-                            'text'    => 'level_two',
+                            'text' => 'Paginas',
+                            'url'  => '#',
+                        ],
+
+                        [
+                            'text'    => 'Paginas',
                             'url'     => '#',
                             'submenu' => [
                                 [
@@ -368,20 +422,26 @@ return [
                 ],
             ],
         ],
-        ['header' => 'labels'],
+        ['header' => 'CONTROL'],
         [
-            'text'       => 'important',
+            'text'       => 'Registro Multas',
             'icon_color' => 'red',
             'url'        => '#',
         ],
         [
-            'text'       => 'warning',
+            'text'       => 'Registro Asistencias',
             'icon_color' => 'yellow',
             'url'        => '#',
         ],
         [
-            'text'       => 'information',
+            'text'       => 'Registro Produccion',
             'icon_color' => 'cyan',
+            'url'        => '#',
+        ],
+
+        [
+            'text'       => 'Registro Descuentos',
+            'icon_color' => 'blue',
             'url'        => '#',
         ],
     ],

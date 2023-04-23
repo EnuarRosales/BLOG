@@ -3,7 +3,7 @@
 @section('title', 'Studio WC')
 
 @section('content_header')
-    <h1>Lista de Tipo Usuarios</h1>
+    <h1>Lista tipo usuarios</h1>
 @stop
 
 

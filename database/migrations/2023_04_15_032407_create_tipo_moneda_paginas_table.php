@@ -15,9 +15,10 @@ class CreateTipoMonedaPaginasTable extends Migration
     {
         Schema::create('tipo_moneda_paginas', function (Blueprint $table) {
             $table->id();
-            $table->string('nombe',45);
-            $table->float('valor');
             $table->timestamps();
+            $table->string('nombre',45);
+            $table->float('valor');
+            
         });
     }
 

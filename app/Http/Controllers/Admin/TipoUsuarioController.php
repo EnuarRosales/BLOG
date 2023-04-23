@@ -5,7 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\TipoUsuario;
 use Illuminate\Http\Request;
-
+ 
 
 class TipoUsuarioController extends Controller
 { 
@@ -91,8 +91,7 @@ class TipoUsuarioController extends Controller
             'nombre'=>'required'
         ]);
         //ASINACION MASIVA DE VARIABLES A LOS CAMPOS
-        $tipoUsuario->update($request->all());             
-        
+        $tipoUsuario->update($request->all());           
         return redirect()->route('admin.tipoUsuarios.index',$tipoUsuario->id)->with('info','la categoria se actualizo con exito');//with mensaje de sesion
        
     }

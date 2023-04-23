@@ -365,25 +365,25 @@ return [
 
                 [
                     'text' => 'Tipo Turnos',
-                    'url'  => '#',
+                    'route'  => 'admin.tipoTurnos.index',
                 ],
 
                 [
                     'text' => 'Tipo Rooms',
-                    'url'  => '#',
+                    'route'  => 'admin.tipoRooms.index',
                 ],
                 [
                     'text' => 'Tipo Multas',
-                    'url'  => '#',
+                    'route'  => 'admin.tipoMultas.index',
                 ],
                 [
                     'text' => 'Tipo Descuentos',
-                    'url'  => '#',
+                    'route'  => 'admin.tipoDescuentos.index',
                 ],
 
                 [
                     'text' => 'Tipo Metas',
-                    'url'  => '#',
+                    'route'  => 'admin.tipoMetas.index',
                 ],
                 
                 
@@ -393,11 +393,11 @@ return [
                     'submenu' => [
                         [
                             'text' => 'Tipo Moneda Paginas',
-                            'url'  => '#',
+                            'route'  => 'admin.tipoMonedaPaginas.index',
                         ],
                         [
                             'text' => 'Paginas',
-                            'url'  => '#',
+                            'route'  => 'admin.paginas.index',
                         ],
 
                         [

@@ -18,7 +18,7 @@ class CreateTurnosTable extends Migration
             $table->timestamps();
             $table->string('nombre',45);
         });
-    }
+    } 
 
     /**
      * Reverse the migrations.

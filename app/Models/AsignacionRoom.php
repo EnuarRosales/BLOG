@@ -18,11 +18,11 @@ class AsignacionRoom extends Model
     }
 
     //RELACION UNO A MUCHO (INVERSA)#2
-    public function asignacionRoom(){
-        return $this->belongsTo('App\Models\AsignacionRoom');
+    public function room(){
+        return $this->belongsTo('App\Models\Room');
 
     }
 
 
-
+ 
 }

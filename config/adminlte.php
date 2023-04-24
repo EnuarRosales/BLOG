@@ -337,7 +337,7 @@ return [
                 ],
                 [
                     'text' => 'Asignacion Room',
-                    'url'  => '#',
+                    'route'  => 'admin.asignacionRooms.index',
                     'icon' => ' fas fa-house-user',
                 ],
 

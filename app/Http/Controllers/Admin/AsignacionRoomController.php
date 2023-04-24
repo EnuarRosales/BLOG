@@ -3,12 +3,12 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Models\AsignacionTurno;
-use App\Models\Turno;
+use App\Models\AsignacionRoom;
+use App\Models\Room;
 use App\Models\User;
 use Illuminate\Http\Request;
 
-class AsignacionTurnoController extends Controller
+class AsignacionRoomController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -17,8 +17,8 @@ class AsignacionTurnoController extends Controller
      */
     public function index()
     {
-        $asignacionTurnos = AsignacionTurno::orderBy('id','desc')->paginate();       
-        return view('admin.asignacionTurnos.index', compact('asignacionTurnos'));  
+        $asignacionRooms = AsignacionRoom::orderBy('id','desc')->paginate();       
+        return view('admin.asignacionRooms.index', compact('asignacionRooms'));  
     }
 
     /**
@@ -28,10 +28,9 @@ class AsignacionTurnoController extends Controller
      */
     public function create()
     {
-        // $asignacionTurnos = AsignacionTurno::pluck('created_at','id')->toArray();
         $users = User::orderBy('id','desc'); 
-        $turnos = Turno::orderBy('id','desc'); 
-        return view('admin.asignacionTurnos.create', compact('users','turnos'));
+        $rooms = Room::orderBy('id','desc'); 
+        return view('admin.asignacionRooms.create', compact('users','rooms'));
     }
 
     /**
@@ -41,17 +40,15 @@ class AsignacionTurnoController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
-    {
-        //VALiDACION FORMULARIO 
+    {//VALiDACION FORMULARIO 
         $request->validate([
             'user_id'=>'required',
-            'turno_id'=>'required',         
+            'room_id'=>'required',         
         ]);
  
-        $asignacionTurno = AsignacionTurno::create($request->all());
-        return redirect()->route('admin.asignacionTurnos.index',$asignacionTurno->id)->with('info','ok01');
-
-        
+        $asignacionRoom = AsignacionRoom::create($request->all());
+        return redirect()->route('admin.asignacionRooms.index',$asignacionRoom->id)->with('info','Asignacion de room agregada correctamente');
+//
     }
 
     /**
@@ -65,18 +62,18 @@ class AsignacionTurnoController extends Controller
         //
     }
 
-    /** 
+    /**
      * Show the form for editing the specified resource.
      *
      * @param  int  $id
-     * @return \Illuminate\Http\Response 
+     * @return \Illuminate\Http\Response
      */
-    public function edit(AsignacionTurno $asignacionTurno)
-    {     
+    public function edit( AsignacionRoom $asignacionRoom)
+    {
         $users = User::orderBy('id','desc'); 
-        $turnos = Turno::orderBy('id','desc');  
+        $rooms = Room::orderBy('id','desc');  
 
-        return view('admin.asignacionTurnos.edit',compact('asignacionTurno','users','turnos'));
+        return view('admin.asignacionRooms.edit',compact('asignacionRoom','users','rooms'));
     }
 
     /**
@@ -86,16 +83,16 @@ class AsignacionTurnoController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, AsignacionTurno $asignacionTurno)
+    public function update(Request $request, AsignacionRoom $asignacionRoom)
     {
         //VALiDACION FORMULARIO 
         $request->validate([
             'user_id'=>'required',
-            'turno_id'=>'required',         
+            'room_id'=>'required',         
         ]);
         //ASINACION MASIVA DE VARIABLES A LOS CAMPOS
-        $asignacionTurno->update($request->all());
-        return redirect()->route('admin.asignacionTurnos.index', $asignacionTurno->id)->with('info', 'Tipo descuento se actualizo con exito'); //with mensaje de sesion
+        $asignacionRoom->update($request->all());
+        return redirect()->route('admin.asignacionRooms.index', $asignacionRoom->id)->with('info', 'Asignacion Room se actualizo con exito'); //with mensaje de sesion
 
     }
 
@@ -105,10 +102,9 @@ class AsignacionTurnoController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy(AsignacionTurno $asignacionTurno)
-
+    public function destroy(AsignacionRoom $asignacionRoom)
     {
-        $asignacionTurno->delete();
-        return redirect()->route('admin.asignacionTurnos.index')->with('info','ok');
+        $asignacionRoom->delete();
+        return redirect()->route('admin.asignacionRooms.index')->with('info','Asignacion room eliminada correctamente');
     }
 }

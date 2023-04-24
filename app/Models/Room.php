@@ -9,11 +9,11 @@ class Room extends Model
 {
     use HasFactory;
 
-    //CON ESTO LOGRAMOS HACER LA ASIGNACION MASIVA
+    //CON ESTO LOGRAMOS HACER LA ASIGNACION MASIVAb
     protected $guarded = [];
 
     //RELACION UNO A MUCHOS     
-    public function asignacionRooms(){
+    public function asignacionRoom(){
         return $this->hasMany('App\Models\AsignacionRoom');
     }
 

@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Admin\AsignacionRoomController;
 use App\Http\Controllers\Admin\AsignacionTurnoController;
 use App\Http\Controllers\Admin\HomeController;
 use App\Http\Controllers\Admin\PaginaController;
@@ -25,6 +26,7 @@ Route::resource('tipoDescuentos',TipoDescuentoController::class)->names('admin.t
 Route::resource('tipoMetas',TipoMetaController::class)->names('admin.tipoMetas');
 Route::resource('tipoMonedaPaginas',TipoMonedaPaginaController::class)->names('admin.tipoMonedaPaginas');
 Route::resource('paginas',PaginaController::class)->names('admin.paginas');
+Route::resource('asignacionRooms',AsignacionRoomController::class)->names('admin.asignacionRooms');
 
 
 

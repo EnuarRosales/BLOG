@@ -5,7 +5,7 @@
 @section('content_header')
     <h1>Editar tipo usuario</h1>
 @stop
-
+ 
 @section('content')
 
 <div class="card">

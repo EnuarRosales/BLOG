@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Pagina;
+use App\Models\TipoMonedaPagina;
 use Illuminate\Http\Request;
 
 class PaginaController extends Controller
@@ -15,10 +16,10 @@ class PaginaController extends Controller
      */
     public function index()
     {
-        // $paginas = Pagina::orderBy('id','desc')->paginate(); 
-        // return view('admin.paginas.index',compact('paginas'));
-        $paginas = Pagina::all();
-        return $paginas;
+        $paginas = Pagina::orderBy('id','desc')->paginate(); 
+        return view('admin.paginas.index',compact('paginas'));
+        // $paginas = Pagina::all();        
+        // return $paginas;
     }
 
     /**

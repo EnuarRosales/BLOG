@@ -28,7 +28,7 @@ class CreateAsignacionRoomsTable extends Migration
 
 
             $table->timestamps();
-        });
+        }); 
     }
 
     /**

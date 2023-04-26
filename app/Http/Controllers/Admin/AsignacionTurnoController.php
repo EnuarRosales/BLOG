@@ -78,7 +78,7 @@ class AsignacionTurnoController extends Controller
 
         return view('admin.asignacionTurnos.edit',compact('asignacionTurno','users','turnos'));
     }
-
+ 
     /**
      * Update the specified resource in storage.
      *

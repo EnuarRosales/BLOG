@@ -17,33 +17,33 @@ class User extends Authenticatable
     /**
      * The attributes that are mass assignable.
      *
-     * @var array<int, string>
-     */
-    protected $fillable = [
-        'name',
-        'email',
-        'password',
+    //  * @var array<int, string>
+    //  */
+    // protected $fillable = [
+    //     'name',
+    //     'email',
+    //     'password',
         
-    ];
+    // ];
 
-    /**
-     * The attributes that should be hidden for serialization.
-     *
-     * @var array<int, string>
-     */
-    protected $hidden = [
-        'password',
-        'remember_token',
-    ];
+    // /**
+    //  * The attributes that should be hidden for serialization.
+    //  *
+    //  * @var array<int, string>
+    //  */
+    // protected $hidden = [
+    //     'password',
+    //     'remember_token',
+    // ];
 
-    /**
-     * The attributes that should be cast.
-     *
-     * @var array<string, string>
-     */
-    protected $casts = [
-        'email_verified_at' => 'datetime',
-    ];
+    // /**
+    //  * The attributes that should be cast.
+    //  *
+    //  * @var array<string, string>
+    //  */
+    // protected $casts = [
+    //     'email_verified_at' => 'datetime',
+    // ];
 
     //CON ESTO LOGRAMOS HACER LA ASIGNACION MASIVA
     protected $guarded = [];
@@ -74,14 +74,16 @@ class User extends Authenticatable
 
 
 
-    //RELACION UNO A MUCHOS INVERSA   
+    // //RELACION UNO A MUCHOS INVERSA   
     public function tipoUsuario()    {
-        return $this->belongsTo('App\Models\TipoUsuario');
+        return $this->belongsTo('App\Models\TipoUsuario','tipoUsuario_id');
     }
-
-    // public function tipoUsuarios()
+ 
+  
+    
+    // public function tipoUsuario()
     // {
-    //     return $this->belongsTo(TipoUsuario::class);
+    //     return $this->belongsTo(TipoUsuario::class,'tipoUsuario_id');
     // }
 
  

@@ -21,7 +21,7 @@ class AsignacionRoom extends Model
     public function room(){
         return $this->belongsTo('App\Models\Room');
 
-    }
+    } 
 
 
  

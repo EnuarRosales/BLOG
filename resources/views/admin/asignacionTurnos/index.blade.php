@@ -124,7 +124,6 @@
 
 {{-- DATATATABLE --}}
 
-
     <script>
         $(document).ready(function() {
             $('#asignacionTurnos').DataTable(); //

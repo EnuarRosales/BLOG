@@ -22,7 +22,7 @@
                 @error('user_id')
                     <br>
                     <span class="text-danger">{{ $message }}</span>
-                    <br>
+                    <br> 
                 @enderror
 
                 {!! Form::label('turno_id', 'Turno') !!}

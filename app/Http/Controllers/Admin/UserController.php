@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\TipoUsuario;
 use App\Models\User;
 use Illuminate\Http\Request;
 
@@ -27,7 +28,8 @@ class UserController extends Controller
      */
     public function create()
     {
-        //
+        $tipoUsuarios = TipoUsuario::orderBy('id','desc');        
+        return view('admin.users.create', compact('tipoUsuarios'));
     }
 
     /**
@@ -38,7 +40,20 @@ class UserController extends Controller
      */
     public function store(Request $request)
     {
-        //
+         //VALiDACION FORMULARIO 
+         $request->validate([
+            'name'=>'required',
+            'cedula'=>'required',
+            'celular'=>'required',
+            'direccion'=>'required',    
+            'email'=>'required',
+            'tipoUsuario_id'=>'required',  
+             
+            
+        ]);
+ 
+        $user = User::create($request->all());
+        return redirect()->route('admin.users.index',$user->id)->with('info','ok01');
     }
 
     /**
@@ -58,9 +73,11 @@ class UserController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(User $user)
     {
-        //
+        
+        $tipoUsuarios = User::orderBy('id','desc'); 
+        return view('admin.users.edit',compact('user','tipoUsuarios'));
     }
 
     /**
@@ -70,9 +87,21 @@ class UserController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, User $user)
     {
-        //
+        //VALiDACION FORMULARIO 
+        $request->validate([
+            'name'=>'required',
+            'cedula'=>'required',
+            'celular'=>'required',
+            'direccion'=>'required',    
+            'email'=>'required',
+            'tipoUsuario_id'=>'required',        
+        ]);
+        //ASINACION MASIVA DE VARIABLES A LOS CAMPOS
+        $user->update($request->all());
+        return redirect()->route('admin.users.index', $user->id)->with('info', 'Tipo descuento se actualizo con exito'); //with mensaje de sesion
+
     }
 
     /**
@@ -81,8 +110,9 @@ class UserController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(User $user)
     {
-        //
+        $user->delete();
+        return redirect()->route('admin.users.index')->with('info','ok');
     }
 }

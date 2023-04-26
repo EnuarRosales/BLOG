@@ -33,9 +33,8 @@
                 @foreach ($paginas as $pagina)
                     <tr>
                         <td>{{ $pagina->id }}</td>
-                        <td>{{ $pagina->nombre}}</td>
+                        <td>{{ $pagina->nombre}}</td>                       
                         <td>{{ $pagina->tipoMonedaPagina->nombre}}</td>
-                        {{-- <td>{{ $pagina->tipoMoneda_id}}</td> --}}
 
                         <td width="10px">
                             <a class="btn btn-secondary btn-sm" href="#">Editar</a>

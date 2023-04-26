@@ -13,13 +13,11 @@ class TipoUsuario extends Model
     protected $guarded = [];
 
 
-
     //RELACION DE UNO A MUCHOS
-    
     public function users(){
         return $this->hasMany('App\Models\User');
     }
-
+ 
     
     // public function users(){
     //     return $this->hasMany(User::class);

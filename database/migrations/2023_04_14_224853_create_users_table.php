@@ -15,21 +15,24 @@ class CreateUsersTable extends Migration
     {
         Schema::create('users', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
+            $table->string('name',45);
+            $table->string('cedula',45);
+            $table->string('celular',45);
+            $table->string('direccion',45);
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();
-            $table->string('password');                        
-            $table->rememberToken(); 
-
-           
             
-            $table->unsignedBigInteger('tipoUsuario_id');//campo para relacion 
+
+
+            $table->unsignedBigInteger('tipoUsuario_id'); //campo para relacion 
             $table->foreign('tipoUsuario_id')->nullable()
-                    ->references('id')->on('tipo_usuarios')//tabla
-                    ->onDelete('cascade');    
+                ->references('id')->on('tipo_usuarios') //tabla
+                ->onDelete('cascade');
+                
+
             $table->timestamps();
-
-
+            $table->string('password')->nullable();
+            $table->rememberToken();
         });
     }
 
@@ -43,4 +46,3 @@ class CreateUsersTable extends Migration
         Schema::dropIfExists('users');
     }
 }
-

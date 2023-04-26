@@ -7,7 +7,7 @@ use Illuminate\Support\Facades\Schema;
 class CreatePaginasTable extends Migration
 {
     /**
-     * Run the migrations.
+     * Run the migrations. 
      *
      * @return void
      */
@@ -16,13 +16,13 @@ class CreatePaginasTable extends Migration
         Schema::create('paginas', function (Blueprint $table) {
             $table->id();
             $table->string('nombre');
-            $table->unsignedBigInteger('tipoMoneda_id');//campo para relacion                           
+            $table->unsignedBigInteger('tipoMoneda_id'); //campo para relacion                           
             $table->foreign('tipoMoneda_id')
-                    ->references('id')->on('tipo_moneda_paginas')//tabla
-                    ->onDelete('cascade');
+                ->references('id')->on('tipo_moneda_paginas');//tabla
+                // ->onDelete('cascade');
+                
 
-            $table->timestamps();           
-
+            $table->timestamps();
         });
     }
 

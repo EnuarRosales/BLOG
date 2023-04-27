@@ -23,6 +23,7 @@
                 <tr>
                     <th>ID</th>
                     <th>Nombre</th>
+                    <th>Tipo Persona</th>
                     <th>Turno Asignado</th>
                     <th>Editar</th>
                     <th>Eliminar</th>
@@ -36,6 +37,7 @@
                     <tr>
                         <td>{{ $asignacionTurno->id }}</td>
                         <td>{{ $asignacionTurno->user->name }}</td>
+                        <td>{{ $asignacionTurno->user->tipoUsuario->nombre }}</td>
                         <td>{{ $asignacionTurno->turno->nombre }}</td>
 
                         <td width="10px">
@@ -79,7 +81,7 @@
 
 
     {{-- SWET ALERT --}}
-    @if (session('info') == 'ok')
+    @if (session('info') == 'delete')
         <script>
             Swal.fire(
                 '¡Eliminado!',
@@ -87,12 +89,22 @@
                 'success'
             )
         </script>
-    @elseif(session('info') == 'ok01')
+    @elseif(session('info') == 'store')
         <script>
             Swal.fire({
                 position: 'top-end',
                 icon: 'success',
                 title: 'Asignacion de turno realizada correctamente',
+                showConfirmButton: false,
+                timer: 2000
+            })
+        </script>
+    @elseif(session('info') == 'update')
+        <script>
+            Swal.fire({
+                position: 'top-end',
+                icon: 'success',
+                title: 'Asignacion de turno editada correctamente',
                 showConfirmButton: false,
                 timer: 2000
             })
@@ -122,7 +134,7 @@
     </script>
 
 
-{{-- DATATATABLE --}}
+    {{-- DATATATABLE --}}
 
     <script>
         $(document).ready(function() {

@@ -44,7 +44,7 @@ class TipoMetaController extends Controller
         ]);
 
         $tipoMeta= Meta::create($request->all());
-        return redirect()->route('admin.tipoMetas.index', $tipoMeta->id)->with('info', 'Tipo meta creada correctamente');
+        return redirect()->route('admin.tipoMetas.index', $tipoMeta->id)->with('info', 'store');
     }
 
     /**
@@ -85,7 +85,7 @@ class TipoMetaController extends Controller
         ]);
         //ASINACION MASIVA DE VARIABLES A LOS CAMPOS
         $tipoMeta->update($request->all());
-        return redirect()->route('admin.tipoMetas.index', $tipoMeta->id)->with('info', 'Tipo  meta se actualizo con exito'); //with mensaje de sesion
+        return redirect()->route('admin.tipoMetas.index', $tipoMeta->id)->with('info', 'update'); //with mensaje de sesion
 
     }
 
@@ -98,6 +98,6 @@ class TipoMetaController extends Controller
     public function destroy(Meta $tipoMeta)
     {
         $tipoMeta->delete();
-        return redirect()->route('admin.tipoMetas.index')->with('info','Tipo meta eliminado correctamente');
+        return redirect()->route('admin.tipoMetas.index')->with('info','delete');
     }
 }

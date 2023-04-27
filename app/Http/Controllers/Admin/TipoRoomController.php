@@ -43,7 +43,7 @@ class TipoRoomController extends Controller
         ]); 
 
         $tipoRoom = Room::create($request->all());
-        return redirect()->route('admin.tipoRooms.index', $tipoRoom->id)->with('info', 'Tipo room creado correctamente');
+        return redirect()->route('admin.tipoRooms.index', $tipoRoom->id)->with('info', 'store');
     }
 
     /**
@@ -83,7 +83,7 @@ class TipoRoomController extends Controller
         ]);
         //ASINACION MASIVA DE VARIABLES A LOS CAMPOS
         $tipoRoom->update($request->all());
-        return redirect()->route('admin.tipoRooms.index', $tipoRoom->id)->with('info', 'la categoria se actualizo con exito'); //with mensaje de sesion
+        return redirect()->route('admin.tipoRooms.index', $tipoRoom->id)->with('info', 'update'); //with mensaje de sesion
 
     }
 
@@ -96,6 +96,6 @@ class TipoRoomController extends Controller
     public function destroy(Room $tipoRoom)
     {
         $tipoRoom->delete();
-        return redirect()->route('admin.tipoRooms.index')->with('info','Tipo room eliminado correctamente');
+        return redirect()->route('admin.tipoRooms.index')->with('info','delete');
     }
 }

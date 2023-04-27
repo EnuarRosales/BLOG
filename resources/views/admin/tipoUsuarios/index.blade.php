@@ -9,22 +9,24 @@
 
 @section('content')
 
-    @if (session('info'))
+    {{-- @if (session('info'))
         <div class="alert alert-success">
             <strong>{{ session('info') }}</strong>
         </div>
-    @endif
-        
+    @endif --}}
+
     <div class="card">
         <div class="card-body">
             <a class="btn btn-primary" href="{{ route('admin.tipoUsuarios.create') }}">Agregar TipoUsuario</a>
         </div>
-        <table class="table table-striped">
+        <table class="table table-striped table-bordered shadow-lg mt-4">
             <thead>
                 <tr>
                     <th>ID</th>
                     <th>Nombre</th>
-                    <th colspan="2"</th>
+                    <th>Editar</th>
+                    <th>Eliminar</th>
+
 
                 </tr>
             </thead>
@@ -41,7 +43,7 @@
                         </td>
 
                         <td width="10px">
-                            <form action="{{ route('admin.tipoUsuarios.destroy', $tipoUsuario) }}" method="POST">
+                            <form class="formulario-eliminar" action="{{ route('admin.tipoUsuarios.destroy', $tipoUsuario) }}" method="POST">
                                 @csrf
                                 @method('delete')
                                 <button type="submit" class="btn btn-dark btn-sm">Eliminar</button>
@@ -58,149 +60,64 @@
 
 @stop
 
+@section('js')
+    <script>
+        console.log('Hi!');
+    </script>
 
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
+    {{-- SWET ALERT --}}
+    @if (session('info') == 'delete')
+        <script>
+            Swal.fire(
+                '¡Eliminado!',
+                'El registro se elimino con exito',
+                'success'
+            )
+        </script>
+    @elseif(session('info') == 'store')
+        <script>
+            Swal.fire({
+                position: 'top-end',
+                icon: 'success',
+                title: 'Tipo Usuario realizado correctamente',
+                showConfirmButton: false,
+                timer: 2000
+            })
+        </script>
+    @elseif(session('info') == 'update')
+        <script>
+            Swal.fire({
+                position: 'top-end',
+                icon: 'success',
+                title: 'Tipo Usuario actualizado correctamente',
+                showConfirmButton: false,
+                timer: 2000
+            })
+        </script>
+    @endif
 
+    <script>
+        $('.formulario-eliminar').submit(function(e) {
+            e.preventDefault();
 
+            Swal.fire({
+                title: '¿Estas Seguro?',
+                text: "¡Este registro se eliminara definitivamente!",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: '¡Si, eliminar!',
+                cancelButtonText: '¡Cancelar!',
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    this.submit();
+                }
+            })
 
-{{-- <p>Welcome to this beautiful admin panel.</p>
+        })
+    </script>
 
-    <div class="container">
-
-        @if (session('info'))
-            <div class="alert alert-success">
-                <strong>{{ session('info') }}</strong>
-            </div>
-        @endif
-
-        <div class="card">
-            <div class="card-header">
-                <a class="btn btn-primary" href="{{ route('tipoUsuarios.create') }}">Agregar TipoUsuario</a>
-            </div>
-            <div class="card-body ">
-                <table class="table table-striped">
-                    <thead>
-                        <tr>
-                            <th>ID</th>
-                            <th>Name</th>
-                            <th>Editar</th>
-                            <th>Eliminar</th>
-                        </tr>
-                    </thead>
-
-                    <tbody>
-                        @foreach ($tipoUsuarios as $tipoUsuario)
-                            <tr>
-                                <td>{{ $tipoUsuario->id }}</td>
-                                <td>{{ $tipoUsuario->nombre }}</td>
-                                <td width="10px"><a href="{{ route('tipoUsuarios.edit', $tipoUsuario) }}"
-                                        class="btn btn-secondary btn-sm"><i class="fas fa-angle-double-right"></i>
-                                        Editar</a> </td>
-
-                                <td width="10px">
-                                    <form action="{{ route('tipoUsuarios.destroy', $tipoUsuario) }}" method="POST">
-                                        @csrf
-                                        @method('delete')
-                                        <button type="submit" class="btn btn-dark btn-sm">Eliminar</button>
-                                    </form>
-                                </td>
-
-                            </tr>
-                        @endforeach
-                    </tbody>
-                </table>
-            </div>
-        </div>
-        <div>
-            <div>
-                <div> --}}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-{{-- @extends('layouts.plantilla')
-@section('title', 'index')
-@section('content')
-    <h1>"Tipo Ususarios"</h1> --}}
-{{-- <a href="{{ route('cursos.create') }}">Crear Curso</a>    --}}
-
-{{-- AGREGAR TIPO USUARIO --}}
-
-{{-- <div class="container">
-        <div class="row" style="width: 1190px;padding-bottom: 170px;">
-            <div class="col-md-12">
-                @if (session('info'))
-                    <div class="alert alert-success">
-                        <strong>{{ session('info') }}</strong>
-                    </div>
-                @endif
-                
-                    <div class="card">
-                        <div class="card-header">
-                            <a class="btn btn-primary" href="{{ route('tipoUsuarios.create') }}">Agregar TipoUsuario</a>
-                        </div>
-                        <div class="card-body ">
-                            <table class="table table-striped">
-                                <thead>
-                                    <tr>
-                                        <th>ID</th>
-                                        <th>Name</th>
-                                        <th>Editar</th>
-                                        <th>Eliminar</th>
-                                    </tr>
-                                </thead>
-
-                                <tbody>
-                                    @foreach ($tipoUsuarios as $tipoUsuario)
-                                        <tr>
-                                            <td>{{ $tipoUsuario->id }}</td>
-                                            <td>{{ $tipoUsuario->nombre }}</td>
-                                            <td width="10px"><a href="{{ route('tipoUsuarios.edit', $tipoUsuario) }}"
-                                                    class="btn btn-secondary btn-sm"><i
-                                                        class="fas fa-angle-double-right"></i>
-                                                    Editar</a> </td>
-
-                                            <td width="10px">
-                                                <form action="{{ route('tipoUsuarios.destroy', $tipoUsuario) }}"
-                                                    method="POST">
-                                                    @csrf
-                                                    @method('delete')
-                                                    <button type="submit" class="btn btn-dark btn-sm">Eliminar</button>
-                                                </form>
-                                            </td>
-
-                                        </tr>
-                                    @endforeach
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-                    <div>
-                        <div>
-                            <div> --}}
-
-
-{{-- <ul>
-        @foreach ($cursos as $curso)
-            <li>
-                <a href="{{ route('cursos.show', $curso->id) }}">{{ $curso->name }}</a>
-            </li>
-        @endforeach
-    </ul>
-    {{ $cursos->links() }} --}}
-
-{{-- @endsection --}}
+@stop

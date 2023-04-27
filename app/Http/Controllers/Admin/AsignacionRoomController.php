@@ -33,7 +33,7 @@ class AsignacionRoomController extends Controller
         return view('admin.asignacionRooms.create', compact('users','rooms'));
     }
 
-    /**
+    /** 
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
@@ -47,7 +47,7 @@ class AsignacionRoomController extends Controller
         ]);
  
         $asignacionRoom = AsignacionRoom::create($request->all());
-        return redirect()->route('admin.asignacionRooms.index',$asignacionRoom->id)->with('info','Asignacion de room agregada correctamente');
+        return redirect()->route('admin.asignacionRooms.index',$asignacionRoom->id)->with('info','store');
 //
     }
 
@@ -92,7 +92,7 @@ class AsignacionRoomController extends Controller
         ]);
         //ASINACION MASIVA DE VARIABLES A LOS CAMPOS
         $asignacionRoom->update($request->all());
-        return redirect()->route('admin.asignacionRooms.index', $asignacionRoom->id)->with('info', 'Asignacion Room se actualizo con exito'); //with mensaje de sesion
+        return redirect()->route('admin.asignacionRooms.index', $asignacionRoom->id)->with('info','update'); //with mensaje de sesion
 
     }
 
@@ -105,6 +105,6 @@ class AsignacionRoomController extends Controller
     public function destroy(AsignacionRoom $asignacionRoom)
     {
         $asignacionRoom->delete();
-        return redirect()->route('admin.asignacionRooms.index')->with('info','Asignacion room eliminada correctamente');
+        return redirect()->route('admin.asignacionRooms.index')->with('info','delete');
     }
 }

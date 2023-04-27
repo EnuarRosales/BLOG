@@ -42,7 +42,7 @@ class TipoTurnoController extends Controller
         'nombre'=>'required',         
     ]); 
     $turno= Turno::create($request->all());
-    return redirect()->route('admin.tipoTurnos.index',$turno->id)->with('info','Tipo turno creado correctamente');
+    return redirect()->route('admin.tipoTurnos.index',$turno->id)->with('info','store');
 
     }
 
@@ -83,7 +83,7 @@ class TipoTurnoController extends Controller
         ]);
         //ASINACION MASIVA DE VARIABLES A LOS CAMPOS
         $tipoTurno->update($request->all());           
-        return redirect()->route('admin.tipoTurnos.index',$tipoTurno->id)->with('info','Tipo turno se actualizo con exito');//with mensaje de sesion
+        return redirect()->route('admin.tipoTurnos.index',$tipoTurno->id)->with('info','update');//with mensaje de sesion
               
     }
 
@@ -96,7 +96,7 @@ class TipoTurnoController extends Controller
     public function destroy(Turno $tipoTurno)
     {
         $tipoTurno->delete();
-        return redirect()->route('admin.tipoTurnos.index')->with('info','Tipo turno eliminado correctamente');
+        return redirect()->route('admin.tipoTurnos.index')->with('info','delete');
     }
     
 }

@@ -53,7 +53,7 @@ class UserController extends Controller
         ]);
  
         $user = User::create($request->all());
-        return redirect()->route('admin.users.index',$user->id)->with('info','ok01');
+        return redirect()->route('admin.users.index',$user->id)->with('info','store');
     }
 
     /**
@@ -69,14 +69,14 @@ class UserController extends Controller
 
     /**
      * Show the form for editing the specified resource.
-     *
+     * 
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
     public function edit(User $user)
     {
         
-        $tipoUsuarios = User::orderBy('id','desc'); 
+        $tipoUsuarios = TipoUsuario::orderBy('id','desc'); 
         return view('admin.users.edit',compact('user','tipoUsuarios'));
     }
 
@@ -100,7 +100,7 @@ class UserController extends Controller
         ]);
         //ASINACION MASIVA DE VARIABLES A LOS CAMPOS
         $user->update($request->all());
-        return redirect()->route('admin.users.index', $user->id)->with('info', 'Tipo descuento se actualizo con exito'); //with mensaje de sesion
+        return redirect()->route('admin.users.index', $user->id)->with('info', 'update'); //with mensaje de sesion
 
     }
 
@@ -113,6 +113,6 @@ class UserController extends Controller
     public function destroy(User $user)
     {
         $user->delete();
-        return redirect()->route('admin.users.index')->with('info','ok');
+        return redirect()->route('admin.users.index')->with('info','delete');
     }
 }

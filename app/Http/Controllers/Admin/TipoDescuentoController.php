@@ -44,7 +44,7 @@ class TipoDescuentoController extends Controller
         ]);
 
         $tipoDescuento= TipoDescuento::create($request->all());
-        return redirect()->route('admin.tipoDescuentos.index', $tipoDescuento->id)->with('info', 'Tipo descuento creado correctamente');
+        return redirect()->route('admin.tipoDescuentos.index', $tipoDescuento->id)->with('info', 'store');
     }
 
     /**
@@ -85,7 +85,7 @@ class TipoDescuentoController extends Controller
         ]);
         //ASINACION MASIVA DE VARIABLES A LOS CAMPOS
         $tipoDescuento->update($request->all());
-        return redirect()->route('admin.tipoDescuentos.index', $tipoDescuento->id)->with('info', 'Tipo descuento se actualizo con exito'); //with mensaje de sesion
+        return redirect()->route('admin.tipoDescuentos.index', $tipoDescuento->id)->with('info', 'update'); //with mensaje de sesion
 
     }
     /**
@@ -97,6 +97,6 @@ class TipoDescuentoController extends Controller
     public function destroy(TipoDescuento $tipoDescuento)
     {
         $tipoDescuento->delete();
-        return redirect()->route('admin.tipoDescuentos.index')->with('info','Tipo descuento eliminado correctamente');
+        return redirect()->route('admin.tipoDescuentos.index')->with('info','delete');
     }
 }

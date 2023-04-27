@@ -45,7 +45,7 @@ class TipoMonedaPaginaController extends Controller
         ]);
 
         $tipoMonedaPagina= TipoMonedaPagina::create($request->all());
-        return redirect()->route('admin.tipoMonedaPaginas.index', $tipoMonedaPagina->id)->with('info', 'Tipo moneda pagina creado correctamente');
+        return redirect()->route('admin.tipoMonedaPaginas.index', $tipoMonedaPagina->id)->with('info', 'store');
     }
 
     /**
@@ -88,7 +88,7 @@ class TipoMonedaPaginaController extends Controller
     ]);
     //ASINACION MASIVA DE VARIABLES A LOS CAMPOS
     $tipoMonedaPagina->update($request->all());
-    return redirect()->route('admin.tipoMonedaPaginas.index', $tipoMonedaPagina->id)->with('info', 'Tipo  meta se actualizo con exito'); //with mensaje de sesion
+    return redirect()->route('admin.tipoMonedaPaginas.index', $tipoMonedaPagina->id)->with('info', 'update'); //with mensaje de sesion
 
 }
 
@@ -101,6 +101,6 @@ class TipoMonedaPaginaController extends Controller
     public function destroy(TipoMonedaPagina $tipoMonedaPagina)
     {
         $tipoMonedaPagina->delete();
-        return redirect()->route('admin.tipoMonedaPaginas.index')->with('info','Tipo moneda pagina eliminado correctamente');
+        return redirect()->route('admin.tipoMonedaPaginas.index')->with('info','delete');
     }
 }

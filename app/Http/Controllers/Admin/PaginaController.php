@@ -29,7 +29,8 @@ class PaginaController extends Controller
      */
     public function create()
     {
-        return view('admin.paginas.create');
+        $tipoMonedapaginas = TipoMonedaPagina::orderBy('id','desc'); 
+        return view('admin.paginas.create',compact('tipoMonedapaginas'));
     }
 
     /**
@@ -46,7 +47,7 @@ class PaginaController extends Controller
         'tipoMoneda_id'=>'required',         
     ]); 
     $pagina= Pagina::create($request->all());
-    return redirect()->route('admin.tipoTurnos.index',$pagina->id)->with('info','pagina creada correctamente');
+    return redirect()->route('admin.paginas.index',$pagina->id)->with('info','store');
 
     }
 
@@ -69,8 +70,9 @@ class PaginaController extends Controller
      */
     public function edit(Pagina $pagina)
     {
-        return view('admin.paginas.edit',compact('pagina'));
-    }
+        $tipoMonedapaginas = TipoMonedaPagina::orderBy('id','desc'); 
+        return view('admin.paginas.edit',compact('pagina','tipoMonedapaginas'));
+    } 
 
     /**
      * Update the specified resource in storage.
@@ -88,7 +90,7 @@ class PaginaController extends Controller
         ]);
         //ASINACION MASIVA DE VARIABLES A LOS CAMPOS
         $pagina->update($request->all());           
-        return redirect()->route('admin.paginas.index',$pagina->id)->with('info','Pagina se actualizo con exito');//with mensaje de sesion
+        return redirect()->route('admin.paginas.index',$pagina->id)->with('info','update');//with mensaje de sesion
               
     }
 
@@ -101,6 +103,6 @@ class PaginaController extends Controller
     public function destroy(Pagina $pagina)
     {
         $pagina->delete();
-        return redirect()->route('admin.paginas.index')->with('info','Pagina eliminada correctamente');
+        return redirect()->route('admin.paginas.index')->with('info','delete');
     }
 }

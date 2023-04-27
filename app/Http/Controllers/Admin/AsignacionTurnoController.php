@@ -49,7 +49,7 @@ class AsignacionTurnoController extends Controller
         ]);
  
         $asignacionTurno = AsignacionTurno::create($request->all());
-        return redirect()->route('admin.asignacionTurnos.index',$asignacionTurno->id)->with('info','ok01');
+        return redirect()->route('admin.asignacionTurnos.index',$asignacionTurno->id)->with('info','store');
 
         
     }
@@ -95,7 +95,7 @@ class AsignacionTurnoController extends Controller
         ]);
         //ASINACION MASIVA DE VARIABLES A LOS CAMPOS
         $asignacionTurno->update($request->all());
-        return redirect()->route('admin.asignacionTurnos.index', $asignacionTurno->id)->with('info', 'Tipo descuento se actualizo con exito'); //with mensaje de sesion
+        return redirect()->route('admin.asignacionTurnos.index', $asignacionTurno->id)->with('info', 'update'); //with mensaje de sesion
 
     }
 
@@ -109,6 +109,6 @@ class AsignacionTurnoController extends Controller
 
     {
         $asignacionTurno->delete();
-        return redirect()->route('admin.asignacionTurnos.index')->with('info','ok');
+        return redirect()->route('admin.asignacionTurnos.index')->with('info','delete');
     }
 }

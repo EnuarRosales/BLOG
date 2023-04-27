@@ -44,7 +44,7 @@ class TipoMultaController extends Controller
         ]);
 
         $tipoMulta= TipoMulta::create($request->all());
-        return redirect()->route('admin.tipoMultas.index', $tipoMulta->id)->with('info', 'Tipo multa creado correctamente');
+        return redirect()->route('admin.tipoMultas.index', $tipoMulta->id)->with('info', 'store');
     }
 
     /**
@@ -85,7 +85,7 @@ class TipoMultaController extends Controller
         ]);
         //ASINACION MASIVA DE VARIABLES A LOS CAMPOS
         $tipoMulta->update($request->all());
-        return redirect()->route('admin.tipoMultas.index', $tipoMulta->id)->with('info', 'Tipo multa se actualizo con exito'); //with mensaje de sesion
+        return redirect()->route('admin.tipoMultas.index', $tipoMulta->id)->with('info', 'update'); //with mensaje de sesion
 
     }
 
@@ -99,6 +99,6 @@ class TipoMultaController extends Controller
     public function destroy(TipoMulta $tipoMulta)
     {
         $tipoMulta->delete();
-        return redirect()->route('admin.tipoMultas.index')->with('info','Tipo multa eliminado correctamente');
+        return redirect()->route('admin.tipoMultas.index')->with('info','delete');
     }
 }

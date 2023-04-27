@@ -68,7 +68,7 @@
                 @enderror
 
                 {!! Form::label('name', 'Tipo Usuario') !!}
-                {!! Form::select('tipoUsuario_id', $tipoUsuarios->pluck('name', 'id'), null, [
+                {!! Form::select('tipoUsuario_id', $tipoUsuarios->pluck('nombre', 'id'), null, [
                     'class' => 'form-control',
                     'placeholder' => 'Seleccione Un Tipo de usuario',
                 ]) !!}

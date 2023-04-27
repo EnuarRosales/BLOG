@@ -7,23 +7,17 @@
 @stop
 
 @section('content')
-    @if (session('info'))
-        <div class="alert alert-success">
-            <strong>{{ session('info') }}</strong>
-        </div>
-    @endif
-
     <div class="card">
         <div class="card-body">
             <a class="btn btn-primary" href="{{ route('admin.tipoDescuentos.create') }}">Agregar tipo descuento</a>
         </div>
-        <table class="table table-striped">
+        <table class="table table-striped table-bordered shadow-lg mt-4">
             <thead>
                 <tr>
                     <th>ID</th>
                     <th>Nombre</th>
-                    <th colspan="2"</th>
-
+                    <th>Editar</th>
+                    <th>Eliminar</th>
                 </tr>
             </thead>
 
@@ -38,7 +32,8 @@
                         </td>
 
                         <td width="10px">
-                            <form action="{{ route('admin.tipoDescuentos.destroy', $tipoDescuento) }}" method="POST">
+                            <form class="formulario-eliminar"
+                                action="{{ route('admin.tipoDescuentos.destroy', $tipoDescuento) }}" method="POST">
                                 @csrf
                                 @method('delete')
                                 <button type="submit" class="btn btn-dark btn-sm">Eliminar</button>
@@ -51,5 +46,67 @@
             </tbody>
         </table>
     </div>
+
 @stop
- 
+
+@section('js')
+    <script>
+        console.log('Hi!');
+    </script>
+
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+    {{-- SWET ALERT --}}
+    @if (session('info') == 'delete')
+        <script>
+            Swal.fire(
+                '¡Eliminado!',
+                'El registro se elimino con exito',
+                'success'
+            )
+        </script>
+    @elseif(session('info') == 'store')
+        <script>
+            Swal.fire({
+                position: 'top-end',
+                icon: 'success',
+                title: 'Tipo Descuento creado correctamente',
+                showConfirmButton: false,
+                timer: 2000
+            })
+        </script>
+    @elseif(session('info') == 'update')
+        <script>
+            Swal.fire({
+                position: 'top-end',
+                icon: 'success',
+                title: 'Tipo Descuento actualizado correctamente',
+                showConfirmButton: false,
+                timer: 2000
+            })
+        </script>
+    @endif
+
+    <script>
+        $('.formulario-eliminar').submit(function(e) {
+            e.preventDefault();
+
+            Swal.fire({
+                title: '¿Estas Seguro?',
+                text: "¡Este registro se eliminara definitivamente!",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: '¡Si, eliminar!',
+                cancelButtonText: '¡Cancelar!',
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    this.submit();
+                }
+            })
+
+        })
+    </script>
+
+@stop

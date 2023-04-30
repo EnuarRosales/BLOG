@@ -10,9 +10,9 @@
 @section('content')
     <div class="card">
         <div class="card-body">
+            
             {!! Form::open(['route' => 'admin.users.store']) !!}
             {{-- @csrf{!! Form::model($tipoUsuario, ['route' => ['admin.tipoUsuarios.update', $tipoUsuario], 'method' => 'put']) !!} --}}
-
             <div class="form-group">
                 {!! Form::label('name', 'Nombre') !!}
                 {{-- ojo que en la linea siguiente va el nombre de la columa =( --}}
@@ -22,8 +22,7 @@
                     <br>
                     <span class="text-danger">{{ $message }}</span>
                     <br>
-                @enderror
-
+                @enderror               
 
                 {!! Form::label('name', 'Cedula') !!}
                 {{-- ojo que en la linea siguiente va el nombre de la columa =( --}}
@@ -31,9 +30,9 @@
 
                 @error('cedula')
                     <br>
-                    <span class="text-danger">{{ $message }}</span>
+                    <span class="text-danger">{{ $message }}</span>                    
                     <br>
-                @enderror
+                 @enderror                
 
                 {!! Form::label('name', 'Celular') !!}
                 {{-- ojo que en la linea siguiente va el nombre de la columa =( --}}

@@ -24,7 +24,7 @@ class CreateUsersTable extends Migration
             
 
 
-            $table->unsignedBigInteger('tipoUsuario_id'); //campo para relacion 
+            $table->unsignedBigInteger('tipoUsuario_id')->nullable(); //campo para relacion 
             $table->foreign('tipoUsuario_id')->nullable()
                 ->references('id')->on('tipo_usuarios') //tabla
                 ->onDelete('cascade');

@@ -9,7 +9,7 @@
 @section('content')
     <p>Welcome to this beautiful admin panel.</p>
 
-    dsssssssssssssssssssssssssss
+    ACA IRIAN LAS GRAFICAS
 
 
 

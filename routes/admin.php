@@ -15,18 +15,18 @@ use App\Http\Controllers\Admin\UserController;
 use App\Models\TipoUsuario;
 use Illuminate\Support\Facades\Route;
 
-Route::get('/',[HomeController::class,'index']);
-Route::resource('tipoUsuarios', TipoUsuarioController::class)->names('admin.tipoUsuarios'); 
-Route::resource('users', UserController::class)->names('admin.users'); 
-Route::resource('asignacionTurnos',AsignacionTurnoController::class)->names('admin.asignacionTurnos');
-Route::resource('tipoTurnos',TipoTurnoController::class)->names('admin.tipoTurnos');
-Route::resource('tipoRooms',TipoRoomController::class)->names('admin.tipoRooms');
-Route::resource('tipoMultas',TipoMultaController::class)->names('admin.tipoMultas');
-Route::resource('tipoDescuentos',TipoDescuentoController::class)->names('admin.tipoDescuentos');
-Route::resource('tipoMetas',TipoMetaController::class)->names('admin.tipoMetas');
-Route::resource('tipoMonedaPaginas',TipoMonedaPaginaController::class)->names('admin.tipoMonedaPaginas');
-Route::resource('paginas',PaginaController::class)->names('admin.paginas');
-Route::resource('asignacionRooms',AsignacionRoomController::class)->names('admin.asignacionRooms');
+Route::get('/',[HomeController::class,'index'])->middleware(['auth','verified']);
+Route::resource('tipoUsuarios', TipoUsuarioController::class)->middleware(['auth','verified'])->names('admin.tipoUsuarios'); 
+Route::resource('users', UserController::class)->middleware(['auth','verified'])->names('admin.users'); 
+Route::resource('asignacionTurnos',AsignacionTurnoController::class)->middleware(['auth','verified'])->names('admin.asignacionTurnos');
+Route::resource('tipoTurnos',TipoTurnoController::class)->middleware(['auth','verified'])->names('admin.tipoTurnos');
+Route::resource('tipoRooms',TipoRoomController::class)->middleware(['auth','verified'])->names('admin.tipoRooms');
+Route::resource('tipoMultas',TipoMultaController::class)->middleware(['auth','verified'])->names('admin.tipoMultas');
+Route::resource('tipoDescuentos',TipoDescuentoController::class)->middleware(['auth','verified'])->names('admin.tipoDescuentos');
+Route::resource('tipoMetas',TipoMetaController::class)->middleware(['auth','verified'])->names('admin.tipoMetas');
+Route::resource('tipoMonedaPaginas',TipoMonedaPaginaController::class)->middleware(['auth','verified'])->names('admin.tipoMonedaPaginas');
+Route::resource('paginas',PaginaController::class)->middleware(['auth','verified'])->names('admin.paginas');
+Route::resource('asignacionRooms',AsignacionRoomController::class)->middleware(['auth','verified'])->names('admin.asignacionRooms');
 
 
 

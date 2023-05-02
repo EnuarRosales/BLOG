@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Admin\AsignacionMultaController;
 use App\Http\Controllers\Admin\AsignacionRoomController;
 use App\Http\Controllers\Admin\AsignacionTurnoController;
 use App\Http\Controllers\Admin\HomeController;
@@ -27,6 +28,7 @@ Route::resource('tipoMetas',TipoMetaController::class)->middleware(['auth','veri
 Route::resource('tipoMonedaPaginas',TipoMonedaPaginaController::class)->middleware(['auth','verified'])->names('admin.tipoMonedaPaginas');
 Route::resource('paginas',PaginaController::class)->middleware(['auth','verified'])->names('admin.paginas');
 Route::resource('asignacionRooms',AsignacionRoomController::class)->middleware(['auth','verified'])->names('admin.asignacionRooms');
+Route::resource('asignacionMultas',AsignacionMultaController::class)->middleware(['auth','verified'])->names('admin.asignacionMultas');
 
 
 

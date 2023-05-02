@@ -426,7 +426,7 @@ return [
         [
             'text'       => 'Registro Multas',
             'icon_color' => 'red',
-            'url'        => '#',
+            'route'        => 'admin.asignacionMultas.index',
         ],
         [
             'text'       => 'Registro Asistencias',

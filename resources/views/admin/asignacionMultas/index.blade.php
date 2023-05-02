@@ -3,50 +3,54 @@
 @section('title', 'Dashboard')
 
 @section('content_header')
-    <h1>Personal</h1>   
+    <h1>Asignacion Multa</h1>
 @stop
 
-@section('content')    
+@section('content')
+
+    {{-- @if (session('info'))
+        <div class="alert alert-success">
+            <strong>{{ session('info') }}</strong>
+        </div>
+    @endif --}}
 
     <div class="card">
         <div class="card-body">
-            <a class="btn btn-primary" href="{{ route('admin.users.create') }}">Agregar Usuario</a>
+            <a class="btn btn-primary" href="{{ route('admin.asignacionMultas.create') }}">Agregar Asignacion Multa</a>
         </div>
-        <table id="users"  class="table table-striped table-bordered shadow-lg mt-4">
+        <table id="asignacionMultas" class="table table-striped table-bordered shadow-lg mt-4">
             <thead>
                 <tr>
                     <th>ID</th>
-                    <th>Nombre</th>
-                    <th>Cedula</th>
-                    <th>Celular</th>
-                    <th>Direccion</th>
-                    <th>Email</th>
-                    <th>Tipo Usuario</th>
+                    <th>Usuario</th>                    
+                    <th>Tipo multa</th>
+                    <th>Valor Multa</th>
+                    <th>Fecha</th>
                     <th>Editar</th>
-                    <th>Eliminar</th>                    
+                    <th>Eliminar</th>
 
                 </tr>
             </thead>
 
 
             <tbody>
-                @foreach ($users as $usuario)
+                @foreach ($asignacionMultas as $asignacionMulta)
                     <tr>
-                        <td>{{ $usuario->id }}</td>
-                        <td>{{ $usuario->name }}</td>
-                        <td>{{ $usuario->cedula }}</td>
-                        <td>{{ $usuario->celular }}</td>
-                        <td>{{ $usuario->direccion }}</td>
-                        <td>{{ $usuario->email }}</td>
-                        <td>{{ $usuario->tipoUsuario->nombre }}</td>
-
+                        <td>{{ $asignacionMulta->id }}</td>
+                        <td>{{ $asignacionMulta->user->name}}</td>
+                        <td>{{ $asignacionMulta->tipoMulta->nombre}}</td>
+                        <td>{{ $asignacionMulta->tipoMulta->costo}}</td>
+                        <td>{{ $asignacionMulta->created_at}}</td>
+                        
 
                         <td width="10px">
-                            <a class="btn btn-secondary btn-sm" href="{{ route('admin.users.edit', $usuario) }}">Editar</a>
+                            <a class="btn btn-secondary btn-sm"
+                                href="{{ route('admin.asignacionMultas.edit', $asignacionMulta) }}">Editar</a>
                         </td>
 
                         <td width="10px">
-                            <form class="formulario-eliminar" action="{{ route('admin.users.destroy', $usuario) }}" method="POST">
+                            <form class="formulario-eliminar"
+                                action="{{ route('admin.asignacionMultas.destroy', $asignacionMulta) }}" method="POST">
                                 @csrf
                                 @method('delete')
                                 <button type="submit" class="btn btn-dark btn-sm">Eliminar</button>
@@ -93,7 +97,7 @@
             Swal.fire({
                 position: 'top-end',
                 icon: 'success',
-                title: 'Usuario creado correctamente',
+                title: 'Asignacion de multa realizada correctamente',
                 showConfirmButton: false,
                 timer: 2000
             })
@@ -103,7 +107,7 @@
             Swal.fire({
                 position: 'top-end',
                 icon: 'success',
-                title: 'Usuario actualizado correctamente',
+                title: 'Asignacion demulta editada correctamente',
                 showConfirmButton: false,
                 timer: 2000
             })
@@ -137,7 +141,7 @@
 
     <script>
         $(document).ready(function() {
-            $('#users').DataTable(); //
+            $('#asignacionMultas').DataTable(); //
         });
     </script>
 

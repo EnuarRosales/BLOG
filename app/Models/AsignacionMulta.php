@@ -14,7 +14,12 @@ class AsignacionMulta extends Model
     
     //RELACION UNO A MUCHO (INVERSA)
     public function tipoMulta(){
-        return $this->belongsTo('App\Models\TipoMulta');
+        return $this->belongsTo('App\Models\TipoMulta','tipoMulta_id');
+    }
+
+    //RELACION UNO A MUCHO (INVERSA)
+    public function user(){
+        return $this->belongsTo('App\Models\User','user_id');
     }
     
 }

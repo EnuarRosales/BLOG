@@ -3,14 +3,14 @@
 @section('title', 'Dashboard')
 
 @section('content_header')
-    <h1>Asignar Turno</h1>
+    <h1>Asignar Multa</h1>
 @stop
 
 @section('content')
 
     <div class="card">
         <div class="card-body">
-            {!! Form::open(['route' => 'admin.asignacionTurnos.store']) !!}
+            {!! Form::open(['route' => 'admin.asignacionMultas.store']) !!}
 
             <div class="form-group">
                 {!! Form::label('user_id', 'Usuario') !!}
@@ -25,13 +25,13 @@
                     <br>
                 @enderror
 
-                {!! Form::label('turno_id', 'Turno') !!}
-                {!! Form::select('turno_id', $turnos->pluck('nombre', 'id'), null, [
+                {!! Form::label('tipoMulta_id', 'Tipo Multa') !!}
+                {!! Form::select('tipoMulta_id', $tipoMultas->pluck('nombre', 'id'), null, [
                     'class' => 'form-control',
-                    'placeholder' => 'Seleccione Un Usuario',
+                    'placeholder' => 'Seleccione Un Tipo de Multa',
                 ]) !!}
 
-                @error('turno_id')
+                @error('tipoMulta_id')
                     <br>
                     <span class="text-danger">{{ $message }}</span>
                     <br>
@@ -41,7 +41,7 @@
 
             </div>
 
-            {!! Form::submit('Asignar Turno', ['class' => 'btn btn-primary']) !!}
+            {!! Form::submit('Asignar Multa', ['class' => 'btn btn-primary']) !!}
             {!! Form::close() !!}
 
         </div>

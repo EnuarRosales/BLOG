@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\TipoUsuario;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class UserController extends Controller
 {
@@ -16,9 +17,9 @@ class UserController extends Controller
      */
     public function index()
     {
-        $users = User::orderBy('id','desc')->paginate();
-        return view('admin.users.index',compact('users'));
-       
+        $users = User::orderBy('id','desc')->paginate();        
+        return view('admin.users.index',compact('users'));     
+               
     }
 
     /**
@@ -114,5 +115,15 @@ class UserController extends Controller
     {
         $user->delete();
         return redirect()->route('admin.users.index')->with('info','delete');
+    }
+
+
+    //METODOS ROSALES PARA LAS FUNCIONADLIDADES
+    public function calcularPorcentajePersonal(){
+
+        $user = DB::table('user')->count();
+        return "el resultado es ". $user;
+
+
     }
 }

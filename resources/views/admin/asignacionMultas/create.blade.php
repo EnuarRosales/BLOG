@@ -7,7 +7,6 @@
 @stop
 
 @section('content')
-
     <div class="card">
         <div class="card-body">
             {!! Form::open(['route' => 'admin.asignacionMultas.store']) !!}

@@ -10,7 +10,7 @@ use Illuminate\Support\Facades\DB;
 class HomeController extends Controller
 {
     public function index(){
-        $user = DB::table('users')->where('tipoUsuario_id', '=', 4)->count();
+        $user = DB::table('users')->where('tipoUsuario_id', '=', 1)->count();
         $asignacionMultas = DB::table('asignacion_multas')->count();   
         $porcentajeUser = $user*100/15;
         return view('admin.index',compact('porcentajeUser','user','asignacionMultas'));

@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Admin\HomeController;
 
 /*
 |--------------------------------------------------------------------------
@@ -13,9 +14,11 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('admin.index');  //admin.index
-})->middleware(['auth','verified']); //->middleware(['auth'])
+// Route::get('/', function () {
+//     return view('admin.index');  //admin.index
+// })->middleware(['auth','verified']); //->middleware(['auth'])
+
+Route::get('/',[HomeController::class,'index'])->middleware(['auth','verified']);
 
 Route::get('/dashboard', function () {
     return view('dashboard');

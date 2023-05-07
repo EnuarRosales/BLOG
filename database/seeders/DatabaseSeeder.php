@@ -4,6 +4,7 @@ namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
 use App\Models\Curso;
+use App\Models\TipoUsuario;
 use App\Models\User;
 
 class DatabaseSeeder extends Seeder
@@ -14,9 +15,11 @@ class DatabaseSeeder extends Seeder
      * @return void
      */
     public function run()
-    {
-        Curso::factory(50)->create();
-        User::factory(50)->create();
+    {        
+        TipoUsuario::factory(3)->create();
+        User::factory(10)->create();
+
+        $this->call(RolSeeder::class);
 
 
         // \App\Models\

@@ -3,16 +3,16 @@
 @section('title', 'Dashboard')
 
 @section('content_header')
-    <h1>Personal</h1>   
+    <h1>Personal</h1>
 @stop
 
-@section('content')    
+@section('content')
 
     <div class="card">
         <div class="card-body">
             <a class="btn btn-primary" href="{{ route('admin.users.create') }}">Agregar Usuario</a>
         </div>
-        <table id="users"  class="table table-striped table-bordered shadow-lg mt-4">
+        <table id="users" class="table table-striped table-bordered shadow-lg mt-4">
             <thead>
                 <tr>
                     <th>ID</th>
@@ -22,8 +22,11 @@
                     <th>Direccion</th>
                     <th>Email</th>
                     <th>Tipo Usuario</th>
-                    <th>Editar</th>
-                    <th>Eliminar</th>                    
+                    @can('admin.users.edit')
+                        <th>Editar</th>
+                        <th>Eliminar</th>
+                    @endcan
+
 
                 </tr>
             </thead>
@@ -40,19 +43,19 @@
                         <td>{{ $usuario->email }}</td>
                         <td>{{ $usuario->tipoUsuario->nombre }}</td>
 
-
-                        <td width="10px">
-                            <a class="btn btn-secondary btn-sm" href="{{ route('admin.users.edit', $usuario) }}">Editar</a>
-                        </td>
-
-                        <td width="10px">
-                            <form class="formulario-eliminar" action="{{ route('admin.users.destroy', $usuario) }}" method="POST">
-                                @csrf
-                                @method('delete')
-                                <button type="submit" class="btn btn-dark btn-sm">Eliminar</button>
-                            </form>
-
-                        </td>
+                        @can('admin.users.edit')
+                            <td width="10px">
+                                <a class="btn btn-secondary btn-sm" href="{{ route('admin.users.edit', $usuario) }}">Editar</a>
+                            </td>
+                            <td width="10px">
+                                <form class="formulario-eliminar" action="{{ route('admin.users.destroy', $usuario) }}"
+                                    method="POST">
+                                    @csrf
+                                    @method('delete')
+                                    <button type="submit" class="btn btn-dark btn-sm">Eliminar</button>
+                                </form>
+                            </td>
+                        @endcan
 
                     </tr>
                 @endforeach
@@ -104,6 +107,16 @@
                 position: 'top-end',
                 icon: 'success',
                 title: 'Usuario actualizado correctamente',
+                showConfirmButton: false,
+                timer: 2000
+            })
+        </script>
+    @elseif(session('info') == 'updateRol')
+        <script>
+            Swal.fire({
+                position: 'top-end',
+                icon: 'success',
+                title: 'Asignacion de rol exitosa',
                 showConfirmButton: false,
                 timer: 2000
             })

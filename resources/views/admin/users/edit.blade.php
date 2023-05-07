@@ -77,12 +77,11 @@
                     <br>
                     <span class="text-danger">{{ $message }}</span>
                     <br>
-                @enderror
-
-                
+                @enderror               
 
             </div>
             {!! Form::submit('Actualizar Usuario', ['class' => 'btn btn-primary']) !!}
+            <a class="btn btn-secondary btn " href="{{ route('admin.users.rol', $user) }}">Asignar Rol</a>
             {!! Form::close() !!}
         </div>
     </div>

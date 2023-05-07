@@ -7,46 +7,52 @@
 @stop
 
 @section('content')
+
     <div class="card">
         <div class="card-body">
             <a class="btn btn-primary" href="{{ route('admin.tipoDescuentos.create') }}">Agregar tipo descuento</a>
         </div>
-        <table class="table table-striped table-bordered shadow-lg mt-4">
-            <thead>
-                <tr>
-                    <th>ID</th>
-                    <th>Nombre</th>
-                    <th>Editar</th>
-                    <th>Eliminar</th>
-                </tr>
-            </thead>
 
-            <tbody>
-                @foreach ($tipoDescuentos as $tipoDescuento)
+        @if ($tipoDescuentos->count())
+            <table class="table table-striped table-bordered shadow-lg mt-4">
+                <thead>
                     <tr>
-                        <td>{{ $tipoDescuento->id }}</td>
-                        <td>{{ $tipoDescuento->nombre }}</td>
-                        <td width="10px">
-                            <a class="btn btn-secondary btn-sm"
-                                href="{{ route('admin.tipoDescuentos.edit', $tipoDescuento) }}">Editar</a>
-                        </td>
-
-                        <td width="10px">
-                            <form class="formulario-eliminar"
-                                action="{{ route('admin.tipoDescuentos.destroy', $tipoDescuento) }}" method="POST">
-                                @csrf
-                                @method('delete')
-                                <button type="submit" class="btn btn-dark btn-sm">Eliminar</button>
-                            </form>
-
-                        </td>
-
+                        <th>ID</th>
+                        <th>Nombre</th>
+                        <th>Editar</th>
+                        <th>Eliminar</th>
                     </tr>
-                @endforeach
-            </tbody>
-        </table>
-    </div>
+                </thead>
+                <tbody>
+                    @foreach ($tipoDescuentos as $tipoDescuento)
+                        <tr>
+                            <td>{{ $tipoDescuento->id }}</td>
+                            <td>{{ $tipoDescuento->nombre }}</td>
+                            <td width="10px">
+                                <a class="btn btn-secondary btn-sm"
+                                    href="{{ route('admin.tipoDescuentos.edit', $tipoDescuento) }}">Editar</a>
+                            </td>
 
+                            <td width="10px">
+                                <form class="formulario-eliminar"
+                                    action="{{ route('admin.tipoDescuentos.destroy', $tipoDescuento) }}" method="POST">
+                                    @csrf
+                                    @method('delete')
+                                    <button type="submit" class="btn btn-dark btn-sm">Eliminar</button>
+                                </form>
+
+                            </td>
+
+                        </tr>
+                    @endforeach
+                </tbody>
+            </table>
+        @else()
+            <div class="card-body">
+                <strong>No hay registros</strong>
+            </div>
+        @endif
+    </div>
 @stop
 
 @section('js')

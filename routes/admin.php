@@ -18,7 +18,10 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/',[HomeController::class,'index'])->middleware(['auth','verified']);
 Route::resource('tipoUsuarios', TipoUsuarioController::class)->middleware(['auth','verified'])->names('admin.tipoUsuarios'); 
-Route::resource('users', UserController::class)->middleware(['auth','verified'])->names('admin.users'); 
+Route::resource('users', UserController::class)->middleware(['auth','verified'])->names('admin.users');
+Route::get('users/{user}/rol', [UserController::class,'rol'])->name('admin.users.rol');
+Route::put('users/{user}',[UserController::class,'updateRol'])->name('admin.users.updateRol');
+
 Route::resource('asignacionTurnos',AsignacionTurnoController::class)->middleware(['auth','verified'])->names('admin.asignacionTurnos');
 Route::resource('tipoTurnos',TipoTurnoController::class)->middleware(['auth','verified'])->names('admin.tipoTurnos');
 Route::resource('tipoRooms',TipoRoomController::class)->middleware(['auth','verified'])->names('admin.tipoRooms');

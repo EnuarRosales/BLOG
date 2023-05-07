@@ -7,6 +7,7 @@ use App\Models\TipoUsuario;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Spatie\Permission\Models\Role;
 
 class UserController extends Controller
 {
@@ -17,9 +18,8 @@ class UserController extends Controller
      */
     public function index()
     {
-        $users = User::orderBy('id','desc')->paginate();        
-        return view('admin.users.index',compact('users'));     
-               
+        $users = User::orderBy('id', 'desc')->paginate();
+        return view('admin.users.index', compact('users'));
     }
 
     /**
@@ -29,7 +29,7 @@ class UserController extends Controller
      */
     public function create()
     {
-        $tipoUsuarios = TipoUsuario::orderBy('id','desc');        
+        $tipoUsuarios = TipoUsuario::orderBy('id', 'desc');
         return view('admin.users.create', compact('tipoUsuarios'));
     }
 
@@ -41,20 +41,20 @@ class UserController extends Controller
      */
     public function store(Request $request)
     {
-         //VALiDACION FORMULARIO 
-         $request->validate([
-            'name'=>'required',
-            'cedula'=>'required',
-            'celular'=>'required',
-            'direccion'=>'required',    
-            'email'=>'required',
-            'tipoUsuario_id'=>'required',  
-             
-            
+        //VALiDACION FORMULARIO 
+        $request->validate([
+            'name' => 'required',
+            'cedula' => 'required',
+            'celular' => 'required',
+            'direccion' => 'required',
+            'email' => 'required',
+            'tipoUsuario_id' => 'required',
+
+
         ]);
- 
+
         $user = User::create($request->all());
-        return redirect()->route('admin.users.index',$user->id)->with('info','store');
+        return redirect()->route('admin.users.index', $user->id)->with('info', 'store');
     }
 
     /**
@@ -76,9 +76,23 @@ class UserController extends Controller
      */
     public function edit(User $user)
     {
-        
-        $tipoUsuarios = TipoUsuario::orderBy('id','desc'); 
-        return view('admin.users.edit',compact('user','tipoUsuarios'));
+
+        $roles = Role::all();
+
+        $tipoUsuarios = TipoUsuario::orderBy('id', 'desc');
+        return view('admin.users.edit', compact('user', 'tipoUsuarios', 'roles'));
+    }
+
+    public function rol(User $user)
+    {
+        $roles = Role::all();
+        return view('admin.users.rol', compact('user', 'roles'));
+    }
+
+    public function updateRol(Request $request, User $user)
+    {
+        $user->roles()->sync($request->roles);
+        return redirect()->route('admin.users.index', $user->id)->with('info', 'updateRol'); //with mensaje de sesion
     }
 
     /**
@@ -91,13 +105,14 @@ class UserController extends Controller
     public function update(Request $request, User $user)
     {
         //VALiDACION FORMULARIO 
+
         $request->validate([
-            'name'=>'required',
-            'cedula'=>'required',
-            'celular'=>'required',
-            'direccion'=>'required',    
-            'email'=>'required',
-            'tipoUsuario_id'=>'required',        
+            'name' => 'required',
+            'cedula' => 'required',
+            'celular' => 'required',
+            'direccion' => 'required',
+            'email' => 'required',
+            'tipoUsuario_id' => 'required',
         ]);
         //ASINACION MASIVA DE VARIABLES A LOS CAMPOS
         $user->update($request->all());
@@ -114,16 +129,15 @@ class UserController extends Controller
     public function destroy(User $user)
     {
         $user->delete();
-        return redirect()->route('admin.users.index')->with('info','delete');
+        return redirect()->route('admin.users.index')->with('info', 'delete');
     }
 
 
     //METODOS ROSALES PARA LAS FUNCIONADLIDADES
-    public function calcularPorcentajePersonal(){
+    public function calcularPorcentajePersonal()
+    {
 
         $user = DB::table('user')->count();
-        return "el resultado es ". $user;
-
-
+        return "el resultado es " . $user;
     }
 }

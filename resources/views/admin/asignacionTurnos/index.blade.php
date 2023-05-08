@@ -7,16 +7,12 @@
 @stop
 
 @section('content')
-
-    {{-- @if (session('info'))
-        <div class="alert alert-success">
-            <strong>{{ session('info') }}</strong>
-        </div>
-    @endif --}}
-
     <div class="card">
         <div class="card-body">
-            <a class="btn btn-primary" href="{{ route('admin.asignacionTurnos.create') }}">Agregar Asignacion Turno</a>
+            @can('admin.asignacionTurnos.create')
+                <a class="btn btn-primary" href="{{ route('admin.asignacionTurnos.create') }}">Agregar Asignacion Turno</a>
+            @endcan
+
         </div>
         <table id="asignacionTurnos" class="table table-striped table-bordered shadow-lg mt-4">
             <thead>
@@ -25,13 +21,14 @@
                     <th>Nombre</th>
                     <th>Tipo Persona</th>
                     <th>Turno Asignado</th>
-                    <th>Editar</th>
-                    <th>Eliminar</th>
-
+                    @can('admin.asignacionTurnos.edit')
+                        <th>Editar</th>
+                    @endcan
+                    @can('admin.asignacionTurnos.destroy')
+                        <th>Eliminar</th>
+                    @endcan
                 </tr>
             </thead>
-
-
             <tbody>
                 @foreach ($asignacionTurnos as $asignacionTurno)
                     <tr>
@@ -39,22 +36,22 @@
                         <td>{{ $asignacionTurno->user->name }}</td>
                         <td>{{ $asignacionTurno->user->tipoUsuario->nombre }}</td>
                         <td>{{ $asignacionTurno->turno->nombre }}</td>
-
-                        <td width="10px">
-                            <a class="btn btn-secondary btn-sm"
-                                href="{{ route('admin.asignacionTurnos.edit', $asignacionTurno) }}">Editar</a>
-                        </td>
-
-                        <td width="10px">
-                            <form class="formulario-eliminar"
-                                action="{{ route('admin.asignacionTurnos.destroy', $asignacionTurno) }}" method="POST">
-                                @csrf
-                                @method('delete')
-                                <button type="submit" class="btn btn-dark btn-sm">Eliminar</button>
-                            </form>
-
-                        </td>
-
+                        @can('admin.asignacionTurnos.edit')
+                            <td width="10px">
+                                <a class="btn btn-secondary btn-sm"
+                                    href="{{ route('admin.asignacionTurnos.edit', $asignacionTurno) }}">Editar</a>
+                            </td>
+                        @endcan
+                        @can('admin.asignacionTurnos.destroy')
+                            <td width="10px">
+                                <form class="formulario-eliminar"
+                                    action="{{ route('admin.asignacionTurnos.destroy', $asignacionTurno) }}" method="POST">
+                                    @csrf
+                                    @method('delete')
+                                    <button type="submit" class="btn btn-dark btn-sm">Eliminar</button>
+                                </form>
+                            </td>
+                        @endcan
                     </tr>
                 @endforeach
             </tbody>

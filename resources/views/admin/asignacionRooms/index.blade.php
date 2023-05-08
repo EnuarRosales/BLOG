@@ -7,15 +7,12 @@
 @stop
 
 @section('content')
-    {{-- @if (session('info'))
-        <div class="alert alert-success">
-            <strong>{{ session('info') }}</strong>
-        </div>
-    @endif --}}
 
     <div class="card">
         <div class="card-body">
-            <a class="btn btn-primary" href="{{ route('admin.asignacionRooms.create') }}">Agregar Asignacion Room</a>
+            @can('admin.asignacionRooms.create')
+                <a class="btn btn-primary" href="{{ route('admin.asignacionRooms.create') }}">Agregar Asignacion Room</a>
+            @endcan
         </div>
         <table id="asignacionRooms" class="table table-striped table-bordered shadow-lg mt-4">
             <thead>
@@ -24,13 +21,14 @@
                     <th>Nombre</th>
                     <th>Room Asignado</th>
                     <th>Fecha</th>
-                    <th>Editar</th>
-                    <th>Eliminar</th>
-
+                    @can('admin.asignacionRooms.edit')
+                        <th>Editar</th>
+                    @endcan
+                    @can('admin.asignacionRooms.destroy')
+                        <th>Eliminar</th>
+                    @endcan
                 </tr>
             </thead>
-
-
             <tbody>
                 @foreach ($asignacionRooms as $asignacionRoom)
                     <tr>
@@ -39,21 +37,23 @@
                         <td>{{ $asignacionRoom->room->nombre }}</td>
                         <td>{{ $asignacionRoom->created_at }}</td>
 
-                        <td width="10px">
-                            <a class="btn btn-secondary btn-sm"
-                                href="{{ route('admin.asignacionRooms.edit', $asignacionRoom) }}">Editar</a>
-                        </td>
+                        @can('admin.asignacionRooms.edit')
+                            <td width="10px">
+                                <a class="btn btn-secondary btn-sm"
+                                    href="{{ route('admin.asignacionRooms.edit', $asignacionRoom) }}">Editar</a>
+                            </td>
+                        @endcan
+                        @can('admin.asignacionRooms.destroy')
+                            <td width="10px">
+                                <form class="formulario-eliminar"
+                                    action="{{ route('admin.asignacionRooms.destroy', $asignacionRoom) }}" method="POST">
+                                    @csrf
+                                    @method('delete')
+                                    <button type="submit" class="btn btn-dark btn-sm">Eliminar</button>
+                                </form>
 
-                        <td width="10px">
-                            <form class="formulario-eliminar"
-                                action="{{ route('admin.asignacionRooms.destroy', $asignacionRoom) }}" method="POST">
-                                @csrf
-                                @method('delete')
-                                <button type="submit" class="btn btn-dark btn-sm">Eliminar</button>
-                            </form>
-
-                        </td>
-
+                            </td>
+                        @endcan
                     </tr>
                 @endforeach
             </tbody>
@@ -67,7 +67,7 @@
     <link rel="stylesheet" href="/css/admin_custom.css">
     <link rel="stylesheet" href="https://cdn.datatables.net/1.13.4/css/dataTables.bootstrap5.min.css" rel="styleshet">
 @stop
- 
+
 @section('js')
     <script>
         console.log('Hi!');

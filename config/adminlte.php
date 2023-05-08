@@ -329,17 +329,20 @@ return [
                 [
                     'text' => 'Usuarios',
                     'route'  => 'admin.users.index',
+                    'can' => 'admin.users.index',
                     'icon' => 'fas fa-fw fa-user',
                 ],
 
                 [
                     'text' => 'Asignacion Turno',
                     'route'  => 'admin.asignacionTurnos.index',
+                    'can' =>'admin.asignacionTurnos.index',
                     'icon' => '	far fa-address-book', 
                 ],
                 [
                     'text' => 'Asignacion Room',
                     'route'  => 'admin.asignacionRooms.index',
+                    'can' =>'admin.asignacionRooms.index',
                     'icon' => ' fas fa-house-user',
                 ],
 

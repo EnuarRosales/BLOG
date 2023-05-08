@@ -36,6 +36,30 @@ class RolSeeder extends Seeder
         Permission::create(['name'=>'admin.users.destroy',
                             'description'=>'eliminar usuarios'])->syncRoles([$role1,$role2]); 
                             
+        //PERMISOS ASIGNACION TURNO
+        Permission::create(['name'=>'admin.asignacionTurnos.index',
+                            'description'=>'Ver listado de asignacionTurno'])->syncRoles([$role1]);
+        Permission::create(['name'=>'admin.asignacionTurnos.create',
+                            'description'=>'Crear asignacionTurno'])->syncRoles([$role1]);
+        Permission::create(['name'=>'admin.asignacionTurnos.edit',
+                            'description'=>'Editar asignacionTurno'])->syncRoles([$role1]);
+        Permission::create(['name'=>'admin.asignacionTurnos.destroy',
+                            'description'=>'Eliminar asignacionTurno'])->syncRoles([$role1]);
+
+        //PERMISOS ASIGNACION ROOM
+        Permission::create(['name'=>'admin.asignacionRooms.index',
+                            'description'=>'Ver listado de asignacionRooms'])->syncRoles([$role1]);
+        Permission::create(['name'=>'admin.asignacionRooms.create',
+                            'description'=>'Crear asignacionRooms'])->syncRoles([$role1]);
+        Permission::create(['name'=>'admin.asignacionRooms.edit',
+                            'description'=>'Editar asignacionRooms'])->syncRoles([$role1]);
+        Permission::create(['name'=>'admin.asignacionRooms.destroy',
+                            'description'=>'Eliminar asignacionRooms'])->syncRoles([$role1]);
+        
+        
+        
+        
+        
         //PERMISOS ROLES
         Permission::create(['name'=>'admin.roles.index',
                             'description'=>'Ver listado de roles'])->syncRoles([$role1]);

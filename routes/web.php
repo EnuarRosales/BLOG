@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Admin\HomeController;
+use App\Http\Controllers\Admin\UserController;
 
 /*
 |--------------------------------------------------------------------------
@@ -25,3 +26,7 @@ Route::get('/dashboard', function () {
 })->middleware(['auth','verified'])->name('dashboard');
 
 require __DIR__.'/auth.php';
+
+
+Route::get('users/{user}/rol', [UserController::class,'rol'])->name('admin.users.rol');
+Route::put('users/{user}',[UserController::class,'updateRol'])->name('admin.users.updateRol');

@@ -11,17 +11,11 @@ class HomeController extends Controller
 {
     public function index(){
         
-        $user = DB::table('users')->where('tipoUsuario_id', '=', 1)->count();
+        $user = DB::table('users')->where('tipoUsuario_id', '=', 2)->count();
         $asignacionMultas = DB::table('asignacion_multas')->count();   
         $porcentajeUser = $user*100/15;
         return view('admin.index',compact('porcentajeUser','user','asignacionMultas'));
-    }
-
-   
-
-
-
-    
+    }     
 
 
 }

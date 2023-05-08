@@ -314,6 +314,7 @@ return [
         [
             'text'        => 'Dashborad',
             'url'         => 'admin',
+            'can'         =>'admin.home',
             'icon'        => 'far fa-fw fa-file',
             
         ], //ojo que aca inicia para modificar el menu
@@ -322,6 +323,7 @@ return [
             'text' => 'Personal',
             'route'  => 'admin.users.index',
             'icon' => 'fas fa-fw fa-user',
+            'can' => 'admin.users.index',
             'submenu' => [
 
                 [
@@ -348,15 +350,18 @@ return [
 
         
         [
-            'text' => 'change_password',
-            'url'  => '#',
+            'text' => 'Roles',
+            'route'  => 'admin.roles.index',
             'icon' => 'fas fa-fw fa-lock',
+            'can'=>'admin.roles.index'
+            
         ],
 
         //MULTINIVEL
         [
             'text'    => 'Configuracion',
             'icon'    => 'fas fa-fw fa-share',
+            'can' =>'admin.configuraciones',
             'submenu' => [
                 [
                     'text' => 'Tipo Usuarios',
@@ -427,6 +432,7 @@ return [
             'text'       => 'Registro Multas',
             'icon_color' => 'red',
             'route'        => 'admin.asignacionMultas.index',
+            'can' =>           'admin.registroMultas.index'
         ],
         [
             'text'       => 'Registro Asistencias',

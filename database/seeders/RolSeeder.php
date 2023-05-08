@@ -18,16 +18,52 @@ class RolSeeder extends Seeder
     {
         //CREACION DE ROLES OJO IMPORTAR EL MODELO DESDE LA UBICACION DE SPATIE
         $role1 = Role::create(['name'=>'Admin']);
-        $role2 = Role::create(['name'=>'user']);
+        $role2 = Role::create(['name'=>'Monitor']);
+        $role3 = Role::create(['name'=>'Modelo']);
 
         //CREACION DE PERMISOS OJO IMPORTAR EL MODELO PERMISION DESDE LA UBICACION DE SPATIE
         //ASI MISMO SE LE  ASIGNA ESTEPERMISO A UN ROL
-        Permission::create(['name'=>'admin.home'])->syncRoles([$role1]);
-        Permission::create(['name'=>'admin.users'])->syncRoles([$role1]);
-        Permission::create(['name'=>'admin.users.index'])->syncRoles([$role1]);
-        Permission::create(['name'=>'admin.users.create'])->syncRoles([$role1]);
-        Permission::create(['name'=>'admin.users.edit'])->syncRoles([$role1]);
-        Permission::create(['name'=>'admin.users.destroy'])->syncRoles([$role1]);      
+        Permission::create(['name'=>'admin.home',
+                            'description'=>'Ver el dashboard'])->syncRoles([$role1],$role2);
+        Permission::create(['name'=>'admin.users',
+                            'description'=>'ver ruta usuarios'])->syncRoles([$role1],$role2);
+        Permission::create(['name'=>'admin.users.index',
+                            'description'=>'Ver listado de usuarios'])->syncRoles([$role1],$role2);
+        Permission::create(['name'=>'admin.users.create',
+                            'description'=>'crear usuarios'])->syncRoles([$role1,$role2]);
+        Permission::create(['name'=>'admin.users.edit',
+                            'description'=>'editar usuarios'])->syncRoles([$role1,$role2]);
+        Permission::create(['name'=>'admin.users.destroy',
+                            'description'=>'eliminar usuarios'])->syncRoles([$role1,$role2]); 
+                            
+        //PERMISOS ROLES
+        Permission::create(['name'=>'admin.roles.index',
+                            'description'=>'Ver listado de roles'])->syncRoles([$role1]);
+        Permission::create(['name'=>'admin.roles.create',
+                            'description'=>'Crear roles'])->syncRoles([$role1]);
+        Permission::create(['name'=>'admin.roles.edit',
+                            'description'=>'Editar roles'])->syncRoles([$role1]);
+        Permission::create(['name'=>'admin.roles.destroy',
+                            'description'=>'Eliminar roles'])->syncRoles([$role1]);
+
+        //PERMISOS REGISTRO MULTAS                    
+        Permission::create(['name'=>'admin.registroMultas.index',
+                            'description'=>'Ver listado de multas'])->syncRoles([$role1,$role2,$role3]);
+        Permission::create(['name'=>'admin.registroMultas.create',
+                            'description'=>'Crear multas'])->syncRoles([$role1,$role2]);
+        Permission::create(['name'=>'admin.registroMultas.edit',
+                            'description'=>'Editar multas'])->syncRoles([$role1,$role2,]);
+        Permission::create(['name'=>'admin.registroMultas.destroy',
+                            'description'=>'Eliminar multas'])->syncRoles([$role1]);
+
+
+        //PERMISOS  CONFIGURACIONES
+
+        Permission::create(['name'=>'admin.configuraciones',
+                            'description'=>'configuraciones studio'])->syncRoles([$role1]);
+
+
+
                 
     }
 }

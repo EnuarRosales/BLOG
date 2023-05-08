@@ -5,6 +5,7 @@ use App\Http\Controllers\Admin\AsignacionRoomController;
 use App\Http\Controllers\Admin\AsignacionTurnoController;
 use App\Http\Controllers\Admin\HomeController;
 use App\Http\Controllers\Admin\PaginaController;
+use App\Http\Controllers\Admin\RoleController;
 use App\Http\Controllers\Admin\TipoDescuentoController;
 use App\Http\Controllers\Admin\TipoMetaController;
 use App\Http\Controllers\Admin\TipoMonedaPaginaController;
@@ -13,15 +14,13 @@ use App\Http\Controllers\Admin\TipoRoomController;
 use App\Http\Controllers\Admin\TipoTurnoController;
 use App\Http\Controllers\Admin\TipoUsuarioController;
 use App\Http\Controllers\Admin\UserController;
-use App\Models\TipoUsuario;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/',[HomeController::class,'index'])->middleware(['auth','verified']);
-Route::resource('tipoUsuarios', TipoUsuarioController::class)->middleware(['auth','verified'])->names('admin.tipoUsuarios'); 
-Route::resource('users', UserController::class)->middleware(['auth','verified'])->names('admin.users');
-Route::get('users/{user}/rol', [UserController::class,'rol'])->name('admin.users.rol');
-Route::put('users/{user}',[UserController::class,'updateRol'])->name('admin.users.updateRol');
 
+Route::resource('tipoUsuarios', TipoUsuarioController::class)->middleware(['auth','verified'])->names('admin.tipoUsuarios');
+Route::resource('users', UserController::class)->middleware(['auth','verified'])->names('admin.users');
+Route::resource('roles', RoleController::class)->middleware(['auth','verified'])->names('admin.roles');
 Route::resource('asignacionTurnos',AsignacionTurnoController::class)->middleware(['auth','verified'])->names('admin.asignacionTurnos');
 Route::resource('tipoTurnos',TipoTurnoController::class)->middleware(['auth','verified'])->names('admin.tipoTurnos');
 Route::resource('tipoRooms',TipoRoomController::class)->middleware(['auth','verified'])->names('admin.tipoRooms');
@@ -32,6 +31,9 @@ Route::resource('tipoMonedaPaginas',TipoMonedaPaginaController::class)->middlewa
 Route::resource('paginas',PaginaController::class)->middleware(['auth','verified'])->names('admin.paginas');
 Route::resource('asignacionRooms',AsignacionRoomController::class)->middleware(['auth','verified'])->names('admin.asignacionRooms');
 Route::resource('asignacionMultas',AsignacionMultaController::class)->middleware(['auth','verified'])->names('admin.asignacionMultas');
+
+
+
 
 
 

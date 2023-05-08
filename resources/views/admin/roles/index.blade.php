@@ -3,33 +3,24 @@
 @section('title', 'Dashboard')
 
 @section('content_header')
-    <h1>Personal</h1>
+    <h1>Lista de roles</h1>
 @stop
 
 @section('content')
 
     <div class="card">
         <div class="card-body">
-            <a class="btn btn-primary" href="{{ route('admin.users.create') }}">Agregar Usuario</a>
+            <a class="btn btn-primary" href="{{ route('admin.roles.create') }}">Agregar Rol</a>
         </div>
-        <table id="users" class="table table-striped table-bordered shadow-lg mt-4">
+        <table id="roles" class="table table-striped table-bordered shadow-lg mt-4">
             <thead>
                 <tr>
                     <th>ID</th>
-                    <th>Nombre</th>
-                    <th>Cedula</th>
-                    <th>Celular</th>
-                    <th>Direccion</th>
-                    <th>Email</th>
-                    <th>Tipo Usuario</th>
-                    @can('admin.users.edit')
-                        <th>Editar</th>
-                    @endcan
-                    @can('admin.users.destroy')
-                        <th>Eliminar</th>
-                    @endcan
-
-
+                    <th>Nombre</th>                    
+                    {{-- @can('admin.users.edit') --}}
+                    <th>Editar</th>
+                    <th>Eliminar</th>
+                    {{-- @endcan --}}
 
 
                 </tr>
@@ -37,31 +28,25 @@
 
 
             <tbody>
-                @foreach ($users as $usuario)
+                @foreach ($roles as $rol)
                     <tr>
-                        <td>{{ $usuario->id }}</td>
-                        <td>{{ $usuario->name }}</td>
-                        <td>{{ $usuario->cedula }}</td>
-                        <td>{{ $usuario->celular }}</td>
-                        <td>{{ $usuario->direccion }}</td>
-                        <td>{{ $usuario->email }}</td>
-                        <td>{{ $usuario->tipoUsuario->nombre }}</td>
+                        <td>{{ $rol->id }}</td>
+                        <td>{{ $rol->name}}</td>                      
 
-                        @can('admin.users.edit')
-                            <td width="10px">
-                                <a class="btn btn-secondary btn-sm" href="{{ route('admin.users.edit', $usuario) }}">Editar</a>
-                            </td>
-                        @endcan
-                        @can('admin.users.destroy')
-                            <td width="10px">
-                                <form class="formulario-eliminar" action="{{ route('admin.users.destroy', $usuario) }}"
-                                    method="POST">
-                                    @csrf
-                                    @method('delete')
-                                    <button type="submit" class="btn btn-dark btn-sm">Eliminar</button>
-                                </form>
-                            </td>
-                        @endcan
+                        {{-- @can('admin.users.edit') --}}
+                        <td width="10px">
+                            <a class="btn btn-secondary btn-sm" href="{{ route('admin.roles.edit', $rol) }}">Editar</a>
+                        </td>
+                        <td width="10px">
+                            <form class="formulario-eliminar" action="{{ route('admin.roles.destroy', $rol) }}"
+                                method="POST">
+                                @csrf
+                                @method('delete')
+                                <button type="submit" class="btn btn-dark btn-sm">Eliminar</button>
+                            </form>
+                        </td>
+                        {{-- @endcan --}}
+
                     </tr>
                 @endforeach
             </tbody>
@@ -101,7 +86,7 @@
             Swal.fire({
                 position: 'top-end',
                 icon: 'success',
-                title: 'Usuario creado correctamente',
+                title: 'Rol creado correctamente',
                 showConfirmButton: false,
                 timer: 2000
             })
@@ -111,7 +96,7 @@
             Swal.fire({
                 position: 'top-end',
                 icon: 'success',
-                title: 'Usuario actualizado correctamente',
+                title: 'Rol actualizado correctamente',
                 showConfirmButton: false,
                 timer: 2000
             })
@@ -155,7 +140,7 @@
 
     <script>
         $(document).ready(function() {
-            $('#users').DataTable(); //
+            $('#roles').DataTable(); //
         });
     </script>
 

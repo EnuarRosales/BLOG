@@ -11,8 +11,19 @@ use Spatie\Permission\Models\Role;
 
 class UserController extends Controller
 {
+
+
+    //PARA PROTEGER LAS RUTAS ESTO PERMITE QUE NO SE ACCEDAN SE HACE DE ESTA MANERA YA QUE LA RUTA ES RESOURCE
+    public function __construct()
+    {
+        $this->middleware('can:admin.users.index')->only('index');
+        $this->middleware('can:admin.users.edit')->only('edit','update');        
+        
+    }
+
+
     /**
-     * Display a listing of the resource.
+     * Display a listing of the resource. 
      *
      * @return \Illuminate\Http\Response
      */
@@ -75,25 +86,17 @@ class UserController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function edit(User $user)
-    {
-
-        $roles = Role::all();
+    {     
 
         $tipoUsuarios = TipoUsuario::orderBy('id', 'desc');
-        return view('admin.users.edit', compact('user', 'tipoUsuarios', 'roles'));
+        return view('admin.users.edit', compact('user', 'tipoUsuarios'));
     }
 
     public function rol(User $user)
     {
         $roles = Role::all();
         return view('admin.users.rol', compact('user', 'roles'));
-    }
-
-    public function updateRol(Request $request, User $user)
-    {
-        $user->roles()->sync($request->roles);
-        return redirect()->route('admin.users.index', $user->id)->with('info', 'updateRol'); //with mensaje de sesion
-    }
+    }    
 
     /**
      * Update the specified resource in storage.
@@ -119,6 +122,21 @@ class UserController extends Controller
         return redirect()->route('admin.users.index', $user->id)->with('info', 'update'); //with mensaje de sesion
 
     }
+
+    public function updateRol(Request $request, User $user)    {
+        // $user->update($request->all());
+        $user->roles()->sync($request->roles);
+        return redirect()->route('admin.users.index')->with('info', 'updateRol'); //with mensaje de sesion
+    }
+
+
+
+
+
+
+
+
+
 
     /**
      * Remove the specified resource from storage.

@@ -16,19 +16,25 @@
 
     <div class="card">
         <div class="card-body">
+            @can('admin.registroMultas.create')
             <a class="btn btn-primary" href="{{ route('admin.asignacionMultas.create') }}">Agregar Asignacion Multa</a>
+            @endcan
+            
         </div>
         <table id="asignacionMultas" class="table table-striped table-bordered shadow-lg mt-4">
             <thead>
                 <tr>
                     <th>ID</th>
-                    <th>Usuario</th>                    
+                    <th>Usuario</th>
                     <th>Tipo multa</th>
                     <th>Valor Multa</th>
                     <th>Fecha</th>
-                    <th>Editar</th>
-                    <th>Eliminar</th>
-
+                    @can('admin.registroMultas.edit')
+                        <th>Editar</th>
+                    @endcan
+                    @can('admin.registroMultas.destroy')
+                        <th>Eliminar</th>
+                    @endcan
                 </tr>
             </thead>
 
@@ -37,27 +43,28 @@
                 @foreach ($asignacionMultas as $asignacionMulta)
                     <tr>
                         <td>{{ $asignacionMulta->id }}</td>
-                        <td>{{ $asignacionMulta->user->name}}</td>
-                        <td>{{ $asignacionMulta->tipoMulta->nombre}}</td>
-                        <td>{{ $asignacionMulta->tipoMulta->costo}}</td>
-                        <td>{{ $asignacionMulta->created_at}}</td>
-                        
+                        <td>{{ $asignacionMulta->user->name }}</td>
+                        <td>{{ $asignacionMulta->tipoMulta->nombre }}</td>
+                        <td>{{ $asignacionMulta->tipoMulta->costo }}</td>
+                        <td>{{ $asignacionMulta->created_at }}</td>
 
-                        <td width="10px">
-                            <a class="btn btn-secondary btn-sm"
-                                href="{{ route('admin.asignacionMultas.edit', $asignacionMulta) }}">Editar</a>
-                        </td>
+                        @can('admin.registroMultas.edit')
+                            <td width="10px">
+                                <a class="btn btn-secondary btn-sm"
+                                    href="{{ route('admin.asignacionMultas.edit', $asignacionMulta) }}">Editar</a>
+                            </td>
+                        @endcan
 
-                        <td width="10px">
-                            <form class="formulario-eliminar"
-                                action="{{ route('admin.asignacionMultas.destroy', $asignacionMulta) }}" method="POST">
-                                @csrf
-                                @method('delete')
-                                <button type="submit" class="btn btn-dark btn-sm">Eliminar</button>
-                            </form>
-
-                        </td>
-
+                        @can('admin.registroMultas.destroy')
+                            <td width="10px">
+                                <form class="formulario-eliminar"
+                                    action="{{ route('admin.asignacionMultas.destroy', $asignacionMulta) }}" method="POST">
+                                    @csrf
+                                    @method('delete')
+                                    <button type="submit" class="btn btn-dark btn-sm">Eliminar</button>
+                                </form>
+                            </td>
+                        @endcan
                     </tr>
                 @endforeach
             </tbody>

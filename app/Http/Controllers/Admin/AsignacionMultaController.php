@@ -7,6 +7,7 @@ use App\Models\AsignacionMulta;
 use App\Models\TipoMulta;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Spatie\Permission\Models\Role;
 
 class AsignacionMultaController extends Controller
 {
@@ -15,10 +16,11 @@ class AsignacionMultaController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index()    
     {
+        $userLogueado = auth()->user()->id;                
         $asignacionMultas = AsignacionMulta::orderBy('id','desc')->paginate();       
-        return view('admin.asignacionMultas.index', compact('asignacionMultas'));  
+        return view('admin.asignacionMultas.index', compact('asignacionMultas','userLogueado'));  
     }
 
     /**

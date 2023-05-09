@@ -7,19 +7,11 @@
 @stop
 
 @section('content')
-
-    {{-- @if (session('info'))
-        <div class="alert alert-success">
-            <strong>{{ session('info') }}</strong>
-        </div>
-    @endif --}}
-
     <div class="card">
         <div class="card-body">
             @can('admin.registroMultas.create')
-            <a class="btn btn-primary" href="{{ route('admin.asignacionMultas.create') }}">Agregar Asignacion Multa</a>
+                <a class="btn btn-primary" href="{{ route('admin.asignacionMultas.create') }}">Agregar Asignacion Multa</a>
             @endcan
-            
         </div>
         <table id="asignacionMultas" class="table table-striped table-bordered shadow-lg mt-4">
             <thead>
@@ -37,41 +29,19 @@
                     @endcan
                 </tr>
             </thead>
-
-
             <tbody>
                 @foreach ($asignacionMultas as $asignacionMulta)
-                    <tr>
-                        <td>{{ $asignacionMulta->id }}</td>
-                        <td>{{ $asignacionMulta->user->name }}</td>
-                        <td>{{ $asignacionMulta->tipoMulta->nombre }}</td>
-                        <td>{{ $asignacionMulta->tipoMulta->costo }}</td>
-                        <td>{{ $asignacionMulta->created_at }}</td>
-
-                        @can('admin.registroMultas.edit')
-                            <td width="10px">
-                                <a class="btn btn-secondary btn-sm"
-                                    href="{{ route('admin.asignacionMultas.edit', $asignacionMulta) }}">Editar</a>
-                            </td>
-                        @endcan
-
-                        @can('admin.registroMultas.destroy')
-                            <td width="10px">
-                                <form class="formulario-eliminar"
-                                    action="{{ route('admin.asignacionMultas.destroy', $asignacionMulta) }}" method="POST">
-                                    @csrf
-                                    @method('delete')
-                                    <button type="submit" class="btn btn-dark btn-sm">Eliminar</button>
-                                </form>
-                            </td>
-                        @endcan
-                    </tr>
+                    @if (auth()->user()->hasRole('Admin'))
+                        @include('admin.asignacionMultas.partials.table')
+                    @elseif (auth()->user()->hasRole('Monitor'))
+                        @include('admin.asignacionMultas.partials.table')
+                    @elseif($asignacionMulta->user->id == $userLogueado)
+                        @include('admin.asignacionMultas.partials.table')
+                    @endif
                 @endforeach
             </tbody>
         </table>
-
     </div>
-
 @stop
 
 @section('css')

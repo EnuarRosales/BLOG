@@ -7,7 +7,6 @@
 @stop
 
 @section('content')
-
     <div class="card">
         <div class="card-body">
             <a class="btn btn-primary" href="{{ route('admin.users.create') }}">Agregar Usuario</a>
@@ -22,20 +21,14 @@
                     <th>Direccion</th>
                     <th>Email</th>
                     <th>Tipo Usuario</th>
-                    {{-- @can('admin.users.edit') --}}
+                    @can('admin.users.edit')
                         <th>Editar</th>
-                    {{-- @endcan --}}
-                    {{-- @can('admin.users.destroy') --}}
+                    @endcan
+                    @can('admin.users.destroy')
                         <th>Eliminar</th>
-                    {{-- @endcan --}}
-
-
-
-
+                    @endcan
                 </tr>
             </thead>
-
-
             <tbody>
                 @foreach ($users as $usuario)
                     <tr>

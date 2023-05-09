@@ -17,21 +17,21 @@
         <div class="container text-center">
             <div class="row">
                 <div class="col">
-                    <x-adminlte-small-box title={{ $user }} text="{{ $porcentajeUser }}%   Modelos"
-                        icon="fa fa-user-plus fa-lg" theme="primary" url="{{ route('admin.users.index') }}"
+                    <x-adminlte-small-box title={{$user}} text="{{ $porcentajeUser }}%   Modelos"
+                        icon="fa fa-user-plus fa-lg" theme="primary" url="{{route('admin.users.index')}}"
                         url-text="Ver los Usuarios" />
-
-
                 </div>
                 <div class="col">
                     {{-- Updatable --}}
-                    <x-adminlte-small-box title={{ $asignacionMultas }} text="Multas" icon="fas fa-medal text-dark"
+                    <x-adminlte-small-box title={{$asignacionMultas}} text="Multas" icon="fas fa-medal text-dark"
                         theme="danger" url="#" url-text="ver las multas" id="sbUpdatable" />
                 </div>
                 <div class="col">
                     <x-adminlte-small-box title="{{ $asignacionMultas . ' ' . $porcentajeUser }} %" text="otro valor"
                         icon="fas fa-user-plus text-teal" theme="primary" url="#" url-text="View all users" />
                 </div>
+
+                
 
 
 

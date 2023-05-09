@@ -3,55 +3,49 @@
 @section('title', 'Dashboard')
 
 @section('content_header')
-    <h1>Asignacion Turno</h1>
+    <h1>Listado de asistencia</h1>
 @stop
 
 @section('content')
     <div class="card">
         <div class="card-body">
             @can('admin.asignacionTurnos.create')
-                <a class="btn btn-primary" href="{{ route('admin.asignacionTurnos.create') }}">Agregar Asignacion Turno</a>
+                <a class="btn btn-primary" href="{{ route('admin.registroAsistencias.create') }}">Agregar Asistencia</a>
             @endcan
- 
+
         </div>
-        <table id="asignacionTurnos" class="table table-striped table-bordered shadow-lg mt-4">
+        <table id="registroAsistencias" class="table table-striped table-bordered shadow-lg mt-4">
             <thead>
                 <tr>
-                    <th>ID</th>
-                    <th>Nombre</th>
-                    <th>Tipo Persona</th>
-                    <th>Turno Asignado</th>
-                    @can('admin.asignacionTurnos.edit')
-                        <th>Editar</th>
-                    @endcan
-                    @can('admin.asignacionTurnos.destroy')
-                        <th>Eliminar</th>
-                    @endcan
+                    <th>ID</th>                    
+                    <th>Usuario</th>    
+                    <th>Fecha</th>               
+                    <th>Editar</th>
+                    <th>Eliminar</th>
                 </tr>
             </thead>
             <tbody>
-                @foreach ($asignacionTurnos as $asignacionTurno)
+                @foreach ($asistencias as $asistencia)
                     <tr>
-                        <td>{{ $asignacionTurno->id }}</td>
-                        <td>{{ $asignacionTurno->user->name }}</td>
-                        <td>{{ $asignacionTurno->user->tipoUsuario->nombre }}</td>
-                        <td>{{ $asignacionTurno->turno->nombre }}</td>
-                        @can('admin.asignacionTurnos.edit')
+                        <td>{{$asistencia->id }}</td>
+                        <td>{{$asistencia->user->name}}</td>
+                        <td>{{$asistencia->created_at}}</td>                        
+                        {{-- @can('admin.asignacionTurnos.edit') --}}
                             <td width="10px">
                                 <a class="btn btn-secondary btn-sm"
-                                    href="{{ route('admin.asignacionTurnos.edit', $asignacionTurno) }}">Editar</a>
+                                    href="{{ route('admin.registroAsistencias.edit',$asistencia)}}">Editar</a>
                             </td>
-                        @endcan
-                        @can('admin.asignacionTurnos.destroy')
+                        {{-- @endcan --}}
+                        {{-- @can('admin.registroAsistencias.destroy') --}}
                             <td width="10px">
                                 <form class="formulario-eliminar"
-                                    action="{{ route('admin.asignacionTurnos.destroy', $asignacionTurno) }}" method="POST">
+                                    action="{{ route('admin.registroAsistencias.destroy', $asistencia) }}" method="POST">
                                     @csrf
                                     @method('delete')
                                     <button type="submit" class="btn btn-dark btn-sm">Eliminar</button>
                                 </form>
                             </td>
-                        @endcan
+                        {{-- @endcan --}}
                     </tr>
                 @endforeach
             </tbody>
@@ -91,7 +85,7 @@
             Swal.fire({
                 position: 'top-end',
                 icon: 'success',
-                title: 'Asignacion de turno realizada correctamente',
+                title: 'Registro de asistencia realizado correctamente',
                 showConfirmButton: false,
                 timer: 2000
             })
@@ -101,7 +95,7 @@
             Swal.fire({
                 position: 'top-end',
                 icon: 'success',
-                title: 'Asignacion de turno editada correctamente',
+                title: 'asistencia editada correctamente',
                 showConfirmButton: false,
                 timer: 2000
             })
@@ -135,15 +129,8 @@
 
     <script>
         $(document).ready(function() {
-            $('#asignacionTurnos').DataTable(); //
+            $('#registroAsistencias').DataTable(); //
         });
     </script>
 
 @stop
-
-
-
-{{-- PARA CAMBIAR LA PAGI --}}
-{{-- {    
-    "lengthMenu":[[5 ,10 ,50 ,-1 ],5,10,50,"all"]
-} --}}

@@ -32,7 +32,8 @@ class UserController extends Controller
         // $userLogueado = auth()->user();
         // // dd($userLogueado);
         // echo $userLogueado;
-        $users = User::orderBy('id', 'desc')->paginate();
+       
+        $users = User::all();
         return view('admin.users.index', compact('users'));
     }
 

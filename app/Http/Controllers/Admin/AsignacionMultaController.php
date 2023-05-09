@@ -27,7 +27,7 @@ class AsignacionMultaController extends Controller
      * Show the form for creating a new resource.
      *
      * @return \Illuminate\Http\Response
-     */
+     */ 
     public function create()
     {
         $users = User::orderBy('id','desc'); 

@@ -348,9 +348,6 @@ return [
 
             ]
         ],
-
-
-
         
         [
             'text' => 'Roles',
@@ -440,7 +437,8 @@ return [
         [
             'text'       => 'Registro Asistencias',
             'icon_color' => 'yellow',
-            'url'        => '#',
+            'route'        => 'admin.registroAsistencias.index',
+            
         ],
         [
             'text'       => 'Registro Produccion',

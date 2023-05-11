@@ -15,11 +15,16 @@ class DatabaseSeeder extends Seeder
      * @return void
      */
     public function run()
-    {        
+    {
         TipoUsuario::factory(3)->create();
         User::factory(50)->create();
-
         $this->call(RolSeeder::class);
+
+
+        
+
+        
+
 
 
         // \App\Models\
@@ -37,10 +42,5 @@ class DatabaseSeeder extends Seeder
         $curso2->name = "javascript";
         $curso2->descripcion= "bueno";     
         $curso2->save();*/
-
     }
-
-
-    
 }
- 

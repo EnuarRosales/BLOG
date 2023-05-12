@@ -56,11 +56,8 @@ class RolSeeder extends Seeder
                             'description'=>'Editar asignacionRooms'])->syncRoles([$role1]);
         Permission::create(['name'=>'admin.asignacionRooms.destroy',
                             'description'=>'Eliminar asignacionRooms'])->syncRoles([$role1]);
-        
-        
-                          
-                            
-
+                                    
+                     
         //CON EL FIN DE CREAR UN USUARIO ADMINISTRADOR
         $user = new User();
         $user->name = 'Enuar Emilio Rosales Salazar';
@@ -70,7 +67,7 @@ class RolSeeder extends Seeder
         $user->email = 'admin@gmail.com';
         $user->email_verified_at ='2023-05-11 22:39:30';
         $user->tipoUsuario_id = 1;
-        $user->password = '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi';
+        $user->password = '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi';//password
         $user->syncRoles([$role1]);        
         $user->save();
         

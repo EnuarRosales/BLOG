@@ -6,7 +6,7 @@
     <h1>Asignar Turno</h1>
 @stop
 
-@section('content')
+@section('content') 
 
     <div class="card">
         <div class="card-body">

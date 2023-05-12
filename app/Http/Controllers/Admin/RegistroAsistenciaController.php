@@ -18,7 +18,7 @@ class RegistroAsistenciaController extends Controller
     {
         $asistencias = Asistencia::all();        
         return view('admin.registroAsistencias.index',compact('asistencias'));
-    } 
+    }  
 
     /**
      * Show the form for creating a new resource.
@@ -86,7 +86,7 @@ class RegistroAsistenciaController extends Controller
         //VALiDACION FORMULARIO 
         $request->validate([
             'user_id'=>'required',
-            'created_ad'=>'required',         
+            'created_at'=>'required',         
         ]);
         //ASINACION MASIVA DE VARIABLES A LOS CAMPOS
         $registroAsistencia->update($request->all());
@@ -99,8 +99,9 @@ class RegistroAsistenciaController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Asistencia $registroAsistencia)
     {
-        //
+        $registroAsistencia->delete();
+        return redirect()->route('admin.registroAsistencias.index')->with('info','delete');
     }
 }

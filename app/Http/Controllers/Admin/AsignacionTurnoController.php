@@ -17,7 +17,7 @@ class AsignacionTurnoController extends Controller
      */
     public function index()
     {
-        $asignacionTurnos = AsignacionTurno::orderBy('id','desc')->paginate();       
+        $asignacionTurnos = AsignacionTurno::all();   
         return view('admin.asignacionTurnos.index', compact('asignacionTurnos'));  
     }
 

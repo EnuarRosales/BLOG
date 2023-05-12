@@ -4,7 +4,7 @@
 
 @section('content_header')
     <h1>Editar asignacion turno</h1>
-@stop
+@stop 
 
 @section('content')
     @if (session('info'))

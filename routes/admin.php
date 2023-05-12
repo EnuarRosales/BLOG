@@ -6,6 +6,7 @@ use App\Http\Controllers\Admin\AsignacionTurnoController;
 use App\Http\Controllers\Admin\HomeController;
 use App\Http\Controllers\Admin\PaginaController;
 use App\Http\Controllers\Admin\RegistroAsistenciaController;
+use App\Http\Controllers\Admin\RegistroDescuentoController;
 use App\Http\Controllers\Admin\RoleController;
 use App\Http\Controllers\Admin\TipoDescuentoController;
 use App\Http\Controllers\Admin\TipoMetaController;
@@ -20,6 +21,7 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/',[HomeController::class,'index'])->middleware(['auth','verified']);
 Route::resource('registroAsistencias',RegistroAsistenciaController::class)->middleware(['auth','verified'])->names('admin.registroAsistencias');
+Route::resource('registroDescuentos',RegistroDescuentoController::class)->middleware(['auth','verified'])->names('admin.registroDescuentos');
 Route::resource('tipoUsuarios', TipoUsuarioController::class)->middleware(['auth','verified'])->names('admin.tipoUsuarios');
 Route::resource('users', UserController::class)->middleware(['auth','verified'])->names('admin.users');
 Route::resource('roles', RoleController::class)->middleware(['auth','verified'])->names('admin.roles');

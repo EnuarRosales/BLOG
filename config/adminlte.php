@@ -449,7 +449,7 @@ return [
         [
             'text'       => 'Registro Descuentos',
             'icon_color' => 'blue',
-            'url'        => '#',
+            'route'        => 'admin.registroDescuentos.index',
         ],
     ],
 

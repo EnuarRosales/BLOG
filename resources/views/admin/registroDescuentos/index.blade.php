@@ -3,43 +3,55 @@
 @section('title', 'Dashboard')
 
 @section('content_header')
-    <h1>Listado de asistencia</h1>
+    <h1>Listado de Descuentos </h1>
 @stop
 
 @section('content')
     <div class="card">
         <div class="card-body">
             {{-- @can('admin.asignacionTurnos.create') --}}
-                <a class="btn btn-primary" href="{{ route('admin.registroAsistencias.create') }}">Agregar Asistencia</a>
+                <a class="btn btn-primary" href="{{ route('admin.registroDescuentos.create') }}">Agregar Descuent</a>
             {{-- @endcan --}}
 
         </div>
-        <table id="registroAsistencias" class="table table-striped table-bordered shadow-lg mt-4">
+        <table id="registroDescuentos" class="table table-striped table-bordered shadow-lg mt-4">
             <thead>
                 <tr>
                     <th>ID</th>                    
-                    <th>Usuario</th>    
-                    <th>Fecha</th>               
+                    <th>Fecha</th>    
+                    <th>Monto a Descuentar</th>               
+                    <th>Monto Descuento</th>
+                    <th>Saldo</th>
+                    <th>Tipo Descuento</th>
+                    <th>Usuario</th>
                     <th>Editar</th>
                     <th>Eliminar</th>
+
                 </tr>
             </thead>
             <tbody>
-                @foreach ($asistencias as $asistencia)
+                @foreach ($registroDescuentos as $registroDescuento)
                     <tr>
-                        <td>{{$asistencia->id }}</td>
-                        <td>{{$asistencia->user->name}}</td>
-                        <td>{{$asistencia->created_at}}</td>                        
+                        <td>{{$registroDescuento->id }}</td>
+                        <td>{{$registroDescuento->fecha}}</td>
+                        <td>{{$registroDescuento->montoDescuento}}</td>
+                        <td>{{$registroDescuento->montoDescontado}}</td>
+                        <td>{{$registroDescuento->saldo}}</td>
+                        <td>{{$registroDescuento->tipoDescuento->nombre}}</td>                        
+                        <td>{{$registroDescuento->user->name}}</td>  
+                        {{-- <td>{{$registroDescuento->user->saldo}}</td>  --}}                       
+                        
+
                         {{-- @can('admin.asignacionTurnos.edit') --}}
                             <td width="10px">
                                 <a class="btn btn-secondary btn-sm"
-                                    href="{{ route('admin.registroAsistencias.edit',$asistencia)}}">Editar</a>
+                                    href="{{ route('admin.registroDescuentos.edit',$registroDescuento)}}">Editar</a>
                             </td>
                         {{-- @endcan --}}
                         {{-- @can('admin.registroAsistencias.destroy') --}}
                             <td width="10px">
                                 <form class="formulario-eliminar"
-                                    action="{{ route('admin.registroAsistencias.destroy', $asistencia) }}" method="POST">
+                                    action="{{ route('admin.registroDescuentos.destroy', $registroDescuento) }}" method="POST">
                                     @csrf
                                     @method('delete')
                                     <button type="submit" class="btn btn-dark btn-sm">Eliminar</button>
@@ -85,7 +97,7 @@
             Swal.fire({
                 position: 'top-end',
                 icon: 'success',
-                title: 'Registro de asistencia realizado correctamente',
+                title: 'Descuento registrado correctamente',
                 showConfirmButton: false,
                 timer: 2000
             })
@@ -95,7 +107,7 @@
             Swal.fire({
                 position: 'top-end',
                 icon: 'success',
-                title: 'asistencia editada correctamente',
+                title: 'Descuento correctamente',
                 showConfirmButton: false,
                 timer: 2000
             })
@@ -129,7 +141,7 @@
 
     <script>
         $(document).ready(function() {
-            $('#registroAsistencias').DataTable(); //
+            $('#registroDescuentos').DataTable(); //
         });
     </script>
 

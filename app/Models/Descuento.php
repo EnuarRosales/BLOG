@@ -14,7 +14,7 @@ class Descuento extends Model
 
     //RELACION UNO A MUCHOS INVERSA
     public function tipoDescuento(){
-        return $this->belongsTo('App\Models\TipoDescuento');
+        return $this->belongsTo('App\Models\TipoDescuento','tipoDescuento_id');
     }
 
     //RELACION UNO A MUCHOS INVERSA

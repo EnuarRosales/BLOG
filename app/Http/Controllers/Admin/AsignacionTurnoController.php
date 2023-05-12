@@ -6,7 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\AsignacionTurno;
 use App\Models\Turno;
 use App\Models\User;
-use Illuminate\Http\Request;
+use Illuminate\Http\Request; 
 
 class AsignacionTurnoController extends Controller
 {
@@ -17,7 +17,7 @@ class AsignacionTurnoController extends Controller
      */
     public function index()
     {
-        $asignacionTurnos = AsignacionTurno::orderBy('id','desc')->paginate();       
+        $asignacionTurnos = AsignacionTurno::all();   
         return view('admin.asignacionTurnos.index', compact('asignacionTurnos'));  
     }
 

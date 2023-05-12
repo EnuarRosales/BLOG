@@ -94,7 +94,6 @@ class RolSeeder extends Seeder
 
 
         //PERMISOS  CONFIGURACIONES
-
         Permission::create(['name'=>'admin.configuraciones',
                             'description'=>'configuraciones studio'])->syncRoles([$role1]);
 

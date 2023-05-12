@@ -16,51 +16,21 @@ class User extends Authenticatable implements MustVerifyEmail
     use HasApiTokens, HasFactory, Notifiable, HasRoles;
    
 
-    /**
-     * The attributes that are mass assignable.
-     *
-    //  * @var array<int, string>
-    //  */
-    // protected $fillable = [
-    //     'name',
-    //     'email',
-    //     'password',
-        
-    // ];
+    protected $attributes = [
+        'name' => 'Enuar Emilio Rosales Salazar',
+        'cedula' => '108613644',
+        'celular' => '3057465217',
+        'direccion' => 'Sandona centenario',
+        'email' => 'admin@gmail.com',
+        'tipoUsuario_id' => 1
+    ];
 
-    // /**
-    //  * The attributes that should be hidden for serialization.
-    //  *
-    //  * @var array<int, string>
-    //  */
-    // protected $hidden = [
-    //     'password',
-    //     'remember_token',
-    // ];
 
-    // /**
-    //  * The attributes that should be cast.
-    //  *
-    //  * @var array<string, string>
-    //  */
-    // protected $casts = [
-    //     'email_verified_at' => 'datetime',
-    // ];
-
+    
     //CON ESTO LOGRAMOS HACER LA ASIGNACION MASIVA
     protected $guarded = [];
 
-    /*
-
-    //ESTOS ES CUANDO ESTEMOS EN LARABEL 9>
-
-    protected function name(): Attribute 
-	{
-		return new Attribute(
-            get: fn($value) => ucwords($value),
-            set: fn($value) => strtolower($value)			
-		);
-	}*/
+   
 
     //ACCESOR
     public function getNameAttribute($value)

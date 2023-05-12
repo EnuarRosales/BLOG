@@ -35,7 +35,7 @@ class RegistroAsistenciaController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \Illuminate\Http\Request  $request 
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
@@ -68,9 +68,10 @@ class RegistroAsistenciaController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(Asistencia $registroAsistencia)
     {
-        //
+        $users = User::orderBy('id','desc');        
+        return view('admin.registroAsistencias.edit',compact('registroAsistencia','users'));
     }
 
     /**
@@ -80,11 +81,18 @@ class RegistroAsistenciaController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, Asistencia $registroAsistencia)
     {
-        //
-    }
+        //VALiDACION FORMULARIO 
+        $request->validate([
+            'user_id'=>'required',
+            'created_ad'=>'required',         
+        ]);
+        //ASINACION MASIVA DE VARIABLES A LOS CAMPOS
+        $registroAsistencia->update($request->all());
+        return redirect()->route('admin.registroAsistencias.index', $registroAsistencia->id)->with('info', 'update'); //with mensaje de sesion
 
+    }
     /**
      * Remove the specified resource from storage.
      *

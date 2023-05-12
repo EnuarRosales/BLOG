@@ -9,9 +9,9 @@
 @section('content')
     <div class="card">
         <div class="card-body">
-            @can('admin.asignacionTurnos.create')
+            {{-- @can('admin.asignacionTurnos.create') --}}
                 <a class="btn btn-primary" href="{{ route('admin.registroAsistencias.create') }}">Agregar Asistencia</a>
-            @endcan
+            {{-- @endcan --}}
 
         </div>
         <table id="registroAsistencias" class="table table-striped table-bordered shadow-lg mt-4">

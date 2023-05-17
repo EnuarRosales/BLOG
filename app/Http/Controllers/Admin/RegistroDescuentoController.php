@@ -15,11 +15,11 @@ class RegistroDescuentoController extends Controller
      */
     public function index()
     {
-        $registroDescuentos = Descuento::all();        
+        $registroDescuentos = Descuento::all();       
         return view('admin.registroDescuentos.index',compact('registroDescuentos')); 
     }
 
-    /**
+    /** 
      * Show the form for creating a new resource.
      *
      * @return \Illuminate\Http\Response
@@ -39,6 +39,22 @@ class RegistroDescuentoController extends Controller
     {
         //
     }
+
+
+    public function descuentoTotal(Request $request, Descuento $descuento)
+    {        
+        //ASINACION MASIVA DE VARIABLES A LOS CAMPOS        
+
+        echo "hola";
+        $descuento->montoDescontado = $request->montoDescuento;
+        $descuento->save();    
+        // return redirect()->route('admin.registroDescuentos.index', $descuento->id)->with('info', 'update'); //with mensaje de sesion
+
+        return view('admin.registroDescuentos.index');
+    }
+
+
+
 
     /**
      * Display the specified resource.

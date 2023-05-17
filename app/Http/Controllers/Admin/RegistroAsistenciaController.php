@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Asistencia;
+use App\Models\Descuento;
 use App\Models\User;
 use Illuminate\Http\Request;
 
@@ -93,6 +94,16 @@ class RegistroAsistenciaController extends Controller
         return redirect()->route('admin.registroAsistencias.index', $registroAsistencia->id)->with('info', 'update'); //with mensaje de sesion
 
     }
+
+    
+
+
+
+
+
+
+
+
     /**
      * Remove the specified resource from storage.
      *

@@ -17,8 +17,8 @@ class CreateDescuentosTable extends Migration
             $table->id();           
             $table->timestamp('fecha');
             $table->float('montoDescuento');
-            $table->float('montoDescontado');
-            $table->float('saldo');
+            $table->float('montoDescontado')->nullable();
+            $table->float('saldo')->nullable();
             $table->unsignedBigInteger('tipoDescuento_id');//campo para relacion 
             $table->unsignedBigInteger('user_id');//campo para relacion                       
             

@@ -10,7 +10,7 @@
     <div class="card">
         <div class="card-body">
             {{-- @can('admin.asignacionTurnos.create') --}}
-                <a class="btn btn-primary" href="{{ route('admin.registroDescuentos.create') }}">Agregar Descuent</a>
+                {{-- <a class="btn btn-primary" href="{{ route('admin.registroDescuentos.create') }}">Agregar Descuent</a> --}}
             {{-- @endcan --}}
 
         </div>
@@ -27,7 +27,7 @@
                     <th>Descontar</th>
                     <th>Descontar</th>
                     <th>Editar</th>
-                    {{-- <th>Eliminar</th>                   --}}
+                    <th>Eliminar</th>                  
                 </tr>
             </thead>
             <tbody>
@@ -48,24 +48,25 @@
                         </td> --}}
 
                         <td width="10px">
-                            <form action="{{route('admin.registroDescuentos.descuentoTotal',$registroDescuento) }}" method="PUT">
-                                @csrf                               
-                                <button type="submit" class="btn btn-dark btn-sm">ENUAR</button>
+                            <form action="{{route('admin.abonos.abono',$registroDescuento) }}" method="POST" >
+                                @csrf
+                                @method('PUT')                               
+                                <button type="submit" class="btn btn-dark btn-sm">Total</button>
                             </form>
                         </td>
 
-                        {{-- <td width="10px">
+                        <td width="10px">
                             <a class="btn btn-secondary btn-sm"
-                                href="{{ route('admin.registroDescuentos.edit',$registroDescuento)}}" method="POST">Parcial</a>
-                        </td> --}}
+                                href="{{ route('admin.abonos.abono',$registroDescuento)}}" method="POST">Parcial</a>
+                        </td>
                         
 
                         {{-- @can('admin.asignacionTurnos.edit') --}}
                             <td width="10px">
                                 <a class="btn btn-secondary btn-sm"
-                                    href="{{ route('admin.registroDescuentos.edit',$registroDescuento)}}">Editar</a>
+                                    href="#">Editar</a>
                             </td>
-                        {{-- @endcan --}}
+                        {{-- @endcan
                         {{-- @can('admin.registroAsistencias.destroy') --}}
                             <td width="10px">
                                 <form class="formulario-eliminar"
@@ -75,7 +76,7 @@
                                     <button type="submit" class="btn btn-dark btn-sm">Eliminar</button>
                                 </form>
                             </td>
-                        {{-- @endcan --}}                       
+                        {{-- @endcan --}}                      
 
                     </tr>
                 @endforeach

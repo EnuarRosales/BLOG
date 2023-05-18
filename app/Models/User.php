@@ -44,19 +44,15 @@ class User extends Authenticatable implements MustVerifyEmail
         $this->attributes['name'] = strtolower($value);
     }
 
-
-
     // //RELACION UNO A MUCHOS INVERSA   
     public function tipoUsuario()    {
         return $this->belongsTo('App\Models\TipoUsuario','tipoUsuario_id');
-    }
- 
-  
-    
+    } 
+      
     // public function tipoUsuario()
     // {
     //     return $this->belongsTo(TipoUsuario::class,'tipoUsuario_id');
-    // }
+    // } 
 
  
  

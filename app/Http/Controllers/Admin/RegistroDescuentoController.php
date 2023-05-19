@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\Descuento;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class RegistroDescuentoController extends Controller
 {
@@ -15,7 +16,14 @@ class RegistroDescuentoController extends Controller
      */
     public function index()
     {
-        $registroDescuentos = Descuento::all();       
+        $registroDescuentos = Descuento::all(); 
+               
+        foreach ($registroDescuentos as $registroDescuento){
+            $registroDescuento->saldo = $registroDescuento->montoDescuento - $registroDescuento->montoDescontado;
+            $registroDescuento->save();           
+        }
+
+        
         return view('admin.registroDescuentos.index',compact('registroDescuentos')); 
     }
 

@@ -20,7 +20,7 @@
                     <th>ID</th>                    
                     <th>Fecha</th>    
                     <th>Monto a Descuentar</th>               
-                    <th>Monto Descuento</th>
+                    <th>Monto Descontado</th>
                     <th>Saldo</th>
                     <th>Tipo Descuento</th>
                     <th>Usuario</th>
@@ -37,7 +37,7 @@
                         <td>{{$registroDescuento->fecha}}</td>
                         <td>{{$registroDescuento->montoDescuento}}</td>
                         <td>{{$registroDescuento->montoDescontado}}</td>
-                        <td>{{$registroDescuento->saldo =$registroDescuento->montoDescuento - $registroDescuento->montoDescontado}}</td>
+                        <td>{{$registroDescuento->saldo}}</td>
                         <td>{{$registroDescuento->tipoDescuento->nombre}}</td>                        
                         <td>{{$registroDescuento->user->name}}</td>  
                         {{-- <td>{{$registroDescuento->user->saldo}}</td>  --}} 

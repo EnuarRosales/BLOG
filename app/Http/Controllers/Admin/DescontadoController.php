@@ -3,8 +3,10 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\Descontado;
 use App\Models\Descuento;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class DescontadoController extends Controller
 {
@@ -88,9 +90,35 @@ class DescontadoController extends Controller
 
     public function abono(Request $request, Descuento $abonado)
     {                     
-        $abonado->montoDescontado = $abonado->montoDescuento;        
-        $abonado->save();   
-        echo $abonado; 
+        // $abonado->montoDescontado = $abonado->saldo;                
+        // $abonado->save();    
+        
+        $abono = Descontado::create([
+            'valor' => $abonado->montoDescontado,
+            'valor' => $abonado->saldo,              
+            'descripcion' => 'pago total',
+            'descuento_id' => $abonado->id,
+        ]);
+        $abono->save();
+        
+
+        $abonos = DB::table('descontados')
+                    ->where('descuento_id', '=', $abonado->id)
+                    ->select('valor')                    
+                    ->get()
+                    ->sum('valor');
+        $abonado->montoDescontado = $abonos;                
+        $abonado->save();
+
+
+        
+
+
+
+
+     
+        echo $abonos;                 
+        
         return redirect()->route('admin.registroDescuentos.index', $abonado->id)->with('info', 'store');
                
     }

@@ -15,7 +15,7 @@ return new class extends Migration
     {
         Schema::create('descontados', function (Blueprint $table) {
             $table->id();
-            $table->float('valor')->nullable();
+            $table->double('valor')->nullable();
             $table->string('descripcion',150)->nullable();
             $table->unsignedBigInteger('descuento_id');//campo para relacion
             $table->timestamps();

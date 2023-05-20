@@ -10,10 +10,10 @@
     <div class="card">
         <div class="card-body">
             {{-- @can('admin.asignacionTurnos.create') --}}
-                {{-- <a class="btn btn-primary" href="{{ route('admin.registroDescuentos.create') }}">Agregar Descuent</a> --}}
+                <a class="btn btn-primary" href="{{ route('admin.registroDescuentos.create') }}">Agregar Descuento</a>
             {{-- @endcan --}}
-
         </div>
+
         <table id="registroDescuentos" class="table table-striped table-bordered shadow-lg mt-4">
             <thead>
                 <tr>
@@ -34,7 +34,7 @@
                 @foreach ($registroDescuentos as $registroDescuento)
                     <tr>
                         <td>{{$registroDescuento->id }}</td>
-                        <td>{{$registroDescuento->fecha}}</td>
+                        <td>{{$registroDescuento->created_at}}</td>
                         <td>{{$registroDescuento->montoDescuento}}</td>
                         <td>{{$registroDescuento->montoDescontado}}</td>
                         <td>{{$registroDescuento->saldo}}</td>
@@ -55,16 +55,26 @@
                             </form>
                         </td>
 
+                        {{-- <td width="10px">
+                            <form action="{{route('admin.abonos.abonoParcial',$registroDescuento) }}" method="POST" >
+                                @csrf
+                                @method('PUT')                               
+                                <button type="submit" class="btn btn-dark btn-sm">Parcial</button>
+                            </form>
+                        </td> --}}
+
+
+
                         <td width="10px">
                             <a class="btn btn-secondary btn-sm"
-                                href="{{ route('admin.abonos.abono',$registroDescuento)}}" method="POST">Parcial</a>
+                                href="{{ route('admin.abonos.abonoParcial',$registroDescuento)}}">Parcial</a>
                         </td>
                         
 
                         {{-- @can('admin.asignacionTurnos.edit') --}}
                             <td width="10px">
                                 <a class="btn btn-secondary btn-sm"
-                                    href="#">Editar</a>
+                                    href="{{route('admin.registroDescuentos.edit',$registroDescuento)}}">Editar</a>
                             </td>
                         {{-- @endcan
                         {{-- @can('admin.registroAsistencias.destroy') --}}
@@ -76,7 +86,9 @@
                                     <button type="submit" class="btn btn-dark btn-sm">Eliminar</button>
                                 </form>
                             </td>
-                        {{-- @endcan --}}                      
+                        {{-- @endcan --}} 
+                        
+                        
 
                     </tr>
                 @endforeach
@@ -122,6 +134,17 @@
                 timer: 2000
             })
         </script>
+
+@elseif(session('info') == 'valorCero')
+<script>
+    Swal.fire({
+        position: 'top-end',
+        icon: 'warning',
+        title: 'No hay saldo que descontar',
+        showConfirmButton: false,
+        timer: 2000
+    })
+</script>
     @elseif(session('info') == 'update')
         <script>
             Swal.fire({

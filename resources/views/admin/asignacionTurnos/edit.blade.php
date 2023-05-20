@@ -11,7 +11,7 @@
         <div class="alert alert-success">
             <strong>{{ session('info') }}</strong>
         </div>
-    @endif
+    @endif 
     <div class="card">
         <div class="card-body">
             {!! Form::model($asignacionTurno, ['route' => ['admin.asignacionTurnos.update', $asignacionTurno],'method' => 'put',]) !!}

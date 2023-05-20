@@ -21,9 +21,9 @@ class DatabaseSeeder extends Seeder
         $this->call(RolSeeder::class);
 
 
-        
 
-        
+
+
 
 
 
@@ -34,13 +34,13 @@ class DatabaseSeeder extends Seeder
         $curso = new Curso();
 
         $curso->name = "linux";
-        $curso->descripcion= "hacker etico";     
+        $curso->descripcion= "hacker etico";
         $curso->save();
 
         $curso2 = new Curso();
 
         $curso2->name = "javascript";
-        $curso2->descripcion= "bueno";     
+        $curso2->descripcion= "bueno";
         $curso2->save();*/
     }
 }

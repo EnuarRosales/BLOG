@@ -35,8 +35,8 @@ class RolSeeder extends Seeder
         Permission::create(['name'=>'admin.users.edit',
                             'description'=>'editar usuarios'])->syncRoles([$role1,$role2]);
         Permission::create(['name'=>'admin.users.destroy',
-                            'description'=>'eliminar usuarios'])->syncRoles([$role1,$role2]); 
-                            
+                            'description'=>'eliminar usuarios'])->syncRoles([$role1,$role2]);
+
         //PERMISOS ASIGNACION TURNO
         Permission::create(['name'=>'admin.asignacionTurnos.index',
                             'description'=>'Ver listado de asignacionTurno'])->syncRoles([$role1]);
@@ -56,8 +56,8 @@ class RolSeeder extends Seeder
                             'description'=>'Editar asignacionRooms'])->syncRoles([$role1]);
         Permission::create(['name'=>'admin.asignacionRooms.destroy',
                             'description'=>'Eliminar asignacionRooms'])->syncRoles([$role1]);
-                                    
-                     
+
+
         //CON EL FIN DE CREAR UN USUARIO ADMINISTRADOR
         $user = new User();
         $user->name = 'Enuar Emilio Rosales Salazar';
@@ -68,10 +68,10 @@ class RolSeeder extends Seeder
         $user->email_verified_at ='2023-05-11 22:39:30';
         $user->tipoUsuario_id = 1;
         $user->password = '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi';//password
-        $user->syncRoles([$role1]);        
+        $user->syncRoles([$role1]);
         $user->save();
-        
-        
+
+
         //PERMISOS ROLES
         Permission::create(['name'=>'admin.roles.index',
                             'description'=>'Ver listado de roles'])->syncRoles([$role1]);
@@ -82,7 +82,7 @@ class RolSeeder extends Seeder
         Permission::create(['name'=>'admin.roles.destroy',
                             'description'=>'Eliminar roles'])->syncRoles([$role1]);
 
-        //PERMISOS REGISTRO MULTAS                    
+        //PERMISOS REGISTRO MULTAS
         Permission::create(['name'=>'admin.registroMultas.index',
                             'description'=>'Ver listado de multas'])->syncRoles([$role1,$role2,$role3]);
         Permission::create(['name'=>'admin.registroMultas.create',
@@ -99,6 +99,6 @@ class RolSeeder extends Seeder
 
 
 
-                
+
     }
 }

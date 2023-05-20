@@ -88,48 +88,50 @@ class DescontadoController extends Controller
 
 
 
-    public function abono(Request $request, Descuento $abonado)
-    {                     
-        // $abonado->montoDescontado = $abonado->saldo;                
-        // $abonado->save();    
-        
-        $abono = Descontado::create([
-            'valor' => $abonado->montoDescontado,
-            'valor' => $abonado->saldo,              
-            'descripcion' => 'pago total',
-            'descuento_id' => $abonado->id,
-        ]);
-        $abono->save();
-        
+    public function abono(Request $request, Descuento $abonado)    {
 
+        if ($abonado->saldo > 0 ){
+
+            $abono = Descontado::create([
+                'valor' => $abonado->montoDescontado,
+                'valor' => $abonado->saldo,
+                'descripcion' => 'pago total',
+                'descuento_id' => $abonado->id,
+            ]);
+            $abono->save();
+        }
+        else{
+
+            echo "No hay que descontar";
+            return redirect()->route('admin.registroDescuentos.index', $abonado->id)->with('info', 'valorCero');
+
+        }
+
+        
         $abonos = DB::table('descontados')
-                    ->where('descuento_id', '=', $abonado->id)
-                    ->select('valor')                    
-                    ->get()
-                    ->sum('valor');
-        $abonado->montoDescontado = $abonos;                
+            ->where('descuento_id', '=', $abonado->id)
+            ->select('valor')
+            ->get()
+            ->sum('valor');
+        $abonado->montoDescontado = $abonos;
         $abonado->save();
+        echo $abonado->saldo;
 
-
-        
-
-
-
-
-     
-        echo $abonos;                 
-        
         return redirect()->route('admin.registroDescuentos.index', $abonado->id)->with('info', 'store');
-               
     }
 
 
+    public function abonoParcial(Request $request, Descuento $abonoParcial)
+    {
+        $abonos = DB::table('descontados')
+            ->where('descuento_id', '=', $abonoParcial->id)
+            // ->select('valor')
+            ->get();
 
+        // echo $abonos;
 
-
-
-
-
-
-
+        return view('admin.abonos.index',compact('abonos'));               
+    }
 }
+
+        

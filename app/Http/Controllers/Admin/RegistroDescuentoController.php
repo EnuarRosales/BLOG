@@ -4,6 +4,8 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Descuento;
+use App\Models\TipoDescuento;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -21,9 +23,7 @@ class RegistroDescuentoController extends Controller
         foreach ($registroDescuentos as $registroDescuento){
             $registroDescuento->saldo = $registroDescuento->montoDescuento - $registroDescuento->montoDescontado;
             $registroDescuento->save();           
-        }
-
-        
+        }        
         return view('admin.registroDescuentos.index',compact('registroDescuentos')); 
     }
 
@@ -34,7 +34,9 @@ class RegistroDescuentoController extends Controller
      */
     public function create()
     {
-        //
+        $users = User::orderBy('id','desc'); 
+        $tipoDescuentos = TipoDescuento::orderBy('id','desc');  
+        return view('admin.registroDescuentos.create',compact('users','tipoDescuentos'));
     }
 
     /**
@@ -45,23 +47,18 @@ class RegistroDescuentoController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        //VALiDACION FORMULARIO 
+        $request->validate([
+            'montoDescuento' => 'required',
+            'tipoDescuento_id' => 'required',
+            'user_id' => 'required',
+
+            
+        ]);
+
+        $registroDescuento = Descuento::create($request->all());
+        return redirect()->route('admin.registroDescuentos.index', $registroDescuento->id)->with('info', 'store');
     }
-
-
-    public function descuentoTotal(Request $request, Descuento $descuento)
-    {        
-        //ASINACION MASIVA DE VARIABLES A LOS CAMPOS        
-
-        echo "hola";
-        $descuento->montoDescontado = $request->montoDescuento;
-        $descuento->save();    
-        // return redirect()->route('admin.registroDescuentos.index', $descuento->id)->with('info', 'update'); //with mensaje de sesion
-
-        return view('admin.registroDescuentos.index');
-    }
-
-
 
 
     /**
@@ -81,9 +78,11 @@ class RegistroDescuentoController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
-    {
-        //
+    public function edit( Descuento $registroDescuento)
+    { 
+        $users = User::orderBy('id','desc'); 
+        $tipoDescuentos = TipoDescuento::orderBy('id','desc');  
+        return view('admin.registroDescuentos.edit',compact('registroDescuento','users','tipoDescuentos'));
     }
 
     /**
@@ -93,9 +92,18 @@ class RegistroDescuentoController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, Descuento  $registroDescuento)
     {
-        //
+        //VALiDACION FORMULARIO 
+        $request->validate([
+            'montoDescuento' => 'required',
+            'tipoDescuento_id' => 'required',
+            'user_id' => 'required',            
+        ]);
+        //ASINACION MASIVA DE VARIABLES A LOS CAMPOS
+        $registroDescuento->update($request->all());
+        return redirect()->route('admin.registroDescuentos.index', $registroDescuento->id)->with('info','update'); //with mensaje de sesion
+
     }
 
     /**
@@ -104,8 +112,9 @@ class RegistroDescuentoController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Descuento $registroDescuento)
     {
-        //
+        $registroDescuento->delete();
+        return redirect()->route('admin.registroDescuentos.index')->with('info','delete');
     }
 }

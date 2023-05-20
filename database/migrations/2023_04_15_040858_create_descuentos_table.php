@@ -15,10 +15,10 @@ class CreateDescuentosTable extends Migration
     {
         Schema::create('descuentos', function (Blueprint $table) {
             $table->id();           
-            $table->timestamp('fecha');
-            $table->float('montoDescuento');
-            $table->float('montoDescontado')->nullable();
-            $table->float('saldo')->nullable();
+            // $table->timestamp('fecha')->nullable();
+            $table->double('montoDescuento');
+            $table->double('montoDescontado')->nullable();
+            $table->double('saldo')->nullable();
             $table->unsignedBigInteger('tipoDescuento_id');//campo para relacion 
             $table->unsignedBigInteger('user_id');//campo para relacion                       
             

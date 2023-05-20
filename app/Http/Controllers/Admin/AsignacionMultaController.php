@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Models\AsignacionMulta;
+use App\Models\AsignacionMulta; 
 use App\Models\TipoMulta;
 use App\Models\User;
 use Illuminate\Http\Request;

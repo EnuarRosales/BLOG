@@ -36,9 +36,27 @@ class DescontadoController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function storeP(Request $request, Descuento $abonoParcial)
     {
-        //
+        //VALiDACION FORMULARIO 
+        $request->validate([
+            'valor' => 'required',
+            'descripcion' => 'required',
+
+        ]);
+
+        // $abono = Descontado::create([
+        //     'valor' => $abonado->montoDescontado,
+        //     'valor' => $abonado->saldo,
+        //     'descripcion' => 'pago total',
+        //     'descuento_id' => $abonado->id,
+        // ]);
+        // $abono->save();
+
+        // $abono = Descontado::create($request->all());
+        echo $request->valor;
+        echo $abonoParcial->descuento_id;
+        // return redirect()->route('admin.paginas.index',$abono->id)->with('info','store');
     }
 
     /**
@@ -88,9 +106,10 @@ class DescontadoController extends Controller
 
 
 
-    public function abono(Request $request, Descuento $abonado)    {
+    public function abono(Request $request, Descuento $abonado)
+    {
 
-        if ($abonado->saldo > 0 ){
+        if ($abonado->saldo > 0) {
 
             $abono = Descontado::create([
                 'valor' => $abonado->montoDescontado,
@@ -99,15 +118,13 @@ class DescontadoController extends Controller
                 'descuento_id' => $abonado->id,
             ]);
             $abono->save();
-        }
-        else{
+        } else {
 
             echo "No hay que descontar";
             return redirect()->route('admin.registroDescuentos.index', $abonado->id)->with('info', 'valorCero');
-
         }
 
-        
+
         $abonos = DB::table('descontados')
             ->where('descuento_id', '=', $abonado->id)
             ->select('valor')
@@ -127,11 +144,7 @@ class DescontadoController extends Controller
             ->where('descuento_id', '=', $abonoParcial->id)
             // ->select('valor')
             ->get();
-
         // echo $abonos;
-
-        return view('admin.abonos.index',compact('abonos'));               
+        return view('admin.abonos.index', compact('abonos'));
     }
 }
-
-        

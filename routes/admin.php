@@ -21,8 +21,11 @@ use App\Http\Controllers\Admin\UserController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/',[HomeController::class,'index'])->middleware(['auth','verified']);
-Route::get('abonos/{abonoParcial}',[DescontadoController::class,'abonoParcial'])->name('admin.abonos.abonoParcial');
+// Route::get('abonos/{abonoParcial}',[DescontadoController::class,'abonoParcial'])->name('admin.abonos.abonoParcial');
+// Route::put('abonos/{abonado}',[DescontadoController::class,'store'])->name('admin.abonos.store');
 Route::put('abonos/{abonado}',[DescontadoController::class,'abono'])->name('admin.abonos.abono');
+
+
 
 
 Route::resource('registroAsistencias',RegistroAsistenciaController::class)->middleware(['auth','verified'])->names('admin.registroAsistencias');

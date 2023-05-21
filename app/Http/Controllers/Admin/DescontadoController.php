@@ -38,7 +38,16 @@ class DescontadoController extends Controller
      */
     public function store(Request $request)
     {
-        //
+         //VALiDACION FORMULARIO 
+         $request->validate([
+            'valor' => 'required',
+            'descripcion' => 'required',           
+
+            
+        ]);
+
+        $registroDescuento = Descuento::create($request->all());
+        return redirect()->route('admin.registroDescuentos.index', $registroDescuento->id)->with('info', 'store');
     }
 
     /**

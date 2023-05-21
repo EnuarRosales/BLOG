@@ -23,7 +23,7 @@ use Illuminate\Support\Facades\Route;
 Route::get('/',[HomeController::class,'index'])->middleware(['auth','verified']);
 Route::get('abonos/{abonoParcial}',[DescontadoController::class,'abonoParcial'])->name('admin.abonos.abonoParcial');
 
-Route::put('abonos/{abonoParcial}',[DescontadoController::class,'storeP'])->name('admin.abonos.abonoParcial');
+Route::put('abonos/{abonoParcial}',[DescontadoController::class,'store'])->name('admin.abonos.abonoParcial');
 
 Route::put('abonos/{abonado}',[DescontadoController::class,'abono'])->name('admin.abonos.abono');
 Route::resource('abonosResources',DescontadoController::class)->middleware(['auth','verified'])->names('admin.abonosResources');

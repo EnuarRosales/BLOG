@@ -36,7 +36,7 @@ class DescontadoController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function storeP(Request $request, Descuento $abonoParcial)
+    public function store(Request $request)
     {
         //VALiDACION FORMULARIO 
         $request->validate([
@@ -55,7 +55,7 @@ class DescontadoController extends Controller
 
         // $abono = Descontado::create($request->all());
         echo $request->valor;
-        echo $abonoParcial->descuento_id;
+       
         // return redirect()->route('admin.paginas.index',$abono->id)->with('info','store');
     }
 

@@ -6,7 +6,9 @@
 @section('content')
     <div class="card">
         <div class="card-body">
-            {!! Form::open($abonado,['route' => 'admin.abonos.abono', $abonado]) !!}
+            {!! Form::open(['route' => 'admin.registroDescuentos.store']) !!}
+
+            
          
             <div class="form-group">
                 {!! Form::label('user_id', 'Usuario') !!}

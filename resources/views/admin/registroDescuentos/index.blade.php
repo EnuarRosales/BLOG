@@ -6,7 +6,7 @@
     <h1>Listado de Descuentos </h1>
 @stop
 
-@section('content')
+@section('content') 
     <div class="card">
         <div class="card-body">
             {{-- @can('admin.asignacionTurnos.create') --}}
@@ -54,6 +54,7 @@
                                 <button type="submit" class="btn btn-dark btn-sm">Total</button>
                             </form>
                         </td>
+
 
                         {{-- <td width="10px">
                             <form action="{{route('admin.abonos.abonoParcial',$registroDescuento) }}" method="POST" >

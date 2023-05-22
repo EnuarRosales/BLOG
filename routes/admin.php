@@ -16,13 +16,18 @@ use App\Http\Controllers\Admin\TipoMultaController;
 use App\Http\Controllers\Admin\TipoRoomController;
 use App\Http\Controllers\Admin\TipoTurnoController;
 use App\Http\Controllers\Admin\TipoUsuarioController;
-use App\Http\Controllers\Admin\UserController;
+use App\Http\Controllers\Admin\UserController; 
 
 use Illuminate\Support\Facades\Route;
 
 Route::get('/',[HomeController::class,'index'])->middleware(['auth','verified']);
-// Route::get('abonos/{abonoParcial}',[DescontadoController::class,'abonoParcial'])->name('admin.abonos.abonoParcial');
-// Route::put('abonos/{abonado}',[DescontadoController::class,'store'])->name('admin.abonos.store');
+Route::get('abonos/{abonoParcial}',[DescontadoController::class,'abonoParcial'])->name('admin.abonos.abonoParcial');
+
+
+// Route::post('abonos/{abonado}',[DescontadoController::class,'store'])->name('admin.abonos.store');
+Route::post('abonos',[DescontadoController::class,'store'])->name('admin.abonos.store');
+
+
 Route::put('abonos/{abonado}',[DescontadoController::class,'abono'])->name('admin.abonos.abono');
 
 
@@ -62,3 +67,4 @@ Route::resource('asignacionMultas',AsignacionMultaController::class)->middleware
 // Route::get('tipoUsuarios/{tipoUsuario}/edit', [TipoUsuarioController::class,'edit'])->name('admin.tipoUsuarios.edit');
 // Route::put('tipoUsuarios/{tipoUsuario}',[TipoUsuarioController::class,'update'])->name('admin.tipoUsuarios.update');
 // Route::delete('tipoUsuarios/{tipoUsuario}',[TipoUsuarioController::class,'destroy'])->name('admin.tipoUsuarios.destroy');
+// Route::post('abonos',[DescontadoController::class,'store'])->name('admin.abonos.store');

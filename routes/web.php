@@ -32,5 +32,8 @@ require __DIR__.'/auth.php';
 Route::get('users/{user}/rol', [UserController::class,'rol'])->name('admin.users.rol');
 Route::put('users/{user}',[UserController::class,'updateRol'])->name('admin.users.updateRol');
 
-// 
+route::get('user/{User_id}/PDF',[UserController::class,'CertificacionLaboral']);
+
+
+//
 

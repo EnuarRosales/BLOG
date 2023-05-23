@@ -316,7 +316,7 @@ return [
             'url'         => 'admin',
             'can'         =>'admin.home',
             'icon'        => 'far fa-fw fa-file',
-            
+
         ], //ojo que aca inicia para modificar el menu
         ['header' => 'ADMINISTRADOR'],
         [
@@ -337,7 +337,7 @@ return [
                     'text' => 'Asignacion Turno',
                     'route'  => 'admin.asignacionTurnos.index',
                     'can' =>'admin.asignacionTurnos.index',
-                    'icon' => '	far fa-address-book', 
+                    'icon' => '	far fa-address-book',
                 ],
                 [
                     'text' => 'Asignacion Room',
@@ -348,13 +348,13 @@ return [
 
             ]
         ],
-        
+
         [
             'text' => 'Roles',
             'route'  => 'admin.roles.index',
             'icon' => 'fas fa-fw fa-lock',
             'can'=>'admin.roles.index'
-            
+
         ],
 
         //MULTINIVEL
@@ -390,8 +390,8 @@ return [
                     'text' => 'Tipo Metas',
                     'route'  => 'admin.tipoMetas.index',
                 ],
-                
-                
+
+
                 [
                     'text'    => 'Paginas WC',
                     'url'     => '#',
@@ -427,6 +427,16 @@ return [
                 ],
             ],
         ],
+
+        ['header' => 'DESPRENDIBLES'],
+        [
+            'text' => 'Desprendible',
+            'url'  => 'user/1/PDF',
+            'icon' => 'fas fa-fw fa-lock',
+            'can'=>'admin.roles.index'
+
+        ],
+
         ['header' => 'CONTROL'],
         [
             'text'       => 'Registro Multas',
@@ -438,7 +448,7 @@ return [
             'text'       => 'Registro Asistencias',
             'icon_color' => 'yellow',
             'route'        => 'admin.registroAsistencias.index',
-            
+
         ],
         [
             'text'       => 'Registro Produccion',

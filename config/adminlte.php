@@ -433,7 +433,7 @@ return [
             'text' => 'Desprendible',
             'url'  => 'user/1/PDF',
             'icon' => 'fas fa-fw fa-lock',
-            'can'=>'admin.roles.index'
+            // 'can'=>'admin.roles.index'
 
         ],
 

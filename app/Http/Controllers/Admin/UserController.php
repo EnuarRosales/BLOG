@@ -165,6 +165,8 @@ class UserController extends Controller
 
     public function CertificacionLaboral($User_id)
     {
+        $userLogueado = auth()->user();        
+
         $data[]= [];
 
         $Colores = [
@@ -185,9 +187,11 @@ class UserController extends Controller
             14 =>['id' => 15 , 'nombre' => 'Amarillo', 'color'=>'#FFFF00',],
         ];
 
+        $nombre = "Enuar Emilio Rosales";
+
         // return view('User.CertificacionLaboral');
 
-        $view =  \View::make('User.CertificacionLaboral', compact('Colores'))->render();
+        $view =  \View::make('User.CertificacionLaboral', compact('userLogueado'))->render();
 
         $pdf = \App::make('dompdf.wrapper'); //no cambia
         //No cambia y carga los datos

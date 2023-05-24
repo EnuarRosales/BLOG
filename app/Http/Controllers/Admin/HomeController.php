@@ -11,7 +11,8 @@ use Illuminate\Support\Facades\DB;
 class HomeController extends Controller
 {
     public function index()
-    {
+    {      
+
         $user = DB::table('users')->where('tipoUsuario_id', '=', 3)->count();
         $userModelos = DB::table('users')->where('tipoUsuario_id', '=', 3)->get(); //id
        

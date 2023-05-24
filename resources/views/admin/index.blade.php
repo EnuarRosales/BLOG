@@ -13,6 +13,7 @@
     <h1> porcentaje: {{ $porcentajeUser }}</h1>
     <h1> multas conteo: {{ $asignacionMultas }}</h1> --}}
 
+ 
     @can('admin.home')
         <div class="col-12">
             <div class="row">

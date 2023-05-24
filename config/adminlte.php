@@ -443,7 +443,7 @@ return [
         [
             'text'       => 'Registro Produccion',
             'icon_color' => 'cyan',
-            'url'        => '#',
+            'route'        => 'admin.registroProducidos.index',
         ],
 
         [

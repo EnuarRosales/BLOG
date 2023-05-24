@@ -17,12 +17,12 @@ class CreateResgistroProducidosTable extends Migration
             $table->id();
             $table->timestamp('fecha');
             $table->float('valorProducido');
-            $table->string('alarma',45);
-            $table->string('cumplio',45);
-            $table->float('saldo');
+            $table->string('alarma',45)->nullable();
+            $table->string('cumplio',45)->nullable();
+            $table->float('saldo')->nullable();
             $table->unsignedBigInteger('meta_id');//campo para relacion
             $table->unsignedBigInteger('pagina_id');//campo para relacion 
-            $table->unsignedBigInteger('user_id');//campo para relacion                     
+            $table->unsignedBigInteger('user_id')->nullable();//campo para relacion                     
             
             $table->foreign('meta_id')
                     ->references('id')->on('metas')//tabla

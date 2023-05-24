@@ -21,4 +21,10 @@ class ResgistroProducido extends Model
      public function user(){
         return $this->belongsTo('App\Models\User');
     }
+
+
+    public function pagina(){
+        return $this->belongsTo('App\Models\Pagina','pagina_id');
+    }
+
 }

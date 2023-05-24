@@ -8,6 +8,7 @@ use App\Http\Controllers\Admin\HomeController;
 use App\Http\Controllers\Admin\PaginaController;
 use App\Http\Controllers\Admin\RegistroAsistenciaController;
 use App\Http\Controllers\Admin\RegistroDescuentoController;
+use App\Http\Controllers\Admin\RegistroProducidoController;
 use App\Http\Controllers\Admin\RoleController;
 use App\Http\Controllers\Admin\TipoDescuentoController;
 use App\Http\Controllers\Admin\TipoMetaController;
@@ -32,7 +33,7 @@ Route::put('abonos/{abonado}',[DescontadoController::class,'abono'])->name('admi
 
 
 
-
+Route::resource('registroProducidos',RegistroProducidoController::class)->middleware(['auth','verified'])->names('admin.registroProducidos');
 Route::resource('registroAsistencias',RegistroAsistenciaController::class)->middleware(['auth','verified'])->names('admin.registroAsistencias');
 Route::resource('registroDescuentos',RegistroDescuentoController::class)->middleware(['auth','verified'])->names('admin.registroDescuentos');
 

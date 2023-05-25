@@ -40,6 +40,9 @@ class TipoMetaController extends Controller
         //VALiDACION FORMULARIO 
         $request->validate([
             'nombre' => 'required',
+            'dias' => 'required'
+
+            
             
         ]);
 
@@ -81,6 +84,7 @@ class TipoMetaController extends Controller
         //VALLIDACION DE FORMULARIOS
         $request->validate([
             'nombre' => 'required',
+            'dias' => 'required',
             
         ]);
         //ASINACION MASIVA DE VARIABLES A LOS CAMPOS

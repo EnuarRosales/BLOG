@@ -17,6 +17,7 @@
                     <th>ID</th>
                     <th>Nombre</th>
                     <th>Valor</th>
+                    <th>Numero dias</th>
                     <th>Editar</th>
                     <th>Eliminar</th>
 
@@ -29,6 +30,7 @@
                         <td>{{ $tipoMeta->id }}</td>
                         <td>{{ $tipoMeta->nombre }}</td>
                         <td>{{ $tipoMeta->valor }}</td>
+                        <td>{{ $tipoMeta->dias }}</td>
 
                         <td width="10px">
                             <a class="btn btn-secondary btn-sm"

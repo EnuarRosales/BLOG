@@ -14,7 +14,7 @@ class ResgistroProducido extends Model
 
      //RELACION UNO A MUCHOS INVERSA
      public function meta(){
-        return $this->belongsTo('App\Models\Meta');
+        return $this->belongsTo('App\Models\Meta','meta_id');
     }
 
      //RELACION UNO A MUCHOS INVERSA

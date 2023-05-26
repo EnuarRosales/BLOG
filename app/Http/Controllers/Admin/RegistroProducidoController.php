@@ -7,6 +7,7 @@ use App\Models\Meta;
 use App\Models\Pagina;
 use App\Models\ResgistroProducido;
 use App\Models\User;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -21,7 +22,7 @@ class RegistroProducidoController extends Controller
     {
         $registroProducidos = ResgistroProducido::all();
 
-        
+
 
         foreach ($registroProducidos as $registroProducido) {
             if ($registroProducido->valorProducido > $registroProducido->meta->valor) {
@@ -34,26 +35,13 @@ class RegistroProducidoController extends Controller
             }
 
             $registroProducidoss = ResgistroProducido::whereDay('fecha', '03')
-            ->select('valorProducido')
-            ->get()
-            ->sum('valorProducido');
-            echo $registroProducidoss;
-
-
-                
+                ->select('valorProducido')
+                ->get()
+                ->sum('valorProducido');
+            // echo $registroProducidos;
         }
-
-            return view('admin.registroProducidos.index', compact('registroProducidos'));
-   
-       
-   
-   
-   
-   
-   
-   
-   
-        }
+        return view('admin.registroProducidos.index', compact('registroProducidos'));
+    }
 
 
     public function filtrarFecha()
@@ -156,5 +144,54 @@ class RegistroProducidoController extends Controller
     {
         $registroProducido->delete();
         return redirect()->route('admin.registroProducidos.index')->with('info', 'delete');
+    }
+
+
+
+
+
+
+    public function resumen()
+    {
+        $registroProducidos = ResgistroProducido::all();
+
+        foreach ($registroProducidos as $registroProducido) {
+            if ($registroProducido->valorProducido > $registroProducido->meta->valor) {
+                $registroProducido->cumplio = "Si";
+                $registroProducido->save();
+            } else {
+
+                $registroProducido->cumplio = "No";
+                $registroProducido->save();
+            }
+        }
+
+        $registroProducidoss = ResgistroProducido::whereDay('fecha', '03')
+            ->select('valorProducido', 'fecha')
+            ->get()
+            ->sum('valorProducido');
+        $total =  $registroProducidoss->sum('valorProducido');
+        // echo $registroProducidoss;
+        return view('admin.registroProducidos.resumen', compact('registroProducidoss'));
+    }
+
+
+
+
+    public function reporte_dia()
+    {       
+        $fechas = ResgistroProducido::select(
+            DB::raw('sum(valorProducido) as suma'),
+            // DB::raw('cumplio'),
+            DB::raw('fecha'),
+            
+        )
+            ->groupBy('fecha')
+            ->get();
+
+            
+
+        return view('admin.registroProducidos.resumen', compact('fechas'));    
+
     }
 }

@@ -3,70 +3,45 @@
 @section('title', 'Dashboard')
 
 @section('content_header')
-    <h1>Listado de Producidos </h1>
+    <h1>Resumen Produccion</h1>
 @stop
+
 
 
 @section('content') 
     <div class="card">
-        <div class="card-body">
+        <div class="card-body">          
+
+
             {{-- @can('admin.asignacionTurnos.create') --}}
-                <a class="btn btn-primary" href="{{ route('admin.registroProducidos.create') }}">Agregar Producido</a>
+              
             
-                <a class="btn btn-secondary" href="{{ route('admin.registroProducidoss.reporte_dia') }}">Resumen</a>
+                {{-- <a class="btn btn-secondary" href="{{ route('admin.registroProducidos.create') }}">Resumen</a> --}}
                 {{-- @endcan --}}
         </div>
 
+        
        
 
         <table id="registroProducidos" class="table table-striped table-bordered shadow-lg mt-4">
             <thead>
-                <tr>
-                    <th>ID</th>                    
+                <tr>                                     
                     <th>Fecha</th>    
-                    <th>Valor</th>               
-                    <th>Alarma</th>
-                    <th>Cumplio</th>
-                    <th>Saldo</th>
-                    <th>Meta</th>
-                    <th>Pagina</th>
-                    <th>Usuario</th>
-                    <th>Editar</th>
-                    <th>Eliminar</th>                  
+                    <th>Valor</th>
+                    <th>Alarma</th>    
+                    <th>Cumplio</th> 
+                    <th>Saldo</th>               
+                                      
                 </tr>
             </thead>
             <tbody>
-                @foreach ($registroProducidos as $registroProducido)
-                    <tr>
-                        <td>{{$registroProducido->id}}</td>
-                        <td>{{$registroProducido->fecha}}</td>
-                        <td>{{$registroProducido->valorProducido}}</td>
-                        <td>{{$registroProducido->alarma}}</td>
-                        <td>{{$registroProducido->cumplio}}</td>
-                        <td>{{$registroProducido->saldo}}</td>
-                        <td>{{$registroProducido->meta->nombre}}</td> 
-                        <td>{{$registroProducido->pagina->nombre}}</td>  
-                        <td>{{$registroProducido->user->name}}</td>  
-                                              
-
-                        {{-- @can('admin.asignacionTurnos.edit') --}}
-                            <td width="10px">
-                                <a class="btn btn-secondary btn-sm"
-                                    href="{{route('admin.registroProducidos.edit',$registroProducido)}}">Editar</a>
-                            </td>
-                        {{-- @endcan
-                        {{-- @can('admin.registroAsistencias.destroy') --}}
-                            <td width="10px">
-                                <form class="formulario-eliminar"
-                                    action="{{ route('admin.registroProducidos.destroy', $registroProducido) }}" method="POST">
-                                    @csrf
-                                    @method('delete')
-                                    <button type="submit" class="btn btn-dark btn-sm">Eliminar</button>
-                                </form>
-                            </td>
-                        {{-- @endcan --}} 
-                        
-                        
+                @foreach ($fechas as $fecha)
+                    <tr>                      
+                        <td>{{$fecha->fecha}}</td>
+                        <td>{{$fecha->suma}}</td>  
+                        <td>{{$fecha->suma}}</td>
+                        <td>{{$fecha->suma}}</td>
+                        <td>{{$fecha->cumplio}}</td>
 
                     </tr>
                 @endforeach

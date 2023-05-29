@@ -10,6 +10,7 @@ use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use PhpParser\Node\Stmt\Echo_;
 
 class RegistroProducidoController extends Controller
 {
@@ -178,20 +179,73 @@ class RegistroProducidoController extends Controller
 
 
 
-    public function reporte_dia()
-    {       
+    public function reporte_dia(Request $request)
+    {
+
+        /* AGRUPA EL VALOR PRODUCIDO POR LA META Y FECHA; ES DECIR  NOS MUESTRA LA PRODUCCION DIARIA
+        DE ACUERDO A LA META Y A LA FECHA, LO USAMOS  PARA VERIFICAR LO SIGUIENTE 
+        1. FECHA 
+        2. META STUDIO
+        3.OBJETIVO DIARIO; OJO APROVECHANDO LA RELACION CON LA META  LO QUE SE HACE ES DIVIDR SU VALOR EN EL NUMNERO DE DIAS 
+        4.PRODUCCION REPORTADA; OJO ES LA SUMA DEL VALOR PRODUCIDO 
+        5.ALARMA DIFERENCIA;  DIVIDE EL VALR DE LA META EN EL NUMERO DE DIAS Y LE RESTA  VALOR PRODUCIDO   
+        6.CUMPLIO; OJO VERIFICA SI LA DIFERENCIA ES POSITIVA O NEGATIVA, SI ES POSITIVA CUMPLIO = SI DE LO CONTRARIO NO
+        */
+
         $fechas = ResgistroProducido::select(
             DB::raw('sum(valorProducido) as suma'),
-            // DB::raw('cumplio'),
+            DB::raw('meta_id'),
+
             DB::raw('fecha'),
-            
+
         )
-            ->groupBy('fecha')
+            ->groupBy('fecha', 'meta_id')
             ->get();
 
-            
+        // echo $fechas;
 
-        return view('admin.registroProducidos.resumen', compact('fechas'));    
+        /* AGRUPA EL VALOR PRODUCIDO POR LA META; ES DECIR NOS MUESTA  CUANTO SE HA PRODUCIDO POR CADA META
+        
+        LO USAMOS  PARA VERIFICAR LO SIGUIENTE 
+        
+        1. PARA PODER VER LA PRODUCCION TOTAL; ESTA SE MUESTRA EN TODAS LAS FILAS DONDE COINDIDA EL TIPO DE META*/
+
+        $fechas2 = ResgistroProducido::select(
+            DB::raw('sum(valorProducido) as suma'),
+            DB::raw('meta_id'),
+            // DB::raw('fecha'),
+
+        )
+            ->groupBy('meta_id')
+            ->get();
+
+        // echo $fechas2;              
+
+
+
+
+
+        $fechas3 = ResgistroProducido::select(
+            DB::raw('count(meta_id) as cuenta'),
+            DB::raw('meta_id'),
+            
+            DB::raw('fecha'),          
+        )
+            ->groupBy('fecha','meta_id')
+            ->get();
+
+        $dias = 0;
+
+        // echo $fechas3;
+
+      
+
+
+
+           return view('admin.registroProducidos.resumen', compact('fechas','fechas2','fechas3','dias'));
+
+
+
 
     }
 }

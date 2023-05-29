@@ -39,7 +39,7 @@ class RegistroAsistenciaController extends Controller
      * @param  \Illuminate\Http\Request  $request 
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(Request $request) 
     {
         //VALiDACION FORMULARIO 
         $request->validate([

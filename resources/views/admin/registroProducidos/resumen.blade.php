@@ -3,45 +3,131 @@
 @section('title', 'Dashboard')
 
 @section('content_header')
-    <h1>Resumen Produccion</h1>
+    <h1>Resumen produccion</h1>
+
+
 @stop
 
 
 
-@section('content') 
+
+@section('content')
     <div class="card">
-        <div class="card-body">          
+        <div class="card-body">
+
+
 
 
             {{-- @can('admin.asignacionTurnos.create') --}}
-              
-            
-                {{-- <a class="btn btn-secondary" href="{{ route('admin.registroProducidos.create') }}">Resumen</a> --}}
-                {{-- @endcan --}}
+
+
+            {{-- <a class="btn btn-secondary" href="{{ route('admin.registroProducidos.create') }}">Resumen</a> --}}
+            {{-- @endcan --}}
         </div>
 
-        
-       
+
+
+
+
 
         <table id="registroProducidos" class="table table-striped table-bordered shadow-lg mt-4">
             <thead>
-                <tr>                                     
-                    <th>Fecha</th>    
-                    <th>Valor</th>
-                    <th>Alarma</th>    
-                    <th>Cumplio</th> 
-                    <th>Saldo</th>               
-                                      
+                <tr>
+                    <th>Fecha</th>
+                    <th>Meta Estudio</th>
+                    <th>Obj Diario</th>
+                    <th>Produccion Reportada</th>
+                    <th>Alarma-Diferencia</th>
+                    <th>Cumplio</th>
+                    <th>Dias Restantes</th>
+                    <th>Valor Proyectado</th>
+                    <th>Produccion Total</th>
+                    <th>Saldo</th>
+
                 </tr>
             </thead>
             <tbody>
                 @foreach ($fechas as $fecha)
-                    <tr>                      
-                        <td>{{$fecha->fecha}}</td>
-                        <td>{{$fecha->suma}}</td>  
-                        <td>{{$fecha->suma}}</td>
-                        <td>{{$fecha->suma}}</td>
-                        <td>{{$fecha->cumplio}}</td>
+                    <tr
+                        @if ($fecha->suma - $fecha->meta->valor / $fecha->meta->dias > 0) {{-- class="p-3 mb-2 bg-success text-white" --}}
+                        class="table-success"
+                        {{-- class="p-3 mb-2 bg-success-subtle text-emphasis-success" --}}
+
+                        @else
+                        class="table-danger""
+                        {{-- style="background-color:red;" --}} @endif>
+                        <td>{{ $fecha->fecha }}</td>
+                        <td>{{ $fecha->meta->nombre }}</td>
+                        <td>{{ $fecha->meta->valor / $fecha->meta->dias }}</td>
+                        <td>{{ $fecha->suma }}</td>
+                        <td>{{ $fecha->suma - $fecha->meta->valor / $fecha->meta->dias }}</td>
+                        <td>
+                            @if ($fecha->suma - $fecha->meta->valor / $fecha->meta->dias > 0)
+                                Si
+                            @else
+                                No
+                            @endif
+                        </td>
+                        
+                        <td>
+                            @foreach ($fechas3 as $k)
+                                @if ($k->meta_id == $fecha->meta->id)
+
+                                @php $dias = $dias+1;
+
+                               
+                                
+                                @endphp
+                                 {{$dias."'ojo'"}}
+
+                                
+                                    
+                                @endif
+                               
+                            @endforeach
+
+                            {{ $dias }}
+
+                        </td>
+
+
+                        @foreach ($fechas2 as $i)
+                            @if ($i->meta_id == $fecha->meta->id)
+                                @foreach ($fechas3 as $k)
+                                    @if ($k->meta_id == $fecha->meta->id)
+                                        {{-- {{ $k->cuenta }} --}}
+                                        {{-- {{ $saldo = $i->suma - $k->cuenta * ($fecha->meta->valor / $fecha->meta->dias) }} --}}
+                                        @php $saldo = $i->suma - ($k->cuenta-1) * ($fecha->meta->valor / $fecha->meta->dias); @endphp
+                                        @php $saldoIdeal = ($k->cuenta-1)  * ($fecha->meta->valor / $fecha->meta->dias); @endphp
+                                        @php $sumaFecha = $i->suma; @endphp
+                                    @endif
+                                @endforeach
+                            @endif
+                        @endforeach
+
+
+                        <td>
+                            {{ $saldoIdeal }}
+
+                        </td>
+
+
+                        <td>
+                            {{ $sumaFecha }}
+
+                        </td>
+
+
+                        <td
+                            @if ($saldo > 0) {{-- class="p-3 mb-2 bg-success text-white" --}}
+                            class="bg-success"
+                            {{-- class="p-3 mb-2 bg-success-subtle text-emphasis-success" --}}
+    
+                            @else
+                            class="bg-danger" @endif>
+                            {{ $saldo }}
+
+                        </td>
 
                     </tr>
                 @endforeach
@@ -87,17 +173,16 @@
                 timer: 2000
             })
         </script>
-
-@elseif(session('info') == 'valorCero')
-<script>
-    Swal.fire({
-        position: 'top-end',
-        icon: 'warning',
-        title: 'No hay saldo que descontar',
-        showConfirmButton: false,
-        timer: 2000
-    })
-</script>
+    @elseif(session('info') == 'valorCero')
+        <script>
+            Swal.fire({
+                position: 'top-end',
+                icon: 'warning',
+                title: 'No hay saldo que descontar',
+                showConfirmButton: false,
+                timer: 2000
+            })
+        </script>
     @elseif(session('info') == 'update')
         <script>
             Swal.fire({
@@ -109,7 +194,6 @@
             })
         </script>
     @endif
-
     <script>
         $('.formulario-eliminar').submit(function(e) {
             e.preventDefault();

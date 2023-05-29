@@ -239,7 +239,7 @@ class RegistroProducidoController extends Controller
         // echo $fechas3;
 
       
-
+ 
 
 
            return view('admin.registroProducidos.resumen', compact('fechas','fechas2','fechas3','dias'));

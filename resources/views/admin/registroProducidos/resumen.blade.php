@@ -70,23 +70,21 @@
                         </td>
                         
                         <td>
+
                             @foreach ($fechas3 as $k)
                                 @if ($k->meta_id == $fecha->meta->id)
-
-                                @php $dias = $dias+1;
-
-                               
+                                @php $dias++;                              
                                 
                                 @endphp
-                                 {{$dias."'ojo'"}}
+                                 {{-- {{$dias."'ojo'"}} --}}
 
-                                
+                                 {{$dias}}
                                     
                                 @endif
                                
                             @endforeach
 
-                            {{ $dias }}
+                            
 
                         </td>
 

@@ -219,11 +219,7 @@ class RegistroProducidoController extends Controller
             ->groupBy('meta_id')
             ->get();
 
-        // echo $fechas2;              
-
-
-
-
+        // echo $fechas2;            
 
         $fechas3 = ResgistroProducido::select(
             DB::raw('count(meta_id) as cuenta'),
@@ -232,17 +228,18 @@ class RegistroProducidoController extends Controller
             DB::raw('fecha'),          
         )
             ->groupBy('fecha','meta_id')
-            ->get();
+            ->get()
+            ->count();
 
         $dias = 0;
 
-        // echo $fechas3;
+        echo $fechas3;
 
       
  
 
 
-           return view('admin.registroProducidos.resumen', compact('fechas','fechas2','fechas3','dias'));
+        //    return view('admin.registroProducidos.resumen', compact('fechas','fechas2','fechas3','dias'));
 
 
 

@@ -57,10 +57,13 @@
                         class="table-danger""
                         {{-- style="background-color:red;" --}} @endif>
                         <td>{{ $fecha->fecha }}</td>
+
+                        
+
                         <td>{{ $fecha->meta->nombre }}</td>
-                        <td>{{ $fecha->meta->valor / $fecha->meta->dias }}</td>
-                        <td>{{ $fecha->suma }}</td>
-                        <td>{{ $fecha->suma - $fecha->meta->valor / $fecha->meta->dias }}</td>
+                        <td>{{ "$ " }}{{ round($fecha->meta->valor / $fecha->meta->dias, 2) }}</td>
+                        <td>{{ "$ " }}{{ round($fecha->suma, 2) }}</td>
+                        <td>{{ "$ " }}{{ round($fecha->suma - $fecha->meta->valor / $fecha->meta->dias, 2) }}</td>
                         <td>
                             @if ($fecha->suma - $fecha->meta->valor / $fecha->meta->dias > 0)
                                 Si
@@ -68,56 +71,39 @@
                                 No
                             @endif
                         </td>
-                        
+
                         <td>
                             @foreach ($fechas3 as $k)
                                 @if ($k->meta_id == $fecha->meta->id)
-
-                                @php $dias = $dias+1;
-
-                               
-                                
-                                @endphp
-                                 {{$dias."'ojo'"}}
-
-                                
-                                    
+                                    {{ $fecha->meta->dias - $k->date_count }}
                                 @endif
-                               
                             @endforeach
-
-                            {{ $dias }}
-
                         </td>
-
-
                         @foreach ($fechas2 as $i)
                             @if ($i->meta_id == $fecha->meta->id)
                                 @foreach ($fechas3 as $k)
                                     @if ($k->meta_id == $fecha->meta->id)
                                         {{-- {{ $k->cuenta }} --}}
                                         {{-- {{ $saldo = $i->suma - $k->cuenta * ($fecha->meta->valor / $fecha->meta->dias) }} --}}
-                                        @php $saldo = $i->suma - ($k->cuenta-1) * ($fecha->meta->valor / $fecha->meta->dias); @endphp
-                                        @php $saldoIdeal = ($k->cuenta-1)  * ($fecha->meta->valor / $fecha->meta->dias); @endphp
+                                        @php $saldo = $i->suma - ($k->date_count ) * ($fecha->meta->valor / $fecha->meta->dias); @endphp
+                                        @php $saldoIdeal = ($k->date_count )  * ($fecha->meta->valor / $fecha->meta->dias); @endphp
                                         @php $sumaFecha = $i->suma; @endphp
                                     @endif
                                 @endforeach
                             @endif
                         @endforeach
-
-
                         <td>
-                            {{ $saldoIdeal }}
+                            {{-- {{ $saldoIdeal }} --}}
+                            {{ "$ " }}{{ round($saldoIdeal, 2) }}
 
                         </td>
 
 
                         <td>
-                            {{ $sumaFecha }}
+                            {{-- {{ $sumaFecha }} --}}
+                            {{ "$ " }}{{ round($sumaFecha, 2) }}
 
                         </td>
-
-
                         <td
                             @if ($saldo > 0) {{-- class="p-3 mb-2 bg-success text-white" --}}
                             class="bg-success"
@@ -125,7 +111,7 @@
     
                             @else
                             class="bg-danger" @endif>
-                            {{ $saldo }}
+                            {{ "$ " }}{{ round($saldo, 2) }}
 
                         </td>
 

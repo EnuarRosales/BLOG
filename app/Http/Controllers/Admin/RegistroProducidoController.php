@@ -226,23 +226,36 @@ class RegistroProducidoController extends Controller
 
 
         $fechas3 = ResgistroProducido::select(
-            DB::raw('count(meta_id) as cuenta'),
-            DB::raw('meta_id'),
-            
-            DB::raw('fecha'),          
+            DB::raw('COUNT(DISTINCT(DATE(fecha)))  as date_count'),
+            DB::raw('meta_id'),   
+            // DB::raw('fecha'),           
+                      
         )
-            ->groupBy('fecha','meta_id')
+            ->groupBy('meta_id')            
             ->get();
 
-        $dias = 0;
+        
 
-        // echo $fechas3;
+        
+
+        // foreach($fechas3 as $i){
+
+            // echo $fechas3;
+
+        //     // if($i->meta_id == $fechas->id){
+        //     //     echo"entro";
+        //     // }
+
+        //     // echo $i->fecha;
+        //     // echo $i->meta_id;
+
+        // }
 
       
 
 
 
-           return view('admin.registroProducidos.resumen', compact('fechas','fechas2','fechas3','dias'));
+        return view('admin.registroProducidos.resumen', compact('fechas','fechas2','fechas3'));
 
 
 

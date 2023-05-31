@@ -41,6 +41,7 @@
                     <br>
                 @enderror 
 
+
                 {!! Form::label('pagina_id', 'Pagina') !!}
                 {!! Form::select('pagina_id', $paginas->pluck('nombre', 'id'), null, [
                     'class' => 'form-control',
@@ -51,6 +52,8 @@
                     <span class="text-danger">{{ $message }}</span>
                     <br>
                 @enderror
+
+                
 
                 {!! Form::label('meta_id', 'Meta') !!}
                 {!! Form::select('meta_id', $metas->pluck('nombre', 'id'), null, [

@@ -76,25 +76,9 @@
 
                             @foreach ($fechas3 as $k)
                                 @if ($k->meta_id == $fecha->meta->id)
-<<<<<<< HEAD
-                                @php $dias++;                              
-                                
-                                @endphp
-                                 {{-- {{$dias."'ojo'"}} --}}
-
-                                 {{$dias}}
-                                    
-=======
                                     {{ $fecha->meta->dias - $k->date_count }}
->>>>>>> 5ef9fab75f42572dabce5fb23d70e6226c295e5b
                                 @endif
                             @endforeach
-<<<<<<< HEAD
-
-                            
-
-=======
->>>>>>> 5ef9fab75f42572dabce5fb23d70e6226c295e5b
                         </td>
                         @foreach ($fechas2 as $i)
                             @if ($i->meta_id == $fecha->meta->id)
@@ -129,7 +113,7 @@
                             @else
                             class="bg-danger" @endif>
                             {{ "$ " }}{{ round($saldo, 2) }}
-
+ 
                         </td>
 
                     </tr>

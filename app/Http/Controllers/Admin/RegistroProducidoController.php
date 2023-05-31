@@ -227,20 +227,11 @@ class RegistroProducidoController extends Controller
             // DB::raw('fecha'),           
                       
         )
-<<<<<<< HEAD
-            ->groupBy('fecha','meta_id')
-            ->get()
-            ->count();
-=======
             ->groupBy('meta_id')            
             ->get();
->>>>>>> 5ef9fab75f42572dabce5fb23d70e6226c295e5b
 
         
 
-<<<<<<< HEAD
-        echo $fechas3;
-=======
         
 
         // foreach($fechas3 as $i){
@@ -255,18 +246,13 @@ class RegistroProducidoController extends Controller
         //     // echo $i->meta_id;
 
         // }
->>>>>>> 5ef9fab75f42572dabce5fb23d70e6226c295e5b
 
       
  
 
 
-<<<<<<< HEAD
-        //    return view('admin.registroProducidos.resumen', compact('fechas','fechas2','fechas3','dias'));
-=======
 
         return view('admin.registroProducidos.resumen', compact('fechas','fechas2','fechas3'));
->>>>>>> 5ef9fab75f42572dabce5fb23d70e6226c295e5b
 
 
 

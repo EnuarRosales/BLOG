@@ -6,20 +6,20 @@
     <h1>Listado de Descuentos </h1>
 @stop
 
-@section('content') 
+@section('content')
     <div class="card">
         <div class="card-body">
             {{-- @can('admin.asignacionTurnos.create') --}}
-                <a class="btn btn-primary" href="{{ route('admin.registroDescuentos.create') }}">Agregar Descuento</a>
+            <a class="btn btn-primary" href="{{ route('admin.registroDescuentos.create') }}">Agregar Descuento</a>
             {{-- @endcan --}}
         </div>
 
         <table id="registroDescuentos" class="table table-striped table-bordered shadow-lg mt-4">
             <thead>
                 <tr>
-                    <th>ID</th>                    
-                    <th>Fecha</th>    
-                    <th>Monto a Descuentar</th>               
+                    <th>ID</th>
+                    <th>Fecha</th>
+                    <th>Monto a Descuentar</th>
                     <th>Monto Descontado</th>
                     <th>Saldo</th>
                     <th>Tipo Descuento</th>
@@ -27,31 +27,45 @@
                     <th>Descontar</th>
                     <th>Descontar</th>
                     <th>Editar</th>
-                    <th>Eliminar</th>                  
+                    <th>Eliminar</th>
                 </tr>
             </thead>
             <tbody>
                 @foreach ($registroDescuentos as $registroDescuento)
-                    <tr>
-                        <td>{{$registroDescuento->id }}</td>
-                        <td>{{$registroDescuento->created_at}}</td>
-                        <td>{{$registroDescuento->montoDescuento}}</td>
-                        <td>{{$registroDescuento->montoDescontado}}</td>
-                        <td>{{$registroDescuento->saldo}}</td>
-                        <td>{{$registroDescuento->tipoDescuento->nombre}}</td>                        
-                        <td>{{$registroDescuento->user->name}}</td>  
-                        {{-- <td>{{$registroDescuento->user->saldo}}</td>  --}} 
-                        
+                    <tr
+                        @if ($registroDescuento->saldo > 0) {{-- class="p-3 mb-2 bg-success text-white" --}}
+                    class="table-warning"
+                    {{-- class="p-3 mb-2 bg-success-subtle text-emphasis-success" --}}
+
+                    @elseif($registroDescuento->saldo < 0)
+                    class="table-danger""
+                    {{-- style="background-color:red;" --}} 
+                   
+                    @else
+                    class="table-success""
+                    {{-- style="background-color:red;" --}} 
+                    @endif>
+                       
+                        <td>{{ $registroDescuento->id }}</td>
+                        <td>{{ $registroDescuento->created_at }}</td>
+                        <td>{{ $registroDescuento->montoDescuento }}</td>
+                        <td>{{ $registroDescuento->montoDescontado }}</td>
+                        <td>{{ $registroDescuento->saldo }}</td>
+                        <td>{{ $registroDescuento->tipoDescuento->nombre }}</td>
+                        <td>{{ $registroDescuento->user->name }}</td>
+                        {{-- <td>{{$registroDescuento->user->saldo}}</td>  --}}
+
                         {{-- <td width="10px">
                             <a class="btn btn-secondary btn-sm"
                                 href="{{ route('admin.registroDescuento.descuentoTotal',$registroDescuento)}}">Total</a>
                         </td> --}}
 
-                        <td width="10px">
-                            <form action="{{route('admin.abonos.abono',$registroDescuento) }}" method="POST" >
+                        <td class="bg-light" width="10px">
+                            <form action="{{ route('admin.abonos.abono', $registroDescuento) }}" method="POST">
                                 @csrf
-                                @method('PUT')                               
+                                @method('PUT')
                                 <button type="submit" class="btn btn-dark btn-sm">Total</button>
+                                {{-- <button type="submit"class="btn btn-outline-success">Total</button> --}}
                             </form>
                         </td>
 
@@ -66,30 +80,31 @@
 
 
 
-                        <td width="10px">
+                        <td class="bg-light" width="10px">
                             <a class="btn btn-secondary btn-sm"
-                                href="{{ route('admin.abonos.abonoParcial',$registroDescuento)}}">Parcial</a>
+                                href="{{ route('admin.abonos.abonoParcial', $registroDescuento) }}">Parcial</a>
                         </td>
-                        
+
 
                         {{-- @can('admin.asignacionTurnos.edit') --}}
-                            <td width="10px">
-                                <a class="btn btn-secondary btn-sm"
-                                    href="{{route('admin.registroDescuentos.edit',$registroDescuento)}}">Editar</a>
-                            </td>
+                        <td class="bg-light" width="10px">
+                            <a class="btn btn-secondary btn-sm"
+                                href="{{ route('admin.registroDescuentos.edit', $registroDescuento) }}">Editar</a>
+                        </td>
                         {{-- @endcan
                         {{-- @can('admin.registroAsistencias.destroy') --}}
-                            <td width="10px">
-                                <form class="formulario-eliminar"
-                                    action="{{ route('admin.registroDescuentos.destroy', $registroDescuento) }}" method="POST">
-                                    @csrf
-                                    @method('delete')
-                                    <button type="submit" class="btn btn-dark btn-sm">Eliminar</button>
-                                </form>
-                            </td>
-                        {{-- @endcan --}} 
-                        
-                        
+                        <td class="bg-light" width="10px">
+                            <form class="formulario-eliminar"
+                                action="{{ route('admin.registroDescuentos.destroy', $registroDescuento) }}"
+                                method="POST">
+                                @csrf
+                                @method('delete')
+                                <button type="submit" class="btn btn-dark btn-sm">Eliminar</button>
+                            </form>
+                        </td>
+                        {{-- @endcan --}}
+
+
 
                     </tr>
                 @endforeach
@@ -135,17 +150,16 @@
                 timer: 2000
             })
         </script>
-
-@elseif(session('info') == 'valorCero')
-<script>
-    Swal.fire({
-        position: 'top-end',
-        icon: 'warning',
-        title: 'No hay saldo que descontar',
-        showConfirmButton: false,
-        timer: 2000
-    })
-</script>
+    @elseif(session('info') == 'valorCero')
+        <script>
+            Swal.fire({
+                position: 'top-end',
+                icon: 'warning',
+                title: 'No hay saldo que descontar',
+                showConfirmButton: false,
+                timer: 2000
+            })
+        </script>
     @elseif(session('info') == 'update')
         <script>
             Swal.fire({

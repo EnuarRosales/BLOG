@@ -7,7 +7,7 @@ use Illuminate\Support\Facades\DB;
 use Livewire\Component;
 
 class RegistroProducido extends Component
-{
+{ 
 
     public $fechas;
     public $fechas2;

@@ -15,8 +15,7 @@
                 <th>Valor Proyectado</th>
                 <th>Produccion Total</th>
                 <th>Saldo</th>
-
-            </tr>
+            </tr> 
         </thead>
         <tbody>
             @foreach ($fechas as $fecha)

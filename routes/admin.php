@@ -57,7 +57,7 @@ Route::resource('asignacionRooms',AsignacionRoomController::class)->middleware([
 Route::resource('asignacionMultas',AsignacionMultaController::class)->middleware(['auth','verified'])->names('admin.asignacionMultas');
 
 
-
+ 
 
 
 

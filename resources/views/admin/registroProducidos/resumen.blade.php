@@ -4,35 +4,16 @@
 
 @section('content_header')
     <h1>Resumen produccion</h1>
-
-
 @stop
-
-
-
-
 @section('content')
     <div class="card">
         <div class="card-body">
-
-
-
-
             {{-- @can('admin.asignacionTurnos.create') --}}
-
-
             {{-- <a class="btn btn-secondary" href="{{ route('admin.registroProducidos.create') }}">Resumen</a> --}}
             {{-- @endcan --}}
         </div>
-
-
-
-
-
-
         <table id="registroProducidos" class="table table-striped table-bordered shadow-lg mt-4">
-            <thead>
-                <tr>
+            <thead>                <tr>
                     <th>Fecha</th>
                     <th>Meta Estudio</th>
                     <th>Obj Diario</th>
@@ -43,7 +24,6 @@
                     <th>Valor Proyectado</th>
                     <th>Produccion Total</th>
                     <th>Saldo</th>
-
                 </tr>
             </thead>
             <tbody>
@@ -52,14 +32,10 @@
                         @if ($fecha->suma - $fecha->meta->valor / $fecha->meta->dias > 0) {{-- class="p-3 mb-2 bg-success text-white" --}}
                         class="table-success"
                         {{-- class="p-3 mb-2 bg-success-subtle text-emphasis-success" --}}
-
                         @else
                         class="table-danger""
                         {{-- style="background-color:red;" --}} @endif>
-                        <td>{{ $fecha->fecha }}</td>
-
-                        
-
+                        <td>{{ $fecha->fecha }}</td>                     
                         <td>{{ $fecha->meta->nombre }}</td>
                         <td>{{ "$ " }}{{ round($fecha->meta->valor / $fecha->meta->dias, 2) }}</td>
                         <td>{{ "$ " }}{{ round($fecha->suma, 2) }}</td>
@@ -71,9 +47,7 @@
                                 No
                             @endif
                         </td>
-
                         <td>
-
                             @foreach ($fechas3 as $k)
                                 @if ($k->meta_id == $fecha->meta->id)
                                     {{ $fecha->meta->dias - $k->date_count }}
@@ -98,8 +72,6 @@
                             {{ "$ " }}{{ round($saldoIdeal, 2) }}
 
                         </td>
-
-
                         <td>
                             {{-- {{ $sumaFecha }} --}}
                             {{ "$ " }}{{ round($sumaFecha, 2) }}
@@ -112,10 +84,8 @@
     
                             @else
                             class="bg-danger" @endif>
-                            {{ "$ " }}{{ round($saldo, 2) }}
- 
+                            {{ "$ " }}{{ round($saldo, 2) }} 
                         </td>
-
                     </tr>
                 @endforeach
             </tbody>
@@ -138,9 +108,6 @@
     <script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
     <script src="https://cdn.datatables.net/1.13.4/js/dataTables.bootstrap5.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-
-
-
     {{-- SWET ALERT --}}
     @if (session('info') == 'delete')
         <script>

@@ -7,24 +7,24 @@
 @stop
 
 
-@section('content') 
+@section('content')
     <div class="card">
         <div class="card-body">
             {{-- @can('admin.asignacionTurnos.create') --}}
-                <a class="btn btn-primary" href="{{ route('admin.registroProducidos.create') }}">Agregar Producido</a>
-            
-                <a class="btn btn-secondary" href="{{ route('admin.registroProducidoss.reporte_dia') }}">Resumen</a>
-                {{-- @endcan --}}
+            <a class="btn btn-primary" href="{{ route('admin.registroProducidos.create') }}">Agregar Producido</a>
+
+            <a class="btn btn-secondary" href="{{ route('admin.registroProducidoss.reporte_dia') }}">Resumen</a>
+            {{-- @endcan --}}
         </div>
 
-       
+
 
         <table id="registroProducidos" class="table table-striped table-bordered shadow-lg mt-4">
             <thead>
                 <tr>
-                    <th>ID</th>                    
-                    <th>Fecha</th>    
-                    <th>Valor</th>               
+                    <th>ID</th>
+                    <th>Fecha</th>
+                    <th>Valor</th>
                     <th>Alarma</th>
                     <th>Cumplio</th>
                     <th>Saldo</th>
@@ -32,41 +32,42 @@
                     <th>Pagina</th>
                     <th>Usuario</th>
                     <th>Editar</th>
-                    <th>Eliminar</th>                  
+                    <th>Eliminar</th>
                 </tr>
             </thead>
             <tbody>
                 @foreach ($registroProducidos as $registroProducido)
                     <tr>
-                        <td>{{$registroProducido->id}}</td>
-                        <td>{{$registroProducido->fecha}}</td>
-                        <td>{{$registroProducido->valorProducido}}</td>
-                        <td>{{$registroProducido->alarma}}</td>
-                        <td>{{$registroProducido->cumplio}}</td>
-                        <td>{{$registroProducido->saldo}}</td>
-                        <td>{{$registroProducido->meta->nombre}}</td> 
-                        <td>{{$registroProducido->pagina->nombre}}</td>  
-                        <td>{{$registroProducido->user->name}}</td>  
-                                              
+                        <td>{{ $registroProducido->id }}</td>
+                        <td>{{ $registroProducido->fecha }}</td>
+                        <td>{{ $registroProducido->valorProducido }}</td>
+                        <td>{{ $registroProducido->alarma }}</td>
+                        <td>{{ $registroProducido->cumplio }}</td>
+                        <td>{{ $registroProducido->saldo }}</td>
+                        <td>{{ $registroProducido->meta->nombre }}</td>
+                        <td>{{ $registroProducido->pagina->nombre }}</td>
+                        <td>{{ $registroProducido->user->name }}</td>
+
 
                         {{-- @can('admin.asignacionTurnos.edit') --}}
-                            <td width="10px">
-                                <a class="btn btn-secondary btn-sm"
-                                    href="{{route('admin.registroProducidos.edit',$registroProducido)}}">Editar</a>
-                            </td>
+                        <td width="10px">
+                            <a class="btn btn-secondary btn-sm"
+                                href="{{ route('admin.registroProducidos.edit', $registroProducido) }}">Editar</a>
+                        </td>
                         {{-- @endcan
                         {{-- @can('admin.registroAsistencias.destroy') --}}
-                            <td width="10px">
-                                <form class="formulario-eliminar"
-                                    action="{{ route('admin.registroProducidos.destroy', $registroProducido) }}" method="POST">
-                                    @csrf
-                                    @method('delete')
-                                    <button type="submit" class="btn btn-dark btn-sm">Eliminar</button>
-                                </form>
-                            </td>
-                        {{-- @endcan --}} 
-                        
-                        
+                        <td width="10px">
+                            <form class="formulario-eliminar"
+                                action="{{ route('admin.registroProducidos.destroy', $registroProducido) }}"
+                                method="POST">
+                                @csrf
+                                @method('delete')
+                                <button type="submit" class="btn btn-dark btn-sm">Eliminar</button>
+                            </form>
+                        </td>
+                        {{-- @endcan --}}
+
+
 
                     </tr>
                 @endforeach
@@ -112,17 +113,16 @@
                 timer: 2000
             })
         </script>
-
-@elseif(session('info') == 'valorCero')
-<script>
-    Swal.fire({
-        position: 'top-end',
-        icon: 'warning',
-        title: 'No hay saldo que descontar',
-        showConfirmButton: false,
-        timer: 2000
-    })
-</script>
+    @elseif(session('info') == 'valorCero')
+        <script>
+            Swal.fire({
+                position: 'top-end',
+                icon: 'warning',
+                title: 'No hay saldo que descontar',
+                showConfirmButton: false,
+                timer: 2000
+            })
+        </script>
     @elseif(session('info') == 'update')
         <script>
             Swal.fire({
@@ -160,10 +160,20 @@
 
     {{-- DATATATABLE --}}
 
-    <script>
+    {{-- <script>
         $(document).ready(function() {
             $('#registroProducidos').DataTable(); //
         });
+    </script> --}}
+
+    <script>
+        var table = $('#registroProducidos').DataTable();
+        // Sort by column 1 and then re-draw
+        table
+            .order([
+                [1, 'asc']
+            ])
+            .draw(true);
     </script>
 
 @stop

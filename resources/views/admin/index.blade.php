@@ -21,8 +21,10 @@
                         icon="fa fa-user-plus fa-lg" theme="primary" url="{{ route('admin.users.index') }}"
                         url-text="Ver los Usuarios" />
                 </div>
+                
                 <div class="col">
                     {{-- Updatable --}}
+                    
                     <x-adminlte-small-box title={{$asignacionMultas}} text="Multas" icon="fas fa-medal text-dark"
                         theme="danger" url="#" url-text="ver las multas" id="sbUpdatable" />
                 </div>
@@ -44,9 +46,14 @@
             <div class="row">
                 <div class="col-8">
                     <x-adminlte-info-box title="Meta" text="75/100" icon="fas fa-lg fa-tasks text-orange" theme="warning"
-                        icon-theme="dark" progress=25 progress-theme="dark"
-                        description="75% of the tasks have been completed" />
+                        
+                    
+                    icon-theme="dark" progress=99 progress-theme="dark"
+                        description="98% of the tasks have been completed" />
+                        
                 </div>
+
+                
                 <div class="col-4">
                     <x-adminlte-info-box title="Meta" text="75/100" icon="fas fa-lg fa-tasks text-orange" theme="warning"
                         icon-theme="dark" progress=100 progress-theme="dark"

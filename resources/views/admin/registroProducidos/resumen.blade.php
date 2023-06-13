@@ -107,24 +107,6 @@
 
     </div>
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 @stop
 @livewireScripts
 @section('css')

@@ -4,14 +4,24 @@
 
 @section('content_header')
     <h1>Resumen produccion</h1>
+
 @stop
+@livewireStyles
+
 @section('content')
+
+
     <div class="card">
+        {{-- <livewire:admin.registro-producido :fecha="$fecha" /> --}}
+        {{-- @livewire('admin.registro-producido', ['fechas' => $fechas, 'fechas2' => $fechas2, 'fechas3' => $fechas3]) --}}
+        
         <div class="card-body">
+
             {{-- @can('admin.asignacionTurnos.create') --}}
             {{-- <a class="btn btn-secondary" href="{{ route('admin.registroProducidos.create') }}">Resumen</a> --}}
             {{-- @endcan --}}
         </div>
+
         <table id="registroProducidos" class="table table-striped table-bordered shadow-lg mt-4">
             <thead>                <tr>
                     <th>Fecha</th>
@@ -35,7 +45,10 @@
                         @else
                         class="table-danger""
                         {{-- style="background-color:red;" --}} @endif>
-                        <td>{{ $fecha->fecha }}</td>                     
+                        <td>{{ $fecha->fecha }}</td>
+
+
+
                         <td>{{ $fecha->meta->nombre }}</td>
                         <td>{{ "$ " }}{{ round($fecha->meta->valor / $fecha->meta->dias, 2) }}</td>
                         <td>{{ "$ " }}{{ round($fecha->suma, 2) }}</td>
@@ -84,7 +97,8 @@
     
                             @else
                             class="bg-danger" @endif>
-                            {{ "$ " }}{{ round($saldo, 2) }} 
+                            {{ "$ " }}{{ round($saldo, 2) }}
+
                         </td>
                     </tr>
                 @endforeach
@@ -93,11 +107,31 @@
 
     </div>
 
-@stop
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+@stop
+@livewireScripts
 @section('css')
     <link rel="stylesheet" href="/css/admin_custom.css">
     <link rel="stylesheet" href="https://cdn.datatables.net/1.13.4/css/dataTables.bootstrap5.min.css" rel="styleshet">
+
+
 @stop
 
 @section('js')
@@ -175,8 +209,33 @@
 
     <script>
         $(document).ready(function() {
-            $('#registroProducidos').DataTable(); //
+            $('#registroProducidos').DataTable(); //            
         });
     </script>
 
+    {{-- <script>
+        var table = $('#registroProducidos').DataTable();
+
+        table.page('next').draw('page')
+    </script>  --}}
+
+
+
+
+
+    {{-- <script>
+        var table = $('#registroProducidos').DataTable();
+        table.on('draw', function() {
+            console.log('Redraw occurred at: ' + new Date().getTime());
+        });
+    </script> --}}
+
+    {{-- <script>
+        $('#registroProducidos').on('draw.dt', function() {
+            alert('#registroProducidos');
+        });
+    </script> --}}
+
+
 @stop
+{{-- DATATATABLE --}}

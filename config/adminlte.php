@@ -306,6 +306,12 @@ return [
             'type' => 'sidebar-menu-search',
             'text' => 'search',
         ],
+
+       
+
+        
+
+
         [
             'text' => 'blog',
             'url'  => 'admin/blog',
@@ -625,5 +631,5 @@ return [
     |
     */
 
-    'livewire' => false,
+    'livewire' => true,
 ];

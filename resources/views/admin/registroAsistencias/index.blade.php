@@ -10,16 +10,16 @@
     <div class="card">
         <div class="card-body">
             {{-- @can('admin.asignacionTurnos.create') --}}
-                <a class="btn btn-primary" href="{{ route('admin.registroAsistencias.create') }}">Agregar Asistencia</a>
+            <a class="btn btn-primary" href="{{ route('admin.registroAsistencias.create') }}">Agregar Asistencia</a>
             {{-- @endcan --}}
 
         </div>
         <table id="registroAsistencias" class="table table-striped table-bordered shadow-lg mt-4">
             <thead>
                 <tr>
-                    <th>ID</th>                    
-                    <th>Usuario</th>    
-                    <th>Fecha</th>               
+                    <th>ID</th>
+                    <th>Usuario</th>
+                    <th>Fecha</th>
                     <th>Editar</th>
                     <th>Eliminar</th>
                 </tr>
@@ -27,24 +27,24 @@
             <tbody>
                 @foreach ($asistencias as $asistencia)
                     <tr>
-                        <td>{{$asistencia->id }}</td>
-                        <td>{{$asistencia->user->name}}</td>
-                        <td>{{$asistencia->created_at}}</td>                        
+                        <td>{{ $asistencia->id }}</td>
+                        <td>{{ $asistencia->user->name }}</td>
+                        <td>{{ $asistencia->created_at }}</td>
                         {{-- @can('admin.asignacionTurnos.edit') --}}
-                            <td width="10px">
-                                <a class="btn btn-secondary btn-sm"
-                                    href="{{ route('admin.registroAsistencias.edit',$asistencia)}}">Editar</a>
-                            </td>
+                        <td width="10px">
+                            <a class="btn btn-secondary btn-sm"
+                                href="{{ route('admin.registroAsistencias.edit', $asistencia) }}">Editar</a>
+                        </td>
                         {{-- @endcan --}}
                         {{-- @can('admin.registroAsistencias.destroy') --}}
-                            <td width="10px">
-                                <form class="formulario-eliminar"
-                                    action="{{ route('admin.registroAsistencias.destroy', $asistencia) }}" method="POST">
-                                    @csrf
-                                    @method('delete')
-                                    <button type="submit" class="btn btn-dark btn-sm">Eliminar</button>
-                                </form>
-                            </td>
+                        <td width="10px">
+                            <form class="formulario-eliminar"
+                                action="{{ route('admin.registroAsistencias.destroy', $asistencia) }}" method="POST">
+                                @csrf
+                                @method('delete')
+                                <button type="submit" class="btn btn-dark btn-sm">Eliminar</button>
+                            </form>
+                        </td>
                         {{-- @endcan --}}
                     </tr>
                 @endforeach
@@ -56,8 +56,8 @@
 @stop
 
 @section('css')
-    <link rel="stylesheet" href="/css/admin_custom.css">
-    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.4/css/dataTables.bootstrap5.min.css" rel="styleshet">
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.13.4/css/jquery.dataTables.min.css" />
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/buttons/2.3.6/css/buttons.dataTables.min.css" />
 @stop
 
 @section('js')
@@ -129,8 +129,24 @@
 
     <script>
         $(document).ready(function() {
-            $('#registroAsistencias').DataTable(); //
+            $('#registroAsistencias').DataTable({
+                dom: 'Blfrtip',
+
+                buttons: [
+                    'copy', 'csv', 'excel', 'pdf', 'print'
+                ]
+            });
+
         });
     </script>
+
+    <script type="text/javascript" src="https://code.jquery.com/jquery-3.5.1.js"></script>
+    <script type="text/javascript" src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
+    <script type="text/javascript" src="https://cdn.datatables.net/buttons/2.3.6/js/dataTables.buttons.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/pdfmake.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js"></script>
+    <script type="text/javascript" src="https://cdn.datatables.net/buttons/2.3.6/js/buttons.html5.min.js"></script>
+    <script type="text/javascript" src="https://cdn.datatables.net/buttons/2.3.6/js/buttons.print.min.js"></script>
 
 @stop

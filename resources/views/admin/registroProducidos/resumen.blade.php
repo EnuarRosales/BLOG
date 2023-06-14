@@ -14,7 +14,7 @@
     <div class="card">
         {{-- <livewire:admin.registro-producido :fecha="$fecha" /> --}}
         {{-- @livewire('admin.registro-producido', ['fechas' => $fechas, 'fechas2' => $fechas2, 'fechas3' => $fechas3]) --}}
-        
+
         <div class="card-body">
 
             {{-- @can('admin.asignacionTurnos.create') --}}
@@ -23,7 +23,8 @@
         </div>
 
         <table id="registroProducidos" class="table table-striped table-bordered shadow-lg mt-4">
-            <thead>                <tr>
+            <thead>
+                <tr>
                     <th>Fecha</th>
                     <th>Meta Estudio</th>
                     <th>Obj Diario</th>
@@ -110,9 +111,8 @@
 @stop
 @livewireScripts
 @section('css')
-    <link rel="stylesheet" href="/css/admin_custom.css">
-    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.4/css/dataTables.bootstrap5.min.css" rel="styleshet">
-
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.13.4/css/jquery.dataTables.min.css" />
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/buttons/2.3.6/css/buttons.dataTables.min.css" />
 
 @stop
 
@@ -186,38 +186,29 @@
         })
     </script>
 
-
     {{-- DATATATABLE --}}
-
     <script>
         $(document).ready(function() {
-            $('#registroProducidos').DataTable(); //            
+            $('#registroProducidos').DataTable({
+                dom: 'Blfrtip',
+
+                buttons: [
+                    'copy', 'csv', 'excel', 'pdf', 'print'
+                ]
+            });
+
         });
     </script>
 
-    {{-- <script>
-        var table = $('#registroProducidos').DataTable();
+    <script type="text/javascript" src="https://code.jquery.com/jquery-3.5.1.js"></script>
+    <script type="text/javascript" src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
+    <script type="text/javascript" src="https://cdn.datatables.net/buttons/2.3.6/js/dataTables.buttons.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/pdfmake.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js"></script>
+    <script type="text/javascript" src="https://cdn.datatables.net/buttons/2.3.6/js/buttons.html5.min.js"></script>
+    <script type="text/javascript" src="https://cdn.datatables.net/buttons/2.3.6/js/buttons.print.min.js"></script>
 
-        table.page('next').draw('page')
-    </script>  --}}
-
-
-
-
-
-    {{-- <script>
-        var table = $('#registroProducidos').DataTable();
-        table.on('draw', function() {
-            console.log('Redraw occurred at: ' + new Date().getTime());
-        });
-    </script> --}}
-
-    {{-- <script>
-        $('#registroProducidos').on('draw.dt', function() {
-            alert('#registroProducidos');
-        });
-    </script> --}}
 
 
 @stop
-{{-- DATATATABLE --}}

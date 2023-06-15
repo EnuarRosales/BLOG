@@ -8,58 +8,81 @@
 
 @section('content')
     <div class="card">
-        <form action="">
-            <div class="card-body">
-                <div class="row">
-                    <div class="col-md-6">
-                        <h4>Información</h4>
-                        <div class="form-group">
-                            <label for="name" class="form-label">Nombre</label>
-                            <input type="text" class="form-control" id="name">
-                        </div>
-                        <div class="form-group">
-                            <label for="nit" class="form-label">Nit</label>
-                            <input type="text" class="form-control" id="nit">
-                        </div>
-                        <div class="form-group">
-                            <label for="address" class="form-label">Dirección</label>
-                            <input type="text" class="form-control" id="address">
-                        </div>
-                        <div class="form-group">
-                            <label for="representative" class="form-label">Representate</label>
-                            <input type="text" class="form-control" id="representative">
-                        </div>
-                        <div class="form-group">
-                            <label for="representative_identification_card" class="form-label">Identificación del representate</label>
-                            <input type="text" class="form-control" id="representative_identification_card">
-                        </div>
-                        <div class="form-group">
-                            <label for="representative_identification_card" class="form-label">Numero de Rooms</label>
-                            <input type="text" class="form-control" id="representative_identification_card">
-                        </div>
-                        <div class="form-group">
-                            <label for="representative_identification_card" class="form-label">Capacidad de modelos</label>
-                            <input type="text" class="form-control" id="representative_identification_card">
-                        </div>
-                    </div>
-                    <div class="col-md-6">
-                        <h4>Imágenes</h4>
-                        <div class="form-group">
-                            <label for="logo">Logo</label>
-                            <input type="file" name="logo_web" id="logo_web" accept="image/*"
-                                   class="load-image filestyle"
-                                   data-preview="preview-logo_web" data-btnClass="btn-primary">
-                            <div id="preview-logo_web" class="mt-1">
-                                <img src="" class="center-block"
-                                     style="max-height: 150px; max-width: 100%; background-color: #0a0a0a;">
+        <div class="card-body">
+            <a class="btn btn-primary mb-4" href="{{ route('admin.empresa.create') }}">Agregar Empresa</a>
+            <table id="empresas" class="table table-hover table-striped table-bordered shadow-lg mt-5">
+                <thead>
+                <tr>
+                    <th>Nombre</th>
+                    <th>Dirección</th>
+                    <th>Representante</th>
+                    <th>Numero de Rooms</th>
+                    <th>Cantidad de modelos</th>
+                    <th></th>
+                </tr>
+                </thead>
+                <tbody>
+                @foreach ($empresas as $empresa)
+                    <tr>
+                        <td>{{ $empresa->name }}</td>
+                        <td>{{ $empresa->address }}</td>
+                        <td>{{ $empresa->representative }}</td>
+                        <td>{{ $empresa->number_rooms }}</td>
+                        <td>{{ $empresa->capacity_models }}</td>
+                        <td>
+                            <div class="btn-group">
+                                @can('admin.empresa.edit')
+                                    <a href="{{ route('admin.empresa.edit', $empresa) }}" class="btn btn-info btn-sm"
+                                       title="Editar empresa">
+                                        <i class='fa fa-edit'></i>
+                                    </a>
+                                @endcan
+                                @can('admin.empresa.destroy')
+                                    <form class="formulario-eliminar ml-1" action="{{ route('admin.empresa.destroy', $empresa) }}"
+                                          method="POST">
+                                        @csrf
+                                        @method('delete')
+                                        <button type="submit" class="btn btn-danger btn-sm"><i class="fa fa-trash"></i></button>
+                                    </form>
+                                @endcan
                             </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="card-footer">
-                <button class="btn btn-sm btn-success">Actualizar</button>
-            </div>
-        </form>
+                        </td>
+                    </tr>
+                @endforeach
+                </tbody>
+            </table>
+        </div>
     </div>
 @endsection
+
+@section('css')
+    <link rel="stylesheet" href="/css/admin_custom.css">
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.4/css/dataTables.bootstrap5.min.css" rel="styleshet">
+@stop
+
+@section('js')
+    <script>
+        $(document).ready(function() {
+            $('#empresas').DataTable(); //
+        });
+        $('.formulario-eliminar').submit(function(e) {
+            e.preventDefault();
+
+            Swal.fire({
+                title: '¿Estas Seguro?',
+                text: "¡Este registro se eliminara definitivamente!",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: '¡Si, eliminar!',
+                cancelButtonText: '¡Cancelar!',
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    this.submit();
+                }
+            })
+
+        });
+    </script>
+@stop

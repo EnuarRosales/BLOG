@@ -10,7 +10,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
 class RegistroDescuentoController extends Controller
-{
+{ 
     /**
      * Display a listing of the resource.
      *
@@ -37,7 +37,7 @@ class RegistroDescuentoController extends Controller
         $users = User::orderBy('id','desc'); 
         $tipoDescuentos = TipoDescuento::orderBy('id','desc');  
         return view('admin.registroDescuentos.create',compact('users','tipoDescuentos'));
-    }
+    } 
 
     /**
      * Store a newly created resource in storage.

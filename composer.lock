@@ -4,7 +4,11 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
+<<<<<<< HEAD
     "content-hash": "4e6893ca779980530bcd6cbfd73020f0",
+=======
+    "content-hash": "a14adde26c518295af290a4a29790aae",
+>>>>>>> enuarDesarrollo
     "packages": [
         {
             "name": "almasaeed2010/adminlte",
@@ -519,6 +523,7 @@
         },
         {
             "name": "doctrine/deprecations",
+<<<<<<< HEAD
             "version": "v1.1.1",
             "source": {
                 "type": "git",
@@ -529,6 +534,18 @@
                 "type": "zip",
                 "url": "https://api.github.com/repos/doctrine/deprecations/zipball/612a3ee5ab0d5dd97b7cf3874a6efe24325efac3",
                 "reference": "612a3ee5ab0d5dd97b7cf3874a6efe24325efac3",
+=======
+            "version": "v1.1.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/doctrine/deprecations.git",
+                "reference": "8cffffb2218e01f3b370bf763e00e81697725259"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/doctrine/deprecations/zipball/8cffffb2218e01f3b370bf763e00e81697725259",
+                "reference": "8cffffb2218e01f3b370bf763e00e81697725259",
+>>>>>>> enuarDesarrollo
                 "shasum": ""
             },
             "require": {
@@ -560,9 +577,15 @@
             "homepage": "https://www.doctrine-project.org/",
             "support": {
                 "issues": "https://github.com/doctrine/deprecations/issues",
+<<<<<<< HEAD
                 "source": "https://github.com/doctrine/deprecations/tree/v1.1.1"
             },
             "time": "2023-06-03T09:27:29+00:00"
+=======
+                "source": "https://github.com/doctrine/deprecations/tree/v1.1.0"
+            },
+            "time": "2023-05-29T18:55:17+00:00"
+>>>>>>> enuarDesarrollo
         },
         {
             "name": "doctrine/event-manager",
@@ -1811,6 +1834,7 @@
         },
         {
             "name": "laravel/framework",
+<<<<<<< HEAD
             "version": "v9.52.9",
             "source": {
                 "type": "git",
@@ -1821,6 +1845,18 @@
                 "type": "zip",
                 "url": "https://api.github.com/repos/laravel/framework/zipball/c512ece7b1ee393eac5893f37cb2b029a5413b97",
                 "reference": "c512ece7b1ee393eac5893f37cb2b029a5413b97",
+=======
+            "version": "v9.52.8",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/laravel/framework.git",
+                "reference": "d4c62cc12544b8acc8d89fcb510f4aefb12e6dea"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/laravel/framework/zipball/d4c62cc12544b8acc8d89fcb510f4aefb12e6dea",
+                "reference": "d4c62cc12544b8acc8d89fcb510f4aefb12e6dea",
+>>>>>>> enuarDesarrollo
                 "shasum": ""
             },
             "require": {
@@ -2005,7 +2041,11 @@
                 "issues": "https://github.com/laravel/framework/issues",
                 "source": "https://github.com/laravel/framework"
             },
+<<<<<<< HEAD
             "time": "2023-06-08T20:06:23+00:00"
+=======
+            "time": "2023-05-30T14:45:57+00:00"
+>>>>>>> enuarDesarrollo
         },
         {
             "name": "laravel/sanctum",
@@ -2727,6 +2767,7 @@
             "time": "2022-04-17T13:12:02+00:00"
         },
         {
+<<<<<<< HEAD
             "name": "masterminds/html5",
             "version": "2.8.0",
             "source": {
@@ -2756,6 +2797,55 @@
             "autoload": {
                 "psr-4": {
                     "Masterminds\\": "src"
+=======
+            "name": "livewire/livewire",
+            "version": "v2.12.3",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/livewire/livewire.git",
+                "reference": "019b1e69d8cd8c7e749eba7a38e4fa69ecbc8f74"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/livewire/livewire/zipball/019b1e69d8cd8c7e749eba7a38e4fa69ecbc8f74",
+                "reference": "019b1e69d8cd8c7e749eba7a38e4fa69ecbc8f74",
+                "shasum": ""
+            },
+            "require": {
+                "illuminate/database": "^7.0|^8.0|^9.0|^10.0",
+                "illuminate/support": "^7.0|^8.0|^9.0|^10.0",
+                "illuminate/validation": "^7.0|^8.0|^9.0|^10.0",
+                "league/mime-type-detection": "^1.9",
+                "php": "^7.2.5|^8.0",
+                "symfony/http-kernel": "^5.0|^6.0"
+            },
+            "require-dev": {
+                "calebporzio/sushi": "^2.1",
+                "laravel/framework": "^7.0|^8.0|^9.0|^10.0",
+                "mockery/mockery": "^1.3.1",
+                "orchestra/testbench": "^5.0|^6.0|^7.0|^8.0",
+                "orchestra/testbench-dusk": "^5.2|^6.0|^7.0|^8.0",
+                "phpunit/phpunit": "^8.4|^9.0",
+                "psy/psysh": "@stable"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "Livewire\\LivewireServiceProvider"
+                    ],
+                    "aliases": {
+                        "Livewire": "Livewire\\Livewire"
+                    }
+                }
+            },
+            "autoload": {
+                "files": [
+                    "src/helpers.php"
+                ],
+                "psr-4": {
+                    "Livewire\\": "src/"
+>>>>>>> enuarDesarrollo
                 }
             },
             "notification-url": "https://packagist.org/downloads/",
@@ -2764,6 +2854,7 @@
             ],
             "authors": [
                 {
+<<<<<<< HEAD
                     "name": "Matt Butcher",
                     "email": "technosophos@gmail.com"
                 },
@@ -2792,6 +2883,24 @@
                 "source": "https://github.com/Masterminds/html5-php/tree/2.8.0"
             },
             "time": "2023-04-26T07:27:39+00:00"
+=======
+                    "name": "Caleb Porzio",
+                    "email": "calebporzio@gmail.com"
+                }
+            ],
+            "description": "A front-end framework for Laravel.",
+            "support": {
+                "issues": "https://github.com/livewire/livewire/issues",
+                "source": "https://github.com/livewire/livewire/tree/v2.12.3"
+            },
+            "funding": [
+                {
+                    "url": "https://github.com/livewire",
+                    "type": "github"
+                }
+            ],
+            "time": "2023-03-03T20:12:38+00:00"
+>>>>>>> enuarDesarrollo
         },
         {
             "name": "monolog/monolog",
@@ -4303,6 +4412,7 @@
             "time": "2023-04-12T17:08:32+00:00"
         },
         {
+<<<<<<< HEAD
             "name": "stancl/jobpipeline",
             "version": "v1.6.2",
             "source": {
@@ -4485,6 +4595,17 @@
             },
             "dist": {
                 "type": "zip",
+=======
+            "name": "symfony/console",
+            "version": "v6.3.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/symfony/console.git",
+                "reference": "8788808b07cf0bdd6e4b7fdd23d8ddb1470c83b7"
+            },
+            "dist": {
+                "type": "zip",
+>>>>>>> enuarDesarrollo
                 "url": "https://api.github.com/repos/symfony/console/zipball/8788808b07cf0bdd6e4b7fdd23d8ddb1470c83b7",
                 "reference": "8788808b07cf0bdd6e4b7fdd23d8ddb1470c83b7",
                 "shasum": ""
@@ -9168,6 +9289,7 @@
         },
         {
             "name": "spatie/ignition",
+<<<<<<< HEAD
             "version": "1.8.1",
             "source": {
                 "type": "git",
@@ -9178,6 +9300,18 @@
                 "type": "zip",
                 "url": "https://api.github.com/repos/spatie/ignition/zipball/d8eb8ea1ed27f48a694405cff363746ffd37f13e",
                 "reference": "d8eb8ea1ed27f48a694405cff363746ffd37f13e",
+=======
+            "version": "1.8.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/spatie/ignition.git",
+                "reference": "ad13a6792992411e05d3d3b293e26bdf9f9a7321"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/spatie/ignition/zipball/ad13a6792992411e05d3d3b293e26bdf9f9a7321",
+                "reference": "ad13a6792992411e05d3d3b293e26bdf9f9a7321",
+>>>>>>> enuarDesarrollo
                 "shasum": ""
             },
             "require": {
@@ -9247,7 +9381,11 @@
                     "type": "github"
                 }
             ],
+<<<<<<< HEAD
             "time": "2023-06-06T14:14:58+00:00"
+=======
+            "time": "2023-05-25T10:19:32+00:00"
+>>>>>>> enuarDesarrollo
         },
         {
             "name": "spatie/laravel-ignition",

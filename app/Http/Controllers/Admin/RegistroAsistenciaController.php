@@ -10,7 +10,7 @@ use Illuminate\Http\Request;
 
 class RegistroAsistenciaController extends Controller
 {
-    /**
+    /** 
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
@@ -39,7 +39,7 @@ class RegistroAsistenciaController extends Controller
      * @param  \Illuminate\Http\Request  $request 
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(Request $request) 
     {
         //VALiDACION FORMULARIO 
         $request->validate([
@@ -61,7 +61,7 @@ class RegistroAsistenciaController extends Controller
     public function show($id)
     {
         //
-    }
+    } 
 
     /**
      * Show the form for editing the specified resource.

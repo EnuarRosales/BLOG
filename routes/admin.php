@@ -8,6 +8,7 @@ use App\Http\Controllers\Admin\HomeController;
 use App\Http\Controllers\Admin\PaginaController;
 use App\Http\Controllers\Admin\RegistroAsistenciaController;
 use App\Http\Controllers\Admin\RegistroDescuentoController;
+use App\Http\Controllers\Admin\RegistroProducidoController;
 use App\Http\Controllers\Admin\RoleController;
 use App\Http\Controllers\Admin\TipoDescuentoController;
 use App\Http\Controllers\Admin\TipoMetaController;
@@ -16,18 +17,30 @@ use App\Http\Controllers\Admin\TipoMultaController;
 use App\Http\Controllers\Admin\TipoRoomController;
 use App\Http\Controllers\Admin\TipoTurnoController;
 use App\Http\Controllers\Admin\TipoUsuarioController;
-use App\Http\Controllers\Admin\UserController;
+use App\Http\Controllers\Admin\UserController; 
 
 use Illuminate\Support\Facades\Route;
 
 Route::get('/',[HomeController::class,'index'])->middleware(['auth','verified']);
 Route::get('abonos/{abonoParcial}',[DescontadoController::class,'abonoParcial'])->name('admin.abonos.abonoParcial');
 
+<<<<<<< HEAD
 Route::put('abonos/{abonoParcial}',[DescontadoController::class,'store'])->name('admin.abonos.abonoParcial');
+=======
+
+// Route::post('abonos/{abonado}',[DescontadoController::class,'store'])->name('admin.abonos.store');
+Route::post('abonos',[DescontadoController::class,'store'])->name('admin.abonos.store');
+
+>>>>>>> enuarDesarrollo
 
 Route::put('abonos/{abonado}',[DescontadoController::class,'abono'])->name('admin.abonos.abono');
 Route::resource('abonosResources',DescontadoController::class)->middleware(['auth','verified'])->names('admin.abonosResources');
 
+
+
+Route::resource('registroProducidos',RegistroProducidoController::class)->middleware(['auth','verified'])->names('admin.registroProducidos');
+// Route::get('registroProducidoss', [RegistroProducidoController::class,'resumen'])->name('admin.registroProducidoss.resumen');
+Route::get('registroProducidoss', [RegistroProducidoController::class,'reporte_dia'])->name('admin.registroProducidoss.reporte_dia');
 
 Route::resource('registroAsistencias',RegistroAsistenciaController::class)->middleware(['auth','verified'])->names('admin.registroAsistencias');
 Route::resource('registroDescuentos',RegistroDescuentoController::class)->middleware(['auth','verified'])->names('admin.registroDescuentos');
@@ -47,7 +60,7 @@ Route::resource('asignacionRooms',AsignacionRoomController::class)->middleware([
 Route::resource('asignacionMultas',AsignacionMultaController::class)->middleware(['auth','verified'])->names('admin.asignacionMultas');
 
 
-
+ 
 
 
 
@@ -61,3 +74,4 @@ Route::resource('asignacionMultas',AsignacionMultaController::class)->middleware
 // Route::get('tipoUsuarios/{tipoUsuario}/edit', [TipoUsuarioController::class,'edit'])->name('admin.tipoUsuarios.edit');
 // Route::put('tipoUsuarios/{tipoUsuario}',[TipoUsuarioController::class,'update'])->name('admin.tipoUsuarios.update');
 // Route::delete('tipoUsuarios/{tipoUsuario}',[TipoUsuarioController::class,'destroy'])->name('admin.tipoUsuarios.destroy');
+// Route::post('abonos',[DescontadoController::class,'store'])->name('admin.abonos.store');

@@ -11,9 +11,6 @@ use Illuminate\Support\Facades\DB;
 class HomeController extends Controller
 {
     public function index()
-<<<<<<< HEAD
-    {      
-=======
     {
         $fechas2 = ResgistroProducido::select(
             DB::raw('sum(valorProducido) as suma'),
@@ -30,7 +27,6 @@ class HomeController extends Controller
 
 
 
->>>>>>> enuarDesarrollo
 
         $user = DB::table('users')->where('tipoUsuario_id', '=', 3)->count();
         $userModelos = DB::table('users')->where('tipoUsuario_id', '=', 3)->get(); //id

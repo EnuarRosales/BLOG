@@ -43,21 +43,6 @@ class DescontadoController extends Controller
             'descripcion' => 'required',
 
         ]);
-<<<<<<< HEAD
-
-        // $abono = Descontado::create([
-        //     'valor' => $abonado->montoDescontado,
-        //     'valor' => $abonado->saldo,
-        //     'descripcion' => 'pago total',
-        //     'descuento_id' => $abonado->id,
-        // ]);
-        // $abono->save();
-
-        // $abono = Descontado::create($request->all());
-        echo $request->valor;
-       
-        // return redirect()->route('admin.paginas.index',$abono->id)->with('info','store');
-=======
         // echo $request->descuento_id;              
 
 
@@ -115,7 +100,6 @@ class DescontadoController extends Controller
         // return view('admin.abonos.index');
 
         // return redirect()->route('admin.abonos.create', $descontado->id)->with('info', 'store');
->>>>>>> enuarDesarrollo
     }
 
 
@@ -173,11 +157,6 @@ class DescontadoController extends Controller
 
 
 
-<<<<<<< HEAD
-    public function abono(Request $request, Descuento $abonado)
-    {
-
-=======
 
     //ESTE METODO NOS PERMITE REALIZAR UN ABONO TOTAL ES DECIR DESCUENTA  TODO LO QUE SE ESTE DEBIENDO 
     //ES DE TIPO PUT Y NECESITA UN OBJETO DE TIPO Descuento para poder funcionar,  EL CUAL SE ENVIA DESDE LA RUTA registroDescuentos.index
@@ -189,7 +168,6 @@ class DescontadoController extends Controller
     public function abono(Request $request, Descuento $abonado)
     {
 
->>>>>>> enuarDesarrollo
         if ($abonado->saldo > 0) {
 
             $abono = Descontado::create([
@@ -203,15 +181,10 @@ class DescontadoController extends Controller
             echo "No hay que descontar";
             return redirect()->route('admin.registroDescuentos.index', $abonado->id)->with('info', 'valorCero');
         }
-<<<<<<< HEAD
-
-
-=======
         /*EN ESTA SEGUNDA PARTE DEL METODO, APROVECHANDO LA INFORMACION ENVIADA POR LA VISTA 
         LO QUE SE REALIZA ES UN LLAMADO A LA TABLA descontados y se filtra descuento_id que tiene que ser igual $abonado->id
         que es id del credito ojo que aca nos suma todos los abonos que se le haya realizado a ese credito y se lo asignamos
         al atributo montoDescontado  DE LA TABLA Descuentos  */
->>>>>>> enuarDesarrollo
         $abonos = DB::table('descontados')
             ->where('descuento_id', '=', $abonado->id)
             ->select('valor')
@@ -238,13 +211,8 @@ class DescontadoController extends Controller
         $abonos = DB::table('descontados')
             ->where('descuento_id', '=', $abonoParcial->id)
             ->get();
-<<<<<<< HEAD
-        // echo $abonos;
-        return view('admin.abonos.index', compact('abonos'));
-=======
 
         echo $abonoParcial->id;
         return view('admin.abonos.index', compact('abonos', 'abonoParcial'));
->>>>>>> enuarDesarrollo
     }
 }

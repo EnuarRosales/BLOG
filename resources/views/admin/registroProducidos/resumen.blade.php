@@ -9,22 +9,16 @@
 @livewireStyles
 
 @section('content')
-
-
     <div class="card">
         {{-- <livewire:admin.registro-producido :fecha="$fecha" /> --}}
         {{-- @livewire('admin.registro-producido', ['fechas' => $fechas, 'fechas2' => $fechas2, 'fechas3' => $fechas3]) --}}
-
         <div class="card-body">
-
-
             {{-- @can('admin.asignacionTurnos.create') --}}
             {{-- <a class="btn btn-secondary" href="{{ route('admin.registroProducidos.create') }}">Resumen</a> --}}
             {{-- @endcan --}}
         </div>
 
-        <table id="registroProducidos" class="table table-striped table-bordered shadow-lg mt-4">
-            
+        <table id="registroProducidos" class="table table-striped table-bordered shadow-lg mt-4">            
             <thead>
                 <tr>
                     <th>Fecha</th>
@@ -47,11 +41,9 @@
                         {{-- class="p-3 mb-2 bg-success-subtle text-emphasis-success" --}}
                         @else
                         class="table-danger""
-                        {{-- style="background-color:red;" --}} @endif>
+                        {{-- style="background-color:red;" --}} 
+                        @endif>
                         <td>{{ $fecha->fecha }}</td>
-
-
-
                         <td>{{ $fecha->meta->nombre }}</td>
                         <td>{{ "$ " }}{{ round($fecha->meta->valor / $fecha->meta->dias, 2) }}</td>
                         <td>{{ "$ " }}{{ round($fecha->suma, 2) }}</td>
@@ -107,20 +99,12 @@
                 @endforeach
             </tbody>
         </table>
-
     </div>
-
 @stop
 @livewireScripts
 @section('css')
     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.13.4/css/jquery.dataTables.min.css" />
     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/buttons/2.3.6/css/buttons.dataTables.min.css" />
-
-    
-
-    
-    
-    
 
 @stop
 

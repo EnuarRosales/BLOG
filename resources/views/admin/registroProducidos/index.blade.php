@@ -30,7 +30,7 @@
                     {{-- <th>Saldo</th> --}}
                     <th>Meta</th>
                     <th>Pagina</th>
-                    <th>Usuario</th>
+                    <th>Usuario que registra</th>
                     <th>Editar</th>
                     <th>Eliminar</th>
                 </tr>
@@ -39,7 +39,7 @@
                 @foreach ($registroProducidos as $registroProducido)
                     <tr>
                         <td>{{ $registroProducido->id }}</td>
-                        <td>{{ $registroProducido->fecha}}</td>
+                        <td>{{ $registroProducido->fecha }}</td>
                         <td>{{ $registroProducido->valorProducido }}</td>
                         {{-- <td>{{ $registroProducido->alarma }}</td> --}}
                         {{-- <td>{{ $registroProducido->cumplio }}</td> --}}
@@ -48,24 +48,32 @@
                         <td>{{ $registroProducido->pagina->nombre }}</td>
                         <td>{{ $registroProducido->user->name }}</td>
 
+                        @if (auth()->user()->hasRole('Admin'))
+                            @include('admin.registroProducidos.partials.buttons')
+                        @elseif($registroProducido->user->id == $userLogueado)
+                            @include('admin.registroProducidos.partials.buttons')
+                            {{-- @endif --}}
+                        @else
+                            <td class="text-center"> <i class="fas fa-eye-slash"> </i> </td>
+                            <td class="text-center"> <i class="fas fa-eye-slash"> </i> </td>
+                        @endif
 
-                        {{-- @can('admin.asignacionTurnos.edit') --}}
-                        <td width="10px">
+
+
+                        {{-- <td width="10px">
                             <a class="btn btn-secondary btn-sm"
                                 href="{{ route('admin.registroProducidos.edit', $registroProducido) }}">Editar</a>
                         </td>
-                        {{-- @endcan
-                        {{-- @can('admin.registroAsistencias.destroy') --}}
+                        
                         <td width="10px">
                             <form class="formulario-eliminar"
-                                action="{{ route('admin.registroProducidos.destroy', $registroProducido) }}"
-                                method="POST">
+                                action="{{ route('admin.registroProducidos.destroy', $registroProducido) }}" method="POST">
                                 @csrf
                                 @method('delete')
                                 <button type="submit" class="btn btn-dark btn-sm">Eliminar</button>
                             </form>
-                        </td>
-                        {{-- @endcan --}}
+                        </td> --}}
+
 
 
 

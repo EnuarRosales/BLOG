@@ -22,27 +22,8 @@ class RegistroProducidoController extends Controller
     public function index()
     {
         $registroProducidos = ResgistroProducido::all();
-
-
-
-        // foreach ($registroProducidos as $registroProducido) {
-        //     if ($registroProducido->valorProducido > $registroProducido->meta->valor) {
-        //         $registroProducido->cumplio = "Si";
-        //         $registroProducido->save();
-        //     } else {
-
-        //         $registroProducido->cumplio = "No";
-        //         $registroProducido->save();
-        //     }
-
-            // $registroProducidoss = ResgistroProducido::whereDay('fecha', '03')
-            //     ->select('valorProducido')
-            //     ->get()
-            //     ->sum('valorProducido');
-            // echo $registroProducidos;
-        // }
-
-        return view('admin.registroProducidos.index', compact('registroProducidos'));
+        $userLogueado = auth()->user()->id;
+        return view('admin.registroProducidos.index', compact('registroProducidos','userLogueado'));
     }
 
 
@@ -74,9 +55,10 @@ class RegistroProducidoController extends Controller
      */
     public function store(Request $request)
     {
+        $userLogueado = auth()->user()->id;
         //VALiDACION FORMULARIO 
         $request->validate([
-            'user_id' => 'required',
+            // 'user_id' => 'required',
             'fecha' => 'required',
             'valorProducido' => 'required',
             'meta_id' => 'required',
@@ -84,6 +66,9 @@ class RegistroProducidoController extends Controller
         ]);
 
         $registroProducido = ResgistroProducido::create($request->all());
+        $registroProducido->user_id = $userLogueado;
+        $registroProducido->save();
+
         return redirect()->route('admin.registroProducidos.index', $registroProducido->id)->with('info', 'store');
     }
 
@@ -125,12 +110,11 @@ class RegistroProducidoController extends Controller
     {
         //VALiDACION FORMULARIO 
         $request->validate([
-            'user_id' => 'required',
-            // 'fecha' => 'required',
             'valorProducido' => 'required',
             'meta_id' => 'required',
             'pagina_id' => 'required'
         ]);
+
         //ASINACION MASIVA DE VARIABLES A LOS CAMPOS
         $registroProducido->update($request->all());
         return redirect()->route('admin.registroProducidos.index', $registroProducido->id)->with('info', 'update'); //with mensaje de sesion
@@ -224,20 +208,20 @@ class RegistroProducidoController extends Controller
 
         $fechas3 = ResgistroProducido::select(
             DB::raw('COUNT(DISTINCT(DATE(fecha)))  as date_count'),
-            DB::raw('meta_id'),   
+            DB::raw('meta_id'),
             // DB::raw('fecha'),           
-                      
+
         )
-            ->groupBy('meta_id')            
+            ->groupBy('meta_id')
             ->get();
 
-        
 
-        
+
+
 
         // foreach($fechas3 as $i){
 
-            // echo $fechas3;
+        // echo $fechas3;
 
         //     // if($i->meta_id == $fechas->id){
         //     //     echo"entro";
@@ -248,15 +232,11 @@ class RegistroProducidoController extends Controller
 
         // }
 
-      
- 
-
-
-
-        return view('admin.registroProducidos.resumen', compact('fechas','fechas2','fechas3'));
 
 
 
 
+
+        return view('admin.registroProducidos.resumen', compact('fechas', 'fechas2', 'fechas3'));
     }
 }

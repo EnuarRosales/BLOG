@@ -25,31 +25,32 @@ class RegistroProducidoController extends Controller
 
 
 
-        foreach ($registroProducidos as $registroProducido) {
-            if ($registroProducido->valorProducido > $registroProducido->meta->valor) {
-                $registroProducido->cumplio = "Si";
-                $registroProducido->save();
-            } else {
+        // foreach ($registroProducidos as $registroProducido) {
+        //     if ($registroProducido->valorProducido > $registroProducido->meta->valor) {
+        //         $registroProducido->cumplio = "Si";
+        //         $registroProducido->save();
+        //     } else {
 
-                $registroProducido->cumplio = "No";
-                $registroProducido->save();
-            }
+        //         $registroProducido->cumplio = "No";
+        //         $registroProducido->save();
+        //     }
 
-            $registroProducidoss = ResgistroProducido::whereDay('fecha', '03')
-                ->select('valorProducido')
-                ->get()
-                ->sum('valorProducido');
+            // $registroProducidoss = ResgistroProducido::whereDay('fecha', '03')
+            //     ->select('valorProducido')
+            //     ->get()
+            //     ->sum('valorProducido');
             // echo $registroProducidos;
-        }
+        // }
+
         return view('admin.registroProducidos.index', compact('registroProducidos'));
     }
 
 
-    public function filtrarFecha()
-    {
-        $registroProducidos = ResgistroProducido::whereDay('fecha', 3);
-        echo  $registroProducidos;
-    }
+    // public function filtrarFecha()
+    // {
+    //     $registroProducidos = ResgistroProducido::whereDay('fecha', 3);
+    //     echo  $registroProducidos;
+    // }
 
     /**
      * Show the form for creating a new resource.
@@ -125,7 +126,7 @@ class RegistroProducidoController extends Controller
         //VALiDACION FORMULARIO 
         $request->validate([
             'user_id' => 'required',
-            'fecha' => 'required',
+            // 'fecha' => 'required',
             'valorProducido' => 'required',
             'meta_id' => 'required',
             'pagina_id' => 'required'

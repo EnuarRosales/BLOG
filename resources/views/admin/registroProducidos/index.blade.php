@@ -25,9 +25,9 @@
                     <th>ID</th>
                     <th>Fecha</th>
                     <th>Valor</th>
-                    <th>Alarma</th>
-                    <th>Cumplio</th>
-                    <th>Saldo</th>
+                    {{-- <th>Alarma</th> --}}
+                    {{-- <th>Cumplio</th> --}}
+                    {{-- <th>Saldo</th> --}}
                     <th>Meta</th>
                     <th>Pagina</th>
                     <th>Usuario</th>
@@ -39,11 +39,11 @@
                 @foreach ($registroProducidos as $registroProducido)
                     <tr>
                         <td>{{ $registroProducido->id }}</td>
-                        <td>{{ $registroProducido->fecha }}</td>
+                        <td>{{ $registroProducido->fecha}}</td>
                         <td>{{ $registroProducido->valorProducido }}</td>
-                        <td>{{ $registroProducido->alarma }}</td>
-                        <td>{{ $registroProducido->cumplio }}</td>
-                        <td>{{ $registroProducido->saldo }}</td>
+                        {{-- <td>{{ $registroProducido->alarma }}</td> --}}
+                        {{-- <td>{{ $registroProducido->cumplio }}</td> --}}
+                        {{-- <td>{{ $registroProducido->saldo }}</td> --}}
                         <td>{{ $registroProducido->meta->nombre }}</td>
                         <td>{{ $registroProducido->pagina->nombre }}</td>
                         <td>{{ $registroProducido->user->name }}</td>

@@ -457,6 +457,11 @@ return [
             'icon_color' => 'blue',
             'route'        => 'admin.registroDescuentos.index',
         ],
+        [
+            'text'       => 'Reportes Paginas',
+            'icon_color' => 'green',
+            'route'        => 'admin.registroProducidos.index',
+        ],
     ],
 
     /*

@@ -15,11 +15,11 @@ class CreateResgistroProducidosTable extends Migration
     {
         Schema::create('resgistro_producidos', function (Blueprint $table) {
             $table->id();
-            $table->timestamp('fecha');
-            $table->float('valorProducido');
-            $table->string('alarma',45)->nullable();
-            $table->string('cumplio',45)->nullable();
-            $table->float('saldo')->nullable();
+            $table->date('fecha');
+            $table->float('valorProducido'); 
+            // $table->string('alarma',45)->nullable();
+            // $table->string('cumplio',45)->nullable();
+            // $table->float('saldo')->nullable();
             $table->unsignedBigInteger('meta_id');//campo para relacion
             $table->unsignedBigInteger('pagina_id');//campo para relacion 
             $table->unsignedBigInteger('user_id')->nullable();//campo para relacion                     

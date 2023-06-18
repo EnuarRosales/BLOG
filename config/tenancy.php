@@ -20,6 +20,7 @@ return [
         '127.0.0.1',
         'localhost',
         'blum.com',
+        'studio.artisandev.co'
     ],
 
     /**

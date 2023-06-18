@@ -97,8 +97,15 @@ class RolSeeder extends Seeder
         Permission::create(['name'=>'admin.configuraciones',
                             'description'=>'configuraciones studio'])->syncRoles([$role1]);
 
-
-
+        //PERMISOS EMPRESA
+        Permission::create(['name'=>'admin.empresa.index',
+            'description'=>'Ver listado de empresas'])->syncRoles([$role1]);
+        Permission::create(['name'=>'admin.empresa.create',
+            'description'=>'Crear empresas'])->syncRoles([$role1]);
+        Permission::create(['name'=>'admin.empresa.edit',
+            'description'=>'Editar empresas'])->syncRoles([$role1]);
+        Permission::create(['name'=>'admin.empresa.destroy',
+            'description'=>'Eliminar Empresas'])->syncRoles([$role1]);
 
     }
 }

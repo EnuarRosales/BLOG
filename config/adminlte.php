@@ -431,6 +431,10 @@ return [
                     'text' => 'level_one',
                     'url'  => '#',
                 ],
+                [
+                    'text' => 'Empresa',
+                    'route'  => 'admin.empresa.index',
+                ],
             ],
         ],
 

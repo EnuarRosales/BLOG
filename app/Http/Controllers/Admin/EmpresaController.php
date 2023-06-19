@@ -6,7 +6,10 @@ use App\Http\Controllers\Controller;
 use App\Models\Empresa;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
 
 class EmpresaController extends Controller
@@ -38,8 +41,21 @@ class EmpresaController extends Controller
      */
     public function store(Request $request)
     {
-        $empresa = Empresa::create($request->all());
-        return redirect()->route('admin.empresa.index')->with('info', 'store');
+        try {
+            DB::beginTransaction();
+
+            $request['user_id'] = Auth::user()->id;
+            $empresa = Empresa::create($request->all());
+
+            DB::commit();
+
+            return redirect()->route('admin.empresa.index')->with('info', 'store');
+
+        } catch (\Exception $exception) {
+            DB::rollBack();
+            Log::error("Error EmpCr: {$exception->getMessage()}, File: {$exception->getFile()}, Line: {$exception->getLine()}");
+            return back()->withInput($request->all());
+        }
     }
 
     /**

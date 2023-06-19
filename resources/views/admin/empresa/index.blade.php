@@ -7,6 +7,11 @@
 @endsection
 
 @section('content')
+    @if (session('info'))
+        <div class="alert alert-success">
+            <strong>{{ session('info') }}</strong>
+        </div>
+    @endif
     <div class="card">
         <div class="card-body">
             <a class="btn btn-primary mb-4" href="{{ route('admin.empresa.create') }}">Agregar Empresa</a>

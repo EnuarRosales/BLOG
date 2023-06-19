@@ -17,6 +17,7 @@ class CreateMetasTable extends Migration
             $table->id();
             $table->string('nombre');
             $table->float('valor');
+            $table->float('dias')->nullable();
             $table->timestamps();
         });
     }

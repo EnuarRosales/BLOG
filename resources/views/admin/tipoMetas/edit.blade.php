@@ -36,6 +36,16 @@
                     <br>
                 @enderror
 
+                {!! Form::label('dias', 'Numero de dias') !!}
+                {!! Form::number('dias',null, [
+                    'class' => 'form-control',                    
+                ]) !!}
+                @error('dias')
+                    <br>
+                    <span class="text-danger">{{$message}}</span>
+                    <br>
+                @enderror 
+
 
             </div>
             {!! Form::submit('Actualizar Tipo Meta', ['class' => 'btn btn-primary']) !!}

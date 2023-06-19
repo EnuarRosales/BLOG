@@ -306,6 +306,12 @@ return [
             'type' => 'sidebar-menu-search',
             'text' => 'search',
         ],
+
+       
+
+        
+
+
         [
             'text' => 'blog',
             'url'  => 'admin/blog',
@@ -457,7 +463,7 @@ return [
         [
             'text'       => 'Registro Produccion',
             'icon_color' => 'cyan',
-            'url'        => '#',
+            'route'        => 'admin.registroProducidos.index',
         ],
 
         [
@@ -547,6 +553,26 @@ return [
                 ],
             ],
         ],
+        'DateRangePicker' => [
+            'active' => false,
+            'files' => [
+                [
+                    'type' => 'js',
+                    'asset' => true,
+                    'location' => 'vendor/moment/moment.min.js',
+                ],
+                [
+                    'type' => 'js',
+                    'asset' => true,
+                    'location' => 'vendor/daterangepicker/daterangepicker.js',
+                ],
+                [
+                    'type' => 'css',
+                    'asset' => true,
+                    'location' => 'vendor/daterangepicker/daterangepicker.css',
+                ],
+            ],
+        ],
         'Sweetalert2' => [
             'active' => true,
             'files' => [
@@ -619,5 +645,5 @@ return [
     |
     */
 
-    'livewire' => false,
+    'livewire' => true,
 ];

@@ -17,8 +17,13 @@
         "laravel/tinker": "^2.5",
         "laravel/ui": "^3.4",
         "laravelcollective/html": "^6.4",
+<<<<<<< HEAD
         "spatie/laravel-permission": "^5.10",
         "stancl/tenancy": "^3.7"
+=======
+        "livewire/livewire": "^2.12",
+        "spatie/laravel-permission": "^5.10"
+>>>>>>> enuarDesarrollo
     },
     "require-dev": {
         "spatie/laravel-ignition": "^1.0",

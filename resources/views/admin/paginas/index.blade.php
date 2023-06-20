@@ -16,11 +16,9 @@
                 <tr>
                     <th>ID</th>
                     <th>Nombre</th>
-                    <th>Tipo Moneda</th>
+                    <th>Valor Moneda Virtual</th>
                     <th>Editar</th>
                     <th>Eliminar</th>
-
-
                 </tr>
             </thead>
 
@@ -30,7 +28,7 @@
                     <tr>
                         <td>{{ $pagina->id }}</td>
                         <td>{{ $pagina->nombre }}</td>
-                        <td>{{ $pagina->tipoMonedaPagina->nombre }}</td>
+                        <td>{{ $pagina->valor }}</td>
 
                         <td width="10px">
                             <a class="btn btn-secondary btn-sm" href="{{ route('admin.paginas.edit', $pagina) }}">Editar</a>

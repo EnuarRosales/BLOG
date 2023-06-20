@@ -29,8 +29,8 @@ class PaginaController extends Controller
      */
     public function create()
     {
-        $tipoMonedapaginas = TipoMonedaPagina::orderBy('id','desc'); 
-        return view('admin.paginas.create',compact('tipoMonedapaginas'));
+        // $tipoMonedapaginas = TipoMonedaPagina::orderBy('id','desc'); 
+        return view('admin.paginas.create');
     }
 
     /**
@@ -44,7 +44,7 @@ class PaginaController extends Controller
         //VALiDACION FORMULARIO 
        $request->validate([
         'nombre'=>'required',
-        'tipoMoneda_id'=>'required',         
+        'valor'=>'required',         
     ]); 
     $pagina= Pagina::create($request->all());
     return redirect()->route('admin.paginas.index',$pagina->id)->with('info','store');
@@ -70,8 +70,8 @@ class PaginaController extends Controller
      */
     public function edit(Pagina $pagina)
     {
-        $tipoMonedapaginas = TipoMonedaPagina::orderBy('id','desc'); 
-        return view('admin.paginas.edit',compact('pagina','tipoMonedapaginas'));
+        // $tipoMonedapaginas = TipoMonedaPagina::orderBy('id','desc'); 
+        return view('admin.paginas.edit',compact('pagina'));
     } 
 
     /**
@@ -86,7 +86,7 @@ class PaginaController extends Controller
         //VALLIDACION DE FORMULARIOS
         $request->validate([
             'nombre'=>'required',
-            'tipoMoneda_id'=>'required', 
+            'valor'=>'required', 
         ]);
         //ASINACION MASIVA DE VARIABLES A LOS CAMPOS
         $pagina->update($request->all());           

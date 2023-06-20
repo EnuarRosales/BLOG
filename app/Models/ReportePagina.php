@@ -5,7 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class ResgistroProducido extends Model
+class ReportePagina extends Model
 {
     use HasFactory;
 
@@ -13,19 +13,23 @@ class ResgistroProducido extends Model
     protected $guarded = [];
 
      //RELACION UNO A MUCHOS INVERSA
-     public function meta(){
-        return $this->belongsTo('App\Models\Meta','meta_id');
-    }
+    //  public function tipoMonedaPagina(){ 
+    //     return $this->belongsTo(TipoUsuario::class,'tipoMoneda_id');
+    // }
 
-     //RELACION UNO A MUCHOS INVERSA
-     public function user(){
+    //RELACION UNO A MUCHOS  INVERSA
+    public function user(){
         return $this->belongsTo('App\Models\User','user_id');
     }
 
-
-    //RELACION UNO A MUCHOS INVERSA
+    //RELACION UNO A MUCHOS  INVERSA
     public function pagina(){
         return $this->belongsTo('App\Models\Pagina','pagina_id');
-    }
+    } 
+    
+
+
+
+
 
 }

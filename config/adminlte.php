@@ -307,9 +307,9 @@ return [
             'text' => 'search',
         ],
 
-       
 
-        
+
+
 
 
         [
@@ -320,9 +320,9 @@ return [
         [
             'text'        => 'Dashborad',
             'url'         => 'admin',
-            'can'         =>'admin.home',
+            'can'         => 'admin.home',
             'icon'        => 'far fa-fw fa-file',
-            
+
         ], //ojo que aca inicia para modificar el menu
         ['header' => 'ADMINISTRADOR'],
         [
@@ -342,32 +342,32 @@ return [
                 [
                     'text' => 'Asignacion Turno',
                     'route'  => 'admin.asignacionTurnos.index',
-                    'can' =>'admin.asignacionTurnos.index',
-                    'icon' => '	far fa-address-book', 
+                    'can' => 'admin.asignacionTurnos.index',
+                    'icon' => '	far fa-address-book',
                 ],
                 [
                     'text' => 'Asignacion Room',
                     'route'  => 'admin.asignacionRooms.index',
-                    'can' =>'admin.asignacionRooms.index',
+                    'can' => 'admin.asignacionRooms.index',
                     'icon' => ' fas fa-house-user',
                 ],
 
             ]
         ],
-        
+
         [
             'text' => 'Roles',
             'route'  => 'admin.roles.index',
             'icon' => 'fas fa-fw fa-lock',
-            'can'=>'admin.roles.index'
-            
+            'can' => 'admin.roles.index'
+
         ],
 
         //MULTINIVEL
         [
             'text'    => 'Configuracion',
             'icon'    => 'fas fa-fw fa-share',
-            'can' =>'admin.configuraciones',
+            'can' => 'admin.configuraciones',
             'submenu' => [
                 [
                     'text' => 'Tipo Usuarios',
@@ -396,19 +396,23 @@ return [
                     'text' => 'Tipo Metas',
                     'route'  => 'admin.tipoMetas.index',
                 ],
-                
-                
+
                 [
-                    'text'    => 'Paginas WC',
+                    'text' => 'Paginas',
+                    'route'  => 'admin.paginas.index',
+                ],
+
+                [
+                    'text'    => 'Desplegable Pr',
                     'url'     => '#',
                     'submenu' => [
                         [
                             'text' => 'Tipo Moneda Paginas',
-                            'route'  => 'admin.tipoMonedaPaginas.index',
+                            'url'     => '#',
                         ],
                         [
                             'text' => 'Paginas',
-                            'route'  => 'admin.paginas.index',
+                            'url'     => '#',
                         ],
 
                         [
@@ -427,6 +431,7 @@ return [
                         ],
                     ],
                 ],
+
                 [
                     'text' => 'level_one',
                     'url'  => '#',
@@ -444,7 +449,7 @@ return [
             'text'       => 'Registro Asistencias',
             'icon_color' => 'yellow',
             'route'        => 'admin.registroAsistencias.index',
-            
+
         ],
         [
             'text'       => 'Registro Produccion',

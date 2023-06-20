@@ -465,7 +465,7 @@ return [
         [
             'text'       => 'Reportes Paginas',
             'icon_color' => 'green',
-            'route'        => 'admin.registroProducidos.index',
+            'route'        => 'admin.reportePaginas.index',
         ],
     ],
 

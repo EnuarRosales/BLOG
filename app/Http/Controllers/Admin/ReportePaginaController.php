@@ -3,7 +3,10 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Imports\ReportePaginasImport;
+use App\Models\ReportePagina;
 use Illuminate\Http\Request;
+use Maatwebsite\Excel\Facades\Excel;
 
 class ReportePaginaController extends Controller
 {
@@ -14,7 +17,9 @@ class ReportePaginaController extends Controller
      */
     public function index()
     {
-        //
+
+        $reportePaginas = ReportePagina::all();
+        return view('admin.reportePaginas.index', compact('reportePaginas'));
     }
 
     /**
@@ -35,7 +40,9 @@ class ReportePaginaController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $file = $request->file('import_file');
+        Excel::import(new ReportePaginasImport, $file);
+        return redirect()->route('admin.reportePaginas.index');
     }
 
     /**

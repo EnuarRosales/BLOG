@@ -9,6 +9,7 @@ use App\Http\Controllers\Admin\PaginaController;
 use App\Http\Controllers\Admin\RegistroAsistenciaController;
 use App\Http\Controllers\Admin\RegistroDescuentoController;
 use App\Http\Controllers\Admin\RegistroProducidoController;
+use App\Http\Controllers\Admin\ReportePaginaController;
 use App\Http\Controllers\Admin\RoleController;
 use App\Http\Controllers\Admin\TipoDescuentoController;
 use App\Http\Controllers\Admin\TipoMetaController;
@@ -55,7 +56,7 @@ Route::resource('tipoMonedaPaginas',TipoMonedaPaginaController::class)->middlewa
 Route::resource('paginas',PaginaController::class)->middleware(['auth','verified'])->names('admin.paginas');
 Route::resource('asignacionRooms',AsignacionRoomController::class)->middleware(['auth','verified'])->names('admin.asignacionRooms');
 Route::resource('asignacionMultas',AsignacionMultaController::class)->middleware(['auth','verified'])->names('admin.asignacionMultas');
-
+Route::resource('reportePaginas', ReportePaginaController::class)->middleware(['auth','verified'])->names('admin.reportePaginas');
 
  
 

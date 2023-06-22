@@ -1,39 +1,3 @@
-{{-- <div class="container">
-    <div class="row justify-content-center">
-        <div class="col-md-8">
-            <div class="card">
-                <div class="card-header">Importar productos</div>
-                <div class="card-body">
-                    @if (session('success'))
-                        <div class="alert alert-success" role="alert">
-                            {{ session('success') }}
-                        </div>
-                    @endif
-                    @if (isset($errors) && $errors->any())
-                        <div class="alert alert-danger" role="alert">
-                            @foreach ($errors->all() as $error)
-                                {{ $error }}
-                            @endforeach
-                        </div>
-                    @endif
-
-                    <form action="{{ route('admin.reportePaginas.store') }}" method="POST"
-                        enctype="multipart/form-data">
-                        @csrf
-
-                        <input type="file" name="import_file" />
-
-                        <button class="btn btn-primary" type="submit">Importar</button>
-                    </form>
-                </div>
-            </div>
-        </div>
-    </div>
-</div> --}}
-
-
-
-
 <!-- Modal -->
 <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
     aria-hidden="true">
@@ -55,20 +19,11 @@
 
             <div class="modal-footer">
 
-
-
                 @if (session('success'))
                     <div class="alert alert-success" role="alert">
                         {{ session('success') }}
                     </div>
                 @endif
-                {{-- @if (isset($errors) && $errors->any())
-                    <div class="alert alert-danger" role="alert">
-                        @foreach ($errors->all() as $error)
-                            {{ $error }}
-                        @endforeach
-                    </div>
-                @endif --}}
 
                 <form action="{{ route('admin.reportePaginas.store') }}" method="POST" enctype="multipart/form-data">
                     @csrf
@@ -77,8 +32,6 @@
 
                     <button class="btn btn-primary" type="submit">Importar</button>
                 </form>
-
-
 
             </div>
         </div>

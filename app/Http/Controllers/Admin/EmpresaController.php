@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Admin\StoreEmpresaRequest;
 use App\Models\Empresa;
 use App\Models\User;
 use Illuminate\Http\RedirectResponse;
@@ -49,16 +50,16 @@ class EmpresaController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param StoreEmpresaRequest $request
      * @return RedirectResponse
      */
-    public function store(Request $request): RedirectResponse
+    public function store(StoreEmpresaRequest $request): RedirectResponse
     {
         try {
             DB::beginTransaction();
 
             $request['user_id'] = Auth::user()->id;
-            $empresa = Empresa::create($request->all());
+            Empresa::create($request->all());
 
             DB::commit();
 
@@ -96,7 +97,7 @@ class EmpresaController extends Controller
      * @param  int  $id
      * @return Response
      */
-    public function update(Request $request, Empresa $empresa)
+    public function update(StoreEmpresaRequest $request, Empresa $empresa)
     {
         try {
 

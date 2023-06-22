@@ -25,7 +25,7 @@ class EmpresaController extends Controller
     public function index()
     {
         try {
-            $empresas = Empresa::all();
+            $empresas = Empresa::where('user_id',Auth::id())->get();
             return view('admin.empresa.index', compact('empresas'));
         } catch (\Exception $exception) {
             Log::error("Error EmpCr index: {$exception->getMessage()}, File: {$exception->getFile()}, Line: {$exception->getLine()}");

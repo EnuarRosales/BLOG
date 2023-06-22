@@ -30,7 +30,7 @@ class HomeController extends Controller
 
         $user = DB::table('users')->where('tipoUsuario_id', '=', 3)->count();
         $userModelos = DB::table('users')->where('tipoUsuario_id', '=', 3)->get(); //id
-       
+
         // $producido = ResgistroProducido::all();
         // echo $producido;
         $asignacionMultas = DB::table('asignacion_multas')->count();

@@ -14,7 +14,7 @@ use Spatie\Permission\Traits\HasRoles;
 class User extends Authenticatable implements MustVerifyEmail
 {
     use HasApiTokens, HasFactory, Notifiable, HasRoles;
-   
+
 
     protected $attributes = [
         'name' => 'Enuar Emilio Rosales Salazar',
@@ -26,11 +26,11 @@ class User extends Authenticatable implements MustVerifyEmail
     ];
 
 
-    
+
     //CON ESTO LOGRAMOS HACER LA ASIGNACION MASIVA
     protected $guarded = [];
 
-   
+
 
     //ACCESOR
     public function getNameAttribute($value)
@@ -44,53 +44,58 @@ class User extends Authenticatable implements MustVerifyEmail
         $this->attributes['name'] = strtolower($value);
     }
 
-    // //RELACION UNO A MUCHOS INVERSA   
+    // //RELACION UNO A MUCHOS INVERSA
     public function tipoUsuario()    {
         return $this->belongsTo('App\Models\TipoUsuario','tipoUsuario_id');
-    } 
-      
+    }
+
     // public function tipoUsuario()
     // {
     //     return $this->belongsTo(TipoUsuario::class,'tipoUsuario_id');
-    // } 
+    // }
 
- 
- 
 
-    //RELACION UNO A MUCHOS 
+
+
+    //RELACION UNO A MUCHOS
     public function asignacionRooms()
     {
         return $this->hasMany('App\Models\AsignacionRoom');
     }
 
-    //RELACION DE UNO A MUCHOS 
+    //RELACION DE UNO A MUCHOS
     public function asignacionTurnos()
     {
         return $this->hasMany('App\Models\AsignacionTurno');
     }
 
-    //RELACION DE UNO A MUCHOS 
+    //RELACION DE UNO A MUCHOS
     public function asignacionMultas()
     {
         return $this->hasMany('App\Models\AsignacionMulta');
     }
 
-    //RELACION DE UNO A MUCHOS      
+    //RELACION DE UNO A MUCHOS
     public function asistencias()
     {
         return $this->hasMany('App\Models\Asistencia');
     }
 
-    //RELACION DE UNO A MUCHOS      
+    //RELACION DE UNO A MUCHOS
     public function registroProducidos()
     {
         return $this->hasMany('App\Models\RegistroProducido');
     }
 
-    //RELACION DE UNO A MUCHOS      
+    //RELACION DE UNO A MUCHOS
     public function descuentos()
     {
         return $this->hasMany('App\Models\Descuento');
+    }
+
+    public function empresa(): BelongsTo
+    {
+        return $this->belongsTo(Empresa::class);
     }
 
 
@@ -100,9 +105,9 @@ class User extends Authenticatable implements MustVerifyEmail
     //relacion uno a muchos
     public function asignacionRooms(){
         return $this->hasMany('App\Models\AsignacionRooms');
-    }    
+    }
 
-    
+
     /*
     //relacion uno a muchos (inversa)
     public function tipoUsuario(){

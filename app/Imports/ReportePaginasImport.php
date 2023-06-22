@@ -69,12 +69,12 @@ class ReportePaginasImport implements ToModel, WithHeadingRow, WithValidation
 
                 'string', //  CON ESTO VALIDAMOS QUE EL VALOR SEA DECIMAL
                 'required'
-            ],
-
-
+            ],           
              
         ];
     }
+
+    
 
 }
 

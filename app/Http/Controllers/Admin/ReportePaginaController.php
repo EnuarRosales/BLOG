@@ -41,8 +41,14 @@ class ReportePaginaController extends Controller
     public function store(Request $request)
     {
         $file = $request->file('import_file');
+
+        //VALIDACION DE EXTENCION
+        $request->validate([
+            'import_file' => 'required|mimes:xlsx,xls'
+        ]);      
+             
         Excel::import(new ReportePaginasImport, $file);
-        return redirect()->route('admin.reportePaginas.index');
+        return redirect()->route('admin.reportePaginas.index')->with('info', 'store');
     }
 
     /**

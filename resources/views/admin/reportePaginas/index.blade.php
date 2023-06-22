@@ -8,17 +8,23 @@
 
 
 @section('content')
+
+{{-- CONFIRMACION SI HAY ALGO MAL --}}
+    @if (isset($errors) && $errors->any())
+        @include('admin.reportePaginas.partials.modal-error')
+    @endif
+
     <div class="card">
         <div class="card-body">
             {{-- @can('admin.asignacionTurnos.create') --}}
-            <a class="btn btn-primary" href="{{ route('admin.reportePaginas.create') }}">Agregar Reporte Paginas</a>            
-            {{-- @endcan --}}
+            <a class="btn btn-primary" href="{{ route('admin.reportePaginas.create') }}">Carga individual</a>
 
+            <!-- Button trigger modal -->
+            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
+                Carga Masiva
+            </button>
             @include('admin.reportePaginas.partials.import-excel')
         </div>
-
-
-
         <table id="reportePaginas" class="table table-striped table-bordered shadow-lg mt-4">
             <thead>
                 <tr>
@@ -36,23 +42,24 @@
                     <tr>
                         <td>{{ $reportePagina->id }}</td>
                         <td>{{ $reportePagina->fecha }}</td>
-                        <td>{{ $reportePagina->user->name}}</td>
-                        <td>{{ $reportePagina->pagina->nombre}}</td>
-                        <td>{{ $reportePagina->Cantidad}}</td>
+                        <td>{{ $reportePagina->user->name }}</td>
+                        <td>{{ $reportePagina->pagina->nombre }}</td>
+                        <td>{{ $reportePagina->Cantidad }}</td>
 
                         <td width="10px">
-                            <a class="btn btn-secondary btn-sm" href="{{ route('admin.reportePaginas.edit', $reportePagina)}}">Editar</a>
+                            <a class="btn btn-secondary btn-sm"
+                                href="{{ route('admin.reportePaginas.edit', $reportePagina) }}">Editar</a>
                         </td>
-                        
+
                         <td width="10px">
-                            <form class="formulario-eliminar" action="{{ route('admin.reportePaginas.destroy', $reportePagina)}}"
-                                method="POST">
+                            <form class="formulario-eliminar"
+                                action="{{ route('admin.reportePaginas.destroy', $reportePagina) }}" method="POST">
                                 @csrf
                                 @method('delete')
                                 <button type="submit" class="btn btn-dark btn-sm">Eliminar</button>
                             </form>
-                        </td>                 
-                
+                        </td>
+
                     </tr>
                 @endforeach
             </tbody>
@@ -78,13 +85,14 @@
 
 
 
+
     {{-- SWET ALERT --}}
-    @if (session('info') == 'delete')
+    @if (session('info') == 'ojooooooooooo')
         <script>
             Swal.fire(
                 '¡Eliminado!',
                 'El registro se elimino con exito',
-                'success'
+                'warning'
             )
         </script>
     @elseif(session('info') == 'store')
@@ -92,7 +100,7 @@
             Swal.fire({
                 position: 'top-end',
                 icon: 'success',
-                title: 'Producido registrado correctamente',
+                title: 'Registros Importados Correctamente',
                 showConfirmButton: false,
                 timer: 2000
             })
@@ -107,17 +115,20 @@
                 timer: 2000
             })
         </script>
-    @elseif(session('info') == 'update')
+    @elseif(session('info') == '')
         <script>
             Swal.fire({
                 position: 'top-end',
                 icon: 'success',
-                title: 'Descuento correctamente',
-                showConfirmButton: false,
-                timer: 2000
+                title: 'sssss'),
+            showConfirmButton: false,
+            timer: 2000
             })
         </script>
     @endif
+
+
+
 
     <script>
         $('.formulario-eliminar').submit(function(e) {
@@ -140,6 +151,8 @@
 
         })
     </script>
+
+
 
 
     {{-- DATATATABLE --}}
@@ -165,4 +178,5 @@
     <script type="text/javascript" src="https://cdn.datatables.net/buttons/2.3.6/js/buttons.html5.min.js"></script>
     <script type="text/javascript" src="https://cdn.datatables.net/buttons/2.3.6/js/buttons.print.min.js"></script>
 
+   
 @stop

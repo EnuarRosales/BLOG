@@ -42,7 +42,6 @@ Route::resource('registroAsistencias',RegistroAsistenciaController::class)->midd
 Route::resource('registroDescuentos',RegistroDescuentoController::class)->middleware(['auth','verified'])->names('admin.registroDescuentos');
 
 
-
 Route::resource('tipoUsuarios', TipoUsuarioController::class)->middleware(['auth','verified'])->names('admin.tipoUsuarios');
 Route::resource('users', UserController::class)->middleware(['auth','verified'])->names('admin.users');
 Route::resource('roles', RoleController::class)->middleware(['auth','verified'])->names('admin.roles');
@@ -56,9 +55,12 @@ Route::resource('tipoMonedaPaginas',TipoMonedaPaginaController::class)->middlewa
 Route::resource('paginas',PaginaController::class)->middleware(['auth','verified'])->names('admin.paginas');
 Route::resource('asignacionRooms',AsignacionRoomController::class)->middleware(['auth','verified'])->names('admin.asignacionRooms');
 Route::resource('asignacionMultas',AsignacionMultaController::class)->middleware(['auth','verified'])->names('admin.asignacionMultas');
+
+
+
 Route::resource('reportePaginas', ReportePaginaController::class)->middleware(['auth','verified'])->names('admin.reportePaginas');
 
- 
+
 
 
 

@@ -98,7 +98,7 @@ class RegistroProducidoController extends Controller
         $paginas = Pagina::orderBy('id', 'desc');
         return view('admin.registroProducidos.edit', compact('registroProducido', 'users', 'metas', 'paginas'));
     }
-
+ 
     /**
      * Update the specified resource in storage.
      *

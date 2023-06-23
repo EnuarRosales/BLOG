@@ -15,8 +15,8 @@ return new class extends Migration
     {
         Schema::create('reporte_paginas', function (Blueprint $table) {
             $table->id();
-            $table->date('fecha');
-            $table->float('Cantidad');
+            $table->date('fecha');            
+            $table->float('Cantidad',12,2);
 
             $table->unsignedBigInteger('user_id'); //campo para relacion   
             $table->unsignedBigInteger('pagina_id'); //campo para relacion   
@@ -28,7 +28,6 @@ return new class extends Migration
             $table->foreign('pagina_id')
                 ->references('id')->on('paginas')
                 ->onDelete('cascade');
-
 
 
             $table->timestamps();

@@ -65,24 +65,62 @@
         $(document).ready(function() {
             $('#empresas').DataTable(); //
         });
-        $('.formulario-eliminar').submit(function(e) {
-            e.preventDefault();
+    </script>
+    <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+    <script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.13.4/js/dataTables.bootstrap5.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
+
+    {{-- SWET ALERT --}}
+    @if (session('info') == 'delete')
+        <script>
+            Swal.fire(
+                '¡Eliminado!',
+                'El registro se elimino con exito',
+                'success'
+            )
+        </script>
+    @elseif(session('info') == 'store')
+        <script>
             Swal.fire({
-                title: '¿Estas Seguro?',
-                text: "¡Este registro se eliminara definitivamente!",
-                icon: 'warning',
-                showCancelButton: true,
-                confirmButtonColor: '#3085d6',
-                cancelButtonColor: '#d33',
-                confirmButtonText: '¡Si, eliminar!',
-                cancelButtonText: '¡Cancelar!',
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    this.submit();
-                }
+                position: 'top-end',
+                icon: 'success',
+                title: 'Empresa creada correctamente',
+                showConfirmButton: false,
+                timer: 2000
             })
+        </script>
+    @elseif(session('info') == 'update')
+        <script>
+            Swal.fire({
+                position: 'top-end',
+                icon: 'success',
+                title: 'Empresa actualizada correctamente',
+                showConfirmButton: false,
+                timer: 2000
+            })
+        </script>
+    @endif
+    <script>
+        $('.formulario-eliminar').submit(function(e) {
+                e.preventDefault();
 
-        });
+                Swal.fire({
+                    title: '¿Estas Seguro?',
+                    text: "¡Este registro se eliminara definitivamente!",
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: '¡Si, eliminar!',
+                    cancelButtonText: '¡Cancelar!',
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        this.submit();
+                    }
+                })
+
+            });
     </script>
 @stop

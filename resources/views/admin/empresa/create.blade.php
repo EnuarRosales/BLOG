@@ -7,11 +7,6 @@
 @stop
 
 @section('content')
-    @if (session('info'))
-        <div class="alert alert-success">
-            <strong>{{ session('info') }}</strong>
-        </div>
-    @endif
     <div class="card">
             <div class="card-body">
                 {!! Form::open(['route' => ['admin.empresa.store'],'files' => true]) !!}
@@ -19,9 +14,8 @@
                     <div class="col-md-6">
                         <h4>Información</h4>
                         <div class="form-group">
-                            {!! Form::label('name', 'Nombre') !!}
-                            {{-- ojo que en la linea siguiente va el nombre de la columa =( --}}
-                            {!! Form::text('name', null, ['class' => 'form-control', 'placeholder' => 'Nombre']) !!}
+                            {!! Form::label('name', 'Nombre') !!} <span class="text-danger">*</span>
+                            {!! Form::text('name', null, ['class' => 'form-control', 'placeholder' => 'Nombre', 'required' => 'required']) !!}
                             @error('name')
                             <br>
                             <span class="text-danger">{{ $message }}</span>
@@ -29,9 +23,8 @@
                             @enderror
                         </div>
                         <div class="form-group">
-                            {!! Form::label('nit', 'Nit') !!}
-                            {{-- ojo que en la linea siguiente va el nombre de la columa =( --}}
-                            {!! Form::text('nit', null, ['class' => 'form-control', 'placeholder' => 'Nit']) !!}
+                            {!! Form::label('nit', 'Nit') !!} <span class="text-danger">*</span>
+                            {!! Form::text('nit', null, ['class' => 'form-control', 'placeholder' => 'Nit', 'required' => 'required']) !!}
                             @error('nit')
                             <br>
                             <span class="text-danger">{{ $message }}</span>
@@ -39,9 +32,8 @@
                             @enderror
                         </div>
                         <div class="form-group">
-                            {!! Form::label('address', 'Dirección') !!}
-                            {{-- ojo que en la linea siguiente va el nombre de la columa =( --}}
-                            {!! Form::text('address', null, ['class' => 'form-control', 'placeholder' => 'Nit']) !!}
+                            {!! Form::label('address', 'Dirección') !!} <span class="text-danger">*</span>
+                            {!! Form::text('address', null, ['class' => 'form-control', 'placeholder' => 'Nit', 'required' => 'required']) !!}
                             @error('address')
                             <br>
                             <span class="text-danger">{{ $message }}</span>
@@ -49,9 +41,8 @@
                             @enderror
                         </div>
                         <div class="form-group">
-                            {!! Form::label('representative', 'Representante') !!}
-                            {{-- ojo que en la linea siguiente va el nombre de la columa =( --}}
-                            {!! Form::text('representative', null, ['class' => 'form-control', 'placeholder' => 'Representante']) !!}
+                            {!! Form::label('representative', 'Representante') !!} <span class="text-danger">*</span>
+                            {!! Form::text('representative', null, ['class' => 'form-control', 'placeholder' => 'Representante', 'required' => 'required']) !!}
                             @error('representative')
                             <br>
                             <span class="text-danger">{{ $message }}</span>
@@ -59,9 +50,8 @@
                             @enderror
                         </div>
                         <div class="form-group">
-                            {!! Form::label('representative_identification_card', 'Identificación del representate') !!}
-                            {{-- ojo que en la linea siguiente va el nombre de la columa =( --}}
-                            {!! Form::text('representative_identification_card', null, ['class' => 'form-control', 'placeholder' => 'Identificación del representate']) !!}
+                            {!! Form::label('representative_identification_card', 'Identificación del representate') !!} <span class="text-danger">*</span>
+                            {!! Form::text('representative_identification_card', null, ['class' => 'form-control', 'placeholder' => 'Identificación del representate', 'required' => 'required']) !!}
                             @error('representative_identification_card')
                             <br>
                             <span class="text-danger">{{ $message }}</span>
@@ -69,9 +59,8 @@
                             @enderror
                         </div>
                         <div class="form-group">
-                            {!! Form::label('number_rooms', 'Numero de Rooms') !!}
-                            {{-- ojo que en la linea siguiente va el nombre de la columa =( --}}
-                            {!! Form::number('number_rooms', null, ['class' => 'form-control', 'placeholder' => 'Numero de Rooms']) !!}
+                            {!! Form::label('number_rooms', 'Numero de Rooms') !!} <span class="text-danger">*</span>
+                            {!! Form::number('number_rooms', null, ['class' => 'form-control', 'placeholder' => 'Numero de Rooms', 'required' => 'required']) !!}
                             @error('number_rooms')
                             <br>
                             <span class="text-danger">{{ $message }}</span>
@@ -79,9 +68,8 @@
                             @enderror
                         </div>
                         <div class="form-group">
-                            {!! Form::label('capacity_models', 'Capacidad de modelos') !!}
-                            {{-- ojo que en la linea siguiente va el nombre de la columa =( --}}
-                            {!! Form::number('capacity_models', null, ['class' => 'form-control', 'placeholder' => 'Capacidad de modelos']) !!}
+                            {!! Form::label('capacity_models', 'Capacidad de modelos') !!} <span class="text-danger">*</span>
+                            {!! Form::number('capacity_models', null, ['class' => 'form-control', 'placeholder' => 'Capacidad de modelos', 'required' => 'required']) !!}
                             @error('capacity_models')
                             <br>
                             <span class="text-danger">{{ $message }}</span>
@@ -93,7 +81,6 @@
                         <h4>Imágenes</h4>
                         <div class="form-group file-select">
                             {!! Form::label('logo', 'Logo') !!}
-                            {{-- ojo que en la linea siguiente va el nombre de la columa =( --}}
                             <br>
                             {!! Form::file('logo', ['class' => 'form-control', 'accept'=> "image/*"]) !!}
                             @error('logo')
@@ -107,7 +94,7 @@
                 </div>
             </div>
             <div class="card-footer">
-                <button class="btn btn-sm btn-success">Actualizar</button>
+                <button class="btn btn-sm btn-success">Guardar</button>
             </div>
         {!! Form::close() !!}
     </div>

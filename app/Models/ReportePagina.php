@@ -22,10 +22,30 @@ class ReportePagina extends Model
         return $this->belongsTo('App\Models\User','user_id');
     }
 
+    
+
     //RELACION UNO A MUCHOS  INVERSA
     public function pagina(){
         return $this->belongsTo('App\Models\Pagina','pagina_id');
     } 
+
+
+    // //RELACION DE UNO A MUCHOS      
+    // public function metaModelo()
+    // {
+    //     return $this->hasMany('App\Models\MetaModelo');
+    // }
+
+    //RELACION DE UNO A MUCHOS      
+    public function metaModelo()
+    {
+        return $this->belongsTo('App\Models\MetaModelo','metaModelo_id');
+    }
+
+
+
+    
+
     
 
 

@@ -20,6 +20,16 @@
                     <span class="text-danger">{{ $message }}</span>
                     <br>
                 @enderror
+                
+                {!! Form::label('moneda', 'Moneda') !!}
+                {!! Form::select('moneda', ['dolar' => 'dolar', 'euro' => 'euro'], null , ['id' =>'moneda','class' => 'form-control',
+                    ]) !!}
+
+                    @error('moneda')
+                        <br>
+                        <span class="text-danger">{{ $message }}</span>
+                        <br>
+                    @enderror
 
                 {!! Form::label('name', 'Valor') !!}
                 {{-- ojo que en la linea siguiente va el nombre de la columa =( --}}

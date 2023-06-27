@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\MetaModelo;
 use App\Models\User;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
@@ -70,6 +71,13 @@ class RolSeeder extends Seeder
         $user->password = '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi';//password
         $user->syncRoles([$role1]);        
         $user->save();
+
+        $metaModelo = new MetaModelo();
+        $metaModelo->porcentaje=0;
+        $metaModelo->mayorQue=0;
+        $metaModelo->save();
+
+
         
         
         //PERMISOS ROLES

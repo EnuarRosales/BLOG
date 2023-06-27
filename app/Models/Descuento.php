@@ -19,7 +19,7 @@ class Descuento extends Model
 
     //RELACION UNO A MUCHOS INVERSA
     public function user(){
-        return $this->belongsTo('App\Models\User');
+        return $this->belongsTo('App\Models\User','user_id');
     }   
     
 

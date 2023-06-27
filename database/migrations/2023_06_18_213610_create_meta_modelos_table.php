@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateTipoUsuariosTable extends Migration
+return new class extends Migration
 {
     /**
      * Run the migrations.
@@ -13,10 +13,11 @@ class CreateTipoUsuariosTable extends Migration
      */
     public function up()
     {
-        Schema::create('tipo_usuarios', function (Blueprint $table) {
+        Schema::create('meta_modelos', function (Blueprint $table) {
             $table->id();
-            $table->string('nombre');
-            $table->float('porcentaje',5,2)->nullable();
+            $table->float('mayorQue', 12, 2);
+            $table->float('porcentaje', 12, 2);
+                  
             $table->timestamps();
         });
     }
@@ -28,6 +29,6 @@ class CreateTipoUsuariosTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('tipo_usuarios');
+        Schema::dropIfExists('meta_modelos');
     }
-}
+};

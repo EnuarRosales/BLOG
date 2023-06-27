@@ -16,13 +16,8 @@ class CreatePaginasTable extends Migration
         Schema::create('paginas', function (Blueprint $table) {
             $table->id();
             $table->string('nombre',45);
-            $table->float('valor');
-            // $table->unsignedBigInteger('tipoMoneda_id'); //campo para relacion                           
-            // $table->foreign('tipoMoneda_id')
-            //     ->references('id')->on('tipo_moneda_paginas'); //tabla
-            // // ->onDelete('cascade');          
-
-
+            $table->string('moneda',8);
+            $table->float('valor',4,2);          
             $table->timestamps();
         });
     }

@@ -44,7 +44,9 @@ class PaginaController extends Controller
         //VALiDACION FORMULARIO 
        $request->validate([
         'nombre'=>'required',
-        'valor'=>'required',         
+        'valor'=>'required',
+        'moneda'=>'required',
+              
     ]); 
     $pagina= Pagina::create($request->all());
     return redirect()->route('admin.paginas.index',$pagina->id)->with('info','store');
@@ -87,6 +89,8 @@ class PaginaController extends Controller
         $request->validate([
             'nombre'=>'required',
             'valor'=>'required', 
+            'moneda'=>'required',
+            
         ]);
         //ASINACION MASIVA DE VARIABLES A LOS CAMPOS
         $pagina->update($request->all());           

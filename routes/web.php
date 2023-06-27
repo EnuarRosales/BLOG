@@ -37,4 +37,4 @@ Route::put('users/{user}',[UserController::class,'updateRol'])->name('admin.user
 Route::post('reportePaginas',[ReportePaginaController::class,'storeIndividual'])->name('admin.reportePaginas.storeIndividual');
 
 
-
+ 

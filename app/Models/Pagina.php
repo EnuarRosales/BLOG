@@ -24,7 +24,7 @@ class Pagina extends Model
 
     //RELACION UNO A MUCHOS     
     public function registroProducidos(){
-        return $this->hasMany('App\Models\RegistroProducido','registroProducido_id');
+        return $this->hasMany('App\Models\RegistroProducido');
     }
     
     //RELACION DE UNO A MUCHOS      

@@ -66,7 +66,16 @@
                     <br>
                     <span class="text-danger">{{ $message }}</span>
                     <br>
-                @enderror                
+                @enderror         
+                
+                {!! Form::label('TRM', 'TRM') !!}
+                {!! Form::number('TRM', null, ['class' => 'form-control', ]) !!}
+                @error('TRM')
+                    <br>
+                    <span class="text-danger">{{ $message }}</span>
+                    <br>
+                @enderror 
+
 
             </div>
             {!! Form::submit('Registrar Reporte', ['class' => 'btn btn-primary']) !!}

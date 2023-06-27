@@ -44,7 +44,7 @@ class User extends Authenticatable implements MustVerifyEmail
         $this->attributes['name'] = strtolower($value);
     }
 
-    // //RELACION UNO A MUCHOS INVERSA   
+    //RELACION UNO A MUCHOS INVERSA   
     public function tipoUsuario()    {
         return $this->belongsTo('App\Models\TipoUsuario','tipoUsuario_id');
     } 
@@ -90,7 +90,7 @@ class User extends Authenticatable implements MustVerifyEmail
     //RELACION DE UNO A MUCHOS      
     public function descuentos()
     {
-        return $this->hasMany('App\Models\Descuento');
+        return $this->hasMany('App\Models\Descuento','descuento_id');
     }
 
      //RELACION DE UNO A MUCHOS      
@@ -99,11 +99,8 @@ class User extends Authenticatable implements MustVerifyEmail
          return $this->hasMany('App\Models\ReportePagina');
      }
 
-
-
-
     /*
-    //relacion uno a muchos
+                    //relacion uno a muchos¿¿
     public function asignacionRooms(){
         return $this->hasMany('App\Models\AsignacionRooms');
     }    

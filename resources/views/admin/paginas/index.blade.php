@@ -16,6 +16,7 @@
                 <tr>
                     <th>ID</th>
                     <th>Nombre</th>
+                    <th>Moneda</th>
                     <th>Valor Moneda Virtual</th>
                     <th>Editar</th>
                     <th>Eliminar</th>
@@ -28,6 +29,7 @@
                     <tr>
                         <td>{{ $pagina->id }}</td>
                         <td>{{ $pagina->nombre }}</td>
+                        <td>{{ $pagina->moneda }}</td>
                         <td>{{ $pagina->valor }}</td>
 
                         <td width="10px">

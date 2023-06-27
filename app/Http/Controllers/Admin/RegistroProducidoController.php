@@ -23,7 +23,7 @@ class RegistroProducidoController extends Controller
     {
         $registroProducidos = ResgistroProducido::all();
         $userLogueado = auth()->user()->id;
-        return view('admin.registroProducidos.index', compact('registroProducidos','userLogueado'));
+        return view('admin.registroProducidos.index', compact('registroProducidos', 'userLogueado'));
     }
 
 
@@ -98,7 +98,7 @@ class RegistroProducidoController extends Controller
         $paginas = Pagina::orderBy('id', 'desc');
         return view('admin.registroProducidos.edit', compact('registroProducido', 'users', 'metas', 'paginas'));
     }
- 
+
     /**
      * Update the specified resource in storage.
      *
@@ -132,11 +132,6 @@ class RegistroProducidoController extends Controller
         return redirect()->route('admin.registroProducidos.index')->with('info', 'delete');
     }
 
-
-
-
-
-
     public function resumen()
     {
         $registroProducidos = ResgistroProducido::all();
@@ -146,7 +141,7 @@ class RegistroProducidoController extends Controller
                 $registroProducido->cumplio = "Si";
                 $registroProducido->save();
             } else {
-
+ 
                 $registroProducido->cumplio = "No";
                 $registroProducido->save();
             }
@@ -177,7 +172,7 @@ class RegistroProducidoController extends Controller
         6.CUMPLIO; OJO VERIFICA SI LA DIFERENCIA ES POSITIVA O NEGATIVA, SI ES POSITIVA CUMPLIO = SI DE LO CONTRARIO NO
         */
 
-        $fechas = ResgistroProducido::select(
+        $fechas = ResgistroProducido::select( 
             DB::raw('sum(valorProducido) as suma'),
             DB::raw('meta_id'),
 
@@ -214,28 +209,6 @@ class RegistroProducidoController extends Controller
         )
             ->groupBy('meta_id')
             ->get();
-
-
-
-
-
-        // foreach($fechas3 as $i){
-
-        // echo $fechas3;
-
-        //     // if($i->meta_id == $fechas->id){
-        //     //     echo"entro";
-        //     // }
-
-        //     // echo $i->fecha;
-        //     // echo $i->meta_id;
-
-        // }
-
-
-
-
-
 
         return view('admin.registroProducidos.resumen', compact('fechas', 'fechas2', 'fechas3'));
     }

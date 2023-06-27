@@ -16,66 +16,67 @@
 
     <div class="card">
         <div class="card-body">
-            {{-- @can('admin.asignacionTurnos.create') --}}
-            <a class="btn btn-primary" href="{{ route('admin.reportePaginas.create') }}">Carga individual</a>
-
-            <!-- Button trigger modal -->
-            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
-                Cargar Excel
-            </button>
-            @include('admin.reportePaginas.partials.import-excel')
-
-
-            <a class="btn btn-primary" href="{{ route('admin.reportePaginas.reporteQuincena') }}">Porcentajes</a>
-
+            <a class="btn btn-primary" href="{{ route('admin.reportePaginas.index') }}">Volver</a>
+            <a class="btn btn-primary" href="{{ route('admin.reportePaginas.reporteQuincena') }}">Volver</a>
         </div>
         <table id="reportePaginas" class="table table-striped table-bordered shadow-lg mt-4">
             <thead>
                 <tr>
-                    {{-- <th>ID</th>
                     <th>Fecha</th>
-                    <th>Modelo</th>
-                    <th>Pagina</th>
-                    <th>Cantidad Tokens </th>
-                    <th>TRM</th> --}}
-
-                    <th>ID</th>
-                    <th>Fecha</th>
-                    <th>Modelo</th>
-                    <th>Pagina</th>
-                    <th>Cantidad Tokens</th>
-                    <th>Valor Pagina</th>
+                    <th>Usuario</th>
                     <th>Dolares</th>
-                    <th>TRM</th>
-                    <th>Pesos</th>
+                    <th>Meta</th>
                     <th>Porcentaje</th>
-                    <th>Meta Porcentaje</th>
                     <th>Porcentaje Total</th>
-                    <th>Total Pesos</th>
-                    <th>Verificado</th>
-                    <th>Editar</th>
-                    <th>Eliminar</th>
+                    {{-- <th>Editar</th>
+                    <th>Eliminar</th> --}}
                 </tr>
             </thead>
             <tbody>
-                @foreach ($reportePaginas as $reportePagina)
+                @foreach ($reporteQuincenas as $reporteQuincena)
                     <tr>
-                        <td>{{ $reportePagina->id }}</td>
-                        <td>{{ $reportePagina->fecha }}</td>
-                        <td>{{ $reportePagina->user->name }}</td>
-                        <td>{{ $reportePagina->pagina->nombre }}</td>
-                        <td>{{ number_format($reportePagina->Cantidad) }}</td>
-                        <td>{{ $reportePagina->valorPagina }}</td>
-                        <td>{{ number_format($reportePagina->dolares, 2, '.', ',') }}</td>
-                        <td>{{ number_format($reportePagina->TRM, 2, '.', ',') }}</td>
-                        <td>{{ number_format($reportePagina->pesos, 2, '.', ',') }}</td>
-                        <td>{{ $reportePagina->porcentaje }}{{ ' %' }}</td>
-                        <td>{{ number_format($reportePagina->metaModelo->porcentaje) }}</td>
-                        <td>{{ number_format($reportePagina->porcentajeTotal) }}</td>
+                        <td>{{ $reporteQuincena->fecha }}</td>
+                        <td>{{ $reporteQuincena->user->name }}</td>
+                        <td>{{ $reporteQuincena->suma }}</td>
 
-                        <td>{{ number_format($reportePagina->netoPesos, 2, '.', ',') }}</td>
-                        <td>{{ $reportePagina->verificado}}</td>
-                        <td width="10px">
+                        {{-- <td>
+                            @if ($reporteQuincena->suma >= 20)
+                                @php $meta = 5; @endphp
+                            @endif
+                            {{ $meta }}
+
+                        </td> --}}
+                        <td>
+                            @foreach ($metaModeloss as $metaModelo)
+                                @if ( $reporteQuincena->suma >=$metaModelo->mayorQue )                                    
+                                        @php $meta = $metaModelo->porcentaje;                                        
+                                        @endphp
+                                        {{ $meta }}                                    
+                                    @break
+                                    {{-- @else
+                                    {{0}} --}}
+                                @endif 
+                                                      
+                            @endforeach
+
+                        </td>
+
+                        <td>{{ $reporteQuincena->porcentaje}}</td>
+
+                        <td>{{$reporteQuincena->porcentajeTotal}}</td>
+
+
+
+                        {{-- <td>
+                            @if ($reporteQuincena->suma >= 20)
+                                @php $meta = 5; @endphp
+                            @endif
+                            {{ $meta }}
+
+                        </td> --}}
+
+
+                        {{-- <td width="10px">
                             <a class="btn btn-secondary btn-sm"
                                 href="{{ route('admin.reportePaginas.edit', $reportePagina) }}">Editar</a>
                         </td>
@@ -87,7 +88,7 @@
                                 @method('delete')
                                 <button type="submit" class="btn btn-dark btn-sm">Eliminar</button>
                             </form>
-                        </td>
+                        </td> --}}
 
                     </tr>
                 @endforeach
@@ -101,7 +102,6 @@
 @section('css')
     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.13.4/css/jquery.dataTables.min.css" />
     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/buttons/2.3.6/css/buttons.dataTables.min.css" />
-
 @stop
 
 @section('js')
@@ -112,6 +112,9 @@
     <script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
     <script src="https://cdn.datatables.net/1.13.4/js/dataTables.bootstrap5.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+
+
 
     {{-- SWET ALERT --}}
     @if (session('info') == 'delete')
@@ -201,5 +204,6 @@
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js"></script>
     <script type="text/javascript" src="https://cdn.datatables.net/buttons/2.3.6/js/buttons.html5.min.js"></script>
     <script type="text/javascript" src="https://cdn.datatables.net/buttons/2.3.6/js/buttons.print.min.js"></script>
+
 
 @stop

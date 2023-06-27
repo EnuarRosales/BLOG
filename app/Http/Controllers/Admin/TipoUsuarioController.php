@@ -41,7 +41,8 @@ class TipoUsuarioController extends Controller
     {
         //VALiDACION FORMULARIO 
         $request->validate([
-            'nombre'=>'required',         
+            'nombre'=>'required',
+            'porcentaje'=>'required'         
         ]);
 
         $tipoUsuario = TipoUsuario::create($request->all());
@@ -88,7 +89,8 @@ class TipoUsuarioController extends Controller
     {
         //VALLIDACION DE FORMULARIOS
         $request->validate([
-            'nombre'=>'required'
+            'nombre'=>'required',
+            'porcentaje'=>'required'
         ]);
         //ASINACION MASIVA DE VARIABLES A LOS CAMPOS
         $tipoUsuario->update($request->all());           

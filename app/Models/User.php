@@ -93,9 +93,9 @@ class User extends Authenticatable implements MustVerifyEmail
         return $this->hasMany('App\Models\Descuento');
     }
 
-    public function empresa(): BelongsTo
+    public function empresas(): BelongsTo
     {
-        return $this->belongsTo(Empresa::class);
+        return $this->belongsToMany(Empresa::class, 'user_empresa');
     }
 
 

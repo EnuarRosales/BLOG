@@ -25,8 +25,14 @@ class EmpresaController extends Controller
     public function index()
     {
         try {
-            $empresas = Empresa::where('user_id',Auth::id())->get();
+
+            $empresas = Empresa::select('empresas.*')
+                ->join('user_empresa', 'user_empresa.empresa_id','=','empresas.id')
+                ->where('user_empresa.user_id', Auth::id())
+                ->get();
+
             return view('admin.empresa.index', compact('empresas'));
+
         } catch (\Exception $exception) {
             Log::error("Error EmpCr index: {$exception->getMessage()}, File: {$exception->getFile()}, Line: {$exception->getLine()}");
             return back();
@@ -58,8 +64,9 @@ class EmpresaController extends Controller
         try {
             DB::beginTransaction();
 
-            $request['user_id'] = Auth::user()->id;
-            Empresa::create($request->all());
+            $user_id= Auth::user()->id;
+            $empresa = Empresa::create($request->all());
+            $empresa->users()->attach($user_id);
 
             DB::commit();
 

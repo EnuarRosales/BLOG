@@ -10,7 +10,7 @@ class Empresa extends Model
     use HasFactory;
     protected $guarded = [];
 
-    public function user()    {
-        return $this->hasOne(User::class);
+    public function users()    {
+        return $this->belongsToMany(User::class, 'user_empresa');
     }
 }

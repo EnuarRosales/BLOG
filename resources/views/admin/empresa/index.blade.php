@@ -63,7 +63,13 @@
 @section('js')
     <script>
         $(document).ready(function() {
-            $('#empresas').DataTable(); //
+            $('#empresas').DataTable(
+                {
+                    "language": {
+                        "url": "//cdn.datatables.net/plug-ins/1.10.16/i18n/Spanish.json"
+                    },
+                }
+            ); //
         });
     </script>
     <script src="https://code.jquery.com/jquery-3.5.1.js"></script>

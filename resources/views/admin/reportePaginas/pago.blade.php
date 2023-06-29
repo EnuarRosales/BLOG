@@ -16,99 +16,29 @@
 
     <div class="card">
         <div class="card-body">
-            {{-- @can('admin.asignacionTurnos.create') --}}
-            <a class="btn btn-primary" href="{{ route('admin.reportePaginas.create') }}">Carga individual</a>
-
-            <!-- Button trigger modal -->
-            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
-                Cargar Excel
-            </button>
-            @include('admin.reportePaginas.partials.import-excel')
-
-            <a class="btn btn-primary" href="{{ route('admin.reportePaginas.reporteQuincena') }}">Porcentajes</a>
-
-            <a class="btn btn-primary" href="{{ route('admin.reportePaginas.pagos') }}">Pagos</a>
-            <a class="btn btn-primary " href="{{ route('admin.reportePaginas.verificadoMasivo') }}">Verificado Masivo</a>
-           
-            
-
-          
-
-
-
-
-
-
-
-
+            <a class="btn btn-primary" href="{{ route('admin.reportePaginas.index') }}">Volver</a>
+            <a class="btn btn-primary" href="{{ route('admin.reportePaginas.reporteQuincena') }}">Volver</a>
         </div>
         <table id="reportePaginas" class="table table-striped table-bordered shadow-lg mt-4">
             <thead>
                 <tr>
-                    {{-- <th>ID</th>
                     <th>Fecha</th>
-                    <th>Modelo</th>
-                    <th>Pagina</th>
-                    <th>Cantidad Tokens </th>
-                    <th>TRM</th> --}}
-
-                    <th>ID</th>
-                    <th>Fecha</th>
-                    <th>Modelo</th>
-                    <th>Pagina</th>
-                    <th>Cantidad Tokens</th>
-                    <th>Valor Pagina</th>
-                    <th>Dolares</th>
-                    <th>TRM</th>
-                    <th>Pesos</th>
-                    <th>Porcentaje</th>
-                    <th>Meta Porcentaje</th>
-                    <th>Porcentaje Total</th>
-                    <th>Total Pesos</th>
-                    <th>Estado</th>
-                    <th>Editar</th>
-                    <th>Eliminar</th>
+                    <th>Usuario</th>
+                    <th>Pesos Generados</th>
+                    <th>Neto a pagar</th>
+                    <th>Descuentos</th>
+                  
                 </tr>
             </thead>
             <tbody>
-                @foreach ($reportePaginas as $reportePagina)
+                @foreach ($pagos as $pago)
                     <tr>
-                        <td>{{ $reportePagina->id }}</td>
-                        <td>{{ $reportePagina->fecha }}</td>
-                        <td>{{ $reportePagina->user->name }}</td>
-                        <td>{{ $reportePagina->pagina->nombre }}</td>
-                        <td>{{ number_format($reportePagina->Cantidad) }}</td>
-                        <td>{{ $reportePagina->valorPagina }}</td>
-                        <td>{{ number_format($reportePagina->dolares, 2, '.', ',') }}</td>
-                        <td>{{ number_format($reportePagina->TRM, 2, '.', ',') }}</td>
-                        <td>{{ number_format($reportePagina->pesos, 2, '.', ',') }}</td>
-                        <td>{{ $reportePagina->porcentaje }}{{ ' %' }}</td>
-                        <td>{{ number_format($reportePagina->metaModelo->porcentaje) }}</td>
-                        <td>{{ number_format($reportePagina->porcentajeTotal) }}</td>
-                        <td>{{ number_format($reportePagina->netoPesos, 2, '.', ',') }}</td>
-                        <td id={{ $reportePagina->verificado }}>
-
-                            @if ($reportePagina->verificado == 1)
-                                <button type="button" class="btn btn-secondary btn-sm btn-success">Activa</button>
-                            @else
-                                <button type="button" class="btn btn-secondary btn-sm btn-danger">Inactiva</button>
-                            @endif
-                        </td>
-
-                        <td width="10px">
-                            <a class="btn btn-secondary btn-sm"
-                                href="{{ route('admin.reportePaginas.edit', $reportePagina) }}">Editar</a>
-                        </td>
-
-                        <td width="10px">
-                            <form class="formulario-eliminar"
-                                action="{{ route('admin.reportePaginas.destroy', $reportePagina) }}" method="POST">
-                                @csrf
-                                @method('delete')
-                                <button type="submit" class="btn btn-dark btn-sm">Eliminar</button>
-                            </form>
-                        </td>
-
+                        <td>{{ $pago->fecha }}</td>
+                        <td>{{ $pago->user->name}}</td>
+                        <td>{{ $pago->suma }}</td>  
+                        <td></td>   
+                        <td></td>                 
+                     
                     </tr>
                 @endforeach
             </tbody>
@@ -121,8 +51,6 @@
 @section('css')
     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.13.4/css/jquery.dataTables.min.css" />
     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/buttons/2.3.6/css/buttons.dataTables.min.css" />
-
-
 @stop
 
 @section('js')
@@ -133,6 +61,9 @@
     <script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
     <script src="https://cdn.datatables.net/1.13.4/js/dataTables.bootstrap5.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+
+
 
     {{-- SWET ALERT --}}
     @if (session('info') == 'delete')
@@ -200,11 +131,6 @@
 
 
 
-    
-
-
-
-
     {{-- DATATATABLE --}}
     <script>
         $(document).ready(function() {
@@ -219,7 +145,6 @@
         });
     </script>
 
-
     <script type="text/javascript" src="https://code.jquery.com/jquery-3.5.1.js"></script>
     <script type="text/javascript" src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
     <script type="text/javascript" src="https://cdn.datatables.net/buttons/2.3.6/js/dataTables.buttons.min.js"></script>
@@ -228,5 +153,6 @@
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js"></script>
     <script type="text/javascript" src="https://cdn.datatables.net/buttons/2.3.6/js/buttons.html5.min.js"></script>
     <script type="text/javascript" src="https://cdn.datatables.net/buttons/2.3.6/js/buttons.print.min.js"></script>
+
 
 @stop

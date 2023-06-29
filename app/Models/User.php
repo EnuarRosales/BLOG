@@ -14,7 +14,7 @@ use Spatie\Permission\Traits\HasRoles;
 class User extends Authenticatable implements MustVerifyEmail
 {
     use HasApiTokens, HasFactory, Notifiable, HasRoles;
-   
+
 
     protected $attributes = [
         'name' => 'Enuar Emilio Rosales Salazar',
@@ -26,11 +26,11 @@ class User extends Authenticatable implements MustVerifyEmail
     ];
 
 
-    
+
     //CON ESTO LOGRAMOS HACER LA ASIGNACION MASIVA
     protected $guarded = [];
 
-   
+
 
     //ACCESOR
     public function getNameAttribute($value)
@@ -45,17 +45,18 @@ class User extends Authenticatable implements MustVerifyEmail
     }
 
     //RELACION UNO A MUCHOS INVERSA   
-    public function tipoUsuario()    {
-        return $this->belongsTo('App\Models\TipoUsuario','tipoUsuario_id');
-    } 
-      
+    public function tipoUsuario()
+    {
+        return $this->belongsTo('App\Models\TipoUsuario', 'tipoUsuario_id');
+    }
+
     // public function tipoUsuario()
     // {
     //     return $this->belongsTo(TipoUsuario::class,'tipoUsuario_id');
     // } 
 
- 
- 
+
+
 
     //RELACION UNO A MUCHOS 
     public function asignacionRooms()
@@ -90,14 +91,20 @@ class User extends Authenticatable implements MustVerifyEmail
     //RELACION DE UNO A MUCHOS      
     public function descuentos()
     {
-        return $this->hasMany('App\Models\Descuento','descuento_id');
+        return $this->hasMany('App\Models\Descuento', 'descuento_id');
     }
 
-     //RELACION DE UNO A MUCHOS      
-     public function reportePaginas()
-     {
-         return $this->hasMany('App\Models\ReportePagina');
-     }
+    //RELACION DE UNO A MUCHOS      
+    public function reportePaginas()
+    {
+        return $this->hasMany('App\Models\ReportePagina');
+    }
+
+    //RELACION DE UNO A MUCHOS      
+    public function pagos()
+    {
+        return $this->hasMany('App\Models\Pago');
+    }
 
     /*
                     //relacion uno a muchos¿¿

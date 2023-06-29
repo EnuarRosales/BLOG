@@ -42,6 +42,8 @@ class ReportePagina extends Model
         return $this->belongsTo('App\Models\MetaModelo','metaModelo_id');
     }
 
+   
+
 
 
     

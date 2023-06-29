@@ -61,9 +61,8 @@ Route::resource('asignacionMultas',AsignacionMultaController::class)->middleware
 Route::resource('reportePaginas', ReportePaginaController::class)->middleware(['auth','verified'])->names('admin.reportePaginas');
 Route::get('reportePaginass', [ReportePaginaController::class,'nomina'])->name('admin.reportePaginas.nomina');
 Route::get('reportePaginasss', [ReportePaginaController::class,'reporteQuincena'])->name('admin.reportePaginas.reporteQuincena');
-
-
-
+Route::get('pagos', [ReportePaginaController::class,'pagos'])->name('admin.reportePaginas.pagos');
+Route::get('verificadoMasivo', [ReportePaginaController::class,'verificadoMasivo'])->name('admin.reportePaginas.verificadoMasivo');
 
 
 

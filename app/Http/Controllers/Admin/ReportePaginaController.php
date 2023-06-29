@@ -4,6 +4,8 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Imports\ReportePaginasImport;
+use App\Models\Descontado;
+use App\Models\Descuento;
 use App\Models\MetaModelo;
 use App\Models\Pagina;
 use App\Models\ReportePagina;
@@ -27,7 +29,7 @@ class ReportePaginaController extends Controller
         $registroDatos = new ReportePaginaController;
         $registroDatos->ponerMeta();
         $registroDatos->poblarPorcentajeTotal();
-        $reportePaginas = ReportePagina::all();
+        $reportePaginas = ReportePagina::with('user', 'pagina', 'metaModelo')->get();
         return view('admin.reportePaginas.index', compact('reportePaginas'));
     }
 
@@ -269,11 +271,131 @@ class ReportePaginaController extends Controller
 
             $reportePagina->netoPesos = (($reportePagina->pesos) * ($reportePagina->porcentajeTotal)) / 100;
             $reportePagina->save();
-
-            // if ($reportePagina->valorPagina == null) {
-            //     $reportePagina->netoPesos = (($reportePagina->pesos) * ($reportePagina->porcentajeTotal)) / 100;
-            //     $reportePagina->save();
-            // }
         }
+    }
+
+
+    public function pagoss()
+    {
+
+
+        // $reportePaginas = ReportePagina::where('descontado', 1)->get();
+
+        // return $descuentos;
+
+        $descuentos = Descontado::where('descontado', 0)->get();
+
+        // echo $reportePaginas;
+
+        foreach ($descuentos as $descuento) {
+
+            echo $descuento->descuento->user->name;
+        }
+
+        // return $descuentos->descuento->id;
+
+
+        // $reportePaginas = ReportePagina::addSelect([
+        //     'pagos'=>
+
+        // ])->get();
+
+
+
+
+
+
+
+        // foreach ($reportePaginas  as $reportePagina) {
+        //     if ($reportePagina->verificado == 1) {
+        //         echo $reportePagina;
+        //     }
+        // }
+    }
+
+
+
+
+
+    public function verificadoMasivo()
+    {
+        $reportePaginas = ReportePagina::where('verificado', 0)->get();
+        foreach ($reportePaginas as $reportePagina) {
+            $reportePagina->verificado = 1;
+            $reportePagina->save();
+        }
+        return redirect()->route('admin.reportePaginas.index')->with('info', 'update');
+    }
+
+
+
+    public function pagos()
+    {
+
+        // $descuentos = Descontado::where('descontado', 0)->get();
+
+        /*
+         * No BORRAR LA CONSULTA QUE SE VE A CONTINUACION YA QUE PUEDE SERVIR MAS ADELNATE
+         */
+        // $pagos= DB::table('reporte_paginas')
+        // ->select(DB::raw('sum(netoPesos) as suma'),
+        //         DB::raw('user_id'),
+        //         DB::raw('fecha'))
+        //         ->where('verificado', 0)
+        //         ->groupBy('fecha', 'user_id')
+        //         ->get();
+
+
+        // $pagos = ReportePagina::select(
+        //     DB::raw('sum(netoPesos) as suma'),
+        //     DB::raw('user_id'),
+        //     DB::raw('fecha'),
+
+        // )
+        //     ->where('verificado', 0)
+        //     ->groupBy('fecha', 'user_id')
+
+        //     ->get();
+
+
+
+        // $descuentos = Descontado::where('descontado', 0)->get();
+
+
+    
+
+        $descuentos = DB::table('descuentos')
+            ->join('descontados', 'descontados.descuento_id', '=', 'descuentos.id')
+            ->select(
+                DB::raw('sum(valor) as suma'),
+                DB::raw('user_id'),                   
+            )
+            ->where('descontado', 0)
+            ->groupBy('user_id')
+            ->get();
+
+            return $descuentos;
+
+
+        // $descuentos = Descuento::select(
+        //     DB::raw('sum(valor) as suma'),
+        //     DB::raw('user_id'),
+        //     DB::raw('fecha'),
+        // )
+        //     // ->where('descontado', 0)
+        //     ->groupBy('fecha', 'user_id')
+        //     ->get();
+        // return $descuentos;
+
+
+        // foreach ($descuentos as $descuento) {
+        //     if($descuento->descuento->user->id==)
+
+        //     echo $descuento->descuento->user->name;
+        // }
+
+
+
+        // return view('admin.reportePaginas.pago', compact('pagos'));
     }
 }

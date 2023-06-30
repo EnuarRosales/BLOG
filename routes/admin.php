@@ -18,9 +18,9 @@ use App\Http\Controllers\Admin\TipoMultaController;
 use App\Http\Controllers\Admin\TipoRoomController;
 use App\Http\Controllers\Admin\TipoTurnoController;
 use App\Http\Controllers\Admin\TipoUsuarioController;
-use App\Http\Controllers\Admin\UserController; 
+use App\Http\Controllers\Admin\UserController;
 
-use Illuminate\Support\Facades\Route; 
+use Illuminate\Support\Facades\Route;
 
 Route::get('/',[HomeController::class,'index'])->middleware(['auth','verified']);
 Route::get('abonos/{abonoParcial}',[DescontadoController::class,'abonoParcial'])->name('admin.abonos.abonoParcial');
@@ -63,6 +63,7 @@ Route::get('reportePaginass', [ReportePaginaController::class,'nomina'])->name('
 Route::get('reportePaginasss', [ReportePaginaController::class,'reporteQuincena'])->name('admin.reportePaginas.reporteQuincena');
 Route::get('pagos', [ReportePaginaController::class,'pagos'])->name('admin.reportePaginas.pagos');
 Route::get('verificadoMasivo', [ReportePaginaController::class,'verificadoMasivo'])->name('admin.reportePaginas.verificadoMasivo');
+Route::post('reportePaginas/updateStatus', [ReportePaginaController::class,'updateStatus'])->name('admin.reportePaginas.updateStatus');
 
 
 

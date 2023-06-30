@@ -48,7 +48,7 @@ class ReportePaginaController extends Controller
     {
         $users = User::orderBy('id', 'desc');
         $paginas = Pagina::orderBy('id', 'desc');
-        // $turnos = Turno::orderBy('id','desc'); 
+        // $turnos = Turno::orderBy('id','desc');
         return view('admin.reportePaginas.create', compact('users', 'paginas'));
     }
 
@@ -91,7 +91,7 @@ class ReportePaginaController extends Controller
 
     public function storeIndividual(Request $request)
     {
-        //VALiDACION FORMULARIO 
+        //VALiDACION FORMULARIO
         $request->validate([
             'fecha' => 'required',
             'user_id' => 'required',
@@ -136,7 +136,7 @@ class ReportePaginaController extends Controller
         $metaModeloss = DB::table('meta_modelos')
             ->orderBy('mayorQue', 'desc')
             ->get();
-        // $metaModelos = MetaModelo::orderBy('mayorQue','desc'); 
+        // $metaModelos = MetaModelo::orderBy('mayorQue','desc');
 
         $meta = 0;
 
@@ -177,7 +177,7 @@ class ReportePaginaController extends Controller
      */
     public function update(Request $request, ReportePagina $reportePagina)
     {
-        //VALiDACION FORMULARIO 
+        //VALiDACION FORMULARIO
         $request->validate([
             'fecha' => 'required',
             'user_id' => 'required',
@@ -214,8 +214,8 @@ class ReportePaginaController extends Controller
 
     /*
      * function ponerMeta()
-     * 1. ESTA FUNCION INICIALEMNTE REALIZA UNA CONSULTA A LA BASE DE DATOS EN DONDE AGRUPA LOS DOLARES Y LOS SUMA 
-     * ADICIONALMENTE AGRUPA POR USUR Y FECHA      * 
+     * 1. ESTA FUNCION INICIALEMNTE REALIZA UNA CONSULTA A LA BASE DE DATOS EN DONDE AGRUPA LOS DOLARES Y LOS SUMA
+     * ADICIONALMENTE AGRUPA POR USUR Y FECHA      *
      * 2. LUEGO REALIZA UNA SEGUNA CONSULTA A LA BASE DE DATOS DONDE ORDENA LA TABLA meta_modelos DE MANERA DESCENDENTE
      * 3.MEDIANTE CICLOS Y CONDICIONES ASIGNA VALOR A LA TABLA $reportePagina->metaModelo_id
      *
@@ -362,13 +362,13 @@ class ReportePaginaController extends Controller
         // $descuentos = Descontado::where('descontado', 0)->get();
 
 
-    
+
 
         $descuentos = DB::table('descuentos')
             ->join('descontados', 'descontados.descuento_id', '=', 'descuentos.id')
             ->select(
                 DB::raw('sum(valor) as suma'),
-                DB::raw('user_id'),                   
+                DB::raw('user_id'),
             )
             ->where('descontado', 0)
             ->groupBy('user_id')
@@ -397,5 +397,22 @@ class ReportePaginaController extends Controller
 
 
         // return view('admin.reportePaginas.pago', compact('pagos'));
+    }
+
+    public function updateStatus (Request $request)
+    {
+        try {
+            if ($request->ajax()) {
+                $reporte_pagina = ReportePagina::find($request->input('id'));
+                if ($reporte_pagina) {
+                    $reporte_pagina->update(['verificado' => (int)$request->input('active')]);
+                }
+                return response()->json("Updated", 200);
+            }
+
+        } catch (\Exception $exception) {
+            // \Log::error("Error updateStatus VU: {$exception->getMessage()} File: {$exception->getFile()} Line: {$exception->getLine()}");
+            return response()->json(null, 500);
+        }
     }
 }

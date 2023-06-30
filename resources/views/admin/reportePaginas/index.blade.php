@@ -29,18 +29,6 @@
 
             <a class="btn btn-primary" href="{{ route('admin.reportePaginas.pagos') }}">Pagos</a>
             <a class="btn btn-primary " href="{{ route('admin.reportePaginas.verificadoMasivo') }}">Verificado Masivo</a>
-           
-            
-
-          
-
-
-
-
-
-
-
-
         </div>
         <table id="reportePaginas" class="table table-striped table-bordered shadow-lg mt-4">
             <thead>
@@ -88,11 +76,14 @@
                         <td>{{ number_format($reportePagina->netoPesos, 2, '.', ',') }}</td>
                         <td id={{ $reportePagina->verificado }}>
 
-                            @if ($reportePagina->verificado == 1)
+                            {{--@if ($reportePagina->verificado == 1)
                                 <button type="button" class="btn btn-secondary btn-sm btn-success">Activa</button>
                             @else
                                 <button type="button" class="btn btn-secondary btn-sm btn-danger">Inactiva</button>
-                            @endif
+                            @endif--}}
+                            <input type="checkbox" data-plugin="switchery" data-color="#77dd77"
+                                   {{$reportePagina->verificado?'checked':''}} data-id="{{$reportePagina->id}}"
+                                   data-secondary-color="#ff6961" data-size="small"/>
                         </td>
 
                         <td width="10px">
@@ -121,14 +112,11 @@
 @section('css')
     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.13.4/css/jquery.dataTables.min.css" />
     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/buttons/2.3.6/css/buttons.dataTables.min.css" />
-
-
+    <link rel="stylesheet" type="text/css" href="{{asset('assets/libs/switchery/switchery.min.css')}}" />
 @stop
 
 @section('js')
-    <script>
-        console.log('Hi!');
-    </script>
+    <script src="{{asset('assets/libs/switchery/switchery.min.js')}}"></script>
     <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
     <script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
     <script src="https://cdn.datatables.net/1.13.4/js/dataTables.bootstrap5.min.js"></script>
@@ -197,14 +185,6 @@
         })
     </script>
 
-
-
-
-    
-
-
-
-
     {{-- DATATATABLE --}}
     <script>
         $(document).ready(function() {
@@ -217,6 +197,30 @@
             });
 
         });
+
+        $('[data-plugin="switchery"]').each(function (a, e) {
+            let checkbox = new Switchery($(this)[0], $(this).data());
+            $(this).change(function () {
+                var id = $(this).data('id');
+                var active = $(this).prop('checked');
+                console.log(active);
+                {{--{{route('admin.reportePaginas.updateStatus')}}--}}
+                $.ajax({
+                    url: `{{route('admin.reportePaginas.updateStatus')}}`,
+                    type: 'post',
+                    headers: {'X-CSRF-TOKEN': '{{csrf_token()}}'},
+                    dataType: 'json',
+                    data: {id: id, active: active ? 1 : 0},
+                    success: function (response) {
+                        console.log(response);
+                    },
+                    error: function (jqXHR, exception) {
+                        console.log(jqXHR, exception);
+                    }
+                });
+            });
+        });
+
     </script>
 
 

@@ -9,7 +9,7 @@
 @section('content')
     <div class="card">
         <div class="card-body">
-            <a class="btn btn-primary mb-4" href="{{ route('admin.empresa.create') }}">Agregar Empresa</a>
+            <a class="btn btn-success mb-4" href="{{ route('admin.empresa.create') }}"> <i class="fa fa-plus-circle text-white"></i> Agregar Empresa</a>
             <table id="empresas" class="table table-hover table-striped table-bordered shadow-lg mt-5">
                 <thead>
                 <tr>
@@ -63,7 +63,13 @@
 @section('js')
     <script>
         $(document).ready(function() {
-            $('#empresas').DataTable(); //
+            $('#empresas').DataTable(
+                {
+                    "language": {
+                        "url": "//cdn.datatables.net/plug-ins/1.10.16/i18n/Spanish.json"
+                    },
+                }
+            ); //
         });
     </script>
     <script src="https://code.jquery.com/jquery-3.5.1.js"></script>

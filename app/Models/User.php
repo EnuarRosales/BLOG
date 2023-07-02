@@ -29,7 +29,7 @@ class User extends Authenticatable implements MustVerifyEmail
 
     //CON ESTO LOGRAMOS HACER LA ASIGNACION MASIVA
     protected $guarded = [];
-
+    protected $appends = ['empresa_id'];
 
 
     //ACCESOR
@@ -93,9 +93,9 @@ class User extends Authenticatable implements MustVerifyEmail
         return $this->hasMany('App\Models\Descuento');
     }
 
-    public function empresa(): BelongsTo
+    public function empresas()
     {
-        return $this->belongsTo(Empresa::class);
+        return $this->belongsToMany(Empresa::class, 'user_empresa');
     }
 
 
@@ -113,4 +113,13 @@ class User extends Authenticatable implements MustVerifyEmail
     public function tipoUsuario(){
         return $this->hasOne('App\Models\TipoUsuarios');
     }*/
+
+    public function empresaId(): Attribute
+    {
+        return new Attribute(
+            get: function ($value, $attributes) {
+                return $this->empresas()->where('user_id', $this->id)->first()? $this->empresas()->where('user_id', $this->id)->first()->id:null;
+            }
+        );
+    }
 }

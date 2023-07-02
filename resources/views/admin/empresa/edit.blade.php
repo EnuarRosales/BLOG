@@ -94,7 +94,7 @@
                 </div>
             </div>
             <div class="card-footer">
-                <button class="btn btn-sm btn-success">Actualizar</button>
+                <button class="btn btn-sm btn-success"><i class='fa fa-save'></i>  Actualizar</button>
             </div>
         {!! Form::close() !!}
     </div>

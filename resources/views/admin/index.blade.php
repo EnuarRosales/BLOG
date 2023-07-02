@@ -13,19 +13,19 @@
     <h1> porcentaje: {{ $porcentajeUser }}</h1>
     <h1> multas conteo: {{ $asignacionMultas }}</h1> --}}
 
- 
+
     @can('admin.home')
         <div class="col-12">
             <div class="row">
                 <div class="col">
-                    <x-adminlte-small-box title={{$user}} text="{{$porcentajeUser}}%   Modelos"
+                    <x-adminlte-small-box title={{$count_users_models}} text="{{number_format($porcentaje_model_actives, 2)}}%   Modelos"
                         icon="fa fa-user-plus fa-lg" theme="primary" url="{{ route('admin.users.index') }}"
                         url-text="Ver los Usuarios" />
                 </div>
-                
+
                 <div class="col">
                     {{-- Updatable --}}
-                    
+
                     <x-adminlte-small-box title={{$asignacionMultas}} text="Multas" icon="fas fa-medal text-dark"
                         theme="danger" url="#" url-text="ver las multas" id="sbUpdatable" />
                 </div>
@@ -47,14 +47,14 @@
             <div class="row">
                 <div class="col-8">
                     <x-adminlte-info-box title="Meta" text="75/100" icon="fas fa-lg fa-tasks text-orange" theme="warning"
-                        
-                    
+
+
                     icon-theme="dark" progress=99 progress-theme="dark"
                         description="98% of the tasks have been completed" />
-                        
+
                 </div>
 
-                
+
                 <div class="col-4">
                     <x-adminlte-info-box title="Meta" text="75/100" icon="fas fa-lg fa-tasks text-orange" theme="warning"
                         icon-theme="dark" progress=100 progress-theme="dark"
@@ -96,38 +96,6 @@
                     </table>
                 </div>
 
-                
-                    <div class="col-4">
-                        <table id="users" class="table table-striped table-bordered shadow-lg mt-4">
-                            <thead>
-                                <tr>
-                                    {{-- <th>ID</th> --}}
-                                    <th>Nombre</th>
-                                    {{-- <th>Cedula</th> --}}
-                                    <th>Celular</th>
-                                    {{-- <th>Direccion</th> --}}
-                                    {{-- <th>Email</th> --}}
-                                    {{-- <th>Tipo Usuario</th> --}}
-
-                                </tr>
-                            </thead>
-                            <tbody>
-                                @foreach ($userModelos as $userModelo)
-                                    <tr>
-                                        {{-- <td>{{ $userModelo->id }}</td> --}}
-                                        <td>{{ $userModelo->name }}</td>
-                                        {{-- <td>{{ $userModelo->cedula }}</td> --}}
-                                        <td>{{ $userModelo->celular }}</td>
-                                        {{-- <td>{{ $userModelo->direccion }}</td> --}}
-                                        {{-- <td>{{ $userModelo->email }}</td> --}}
-                                        {{-- <td>{{ $userModelo->tipoUsuario->nombre }}</td> --}}
-
-
-                                    </tr>
-                                @endforeach
-                            </tbody>
-                        </table>
-                    </div>
 
                     <div class="col-4">
                         <table id="users" class="table table-striped table-bordered shadow-lg mt-4">
@@ -161,8 +129,40 @@
                         </table>
                     </div>
 
+                    <div class="col-4">
+                        <table id="users" class="table table-striped table-bordered shadow-lg mt-4">
+                            <thead>
+                                <tr>
+                                    {{-- <th>ID</th> --}}
+                                    <th>Nombre</th>
+                                    {{-- <th>Cedula</th> --}}
+                                    <th>Celular</th>
+                                    {{-- <th>Direccion</th> --}}
+                                    {{-- <th>Email</th> --}}
+                                    {{-- <th>Tipo Usuario</th> --}}
 
-                
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach ($userModelos as $userModelo)
+                                    <tr>
+                                        {{-- <td>{{ $userModelo->id }}</td> --}}
+                                        <td>{{ $userModelo->name }}</td>
+                                        {{-- <td>{{ $userModelo->cedula }}</td> --}}
+                                        <td>{{ $userModelo->celular }}</td>
+                                        {{-- <td>{{ $userModelo->direccion }}</td> --}}
+                                        {{-- <td>{{ $userModelo->email }}</td> --}}
+                                        {{-- <td>{{ $userModelo->tipoUsuario->nombre }}</td> --}}
+
+
+                                    </tr>
+                                @endforeach
+                            </tbody>
+                        </table>
+                    </div>
+
+
+
 
 
             </div>

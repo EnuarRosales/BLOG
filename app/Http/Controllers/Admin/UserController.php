@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\Empresa;
 use App\Models\TipoUsuario;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -93,7 +94,8 @@ class UserController extends Controller
     {
 
         $tipoUsuarios = TipoUsuario::orderBy('id', 'desc');
-        return view('admin.users.edit', compact('user', 'tipoUsuarios'));
+        $empresas = Empresa::select(['id as empresa_id', 'name'])->get();
+        return view('admin.users.edit', compact('user', 'tipoUsuarios', 'empresas'));
     }
 
     public function rol(User $user)
@@ -121,8 +123,16 @@ class UserController extends Controller
             'email' => 'required',
             'tipoUsuario_id' => 'required',
         ]);
+
+        if ($request->input('empresa_id')) {
+            $empresa = Empresa::find($request->input('empresa_id'));
+            if (!$empresa->users()->where('user_id', $user->id)->first())
+                $empresa->users()->attach($user->id);
+        }
+
+        $request = $request->except('empresa_id');
         //ASINACION MASIVA DE VARIABLES A LOS CAMPOS
-        $user->update($request->all());
+        $user->update($request);
         return redirect()->route('admin.users.index', $user->id)->with('info', 'update'); //with mensaje de sesion
 
     }
@@ -165,7 +175,7 @@ class UserController extends Controller
 
     public function CertificacionLaboral($User_id)
     {
-        $userLogueado = auth()->user();        
+        $userLogueado = auth()->user();
 
         $data[]= [];
 

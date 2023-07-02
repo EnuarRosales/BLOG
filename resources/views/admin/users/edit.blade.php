@@ -77,7 +77,19 @@
                     <br>
                     <span class="text-danger">{{ $message }}</span>
                     <br>
-                @enderror               
+                @enderror
+
+                {!! Form::label('name', 'Empresa') !!}
+                {!! Form::select('empresa_id', $empresas->pluck('name', 'empresa_id'), null, [
+                    'class' => 'form-control',
+                    'placeholder' => 'Seleccione una empresa',
+                ]) !!}
+
+                @error('empresa_id')
+                <br>
+                <span class="text-danger">{{ $message }}</span>
+                <br>
+                @enderror
 
             </div>
             {!! Form::submit('Actualizar Usuario', ['class' => 'btn btn-primary']) !!}

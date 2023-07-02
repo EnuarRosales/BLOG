@@ -307,9 +307,9 @@ return [
             'text' => 'search',
         ],
 
-       
 
-        
+
+
 
 
         [
@@ -369,6 +369,10 @@ return [
             'icon'    => 'fas fa-fw fa-share',
             'can' =>'admin.configuraciones',
             'submenu' => [
+                [
+                    'text' => 'Empresa',
+                    'route'  => 'admin.empresa.index',
+                ],
                 [
                     'text' => 'Tipo Usuarios',
                     'route'  => 'admin.tipoUsuarios.index',
@@ -430,11 +434,7 @@ return [
                 [
                     'text' => 'level_one',
                     'url'  => '#',
-                ],
-                [
-                    'text' => 'Empresa',
-                    'route'  => 'admin.empresa.index',
-                ],
+                ]
             ],
         ],
 

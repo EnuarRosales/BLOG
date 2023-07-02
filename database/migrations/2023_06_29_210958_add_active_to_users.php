@@ -13,11 +13,8 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::table('empresas', function (Blueprint $table) {
-            $table->unsignedBigInteger('user_id')->after('id');
-
-            $table->foreign('user_id')
-                ->references('id')->on('users');
+        Schema::table('users', function (Blueprint $table) {
+            $table->boolean('active')->after('tipoUsuario_id')->default(true);
         });
     }
 
@@ -28,9 +25,8 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::table('empresas', function (Blueprint $table) {
-            $table->dropForeign('empresas_user_id_foreign');
-            $table->dropColumn('user_id');
+        Schema::table('users', function (Blueprint $table) {
+            $table->dropColumn('active');
         });
     }
 };

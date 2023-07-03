@@ -18,7 +18,7 @@
         <div class="col-12">
             <div class="row">
                 <div class="col">
-                    <x-adminlte-small-box title={{$count_users_models}} text="{{number_format($porcentaje_model_actives, 2)}}%   Modelos"
+                    <x-adminlte-small-box title={{$count_users_models}} text="{{$porcentaje_model_actives!=0?number_format($porcentaje_model_actives, 2):$porcentaje_model_actives}}%   Modelos"
                         icon="fa fa-user-plus fa-lg" theme="primary" url="{{ route('admin.users.index') }}"
                         url-text="Ver los Usuarios" />
                 </div>

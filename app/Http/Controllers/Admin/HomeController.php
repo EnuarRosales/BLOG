@@ -9,6 +9,7 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 
 class HomeController extends Controller
 {
@@ -32,7 +33,10 @@ class HomeController extends Controller
 
             $capacity_model_empresa = Empresa::select(['capacity_models'])->where('id', Auth::user()->empresa_id)->first();
 
-            $porcentaje_model_actives = ($count_users_models * 100) / ($capacity_model_empresa->capacity_models!=0?$capacity_model_empresa->capacity_models:1);
+            $porcentaje_model_actives = 0;
+
+            if($capacity_model_empresa)
+                $porcentaje_model_actives = ($count_users_models * 100) / ($capacity_model_empresa->capacity_models!=0?$capacity_model_empresa->capacity_models:1);
 
             $user = DB::table('users')->where('tipoUsuario_id', '=', 3)->count();
             $userModelos = DB::table('users')->where('tipoUsuario_id', '=', 3)->get(); //id
@@ -42,11 +46,9 @@ class HomeController extends Controller
             $asignacionMultas = DB::table('asignacion_multas')->count();
             $porcentajeUser = $user * 100 / 15;
 
-
-
             return view('admin.index', compact('porcentajeUser', 'user', 'asignacionMultas', 'userModelos', 'porcentaje_model_actives', 'count_users_models'));
         } catch (\Exception $exception) {
-
+            Log::error($exception);
         }
     }
 

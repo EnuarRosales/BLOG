@@ -14,10 +14,10 @@ class Pago extends Model
 
     
     //RELACION UNO A MUCHOS  INVERSA
-    public function descuentos()
-    {
-        return $this->belongsTo('App\Models\Descuento', 'descuento_id');
-    }
+    // public function descuentos()
+    // {
+    //     return $this->belongsTo('App\Models\Descuento', 'descuento_id');
+    // }
 
     //RELACION UNO A MUCHOS  INVERSA
     public function users()

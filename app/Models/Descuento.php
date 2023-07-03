@@ -29,10 +29,10 @@ class Descuento extends Model
     }
 
      //RELACION DE UNO A MUCHOS      
-     public function pagos()
-     {
-         return $this->hasMany('App\Models\Pago');
-     }
+    //  public function pagos()
+    //  {
+    //      return $this->hasMany('App\Models\Pago');
+    //  }
 
 
 

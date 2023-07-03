@@ -8,6 +8,7 @@ use App\Models\Descontado;
 use App\Models\Descuento;
 use App\Models\MetaModelo;
 use App\Models\Pagina;
+use App\Models\Pago;
 use App\Models\ReportePagina;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -15,6 +16,8 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
 use Maatwebsite\Excel\Facades\Excel;
+
+use function PHPUnit\Framework\returnSelf;
 
 class ReportePaginaController extends Controller
 {
@@ -29,14 +32,23 @@ class ReportePaginaController extends Controller
         $registroDatos = new ReportePaginaController;
         $registroDatos->ponerMeta();
         $registroDatos->poblarPorcentajeTotal();
-        $reportePaginas = ReportePagina::with('user', 'pagina', 'metaModelo')->get();
+        $reportePaginas = ReportePagina::with('user', 'pagina', 'metaModelo')->where('verificado', 0)->get();
         return view('admin.reportePaginas.index', compact('reportePaginas'));
     }
 
-    public function nomina()
+
+
+    public function cargarExcel()
     {
 
-        $reportePaginas = ReportePagina::all();
+        return view('admin.reportePaginas.partials.import-excel');
+    }
+
+
+    public function nomina()
+    {
+        // $reportePaginas = ReportePagina::all();
+        $reportePaginas = ReportePagina::with('user', 'pagina', 'metaModelo')->where('verificado', 0)->get();
         return view('admin.reportePaginas.nomina', compact('reportePaginas'));
     }
     /**
@@ -120,7 +132,9 @@ class ReportePaginaController extends Controller
     public function reporteQuincena()
     {
 
-        $reporteQuincenas = ReportePagina::select(
+        // $reportePaginas = ReportePagina::with('user', 'pagina', 'metaModelo')->where('verificado', 0)->get();
+
+        $reporteQuincenas = ReportePagina::with('user', 'pagina', 'metaModelo')->select(
             DB::raw('sum(dolares) as suma'),
             DB::raw('user_id'),
             DB::raw('fecha'),
@@ -128,6 +142,7 @@ class ReportePaginaController extends Controller
             DB::raw('porcentajeTotal'),
 
         )
+            ->where('verificado', 0)
             ->groupBy('fecha', 'user_id', 'porcentaje', 'porcentajeTotal')
             ->get();
         // echo $reporteQuincenas;
@@ -140,7 +155,7 @@ class ReportePaginaController extends Controller
 
         $meta = 0;
 
-        $reportePaginas = ReportePagina::all();
+        // $reportePaginas = ReportePagina::all();
 
         return view('admin.reportePaginas.nomina', compact('reporteQuincenas', 'metaModeloss', 'meta'));
     }
@@ -223,6 +238,7 @@ class ReportePaginaController extends Controller
 
     public function ponerMeta()
     {
+        // with('user', 'pagina', 'metaModelo')
         $reporteQuincenas = ReportePagina::select(
             DB::raw('sum(dolares) as suma'),
             DB::raw('user_id'),
@@ -234,15 +250,21 @@ class ReportePaginaController extends Controller
         $metaModeloss = DB::table('meta_modelos')
             ->orderBy('mayorQue', 'desc')
             ->get();
+            
         $meta = 0;
+
+
 
         $reportePaginas = ReportePagina::all();
 
         foreach ($reportePaginas as $reportePagina) {
             foreach ($reporteQuincenas as $reporteQuincena) {
                 foreach ($metaModeloss as $metaModelo) {
+
+
                     if ($reporteQuincena->suma >= $metaModelo->mayorQue) {
                         $meta = $metaModelo->id;
+                        // $meta = $metaModelo->porcentaje;
                         if ($reporteQuincena->user_id == $reportePagina->user_id && $reporteQuincena->fecha == $reportePagina->fecha) {
                             // echo $meta . "   " . $reporteQuincena->user_id . "   " . $reporteQuincena->fecha;
                             // echo "<br>";
@@ -259,10 +281,11 @@ class ReportePaginaController extends Controller
 
     public function poblarPorcentajeTotal()
     {
+        // $reportePaginas = ReportePagina::with('user', 'metaModelo')->get();
         $reportePaginas = ReportePagina::all();
         foreach ($reportePaginas as $reportePagina) {
             if ($reportePagina->user->tipoUsuario->nombre == "MODELO") {
-                $reportePagina->porcentajeTotal = $reportePagina->user->tipoUsuario->porcentaje + $reportePagina->metaModelo->porcentaje;
+                $reportePagina->porcentajeTotal = $reportePagina->user->tipoUsuario->porcentaje + $reportePagina->metaModelo->porcentaje;//->metaModelo
                 $reportePagina->save();
             } else {
                 $reportePagina->porcentajeTotal = $reportePagina->user->tipoUsuario->porcentaje;
@@ -331,9 +354,6 @@ class ReportePaginaController extends Controller
 
     public function pagos()
     {
-
-        // $descuentos = Descontado::where('descontado', 0)->get();
-
         /*
          * No BORRAR LA CONSULTA QUE SE VE A CONTINUACION YA QUE PUEDE SERVIR MAS ADELNATE
          */
@@ -346,23 +366,17 @@ class ReportePaginaController extends Controller
         //         ->get();
 
 
-        // $pagos = ReportePagina::select(
-        //     DB::raw('sum(netoPesos) as suma'),
-        //     DB::raw('user_id'),
-        //     DB::raw('fecha'),
-
-        // )
-        //     ->where('verificado', 0)
-        //     ->groupBy('fecha', 'user_id')
-
-        //     ->get();
+        $pagos = ReportePagina::with('user', 'pagina', 'metaModelo')->select(
+            DB::raw('sum(netoPesos) as suma'),
+            DB::raw('user_id'),
+            DB::raw('fecha'),
 
 
-
-        // $descuentos = Descontado::where('descontado', 0)->get();
-
-
-
+        )
+            ->where('verificado', 1)
+            ->where('enviarPago', 0)
+            ->groupBy('fecha', 'user_id')
+            ->get();
 
         $descuentos = DB::table('descuentos')
             ->join('descontados', 'descontados.descuento_id', '=', 'descuentos.id')
@@ -374,32 +388,12 @@ class ReportePaginaController extends Controller
             ->groupBy('user_id')
             ->get();
 
-            return $descuentos;
-
-
-        // $descuentos = Descuento::select(
-        //     DB::raw('sum(valor) as suma'),
-        //     DB::raw('user_id'),
-        //     DB::raw('fecha'),
-        // )
-        //     // ->where('descontado', 0)
-        //     ->groupBy('fecha', 'user_id')
-        //     ->get();
-        // return $descuentos;
-
-
-        // foreach ($descuentos as $descuento) {
-        //     if($descuento->descuento->user->id==)
-
-        //     echo $descuento->descuento->user->name;
-        // }
-
-
-
-        // return view('admin.reportePaginas.pago', compact('pagos'));
+        return view('admin.reportePaginas.pago', compact('pagos', 'descuentos'));
     }
 
-    public function updateStatus (Request $request)
+
+
+    public function updateStatus(Request $request)
     {
         try {
             if ($request->ajax()) {
@@ -409,7 +403,6 @@ class ReportePaginaController extends Controller
                 }
                 return response()->json("Updated", 200);
             }
-
         } catch (\Exception $exception) {
             // \Log::error("Error updateStatus VU: {$exception->getMessage()} File: {$exception->getFile()} Line: {$exception->getLine()}");
             return response()->json(null, 500);

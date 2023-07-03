@@ -15,7 +15,23 @@
     @endif
 
     <div class="card">
+
         <div class="card-body">
+
+            {{-- <div class="btn-group">
+                <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true"
+                    aria-expanded="false">
+                    Carga Datos
+                </button>
+                <div class="dropdown-menu">
+                    <a class="dropdown-item" href="{{ route('admin.reportePaginas.create') }}">Cargar individual</a>
+                    <a class="dropdown-item" href="#">Cargar Excel</a> --}}
+                    {{-- <a class="dropdown-item" href="{{ route('admin.reportePaginas.cargarExcel') }}">Carga Excel</a> --}}
+
+                    
+                {{-- </div>
+            </div> --}}
+
             {{-- @can('admin.asignacionTurnos.create') --}}
             <a class="btn btn-primary" href="{{ route('admin.reportePaginas.create') }}">Carga individual</a>
 
@@ -25,10 +41,10 @@
             </button>
             @include('admin.reportePaginas.partials.import-excel')
 
-            <a class="btn btn-primary" href="{{ route('admin.reportePaginas.reporteQuincena') }}">Porcentajes</a>
+            <a class="btn btn-info" href="{{ route('admin.reportePaginas.reporteQuincena') }}">Porcentajes</a>
 
-            <a class="btn btn-primary" href="{{ route('admin.reportePaginas.pagos') }}">Pagos</a>
-            <a class="btn btn-primary " href="{{ route('admin.reportePaginas.verificadoMasivo') }}">Verificado Masivo</a>
+            <a class="btn btn-info" href="{{ route('admin.reportePaginas.pagos') }}">Pagos</a>
+            <a class="btn btn-success" href="{{ route('admin.reportePaginas.verificadoMasivo') }}">Verificado Masivo</a>
         </div>
         <table id="reportePaginas" class="table table-striped table-bordered shadow-lg mt-4">
             <thead>
@@ -76,14 +92,14 @@
                         <td>{{ number_format($reportePagina->netoPesos, 2, '.', ',') }}</td>
                         <td id={{ $reportePagina->verificado }}>
 
-                            {{--@if ($reportePagina->verificado == 1)
+                            {{-- @if ($reportePagina->verificado == 1)
                                 <button type="button" class="btn btn-secondary btn-sm btn-success">Activa</button>
                             @else
                                 <button type="button" class="btn btn-secondary btn-sm btn-danger">Inactiva</button>
-                            @endif--}}
+                            @endif --}}
                             <input type="checkbox" data-plugin="switchery" data-color="#77dd77"
-                                   {{$reportePagina->verificado?'checked':''}} data-id="{{$reportePagina->id}}"
-                                   data-secondary-color="#ff6961" data-size="small"/>
+                                {{ $reportePagina->verificado ? 'checked' : '' }} data-id="{{ $reportePagina->id }}"
+                                data-secondary-color="#ff6961" data-size="small" />
                         </td>
 
                         <td width="10px">
@@ -112,11 +128,11 @@
 @section('css')
     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.13.4/css/jquery.dataTables.min.css" />
     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/buttons/2.3.6/css/buttons.dataTables.min.css" />
-    <link rel="stylesheet" type="text/css" href="{{asset('assets/libs/switchery/switchery.min.css')}}" />
+    <link rel="stylesheet" type="text/css" href="{{ asset('assets/libs/switchery/switchery.min.css') }}" />
 @stop
 
 @section('js')
-    <script src="{{asset('assets/libs/switchery/switchery.min.js')}}"></script>
+    <script src="{{ asset('assets/libs/switchery/switchery.min.js') }}"></script>
     <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
     <script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
     <script src="https://cdn.datatables.net/1.13.4/js/dataTables.bootstrap5.min.js"></script>
@@ -198,29 +214,33 @@
 
         });
 
-        $('[data-plugin="switchery"]').each(function (a, e) {
+        $('[data-plugin="switchery"]').each(function(a, e) {
             let checkbox = new Switchery($(this)[0], $(this).data());
-            $(this).change(function () {
+            $(this).change(function() {
                 var id = $(this).data('id');
                 var active = $(this).prop('checked');
                 console.log(active);
-                {{--{{route('admin.reportePaginas.updateStatus')}}--}}
+                {{-- {{route('admin.reportePaginas.updateStatus')}} --}}
                 $.ajax({
-                    url: `{{route('admin.reportePaginas.updateStatus')}}`,
+                    url: `{{ route('admin.reportePaginas.updateStatus') }}`,
                     type: 'post',
-                    headers: {'X-CSRF-TOKEN': '{{csrf_token()}}'},
+                    headers: {
+                        'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                    },
                     dataType: 'json',
-                    data: {id: id, active: active ? 1 : 0},
-                    success: function (response) {
+                    data: {
+                        id: id,
+                        active: active ? 1 : 0
+                    },
+                    success: function(response) {
                         console.log(response);
                     },
-                    error: function (jqXHR, exception) {
+                    error: function(jqXHR, exception) {
                         console.log(jqXHR, exception);
                     }
                 });
             });
         });
-
     </script>
 
 

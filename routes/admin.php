@@ -5,7 +5,9 @@ use App\Http\Controllers\Admin\AsignacionRoomController;
 use App\Http\Controllers\Admin\AsignacionTurnoController;
 use App\Http\Controllers\Admin\DescontadoController;
 use App\Http\Controllers\Admin\HomeController;
+use App\Http\Controllers\Admin\MetaModeloController;
 use App\Http\Controllers\Admin\PaginaController;
+use App\Http\Controllers\Admin\PagoController;
 use App\Http\Controllers\Admin\RegistroAsistenciaController;
 use App\Http\Controllers\Admin\RegistroDescuentoController;
 use App\Http\Controllers\Admin\RegistroProducidoController;
@@ -55,7 +57,8 @@ Route::resource('tipoMonedaPaginas',TipoMonedaPaginaController::class)->middlewa
 Route::resource('paginas',PaginaController::class)->middleware(['auth','verified'])->names('admin.paginas');
 Route::resource('asignacionRooms',AsignacionRoomController::class)->middleware(['auth','verified'])->names('admin.asignacionRooms');
 Route::resource('asignacionMultas',AsignacionMultaController::class)->middleware(['auth','verified'])->names('admin.asignacionMultas');
-
+Route::resource('metaModelos', MetaModeloController::class)->middleware(['auth','verified'])->names('admin.metaModelos');
+Route::get('enviarPago', [PagoController::class,'enviarPago'])->name('admin.pagos.enviarPago');
 
 
 Route::resource('reportePaginas', ReportePaginaController::class)->middleware(['auth','verified'])->names('admin.reportePaginas');
@@ -64,7 +67,9 @@ Route::get('reportePaginasss', [ReportePaginaController::class,'reporteQuincena'
 Route::get('pagos', [ReportePaginaController::class,'pagos'])->name('admin.reportePaginas.pagos');
 Route::get('verificadoMasivo', [ReportePaginaController::class,'verificadoMasivo'])->name('admin.reportePaginas.verificadoMasivo');
 Route::post('reportePaginas/updateStatus', [ReportePaginaController::class,'updateStatus'])->name('admin.reportePaginas.updateStatus');
+Route::get('', [ReportePaginaController::class,'pagos'])->name('admin.reportePaginas.pagos');
 
+Route::get('cargarExcel', [ReportePaginaController::class,'cargarExcel'])->name('admin.reportePaginas.cargarExcel');
 
 
 // //RUTA TIPO CONTROLLER

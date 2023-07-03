@@ -36,7 +36,10 @@ class ReportePagina extends Model
     //     return $this->hasMany('App\Models\MetaModelo');
     // }
 
-    //RELACION DE UNO A MUCHOS      
+
+
+
+    // RELACION DE UNO A MUCHOS      
     public function metaModelo()
     {
         return $this->belongsTo('App\Models\MetaModelo','metaModelo_id');

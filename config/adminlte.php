@@ -291,6 +291,16 @@ return [
 
     'menu' => [
         // Navbar items:
+
+
+
+
+
+
+
+
+
+
         [
             'type'         => 'navbar-search',
             'text'         => 'search',
@@ -325,7 +335,27 @@ return [
 
         ], //ojo que aca inicia para modificar el menu
         ['header' => 'ADMINISTRADOR'],
+
+
+
+
+
+
+
         [
+
+
+
+
+
+
+
+
+
+
+
+
+
             'text' => 'Personal',
             'route'  => 'admin.users.index',
             'icon' => 'fas fa-fw fa-user',
@@ -369,6 +399,24 @@ return [
             'icon'    => 'fas fa-fw fa-share',
             'can' => 'admin.configuraciones',
             'submenu' => [
+
+
+                [
+                    'text'    => 'METAS',
+                    'url'     => '#',
+                    'submenu' => [
+                        [
+                            'text' => 'Metas Estudio',
+                            'route'     => 'admin.tipoMetas.index',
+                        ],
+                        [
+                            'text' => 'Metas Modelo',
+                            'route'     => 'admin.metaModelos.index',
+                        ],
+
+                    ],
+                ],
+
                 [
                     'text' => 'Tipo Usuarios',
                     'route'  => 'admin.tipoUsuarios.index',

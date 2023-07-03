@@ -15,16 +15,17 @@ return new class extends Migration
     {
         Schema::create('pagos', function (Blueprint $table) {
             $table->id();
-            $table->date('fecha');
+            $table->date('fecha')->nullable();
             $table->boolean('pagado')->default(false)->nullable();
-
-
-            $table->unsignedBigInteger('descuento_id')->nullable(); //campo para relacion 
+            $table->float('devengado', 12, 2)->nullable();
+            $table->float('descuento', 12, 2)->nullable();
+            $table->float('neto', 12, 2)->nullable();
+            // $table->unsignedBigInteger('descuento_id')->nullable(); //campo para relacion 
             $table->unsignedBigInteger('user_id')->nullable(); //campo para relacion  
 
-            $table->foreign('descuento_id')
-                ->references('id')->on('descuentos')
-                ->onDelete('cascade');
+            // $table->foreign('descuento_id')
+            //     ->references('id')->on('descuentos')
+            //     ->onDelete('cascade');
                 
             $table->foreign('user_id')
                 ->references('id')->on('users')

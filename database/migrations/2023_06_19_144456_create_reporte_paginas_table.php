@@ -26,6 +26,9 @@ return new class extends Migration
             $table->float('netoPesos', 12, 2)->nullable();
             $table->float('porcentajeTotal', 12, 2)->nullable();
             $table->boolean('verificado')->default(false)->nullable();
+            $table->boolean('enviarPago')->default(false)->nullable();
+
+            // $table->float('metaModelo', 12, 2)->nullable();//NEW
             
 
             $table->unsignedBigInteger('user_id'); //campo para relacion   

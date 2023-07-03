@@ -17,7 +17,7 @@
     <div class="card">
         <div class="card-body">
             <a class="btn btn-primary" href="{{ route('admin.reportePaginas.index') }}">Volver</a>
-            <a class="btn btn-primary" href="{{ route('admin.reportePaginas.reporteQuincena') }}">Volver</a>
+            
         </div>
         <table id="reportePaginas" class="table table-striped table-bordered shadow-lg mt-4">
             <thead>
@@ -36,8 +36,8 @@
                 @foreach ($reporteQuincenas as $reporteQuincena)
                     <tr>
                         <td>{{ $reporteQuincena->fecha }}</td>
-                        <td>{{ $reporteQuincena->user->name }}</td>
-                        <td>{{ $reporteQuincena->suma }}</td>
+                        <td>{{ $reporteQuincena->user->name }}</td>                
+                        <td>{{ number_format($reporteQuincena->suma, 2, '.', ',') }}</td>
 
                         {{-- <td>
                             @if ($reporteQuincena->suma >= 20)

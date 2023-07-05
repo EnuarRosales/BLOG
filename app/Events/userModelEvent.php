@@ -9,11 +9,11 @@ use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
 
 
-class updateUserModel implements ShouldBroadcast
+class userModelEvent implements ShouldBroadcast
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
-    //public $afterCommit = true;
+    public $afterCommit = true;
     public $id;
     /**
      * Create a new event instance.
@@ -33,8 +33,8 @@ class updateUserModel implements ShouldBroadcast
     public function broadcastOn()
     {
         return [
-            new Channel('modelUpdates'),
-            new Channel("modelUpdates.{$this->id}"),
+            new Channel('userModelUpdateCreate'),
+            new Channel("userModelUpdateCreate.{$this->id}"),
         ];
     }
 }

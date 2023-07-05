@@ -6,6 +6,10 @@
     <h1>Editar Usuario</h1>
 @stop
 
+@section('css')
+    <link rel="stylesheet" href="/css/app_custom.css" />
+@stop
+
 @section('content')
     @if (session('info'))
         <div class="alert alert-success">
@@ -90,6 +94,25 @@
                 <span class="text-danger">{{ $message }}</span>
                 <br>
                 @enderror
+
+                <div class="mt-2">
+                    <div class="form-check form-check-inline radio radio-success custom-radio">
+                        <input type="radio" name="active"
+                               id="active_yes" value="1"
+                            {{old('active',$user->active)?'checked':''}}>
+                        <label for="active_yes" class="form-check-label ml-2">
+                            Active
+                        </label>
+                    </div>
+                    <div class="form-check form-check-inline radio radio-danger custom-radio">
+                        <input type="radio" name="active"
+                               id="active_no" value="0"
+                            {{old('active',$user->active)?'':'checked'}}>
+                        <label for="active_no" class="form-check-label ml-2">
+                            Inactivo
+                        </label>
+                    </div>
+                </div>
 
             </div>
             {!! Form::submit('Actualizar Usuario', ['class' => 'btn btn-primary']) !!}

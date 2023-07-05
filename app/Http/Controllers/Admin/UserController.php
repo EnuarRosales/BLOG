@@ -2,28 +2,24 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Events\updateUserModel;
+use App\Events\userModelEvent;
 use App\Http\Controllers\Controller;
 use App\Models\Empresa;
 use App\Models\TipoUsuario;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 use Spatie\Permission\Models\Role;
 
 class UserController extends Controller
 {
-
-
     //PARA PROTEGER LAS RUTAS ESTO PERMITE QUE NO SE ACCEDAN SE HACE DE ESTA MANERA YA QUE LA RUTA ES RESOURCE
     public function __construct()
     {
         $this->middleware('can:admin.users.index')->only('index');
         $this->middleware('can:admin.users.edit')->only('edit','update');
-
     }
-
-
     /**
      * Display a listing of the resource.
      *
@@ -31,12 +27,12 @@ class UserController extends Controller
      */
     public function index()
     {
-        // $userLogueado = auth()->user();
-        // // dd($userLogueado);
-        // echo $userLogueado;
-
-        $users = User::all();
-        return view('admin.users.index', compact('users'));
+        try {
+            $users = User::all();
+            return view('admin.users.index', compact('users'));
+        } catch (\Exception $exception) {
+            Log::error("Error UC index: {$exception->getMessage()}, File: {$exception->getFile()}, Line: {$exception->getLine()}");
+        }
     }
 
     /**
@@ -46,8 +42,13 @@ class UserController extends Controller
      */
     public function create()
     {
-        $tipoUsuarios = TipoUsuario::orderBy('id', 'desc');
-        return view('admin.users.create', compact('tipoUsuarios'));
+        try {
+            $tipoUsuarios = TipoUsuario::orderBy('id', 'desc');
+            $empresas = Empresa::select(['id as empresa_id', 'name'])->get();
+            return view('admin.users.create', compact('tipoUsuarios', 'empresas'));
+        } catch (\Exception $exception) {
+            Log::error("Error UC create: {$exception->getMessage()}, File: {$exception->getFile()}, Line: {$exception->getLine()}");
+        }
     }
 
     /**
@@ -56,33 +57,41 @@ class UserController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store (Request $request)
     {
-        //VALiDACION FORMULARIO
-        $request->validate([
-            'name' => 'required',
-            'cedula' => 'required',
-            'celular' => 'required',
-            'direccion' => 'required',
-            'email' => 'required',
-            'tipoUsuario_id' => 'required',
+        try {
+            DB::beginTransaction();
+
+            $request->validate([
+                'name' => 'required',
+                'cedula' => 'required',
+                'celular' => 'required',
+                'direccion' => 'required',
+                'email' => 'required',
+                'tipoUsuario_id' => 'required',
 
 
-        ]);
+            ]);
 
-        $user = User::create($request->all());
-        return redirect()->route('admin.users.index', $user->id)->with('info', 'store');
-    }
+            $empresa_id = $request->input('empresa_id');
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
+            $request = $request->except('empresa_id');
+
+            $user = User::create($request);
+
+            if ($empresa_id) {
+                $empresa = Empresa::find($empresa_id);
+                $empresa->users()->attach($user->id);
+            }
+            DB::commit();
+            if ($user->active) {
+                userModelEvent::dispatch($user->id);
+            }
+            return redirect()->route('admin.users.index', $user->id)->with('info', 'store');
+        } catch (\Exception $exception) {
+            DB::rollBack();
+            Log::error("Error UC store: {$exception->getMessage()}, File: {$exception->getFile()}, Line: {$exception->getLine()}");
+        }
     }
 
     /**
@@ -93,16 +102,24 @@ class UserController extends Controller
      */
     public function edit(User $user)
     {
-
-        $tipoUsuarios = TipoUsuario::orderBy('id', 'desc');
-        $empresas = Empresa::select(['id as empresa_id', 'name'])->get();
-        return view('admin.users.edit', compact('user', 'tipoUsuarios', 'empresas'));
+        try {
+            $tipoUsuarios = TipoUsuario::orderBy('id', 'desc');
+            $empresas = Empresa::select(['id as empresa_id', 'name'])->get();
+            return view('admin.users.edit', compact('user', 'tipoUsuarios', 'empresas'));
+        } catch (\Exception $exception) {
+            Log::error("Error UC edit: {$exception->getMessage()}, File: {$exception->getFile()}, Line: {$exception->getLine()}");
+        }
     }
 
     public function rol(User $user)
     {
-        $roles = Role::all();
-        return view('admin.users.rol', compact('user', 'roles'));
+        try {
+            $roles = Role::all();
+            return view('admin.users.rol', compact('user', 'roles'));
+        } catch (\Exception $exception) {
+            Log::error("Error UC rol: {$exception->getMessage()}, File: {$exception->getFile()}, Line: {$exception->getLine()}");
+        }
+
     }
 
     /**
@@ -115,44 +132,52 @@ class UserController extends Controller
     public function update(Request $request, User $user)
     {
         //VALiDACION FORMULARIO
+        try {
+            DB::beginTransaction();
+            $request->validate([
+                'name' => 'required',
+                'cedula' => 'required',
+                'celular' => 'required',
+                'direccion' => 'required',
+                'email' => 'required',
+                'tipoUsuario_id' => 'required',
+            ]);
 
-        $request->validate([
-            'name' => 'required',
-            'cedula' => 'required',
-            'celular' => 'required',
-            'direccion' => 'required',
-            'email' => 'required',
-            'tipoUsuario_id' => 'required',
-        ]);
+            if ($request->input('empresa_id')) {
+                $empresa = Empresa::find($request->input('empresa_id'));
+                if (!$empresa->users()->where('user_id', $user->id)->first())
+                    $empresa->users()->attach($user->id);
+            }
 
-        if ($request->input('empresa_id')) {
-            $empresa = Empresa::find($request->input('empresa_id'));
-            if (!$empresa->users()->where('user_id', $user->id)->first())
-                $empresa->users()->attach($user->id);
+            $request = $request->except('empresa_id');
+            //ASINACION MASIVA DE VARIABLES A LOS CAMPOS
+            $user->update($request);
+            DB::commit();
+
+            if ($user->active) {
+                userModelEvent::dispatch($user->id);
+            }
+
+            return redirect()->route('admin.users.index', $user->id)->with('info', 'update'); //with mensaje de sesion
+
+        } catch (\Exception $exception) {
+            DB::rollBack();
+            Log::error("Error UC update: {$exception->getMessage()}, File: {$exception->getFile()}, Line: {$exception->getLine()}");
         }
-
-        $request = $request->except('empresa_id');
-        //ASINACION MASIVA DE VARIABLES A LOS CAMPOS
-        $user->update($request);
-        updateUserModel::dispatch($user->id);
-        return redirect()->route('admin.users.index', $user->id)->with('info', 'update'); //with mensaje de sesion
-
     }
 
     public function updateRol(Request $request, User $user)    {
         // $user->update($request->all());
-        $user->roles()->sync($request->roles);
-        return redirect()->route('admin.users.index')->with('info', 'updateRol'); //with mensaje de sesion
+        try {
+            DB::beginTransaction();
+            $user->roles()->sync($request->roles);
+            DB::commit();
+            return redirect()->route('admin.users.index')->with('info', 'updateRol'); //with mensaje de sesion
+        } catch (\Exception $exception) {
+            DB::rollBack();
+            Log::error("Error UC updateRol: {$exception->getMessage()}, File: {$exception->getFile()}, Line: {$exception->getLine()}");
+        }
     }
-
-
-
-
-
-
-
-
-
 
     /**
      * Remove the specified resource from storage.
@@ -162,8 +187,15 @@ class UserController extends Controller
      */
     public function destroy(User $user)
     {
-        $user->delete();
-        return redirect()->route('admin.users.index')->with('info', 'delete');
+        try {
+            DB::beginTransaction();
+            $user->delete();
+            DB::commit();
+            return redirect()->route('admin.users.index')->with('info', 'delete');
+        } catch (\Exception $exception) {
+            DB::rollBack();
+            Log::error("Error UC destroy: {$exception->getMessage()}, File: {$exception->getFile()}, Line: {$exception->getLine()}");
+        }
     }
 
 

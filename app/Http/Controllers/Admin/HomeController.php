@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\AsignacionMulta;
 use App\Models\Empresa;
 use App\Models\ResgistroProducido;
 use App\Models\User;
@@ -16,13 +17,7 @@ class HomeController extends Controller
     public function index()
     {
         try {
-            /*$fechas2 = ResgistroProducido::select(
-           DB::raw('sum(valorProducido) as suma'),
-           DB::raw('meta_id'),
-           // DB::raw('fecha'),
-       )
-           ->groupBy('meta_id')
-           ->get();*/
+            // MODELS
             // TODO En el where de la empresa, cuando se pase a multiempresa se coloca un where in con un select anterior donde se selecciones todas las empresas a las que pertenece el dueño, o en el cast poner que los dueños tengan un array de ids
             $count_users_models = User::select('id')
                 ->join('user_empresa', 'user_empresa.user_id', '=', 'users.id')
@@ -42,11 +37,14 @@ class HomeController extends Controller
 
             $userModelos = DB::table('users')->where('tipoUsuario_id', '=', 3)->get(); //id
 
-            $asignacionMultas = DB::table('asignacion_multas')->count();
+            // MULTAS
 
-            return view('admin.index', compact('asignacionMultas', 'userModelos', 'porcentaje_model_actives', 'count_users_models'));
+            $count_multas_user = AsignacionMulta::select(['id'])
+                                ->count();
+
+            return view('admin.index', compact('userModelos', 'porcentaje_model_actives', 'count_users_models', 'count_multas_user'));
         } catch (\Exception $exception) {
-            Log::error($exception);
+            Log::error("Error UC index: {$exception->getMessage()}, File: {$exception->getFile()}, Line: {$exception->getLine()}");
         }
     }
 }

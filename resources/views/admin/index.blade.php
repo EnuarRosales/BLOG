@@ -23,11 +23,11 @@
 
                 <div class="col">
                     {{-- Updatable --}}
-                    <x-adminlte-small-box title={{$asignacionMultas}} text="Multas" icon="fas fa-medal text-dark"
+                    <x-adminlte-small-box title={{$count_multas_user}} text="Multas" icon="fas fa-medal text-dark"
                         theme="danger" url="#" url-text="ver las multas" id="sbUpdatable" />
                 </div>
                 <div class="col">
-                    <x-adminlte-small-box title="{{$asignacionMultas . ' ' . $porcentaje_model_actives }} %" text="otro valor"
+                    <x-adminlte-small-box title="{{$count_multas_user . ' ' . $porcentaje_model_actives }} %" text="otro valor"
                         icon="fas fa-user-plus text-teal" theme="primary" url="#" url-text="View all users" />
                 </div>
                 {{-- <div class="col">
@@ -157,8 +157,8 @@
 @vite('resources/js/app.js')
 @section('js')
     <script type="module">
-        Echo.channel(`modelUpdates`)
-            .listen('updateUserModel', (e) => {
+        Echo.channel(`userModelUpdateCreate`)
+            .listen('userModelEvent', (e) => {
                 //console.log(e);
                 Livewire.emit('renderModels');
             });

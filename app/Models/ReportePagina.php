@@ -40,10 +40,10 @@ class ReportePagina extends Model
 
 
     // RELACION DE UNO A MUCHOS      
-    public function metaModelo()
-    {
-        return $this->belongsTo('App\Models\MetaModelo','metaModelo_id');
-    }
+    // public function metaModelo()
+    // {
+    //     return $this->belongsTo('App\Models\MetaModelo','metaModelo_id');
+    // }
 
    
 

@@ -28,12 +28,12 @@ return new class extends Migration
             $table->boolean('verificado')->default(false)->nullable();
             $table->boolean('enviarPago')->default(false)->nullable();
 
-            // $table->float('metaModelo', 12, 2)->nullable();//NEW
+            $table->float('metaModelo', 12, 2)->nullable();//NEW
             
 
             $table->unsignedBigInteger('user_id'); //campo para relacion   
             $table->unsignedBigInteger('pagina_id'); //campo para relacion 
-            $table->unsignedBigInteger('metaModelo_id')->nullable(); //campo para relacion    
+            // $table->unsignedBigInteger('metaModelo_id')->nullable(); //campo para relacion    
 
             $table->foreign('user_id')
                 ->references('id')->on('users')
@@ -43,9 +43,9 @@ return new class extends Migration
                 ->references('id')->on('paginas')
                 ->onDelete('cascade');
 
-            $table->foreign('metaModelo_id')
-                ->references('id')->on('meta_modelos')
-                ->onDelete('cascade');
+            // $table->foreign('metaModelo_id')
+            //     ->references('id')->on('meta_modelos')
+            //     ->onDelete('cascade');
 
 
             $table->timestamps();

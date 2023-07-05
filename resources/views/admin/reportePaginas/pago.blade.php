@@ -34,23 +34,42 @@
                     <tr>
                         <td>{{ $pago->fecha }}</td>
                         <td>{{ $pago->user->name }}</td>
-                        <td>{{ $pago->suma }}</td>
+
+                        <td>{{ number_format($pago->suma, 2, '.', ',') }}</td>
                         <td>
                             @foreach ($descuentos as $descuento)
                                 @if ($pago->user_id == $descuento->user_id)
                                     {{-- @php$meta = $metaModelo->porcentaje;
                                     @endphp --}}
-                                    {{ $descuento->suma }}
+                                    {{ number_format($descuento->suma, 2, '.', ',') }}
                                 @break
-
-                                {{-- @else
-                                    {{0}} --}}
                             @endif
                         @endforeach
+                    </td>
+
+
+                    <td>
+
+                        {{-- {{$descuento->suma }} --}}
+
+                        @if ($array == 'lleno')
+                            {{-- {{ number_format($pago->suma - $descuento->suma, 2, '.', ',') }} --}}
+                            @if ($pago->user_id == $descuento->user_id)                                
+                                {{ number_format($pago->suma-$descuento->suma, 2, '.', ',') }}
+                            @endif
+
+                            @if ($pago->user_id != $descuento->user_id)                                
+                                {{ number_format($pago->suma, 2, '.', ',') }}
+                            @endif
+
+                        @else
+                            {{ number_format($pago->suma, 2, '.', ',') }}
+                        @endif
+
+
+
 
                     </td>
-                    <td></td>
-
                 </tr>
             @endforeach
         </tbody>

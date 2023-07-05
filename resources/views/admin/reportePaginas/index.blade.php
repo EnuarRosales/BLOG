@@ -76,7 +76,7 @@
             </thead>
             <tbody>
                 @foreach ($reportePaginas as $reportePagina)
-                    <tr>
+                    <tr> 
                         <td>{{ $reportePagina->id }}</td>
                         <td>{{ $reportePagina->fecha }}</td>
                         <td>{{ $reportePagina->user->name }}</td>
@@ -87,7 +87,7 @@
                         <td>{{ number_format($reportePagina->TRM, 2, '.', ',') }}</td>
                         <td>{{ number_format($reportePagina->pesos, 2, '.', ',') }}</td>
                         <td>{{ $reportePagina->porcentaje }}{{ ' %' }}</td>
-                        <td>{{ number_format($reportePagina->metaModelo->porcentaje) }}</td>
+                        <td>{{ number_format($reportePagina->metaModelo) }}</td>
                         <td>{{ number_format($reportePagina->porcentajeTotal) }}</td>
                         <td>{{ number_format($reportePagina->netoPesos, 2, '.', ',') }}</td>
                         <td id={{ $reportePagina->verificado }}>

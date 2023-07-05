@@ -32,7 +32,7 @@ class ReportePaginaController extends Controller
         $registroDatos = new ReportePaginaController;
         $registroDatos->ponerMeta();
         $registroDatos->poblarPorcentajeTotal();
-        $reportePaginas = ReportePagina::with('user', 'pagina', 'metaModelo')->where('verificado', 0)->get();
+        $reportePaginas = ReportePagina::with('user', 'pagina')->where('verificado', 0)->get();
         return view('admin.reportePaginas.index', compact('reportePaginas'));
     }
 
@@ -134,7 +134,7 @@ class ReportePaginaController extends Controller
 
         // $reportePaginas = ReportePagina::with('user', 'pagina', 'metaModelo')->where('verificado', 0)->get();
 
-        $reporteQuincenas = ReportePagina::with('user', 'pagina', 'metaModelo')->select(
+        $reporteQuincenas = ReportePagina::with('user', 'pagina')->select(
             DB::raw('sum(dolares) as suma'),
             DB::raw('user_id'),
             DB::raw('fecha'),
@@ -236,6 +236,46 @@ class ReportePaginaController extends Controller
      *
      */
 
+    // public function ponerMeta()
+    // {
+    //     // with('user', 'pagina', 'metaModelo')
+    //     $reporteQuincenas = ReportePagina::select(
+    //         DB::raw('sum(dolares) as suma'),
+    //         DB::raw('user_id'),
+    //         DB::raw('fecha'),
+
+    //     )
+    //         ->groupBy('fecha', 'user_id')
+    //         ->get();
+    //     $metaModeloss = DB::table('meta_modelos')
+    //         ->orderBy('mayorQue', 'desc')
+    //         ->get();
+
+    //     $meta = 0;
+
+    //     return $metaModeloss;
+
+    //     $reportePaginas = ReportePagina::all();
+
+    //     foreach ($reportePaginas as $reportePagina) {
+    //         foreach ($reporteQuincenas as $reporteQuincena) {
+    //             foreach ($metaModeloss as $metaModelo) {
+    //                 if ($reporteQuincena->suma >= $metaModelo->mayorQue) {
+    //                     $meta = $metaModelo->id;
+    //                     // $meta = $metaModelo->porcentaje;
+    //                     if ($reporteQuincena->user_id == $reportePagina->user_id && $reporteQuincena->fecha == $reportePagina->fecha) {
+    //                         // echo $meta . "   " . $reporteQuincena->user_id . "   " . $reporteQuincena->fecha;
+    //                         // echo "<br>";
+    //                         $reportePagina->metaModelo_id = $meta;
+    //                         $reportePagina->save();
+    //                     }
+    //                     break;
+    //                 }
+    //             }
+    //         }
+    //     }
+    // }
+
     public function ponerMeta()
     {
         // with('user', 'pagina', 'metaModelo')
@@ -250,7 +290,7 @@ class ReportePaginaController extends Controller
         $metaModeloss = DB::table('meta_modelos')
             ->orderBy('mayorQue', 'desc')
             ->get();
-            
+
         $meta = 0;
 
 
@@ -260,15 +300,12 @@ class ReportePaginaController extends Controller
         foreach ($reportePaginas as $reportePagina) {
             foreach ($reporteQuincenas as $reporteQuincena) {
                 foreach ($metaModeloss as $metaModelo) {
-
-
                     if ($reporteQuincena->suma >= $metaModelo->mayorQue) {
-                        $meta = $metaModelo->id;
+                        $meta = $metaModelo->porcentaje;
                         // $meta = $metaModelo->porcentaje;
-                        if ($reporteQuincena->user_id == $reportePagina->user_id && $reporteQuincena->fecha == $reportePagina->fecha) {
-                            // echo $meta . "   " . $reporteQuincena->user_id . "   " . $reporteQuincena->fecha;
-                            // echo "<br>";
-                            $reportePagina->metaModelo_id = $meta;
+                        if ($reporteQuincena->user_id == $reportePagina->user_id && $reporteQuincena->fecha == $reportePagina->fecha && $reportePagina->enviarPago == 0) {
+
+                            $reportePagina->metaModelo = $meta;
                             $reportePagina->save();
                         }
                         break;
@@ -279,13 +316,20 @@ class ReportePaginaController extends Controller
     }
 
 
+
+
+
+
+
+
+
     public function poblarPorcentajeTotal()
     {
         // $reportePaginas = ReportePagina::with('user', 'metaModelo')->get();
         $reportePaginas = ReportePagina::all();
         foreach ($reportePaginas as $reportePagina) {
             if ($reportePagina->user->tipoUsuario->nombre == "MODELO") {
-                $reportePagina->porcentajeTotal = $reportePagina->user->tipoUsuario->porcentaje + $reportePagina->metaModelo->porcentaje;//->metaModelo
+                $reportePagina->porcentajeTotal = $reportePagina->user->tipoUsuario->porcentaje + $reportePagina->metaModelo; //+ $reportePagina->metaModelo->porcentaje
                 $reportePagina->save();
             } else {
                 $reportePagina->porcentajeTotal = $reportePagina->user->tipoUsuario->porcentaje;
@@ -366,7 +410,7 @@ class ReportePaginaController extends Controller
         //         ->get();
 
 
-        $pagos = ReportePagina::with('user', 'pagina', 'metaModelo')->select(
+        $pagos = ReportePagina::with('user', 'pagina')->select(
             DB::raw('sum(netoPesos) as suma'),
             DB::raw('user_id'),
             DB::raw('fecha'),
@@ -386,9 +430,16 @@ class ReportePaginaController extends Controller
             )
             ->where('descontado', 0)
             ->groupBy('user_id')
-            ->get();
+            ->get();         
 
-        return view('admin.reportePaginas.pago', compact('pagos', 'descuentos'));
+         if(count($descuentos)=="0"){
+            $array= "vacio";
+         }
+         else{
+            $array= "lleno";
+         }  
+     
+        return view('admin.reportePaginas.pago', compact('pagos', 'descuentos', "array"));
     }
 
 

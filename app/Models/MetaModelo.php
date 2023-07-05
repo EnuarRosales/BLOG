@@ -24,9 +24,9 @@ class MetaModelo extends Model
     
 
     // RELACION DE UNO A MUCHOS      
-    public function reportePaginas()
-    {
-        return $this->hasMany('App\Models\ReportePagina');
-    }
+    // public function reportePaginas()
+    // {
+    //     return $this->hasMany('App\Models\ReportePagina');
+    // }
 
 }

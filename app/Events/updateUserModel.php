@@ -1,28 +1,28 @@
 <?php
 
-namespace App\Events\admin;
+namespace App\Events;
 
 use Illuminate\Broadcasting\Channel;
 use Illuminate\Broadcasting\InteractsWithSockets;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
-use Illuminate\Support\Facades\Log;
+
 
 class updateUserModel implements ShouldBroadcast
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
     //public $afterCommit = true;
-    public $user;
+    public $id;
     /**
      * Create a new event instance.
      *
      * @return void
      */
-    public function __construct($user)
+    public function __construct($id)
     {
-        $this->user = $user;
+        $this->id = $id;
     }
 
     /**
@@ -34,7 +34,7 @@ class updateUserModel implements ShouldBroadcast
     {
         return [
             new Channel('modelUpdates'),
-            new Channel("modelUpdates.{$this->user}"),
+            new Channel("modelUpdates.{$this->id}"),
         ];
     }
 }

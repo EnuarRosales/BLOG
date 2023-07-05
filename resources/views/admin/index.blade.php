@@ -163,7 +163,6 @@
                 Livewire.emit('renderModels');
             });
     </script>
-
     <script>
         let myInfoBox = new _AdminLTE_InfoBox("myInfoBox");
     </script>

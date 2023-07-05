@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Events\admin\updateUserModel;
+use App\Events\updateUserModel;
 use App\Http\Controllers\Controller;
 use App\Models\Empresa;
 use App\Models\TipoUsuario;
@@ -134,7 +134,7 @@ class UserController extends Controller
         $request = $request->except('empresa_id');
         //ASINACION MASIVA DE VARIABLES A LOS CAMPOS
         $user->update($request);
-        updateUserModel::dispatch($user);
+        updateUserModel::dispatch($user->id);
         return redirect()->route('admin.users.index', $user->id)->with('info', 'update'); //with mensaje de sesion
 
     }

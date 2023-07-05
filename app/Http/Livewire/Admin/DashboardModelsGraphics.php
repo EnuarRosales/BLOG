@@ -27,7 +27,7 @@ class DashboardModelsGraphics extends Component
     public function getRenderModels(){
 
         try{
-            Log::info('Entra al lovewire');
+            //Log::info('Entry in livewire');
             $this->count_users_models = User::select('id')
                 ->join('user_empresa', 'user_empresa.user_id', '=', 'users.id')
                 ->whereIn('tipoUsuario_id', [2, 3])
@@ -43,8 +43,7 @@ class DashboardModelsGraphics extends Component
 
             $this->porcentaje_model_actives = $this->porcentaje_model_actives!=0?number_format($this->porcentaje_model_actives, 2):$this->porcentaje_model_actives;
         } catch (\Exception $exception) {
-            Log::info($exception);
+            Log::error("Error getRenderModels EGC: {$exception->getMessage()} File: {$exception->getFile()} Line: {$exception->getLine()}");
         }
-
     }
 }

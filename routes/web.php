@@ -33,15 +33,8 @@ require __DIR__.'/auth.php';
 Route::get('users/{user}/rol', [UserController::class,'rol'])->name('admin.users.rol');
 Route::put('users/{user}',[UserController::class,'updateRol'])->name('admin.users.updateRol');
 
-<<<<<<< HEAD
-route::get('user/{User_id}/PDF',[UserController::class,'CertificacionLaboral']);
-
-
-//
-=======
 //RUTAS INDIVIDUALES
 Route::post('reportePaginas',[ReportePaginaController::class,'storeIndividual'])->name('admin.reportePaginas.storeIndividual');
 
->>>>>>> enuarDesarrollo
 
  

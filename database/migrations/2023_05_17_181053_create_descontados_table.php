@@ -17,7 +17,8 @@ return new class extends Migration
             $table->id();
             $table->double('valor')->nullable();
             $table->string('descripcion',150)->nullable();
-            $table->boolean('descontado')->default(false)->nullable();
+            
+            
             $table->date('fechaDescontado')->nullable();
 
             $table->unsignedBigInteger('descuento_id');//campo para relacion
@@ -25,13 +26,7 @@ return new class extends Migration
 
             $table->foreign('descuento_id')
                     ->references('id')->on('descuentos')//tabla
-<<<<<<< HEAD
-                    ->onDelete('cascade');
-
-
-=======
                     ->onDelete('cascade'); 
->>>>>>> enuarDesarrollo
 
         });
     }

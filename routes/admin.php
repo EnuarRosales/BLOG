@@ -45,10 +45,6 @@ Route::get('registroProducidoss', [RegistroProducidoController::class,'reporte_d
 Route::resource('registroAsistencias',RegistroAsistenciaController::class)->middleware(['auth','verified'])->names('admin.registroAsistencias');
 Route::resource('registroDescuentos',RegistroDescuentoController::class)->middleware(['auth','verified'])->names('admin.registroDescuentos');
 
-<<<<<<< HEAD
-=======
-
->>>>>>> enuarDesarrollo
 Route::resource('tipoUsuarios', TipoUsuarioController::class)->middleware(['auth','verified'])->names('admin.tipoUsuarios');
 Route::resource('users', UserController::class)->middleware(['auth','verified'])->names('admin.users');
 Route::resource('roles', RoleController::class)->middleware(['auth','verified'])->names('admin.roles');
@@ -62,12 +58,8 @@ Route::resource('tipoMonedaPaginas',TipoMonedaPaginaController::class)->middlewa
 Route::resource('paginas',PaginaController::class)->middleware(['auth','verified'])->names('admin.paginas');
 Route::resource('asignacionRooms',AsignacionRoomController::class)->middleware(['auth','verified'])->names('admin.asignacionRooms');
 Route::resource('asignacionMultas',AsignacionMultaController::class)->middleware(['auth','verified'])->names('admin.asignacionMultas');
-<<<<<<< HEAD
-Route::resource('empresa', EmpresaController::class)->middleware(['auth','verified'])->names('admin.empresa');
-=======
 Route::resource('metaModelos', MetaModeloController::class)->middleware(['auth','verified'])->names('admin.metaModelos');
 Route::get('enviarPago', [PagoController::class,'enviarPago'])->name('admin.pagos.enviarPago');
->>>>>>> enuarDesarrollo
 
 
 Route::resource('reportePaginas', ReportePaginaController::class)->middleware(['auth','verified'])->names('admin.reportePaginas');

@@ -6,11 +6,7 @@
     "license": "MIT",
     "require": {
         "php": "^8.0.2",
-<<<<<<< HEAD
-        "barryvdh/laravel-dompdf": "^2.0",
-=======
         "barryvdh/laravel-debugbar": "^3.8",
->>>>>>> enuarDesarrollo
         "doctrine/dbal": "^3.6",
         "fruitcake/laravel-cors": "^2.0",
         "guzzlehttp/guzzle": "^7.0.1",
@@ -21,15 +17,9 @@
         "laravel/tinker": "^2.5",
         "laravel/ui": "^3.4",
         "laravelcollective/html": "^6.4",
-<<<<<<< HEAD
-        "spatie/laravel-permission": "^5.10",
-        "stancl/tenancy": "^3.7",
-        "livewire/livewire": "^2.12"
-=======
         "livewire/livewire": "^2.12",
         "maatwebsite/excel": "^3.1",
         "spatie/laravel-permission": "^5.10"
->>>>>>> enuarDesarrollo
     },
     "require-dev": {
         "spatie/laravel-ignition": "^1.0",

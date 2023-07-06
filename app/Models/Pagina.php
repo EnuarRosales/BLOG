@@ -13,7 +13,7 @@ class Pagina extends Model
     protected $guarded = [];
 
      //RELACION UNO A MUCHOS INVERSA
-    //  public function tipoMonedaPagina(){
+    //  public function tipoMonedaPagina(){ 
     //     return $this->belongsTo(TipoUsuario::class,'tipoMoneda_id');
     // }
 
@@ -21,8 +21,17 @@ class Pagina extends Model
         return $this->belongsTo('App\Models\TipoMonedaPagina','tipoMoneda_id');
     }
 
+
+    //RELACION UNO A MUCHOS     
+    public function registroProducidos(){
+        return $this->hasMany('App\Models\RegistroProducido');
+    }
     
-    
+    //RELACION DE UNO A MUCHOS      
+    public function reportePaginas()
+    {
+        return $this->hasMany('App\Models\ReportePagina');
+    }
 
     
 

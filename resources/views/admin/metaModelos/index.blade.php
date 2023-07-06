@@ -1,54 +1,66 @@
 @extends('adminlte::page')
 
-@section('title', 'Dashboard')
+@section('title', 'Studio WC')
 
 @section('content_header')
-    <h1>Listado tipo moneda paginas</h1>
+    <h1>Lista meta modelos</h1>
 @stop
+
 
 @section('content')
 
+    {{-- @if (session('info'))
+        <div class="alert alert-success">
+            <strong>{{ session('info') }}</strong>
+        </div>
+    @endif --}}
+
     <div class="card">
         <div class="card-body">
-            <a class="btn btn-primary" href="{{ route('admin.tipoMonedaPaginas.create') }}">Agregar tipo moneda pagina</a>
+            <a class="btn btn-primary" href="{{ route('admin.metaModelos.create') }}">Agregar Meta Modelo</a>
         </div>
         <table class="table table-striped table-bordered shadow-lg mt-4">
             <thead>
                 <tr>
                     <th>ID</th>
-                    <th>Nombre</th>
-                    <th>Valor</th>
+                    <th>Mayor Que</th>
+                    <th>Porcentaje</th>                    
                     <th>Editar</th>
                     <th>Eliminar</th>
+
+
                 </tr>
             </thead>
 
+
             <tbody>
-                @foreach ($tipoMonedaPaginas as $tipoMonedaPagina)
+                @foreach ($metaModelos as $metaModelo)
                     <tr>
-                        <td>{{ $tipoMonedaPagina->id }}</td>
-                        <td>{{ $tipoMonedaPagina->nombre }}</td>
-                        <td>{{ $tipoMonedaPagina->valor }}</td>
+                        <td>{{ $metaModelo->id }}</td>
+                        <td>{{ $metaModelo->mayorQue }}</td>
+                        <td>{{ $metaModelo->porcentaje }}</td>
                         <td width="10px">
                             <a class="btn btn-secondary btn-sm"
-                                href="{{ route('admin.tipoMonedaPaginas.edit', $tipoMonedaPagina) }}">Editar</a>
+                            href="{{ route('admin.metaModelos.edit', $metaModelo) }}">Editar</a>
                         </td>
 
-                        <td width="10px">
+                        <td class="bg-light" width="10px">
                             <form class="formulario-eliminar"
-                                action="{{ route('admin.tipoMonedaPaginas.destroy', $tipoMonedaPagina) }}" method="POST">
+                                action="{{ route('admin.metaModelos.destroy', $metaModelo) }}"
+                                method="POST">
                                 @csrf
                                 @method('delete')
                                 <button type="submit" class="btn btn-dark btn-sm">Eliminar</button>
                             </form>
-
                         </td>
 
                     </tr>
                 @endforeach
             </tbody>
         </table>
+
     </div>
+
 @stop
 
 @section('js')
@@ -72,7 +84,7 @@
             Swal.fire({
                 position: 'top-end',
                 icon: 'success',
-                title: 'Tipo moneda pagina creada correctamente',
+                title: 'Tipo Usuario realizado correctamente',
                 showConfirmButton: false,
                 timer: 2000
             })
@@ -82,7 +94,7 @@
             Swal.fire({
                 position: 'top-end',
                 icon: 'success',
-                title: 'Tipo moneda pagina actualizada correctamente',
+                title: 'Tipo Usuario actualizado correctamente',
                 showConfirmButton: false,
                 timer: 2000
             })

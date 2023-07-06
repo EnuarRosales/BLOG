@@ -1,81 +1,94 @@
 @extends('adminlte::page')
 
-@section('title', 'Registro Produccion')
+@section('title', 'Reporte Paginas')
 
 @section('content_header')
-    <h1>Listado de Producidos </h1>
+    <h1>Listado de Reportes Paginas </h1>
 @stop
 
 
 @section('content')
+
+    {{-- CONFIRMACION SI HAY ALGO MAL --}}
+    @if (isset($errors) && $errors->any())
+        @include('admin.reportePaginas.partials.modal-error')
+    @endif
+
     <div class="card">
         <div class="card-body">
-            {{-- @can('admin.asignacionTurnos.create') --}}
-            <a class="btn btn-primary" href="{{ route('admin.registroProducidos.create') }}">Agregar Producido</a>
-
-            <a class="btn btn-secondary" href="{{ route('admin.registroProducidoss.reporte_dia') }}">Resumen</a>
-            {{-- @endcan --}}
+            <a class="btn btn-primary" href="{{ route('admin.reportePaginas.index') }}">Volver</a>
+            
         </div>
-
-
-
-        <table id="registroProducidos" class="table table-striped table-bordered shadow-lg mt-4">
+        <table id="reportePaginas" class="table table-striped table-bordered shadow-lg mt-4">
             <thead>
                 <tr>
-                    <th>ID</th>
                     <th>Fecha</th>
-                    <th>Valor</th>
-                    {{-- <th>Alarma</th> --}}
-                    {{-- <th>Cumplio</th> --}}
-                    {{-- <th>Saldo</th> --}}
+                    <th>Usuario</th>
+                    <th>Dolares</th>
                     <th>Meta</th>
-                    <th>Pagina</th>
-                    <th>Usuario que registra</th>
-                    <th>Editar</th>
-                    <th>Eliminar</th>
+                    <th>Porcentaje</th>
+                    <th>Porcentaje Total</th>
+                    {{-- <th>Editar</th>
+                    <th>Eliminar</th> --}}
                 </tr>
             </thead>
             <tbody>
-                @foreach ($registroProducidos as $registroProducido)
+                @foreach ($reporteQuincenas as $reporteQuincena)
                     <tr>
-                        <td>{{ $registroProducido->id }}</td>
-                        <td>{{ $registroProducido->fecha }}</td>
-                        <td>{{ $registroProducido->valorProducido }}</td>
-                        {{-- <td>{{ $registroProducido->alarma }}</td> --}}
-                        {{-- <td>{{ $registroProducido->cumplio }}</td> --}}
-                        {{-- <td>{{ $registroProducido->saldo }}</td> --}}
-                        <td>{{ $registroProducido->meta->nombre }}</td>
-                        <td>{{ $registroProducido->pagina->nombre }}</td>
-                        <td>{{ $registroProducido->user->name }}</td>
+                        <td>{{ $reporteQuincena->fecha }}</td>
+                        <td>{{ $reporteQuincena->user->name }}</td>                
+                        <td>{{ number_format($reporteQuincena->suma, 2, '.', ',') }}</td>
 
-                        @if (auth()->user()->hasRole('Admin'))
-                            @include('admin.registroProducidos.partials.buttons')
-                        @elseif($registroProducido->user->id == $userLogueado)
-                            @include('admin.registroProducidos.partials.buttons')
-                            {{-- @endif --}}
-                        @else
-                            <td class="text-center"> <i class="fas fa-eye-slash"> </i> </td>
-                            <td class="text-center"> <i class="fas fa-eye-slash"> </i> </td>
-                        @endif
+                        {{-- <td>
+                            @if ($reporteQuincena->suma >= 20)
+                                @php $meta = 5; @endphp
+                            @endif
+                            {{ $meta }}
 
+                        </td> --}}
+                        <td>
+                            @foreach ($metaModeloss as $metaModelo)
+                                @if ( $reporteQuincena->suma >=$metaModelo->mayorQue )                                    
+                                        @php $meta = $metaModelo->porcentaje;                                        
+                                        @endphp
+                                        {{ $meta }}                                    
+                                    @break
+                                    {{-- @else
+                                    {{0}} --}}
+                                @endif 
+                                                      
+                            @endforeach
+
+                        </td>
+
+                        <td>{{ $reporteQuincena->porcentaje}}</td>
+
+                        <td>{{$reporteQuincena->porcentajeTotal}}</td>
+
+
+
+                        {{-- <td>
+                            @if ($reporteQuincena->suma >= 20)
+                                @php $meta = 5; @endphp
+                            @endif
+                            {{ $meta }}
+
+                        </td> --}}
 
 
                         {{-- <td width="10px">
                             <a class="btn btn-secondary btn-sm"
-                                href="{{ route('admin.registroProducidos.edit', $registroProducido) }}">Editar</a>
+                                href="{{ route('admin.reportePaginas.edit', $reportePagina) }}">Editar</a>
                         </td>
-                        
+
                         <td width="10px">
                             <form class="formulario-eliminar"
-                                action="{{ route('admin.registroProducidos.destroy', $registroProducido) }}" method="POST">
+                                action="{{ route('admin.reportePaginas.destroy', $reportePagina) }}" method="POST">
                                 @csrf
                                 @method('delete')
                                 <button type="submit" class="btn btn-dark btn-sm">Eliminar</button>
                             </form>
                         </td> --}}
-
-
-
 
                     </tr>
                 @endforeach
@@ -102,6 +115,7 @@
 
 
 
+
     {{-- SWET ALERT --}}
     @if (session('info') == 'delete')
         <script>
@@ -116,7 +130,7 @@
             Swal.fire({
                 position: 'top-end',
                 icon: 'success',
-                title: 'Producido registrado correctamente',
+                title: 'Descuento registrado correctamente',
                 showConfirmButton: false,
                 timer: 2000
             })
@@ -166,10 +180,12 @@
     </script>
 
 
+
+
     {{-- DATATATABLE --}}
     <script>
         $(document).ready(function() {
-            $('#registroProducidos').DataTable({
+            $('#reportePaginas').DataTable({
                 dom: 'Blfrtip',
 
                 buttons: [
@@ -188,5 +204,6 @@
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js"></script>
     <script type="text/javascript" src="https://cdn.datatables.net/buttons/2.3.6/js/buttons.html5.min.js"></script>
     <script type="text/javascript" src="https://cdn.datatables.net/buttons/2.3.6/js/buttons.print.min.js"></script>
+
 
 @stop

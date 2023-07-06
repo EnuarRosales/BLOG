@@ -5,34 +5,46 @@
 @section('content_header')
     <h1>Editar tipo usuario</h1>
 @stop
- 
+
 @section('content')
 
-<div class="card">
-    <div class="card-body">
-        {!! Form::open(['route'=>'admin.tipoUsuarios.store'])!!}
-        {{-- @csrf{!! Form::model($tipoUsuario, ['route' => ['admin.tipoUsuarios.update', $tipoUsuario], 'method' => 'put']) !!} --}}
+    <div class="card">
+        <div class="card-body">
+            {!! Form::open(['route' => 'admin.tipoUsuarios.store']) !!}
+            {{-- @csrf{!! Form::model($tipoUsuario, ['route' => ['admin.tipoUsuarios.update', $tipoUsuario], 'method' => 'put']) !!} --}}
 
-        <div class="form-group">
-            {!! Form::label('nombre', 'Nombre') !!}
-            {{-- ojo que en la linea siguiente va el nombre de la columa =( --}}
-            {!! Form::text('nombre', null, ['class' => 'form-control', 'placeholder' => 'Favor ingrese un tipo usuario']) !!}
+            <div class="form-group">
+                {!! Form::label('nombre', 'Nombre') !!}
+                {{-- ojo que en la linea siguiente va el nombre de la columa =( --}}
+                {!! Form::text('nombre', null, ['class' => 'form-control', 'placeholder' => 'Favor ingrese un tipo usuario']) !!}
 
-            @error('nombre')
-                <br>
-                <span class="text-danger">{{ $message }}</span>
-                <br>
-            @enderror
+                @error('nombre')
+                    <br>
+                    <span class="text-danger">{{ $message }}</span>
+                    <br>
+                @enderror
 
-        </div>
-        
+                {!! Form::label('porcentaje', 'Porcentaje') !!}
+                {!! Form::number('porcentaje', null, ['class' => 'form-control']) !!}
+                @error('porcentaje')
+                    <br>
+                    <span class="text-danger">{{ $message }}</span>
+                    <br>
+                @enderror
+
+
+
+
+
+            </div>
+
             {!! Form::submit('Crear Categoria', ['class' => 'btn btn-primary']) !!}
 
-            {!! Form::close() !!}      
+            {!! Form::close() !!}
+
+        </div>
 
     </div>
-
-</div>
 
 @stop
 
@@ -72,7 +84,7 @@
             <div class="form-group">
                 {!! Form::label('name', 'Nombre') !!}
                 {{-- ojo que en la linea siguiente va el nombre de la columa =( --}}
-                {{-- {!! Form::text('nombre', null, ['class' => 'form-control', 'placeholder' => 'Favor ingrese un tipo usuario']) !!}
+{{-- {!! Form::text('nombre', null, ['class' => 'form-control', 'placeholder' => 'Favor ingrese un tipo usuario']) !!}
 
                 @error('nombre')
                     <br>
@@ -86,15 +98,15 @@
                 {!! Form::close() !!}
             --}}
 
-        {{-- </div>
+{{-- </div>
 
 
-    </div> --}} 
+    </div> --}}
 
-    {{-- FORMULARIO CON LARAVEL COLECTI --}}
+{{-- FORMULARIO CON LARAVEL COLECTI --}}
 
 
-    {{-- <form action="{{ route('tipoUsuarios.store') }}" method="POST">
+{{-- <form action="{{ route('tipoUsuarios.store') }}" method="POST">
         @csrf
         <div class="mb-3">
             <label for="formGroupExampleInput" class="form-label">NOMBRE</label>

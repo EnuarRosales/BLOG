@@ -21,7 +21,8 @@ class TipoUsuarioFactory extends Factory
     {
         return [
 
-            'nombre' => $this->faker->randomElement(['MODELO','MONITOR','DUEÑO']),         
+            'nombre' => $this->faker->randomElement(['MODELO']), 
+            'porcentaje' => $this->faker->randomElement([60]),          
             
             //
         ];

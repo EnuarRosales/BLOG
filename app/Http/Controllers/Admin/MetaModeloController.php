@@ -3,11 +3,10 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Models\Pagina;
-use App\Models\TipoMonedaPagina;
+use App\Models\MetaModelo;
 use Illuminate\Http\Request;
 
-class PaginaController extends Controller
+class MetaModeloController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -16,10 +15,8 @@ class PaginaController extends Controller
      */
     public function index()
     {
-        $paginas = Pagina::orderBy('id','desc')->paginate(); 
-        return view('admin.paginas.index',compact('paginas'));
-        // $paginas = Pagina::all();        
-        // return $paginas;
+        $metaModelos = MetaModelo::all();
+        return view('admin.metaModelos.index', compact('metaModelos'));
     }
 
     /**
@@ -29,8 +26,7 @@ class PaginaController extends Controller
      */
     public function create()
     {
-        // $tipoMonedapaginas = TipoMonedaPagina::orderBy('id','desc'); 
-        return view('admin.paginas.create');
+        return view('admin.metaModelos.create');
     }
 
     /**
@@ -43,14 +39,13 @@ class PaginaController extends Controller
     {
         //VALiDACION FORMULARIO 
        $request->validate([
-        'nombre'=>'required',
-        'valor'=>'required',
-        'moneda'=>'required',
+        'mayorQue'=>'required',
+        'porcentaje'=>'required',
+       
               
     ]); 
-    $pagina= Pagina::create($request->all());
-    return redirect()->route('admin.paginas.index',$pagina->id)->with('info','store');
-
+    $metaModelo= MetaModelo::create($request->all());
+    return redirect()->route('admin.metaModelos.index',$metaModelo->id)->with('info','store');
     }
 
     /**
@@ -70,11 +65,10 @@ class PaginaController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit(Pagina $pagina)
+    public function edit(MetaModelo $metaModelo)
     {
-        // $tipoMonedapaginas = TipoMonedaPagina::orderBy('id','desc'); 
-        return view('admin.paginas.edit',compact('pagina'));
-    } 
+        return view('admin.metaModelos.edit',compact('metaModelo'));
+    }
 
     /**
      * Update the specified resource in storage.
@@ -83,19 +77,17 @@ class PaginaController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request,Pagina $pagina)
+    public function update(Request $request, MetaModelo $metaModelo)
     {
-        //VALLIDACION DE FORMULARIOS
-        $request->validate([
-            'nombre'=>'required',
-            'valor'=>'required', 
-            'moneda'=>'required',
+         //VALLIDACION DE FORMULARIOS
+         $request->validate([
+            'mayorQue'=>'required',
+            'porcentaje'=>'required',             
             
         ]);
         //ASINACION MASIVA DE VARIABLES A LOS CAMPOS
-        $pagina->update($request->all());           
-        return redirect()->route('admin.paginas.index',$pagina->id)->with('info','update');//with mensaje de sesion
-              
+        $metaModelo->update($request->all());           
+        return redirect()->route('admin.metaModelos.index',$metaModelo->id)->with('info','update');//with mensaje de sesion
     }
 
     /**
@@ -104,9 +96,11 @@ class PaginaController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Pagina $pagina)
+    public function destroy(MetaModelo $metaModelo)
     {
-        $pagina->delete();
-        return redirect()->route('admin.paginas.index')->with('info','delete');
+
+        $metaModelo->delete();
+        return redirect()->route('admin.metaModelos.index')->with('info','delete');
+        
     }
 }

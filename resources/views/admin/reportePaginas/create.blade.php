@@ -3,13 +3,13 @@
 @section('title', 'Dashboard')
 
 @section('content_header')
-    <h1>Registrar Producido</h1>
+    <h1>Registro Reporte Pagina individual</h1>
 @stop
 
 @section('content')
     <div class="card">
         <div class="card-body">
-            {!! Form::open(['route' => 'admin.registroProducidos.store']) !!}
+            {!! Form::open(['route' => 'admin.reportePaginas.storeIndividual']) !!}
             <div class="form-group">
                 {{-- {!! Form::label('user_id', 'Usuario') !!}
                 {!! Form::select('user_id', $users->pluck('name', 'id'), null, [
@@ -25,23 +25,28 @@
 
                 {!! Form::label('fecha', 'Fecha') !!}
                 {!! Form::date('fecha', now(), [
-                    'class' => 'form-control',                    
-                ] )   !!}
+                    'class' => 'form-control',
+                ]) !!}
                 @error('fecha')
                     <br>
                     <span class="text-danger">{{ $message }}</span>
                     <br>
                 @enderror
 
-                {!! Form::label('valorProducido', 'Valor Producido') !!}
-                {!! Form::number('valorProducido',null, [
-                    'class' => 'form-control',                    
+                
+
+                {!! Form::label('user_id', 'Modelo') !!}
+                {!! Form::select('user_id', $users->pluck('name', 'id'), null, [
+                    'class' => 'form-control',
+                    'placeholder' => 'Seleccione Un Usuario',
                 ]) !!}
-                @error('valorProducido')
+                @error('user_id')
                     <br>
                     <span class="text-danger">{{$message}}</span>
                     <br>
-                @enderror 
+                @enderror    
+
+
 
 
                 {!! Form::label('pagina_id', 'Pagina') !!}
@@ -55,21 +60,25 @@
                     <br>
                 @enderror
 
-                
-
-                {!! Form::label('meta_id', 'Meta') !!}
-                {!! Form::select('meta_id', $metas->pluck('nombre', 'id'), null, [
-                    'class' => 'form-control',
-                    'placeholder' => 'Seleccione Una Meta',
-                ]) !!}
-                @error('meta_id')
+                {!! Form::label('Cantidad', 'Cantidad') !!}
+                {!! Form::number('Cantidad', null, ['class' => 'form-control', ]) !!}
+                @error('Cantidad')
                     <br>
                     <span class="text-danger">{{ $message }}</span>
                     <br>
-                @enderror
+                @enderror         
+                
+                {!! Form::label('TRM', 'TRM') !!}
+                {!! Form::number('TRM', null, ['class' => 'form-control', ]) !!}
+                @error('TRM')
+                    <br>
+                    <span class="text-danger">{{ $message }}</span>
+                    <br>
+                @enderror 
+
 
             </div>
-            {!! Form::submit('Registrar Producido', ['class' => 'btn btn-primary']) !!}
+            {!! Form::submit('Registrar Reporte', ['class' => 'btn btn-primary']) !!}
             {!! Form::close() !!}
 
         </div>

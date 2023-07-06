@@ -6,10 +6,13 @@ use App\Http\Controllers\Admin\AsignacionTurnoController;
 use App\Http\Controllers\Admin\DescontadoController;
 use App\Http\Controllers\Admin\EmpresaController;
 use App\Http\Controllers\Admin\HomeController;
+use App\Http\Controllers\Admin\MetaModeloController;
 use App\Http\Controllers\Admin\PaginaController;
+use App\Http\Controllers\Admin\PagoController;
 use App\Http\Controllers\Admin\RegistroAsistenciaController;
 use App\Http\Controllers\Admin\RegistroDescuentoController;
 use App\Http\Controllers\Admin\RegistroProducidoController;
+use App\Http\Controllers\Admin\ReportePaginaController;
 use App\Http\Controllers\Admin\RoleController;
 use App\Http\Controllers\Admin\TipoDescuentoController;
 use App\Http\Controllers\Admin\TipoMetaController;
@@ -18,7 +21,7 @@ use App\Http\Controllers\Admin\TipoMultaController;
 use App\Http\Controllers\Admin\TipoRoomController;
 use App\Http\Controllers\Admin\TipoTurnoController;
 use App\Http\Controllers\Admin\TipoUsuarioController;
-use App\Http\Controllers\Admin\UserController; 
+use App\Http\Controllers\Admin\UserController;
 
 use Illuminate\Support\Facades\Route;
 
@@ -42,6 +45,10 @@ Route::get('registroProducidoss', [RegistroProducidoController::class,'reporte_d
 Route::resource('registroAsistencias',RegistroAsistenciaController::class)->middleware(['auth','verified'])->names('admin.registroAsistencias');
 Route::resource('registroDescuentos',RegistroDescuentoController::class)->middleware(['auth','verified'])->names('admin.registroDescuentos');
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> enuarDesarrollo
 Route::resource('tipoUsuarios', TipoUsuarioController::class)->middleware(['auth','verified'])->names('admin.tipoUsuarios');
 Route::resource('users', UserController::class)->middleware(['auth','verified'])->names('admin.users');
 Route::resource('roles', RoleController::class)->middleware(['auth','verified'])->names('admin.roles');
@@ -55,12 +62,23 @@ Route::resource('tipoMonedaPaginas',TipoMonedaPaginaController::class)->middlewa
 Route::resource('paginas',PaginaController::class)->middleware(['auth','verified'])->names('admin.paginas');
 Route::resource('asignacionRooms',AsignacionRoomController::class)->middleware(['auth','verified'])->names('admin.asignacionRooms');
 Route::resource('asignacionMultas',AsignacionMultaController::class)->middleware(['auth','verified'])->names('admin.asignacionMultas');
+<<<<<<< HEAD
 Route::resource('empresa', EmpresaController::class)->middleware(['auth','verified'])->names('admin.empresa');
+=======
+Route::resource('metaModelos', MetaModeloController::class)->middleware(['auth','verified'])->names('admin.metaModelos');
+Route::get('enviarPago', [PagoController::class,'enviarPago'])->name('admin.pagos.enviarPago');
+>>>>>>> enuarDesarrollo
 
 
- 
+Route::resource('reportePaginas', ReportePaginaController::class)->middleware(['auth','verified'])->names('admin.reportePaginas');
+Route::get('reportePaginass', [ReportePaginaController::class,'nomina'])->name('admin.reportePaginas.nomina');
+Route::get('reportePaginasss', [ReportePaginaController::class,'reporteQuincena'])->name('admin.reportePaginas.reporteQuincena');
+Route::get('pagos', [ReportePaginaController::class,'pagos'])->name('admin.reportePaginas.pagos');
+Route::get('verificadoMasivo', [ReportePaginaController::class,'verificadoMasivo'])->name('admin.reportePaginas.verificadoMasivo');
+Route::post('reportePaginas/updateStatus', [ReportePaginaController::class,'updateStatus'])->name('admin.reportePaginas.updateStatus');
+Route::get('', [ReportePaginaController::class,'pagos'])->name('admin.reportePaginas.pagos');
 
-
+Route::get('cargarExcel', [ReportePaginaController::class,'cargarExcel'])->name('admin.reportePaginas.cargarExcel');
 
 
 // //RUTA TIPO CONTROLLER

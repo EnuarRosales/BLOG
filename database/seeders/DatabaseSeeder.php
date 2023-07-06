@@ -16,6 +16,7 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
+<<<<<<< HEAD
         $this->call(TipoUsuarioSeeder::class);
         User::factory(50)->create();
         $this->call(RolSeeder::class);
@@ -42,5 +43,11 @@ class DatabaseSeeder extends Seeder
         $curso2->name = "javascript";
         $curso2->descripcion= "bueno";
         $curso2->save();*/
+=======
+        TipoUsuario::factory(1)->create();
+        User::factory(1)->create();
+        $this->call(RolSeeder::class);      
+              
+>>>>>>> enuarDesarrollo
     }
 }

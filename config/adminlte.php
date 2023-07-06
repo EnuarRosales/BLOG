@@ -291,6 +291,16 @@ return [
 
     'menu' => [
         // Navbar items:
+
+
+
+
+
+
+
+
+
+
         [
             'type'         => 'navbar-search',
             'text'         => 'search',
@@ -320,12 +330,32 @@ return [
         [
             'text'        => 'Dashborad',
             'url'         => 'admin',
-            'can'         =>'admin.home',
+            'can'         => 'admin.home',
             'icon'        => 'far fa-fw fa-file',
 
         ], //ojo que aca inicia para modificar el menu
         ['header' => 'ADMINISTRADOR'],
+
+
+
+
+
+
+
         [
+
+
+
+
+
+
+
+
+
+
+
+
+
             'text' => 'Personal',
             'route'  => 'admin.users.index',
             'icon' => 'fas fa-fw fa-user',
@@ -342,13 +372,17 @@ return [
                 [
                     'text' => 'Asignacion Turno',
                     'route'  => 'admin.asignacionTurnos.index',
+<<<<<<< HEAD
                     'can' =>'admin.asignacionTurnos.index',
+=======
+                    'can' => 'admin.asignacionTurnos.index',
+>>>>>>> enuarDesarrollo
                     'icon' => '	far fa-address-book',
                 ],
                 [
                     'text' => 'Asignacion Room',
                     'route'  => 'admin.asignacionRooms.index',
-                    'can' =>'admin.asignacionRooms.index',
+                    'can' => 'admin.asignacionRooms.index',
                     'icon' => ' fas fa-house-user',
                 ],
 
@@ -359,7 +393,11 @@ return [
             'text' => 'Roles',
             'route'  => 'admin.roles.index',
             'icon' => 'fas fa-fw fa-lock',
+<<<<<<< HEAD
             'can'=>'admin.roles.index'
+=======
+            'can' => 'admin.roles.index'
+>>>>>>> enuarDesarrollo
 
         ],
 
@@ -367,8 +405,26 @@ return [
         [
             'text'    => 'Configuracion',
             'icon'    => 'fas fa-fw fa-share',
-            'can' =>'admin.configuraciones',
+            'can' => 'admin.configuraciones',
             'submenu' => [
+
+
+                [
+                    'text'    => 'METAS',
+                    'url'     => '#',
+                    'submenu' => [
+                        [
+                            'text' => 'Metas Estudio',
+                            'route'     => 'admin.tipoMetas.index',
+                        ],
+                        [
+                            'text' => 'Metas Modelo',
+                            'route'     => 'admin.metaModelos.index',
+                        ],
+
+                    ],
+                ],
+
                 [
                     'text' => 'Empresa',
                     'route'  => 'admin.empresa.index',
@@ -401,18 +457,26 @@ return [
                     'route'  => 'admin.tipoMetas.index',
                 ],
 
+<<<<<<< HEAD
+
+=======
+>>>>>>> enuarDesarrollo
+                [
+                    'text' => 'Paginas',
+                    'route'  => 'admin.paginas.index',
+                ],
 
                 [
-                    'text'    => 'Paginas WC',
+                    'text'    => 'Desplegable Pr',
                     'url'     => '#',
                     'submenu' => [
                         [
                             'text' => 'Tipo Moneda Paginas',
-                            'route'  => 'admin.tipoMonedaPaginas.index',
+                            'url'     => '#',
                         ],
                         [
                             'text' => 'Paginas',
-                            'route'  => 'admin.paginas.index',
+                            'url'     => '#',
                         ],
 
                         [
@@ -431,6 +495,7 @@ return [
                         ],
                     ],
                 ],
+
                 [
                     'text' => 'level_one',
                     'url'  => '#',
@@ -470,6 +535,11 @@ return [
             'text'       => 'Registro Descuentos',
             'icon_color' => 'blue',
             'route'        => 'admin.registroDescuentos.index',
+        ],
+        [
+            'text'       => 'Reportes Paginas',
+            'icon_color' => 'green',
+            'route'        => 'admin.reportePaginas.index',
         ],
     ],
 

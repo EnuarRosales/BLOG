@@ -20,16 +20,23 @@
                     <span class="text-danger">{{ $message }}</span>
                     <br>
                 @enderror
+                
+                {!! Form::label('moneda', 'Moneda') !!}
+                {!! Form::select('moneda', ['dolar' => 'dolar', 'euro' => 'euro'], null , ['id' =>'moneda','class' => 'form-control',
+                    ]) !!}
 
-                {!! Form::label('name', 'Tipo Moneda') !!}
-                {!! Form::select('tipoMoneda_id', $tipoMonedapaginas->pluck('nombre', 'id'), null, [
-                    'class' => 'form-control',
-                    'placeholder' => 'Seleccione Un tipo de moneda',
-                ]) !!}
+                    @error('moneda')
+                        <br>
+                        <span class="text-danger">{{ $message }}</span>
+                        <br>
+                    @enderror
 
-                @error('tipoMoneda_id')
+                {!! Form::label('name', 'Valor') !!}
+                {{-- ojo que en la linea siguiente va el nombre de la columa =( --}}
+                {!! Form::text('valor', null, ['class' => 'form-control', 'placeholder' => 'Favor ingrese un valor']) !!}
+                @error('valor')
                     <br>
-                    <span class="text-danger">{{ $message }}</span>
+                    <span class="text-danger">{{$message}}</span>
                     <br>
                 @enderror
 

@@ -22,12 +22,11 @@
                 </div>
 
                 <div class="col">
-                    {{-- Updatable --}}
-                    <x-adminlte-small-box title={{$count_multas_user}} text="Multas" icon="fas fa-medal text-dark"
-                        theme="danger" url="#" url-text="ver las multas" id="sbUpdatable" />
+                    <livewire:admin.dashboard-multas-graphics />
+                    {{--@livewire('admin.dashboard-multas-graphics')--}}
                 </div>
                 <div class="col">
-                    <x-adminlte-small-box title="{{$count_multas_user . ' ' . $porcentaje_model_actives }} %" text="otro valor"
+                    <x-adminlte-small-box title="{{$count_multas_user . ' ' . $count_multas_user }} %" text="otro valor"
                         icon="fas fa-user-plus text-teal" theme="primary" url="#" url-text="View all users" />
                 </div>
                 {{-- <div class="col">
@@ -162,6 +161,13 @@
                 //console.log(e);
                 Livewire.emit('renderModels');
             });
+
+        Echo.channel(`multaUpdateCreate`)
+            .listen('multaEvent', (e) => {
+                //console.log(e);
+                Livewire.emit('renderMultas');
+            });
+
     </script>
     <script>
         let myInfoBox = new _AdminLTE_InfoBox("myInfoBox");

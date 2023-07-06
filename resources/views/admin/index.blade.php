@@ -52,40 +52,11 @@
             </div>
             <div class="row">
                 <div class="col-4">
-                    <h2>Modelos</h2>
-                    <table id="users" class="table table-striped table-bordered shadow-lg mt-4">
-                        <thead>
-                            <tr>
-                                {{-- <th>ID</th> --}}
-                                <th>Nombre</th>
-                                {{-- <th>Cedula</th> --}}
-                                <th>Celular</th>
-                                {{-- <th>Direccion</th> --}}
-                                {{-- <th>Email</th> --}}
-                                {{-- <th>Tipo Usuario</th> --}}
-
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach ($userModelos as $userModelo)
-                                <tr>
-                                    {{-- <td>{{ $userModelo->id }}</td> --}}
-                                    <td>{{ $userModelo->name }}</td>
-                                    {{-- <td>{{ $userModelo->cedula }}</td> --}}
-                                    <td>{{ $userModelo->celular }}</td>
-                                    {{-- <td>{{ $userModelo->direccion }}</td> --}}
-                                    {{-- <td>{{ $userModelo->email }}</td> --}}
-                                    {{-- <td>{{ $userModelo->tipoUsuario->nombre }}</td> --}}
-
-
-                                </tr>
-                            @endforeach
-                        </tbody>
-                    </table>
+                    <h2>Turnos</h2>
+                    <livewire:admin.dashboard-asignacion-turnos-table />
                 </div>
-
-
                     <div class="col-4">
+                        <h2>Modelos</h2>
                         <table id="users" class="table table-striped table-bordered shadow-lg mt-4">
                             <thead>
                                 <tr>

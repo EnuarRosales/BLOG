@@ -17,7 +17,7 @@ return new class extends Migration
             $table->id();
             $table->double('valor')->nullable();
             $table->string('descripcion',150)->nullable();
-            
+            $table->boolean('descontado')->default(false)->nullable();                      
             
             $table->date('fechaDescontado')->nullable();
 

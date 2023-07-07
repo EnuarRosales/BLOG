@@ -31,10 +31,6 @@ class User extends Authenticatable implements MustVerifyEmail
     protected $guarded = [];
     protected $appends = ['empresa_id'];
 
-<<<<<<< HEAD
-=======
-
->>>>>>> enuarDesarrollo
 
     //ACCESOR
     public function getNameAttribute($value)
@@ -48,16 +44,10 @@ class User extends Authenticatable implements MustVerifyEmail
         $this->attributes['name'] = strtolower($value);
     }
 
-<<<<<<< HEAD
-    // //RELACION UNO A MUCHOS INVERSA
-    public function tipoUsuario()    {
-        return $this->belongsTo('App\Models\TipoUsuario','tipoUsuario_id');
-=======
     //RELACION UNO A MUCHOS INVERSA   
     public function tipoUsuario()
     {
         return $this->belongsTo('App\Models\TipoUsuario', 'tipoUsuario_id');
->>>>>>> enuarDesarrollo
     }
 
     // public function tipoUsuario()
@@ -65,11 +55,8 @@ class User extends Authenticatable implements MustVerifyEmail
     //     return $this->belongsTo(TipoUsuario::class,'tipoUsuario_id');
     // }
 
-<<<<<<< HEAD
-=======
 
 
->>>>>>> enuarDesarrollo
 
 
 
@@ -109,19 +96,16 @@ class User extends Authenticatable implements MustVerifyEmail
         return $this->hasMany('App\Models\Descuento', 'descuento_id');
     }
 
-<<<<<<< HEAD
     public function empresas()
     {
         return $this->belongsToMany(Empresa::class, 'user_empresa');
     }
 
-=======
     //RELACION DE UNO A MUCHOS      
     public function reportePaginas()
     {
         return $this->hasMany('App\Models\ReportePagina');
     }
->>>>>>> enuarDesarrollo
 
     //RELACION DE UNO A MUCHOS      
     public function pagos()
@@ -142,12 +126,12 @@ class User extends Authenticatable implements MustVerifyEmail
         return $this->hasOne('App\Models\TipoUsuarios');
     }*/
 
-    public function empresaId(): Attribute
-    {
-        return new Attribute(
-            get: function ($value, $attributes) {
-                return $this->empresas()->where('user_id', $this->id)->first()? $this->empresas()->where('user_id', $this->id)->first()->id:null;
-            }
-        );
-    }
+    // public function empresaId(): Attribute
+    // {
+    //     return new Attribute(
+    //         get: function ($value, $attributes) {
+    //             return $this->empresas()->where('user_id', $this->id)->first()? $this->empresas()->where('user_id', $this->id)->first()->id:null;
+    //         }
+    //     );
+    // }
 }

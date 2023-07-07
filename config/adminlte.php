@@ -372,11 +372,7 @@ return [
                 [
                     'text' => 'Asignacion Turno',
                     'route'  => 'admin.asignacionTurnos.index',
-<<<<<<< HEAD
-                    'can' =>'admin.asignacionTurnos.index',
-=======
                     'can' => 'admin.asignacionTurnos.index',
->>>>>>> enuarDesarrollo
                     'icon' => '	far fa-address-book',
                 ],
                 [
@@ -393,11 +389,7 @@ return [
             'text' => 'Roles',
             'route'  => 'admin.roles.index',
             'icon' => 'fas fa-fw fa-lock',
-<<<<<<< HEAD
-            'can'=>'admin.roles.index'
-=======
             'can' => 'admin.roles.index'
->>>>>>> enuarDesarrollo
 
         ],
 
@@ -457,10 +449,6 @@ return [
                     'route'  => 'admin.tipoMetas.index',
                 ],
 
-<<<<<<< HEAD
-
-=======
->>>>>>> enuarDesarrollo
                 [
                     'text' => 'Paginas',
                     'route'  => 'admin.paginas.index',

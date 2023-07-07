@@ -63,17 +63,17 @@ class RolSeeder extends Seeder
                                     
                      
         //CON EL FIN DE CREAR UN USUARIO ADMINISTRADOR
-        $user = new User();
-        $user->name = 'Enuar Emilio Rosales Salazar';
-        $user->cedula = '108613644';
-        $user->celular = '3057465217';
-        $user->direccion = 'Sandona centenario';
-        $user->email = 'admin01@gmail.com';
-        $user->email_verified_at ='2023-05-11 22:39:30';
-        $user->tipoUsuario_id = 1;
-        $user->password = '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi';//password
-        $user->syncRoles([$role_modelo]);        
-        $user->save();
+        // $user = new User();
+        // $user->name = 'Enuar Emilio Rosales Salazar';
+        // $user->cedula = '108613644';
+        // $user->celular = '3057465217';
+        // $user->direccion = 'Sandona centenario';
+        // $user->email = 'admin@gmail.com';
+        // $user->email_verified_at ='2023-05-11 22:39:30';
+        // $user->tipoUsuario_id = 1;
+        // $user->password = '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi';//password
+        // $user->syncRoles([$role_admin]);        
+        // $user->save();
 
         $metaModelo = new MetaModelo();
         $metaModelo->porcentaje=0;

@@ -71,7 +71,7 @@ Route::post('reportePaginas/updateStatus', [ReportePaginaController::class,'upda
 Route::get('', [ReportePaginaController::class,'pagos'])->name('admin.reportePaginas.pagos');
 
 Route::get('cargarExcel', [ReportePaginaController::class,'cargarExcel'])->name('admin.reportePaginas.cargarExcel');
-
+Route::resource('empresa', EmpresaController::class)->middleware(['auth','verified'])->names('admin.empresa');
 
 // //RUTA TIPO CONTROLLER
 

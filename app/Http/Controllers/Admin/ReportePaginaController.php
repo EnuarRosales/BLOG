@@ -80,6 +80,7 @@ class ReportePaginaController extends Controller
 
         Excel::import(new ReportePaginasImport, $file);
         $reportePaginas = ReportePagina::all();
+        
 
         foreach ($reportePaginas as $reportePagina) {
             if ($reportePagina->valorPagina == null) {

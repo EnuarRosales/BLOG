@@ -35,8 +35,7 @@
                     <br>
                     <span class="text-danger">{{$message}}</span>
                     <br>
-                @enderror  
-                
+                @enderror                  
 
                 {!! Form::label('montoDescuento', 'Monto Descuento') !!}
                 {!! Form::number('montoDescuento',null, [

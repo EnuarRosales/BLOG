@@ -44,15 +44,18 @@ class User extends Authenticatable implements MustVerifyEmail
         $this->attributes['name'] = strtolower($value);
     }
 
-    // //RELACION UNO A MUCHOS INVERSA
-    public function tipoUsuario()    {
-        return $this->belongsTo('App\Models\TipoUsuario','tipoUsuario_id');
+    //RELACION UNO A MUCHOS INVERSA   
+    public function tipoUsuario()
+    {
+        return $this->belongsTo('App\Models\TipoUsuario', 'tipoUsuario_id');
     }
 
     // public function tipoUsuario()
     // {
     //     return $this->belongsTo(TipoUsuario::class,'tipoUsuario_id');
     // }
+
+
 
 
 
@@ -90,7 +93,7 @@ class User extends Authenticatable implements MustVerifyEmail
     //RELACION DE UNO A MUCHOS
     public function descuentos()
     {
-        return $this->hasMany('App\Models\Descuento');
+        return $this->hasMany('App\Models\Descuento', 'descuento_id');
     }
 
     public function empresas()
@@ -98,11 +101,20 @@ class User extends Authenticatable implements MustVerifyEmail
         return $this->belongsToMany(Empresa::class, 'user_empresa');
     }
 
+    //RELACION DE UNO A MUCHOS      
+    public function reportePaginas()
+    {
+        return $this->hasMany('App\Models\ReportePagina');
+    }
 
-
+    //RELACION DE UNO A MUCHOS      
+    public function pagos()
+    {
+        return $this->hasMany('App\Models\Pago');
+    }
 
     /*
-    //relacion uno a muchos
+                    //relacion uno a muchos¿¿
     public function asignacionRooms(){
         return $this->hasMany('App\Models\AsignacionRooms');
     }
@@ -114,12 +126,12 @@ class User extends Authenticatable implements MustVerifyEmail
         return $this->hasOne('App\Models\TipoUsuarios');
     }*/
 
-    public function empresaId(): Attribute
-    {
-        return new Attribute(
-            get: function ($value, $attributes) {
-                return $this->empresas()->where('user_id', $this->id)->first()? $this->empresas()->where('user_id', $this->id)->first()->id:null;
-            }
-        );
-    }
+    // public function empresaId(): Attribute
+    // {
+    //     return new Attribute(
+    //         get: function ($value, $attributes) {
+    //             return $this->empresas()->where('user_id', $this->id)->first()? $this->empresas()->where('user_id', $this->id)->first()->id:null;
+    //         }
+    //     );
+    // }
 }

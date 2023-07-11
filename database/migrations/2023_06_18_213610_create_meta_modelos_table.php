@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateTipoMonedaPaginasTable extends Migration
+return new class extends Migration
 {
     /**
      * Run the migrations.
@@ -13,12 +13,12 @@ class CreateTipoMonedaPaginasTable extends Migration
      */
     public function up()
     {
-        Schema::create('tipo_moneda_paginas', function (Blueprint $table) {
-            $table->id();            
-            $table->string('nombre',45);
-            $table->float('valor');
+        Schema::create('meta_modelos', function (Blueprint $table) {
+            $table->id();
+            $table->float('mayorQue', 12, 2);
+            $table->float('porcentaje', 12, 2);
+                  
             $table->timestamps();
-            
         });
     }
 
@@ -29,6 +29,6 @@ class CreateTipoMonedaPaginasTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('tipo_moneda_paginas');
+        Schema::dropIfExists('meta_modelos');
     }
-}
+};

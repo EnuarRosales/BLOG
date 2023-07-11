@@ -24,27 +24,37 @@
                     <br>
                 @enderror
 
-                {!! Form::label('name', 'Tipo Moneda') !!}
-                {!! Form::select('tipoMoneda_id', $tipoMonedapaginas->pluck('nombre', 'id'), null, [
-                    'class' => 'form-control',
-                    'placeholder' => 'Seleccione Un Tipo moneda',
-                ]) !!}
+                <div class="form-group">
+                    {!! Form::label('moneda', 'Moneda') !!}                  
 
-                @error('tipoMoneda_id')
-                    <br>
-                    <span class="text-danger">{{ $message }}</span>
-                    <br>
-                @enderror
+                    {!! Form::select('moneda', ['dolar' => 'dolar', 'euro' => 'euro'], 2 , ['id' =>'moneda','class' => 'form-control',
+                    ]) !!}
 
+                    @error('moneda')
+                        <br>
+                        <span class="text-danger">{{ $message }}</span>
+                        <br>
+                    @enderror
+
+                    {!! Form::label('name', 'valor') !!}
+                    {{-- ojo que en la linea siguiente va el nombre de la columa =( --}}
+                    {!! Form::text('valor', null, ['class' => 'form-control', 'placeholder' => 'Favor ingrese un valor']) !!}
+                    @error('valor')
+                        <br>
+                        <span class="text-danger">{{ $message }}</span>
+                        <br>
+                    @enderror
+
+
+                </div>
+
+                {!! Form::submit('Crear Pagina', ['class' => 'btn btn-primary']) !!}
+                {!! Form::close() !!}
 
             </div>
 
-            {!! Form::submit('Crear Pagina', ['class' => 'btn btn-primary']) !!}
-            {!! Form::close() !!}
-
         </div>
 
-    </div>
 
 
 
@@ -57,5 +67,4 @@
 
 
 
-
-@stop
+    @stop

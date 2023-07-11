@@ -24,6 +24,7 @@
                 <tr>
                     <th>ID</th>
                     <th>Nombre</th>
+                    <th>Porcentaje</th>
                     <th>Editar</th>
                     <th>Eliminar</th>
 
@@ -37,6 +38,7 @@
                     <tr>
                         <td>{{ $tipoUsuario->id }}</td>
                         <td>{{ $tipoUsuario->nombre }}</td>
+                        <td>{{ $tipoUsuario->porcentaje }}</td>
                         <td width="10px">
                             <a class="btn btn-secondary btn-sm"
                                 href="{{ route('admin.tipoUsuarios.edit', $tipoUsuario) }}">Editar</a>

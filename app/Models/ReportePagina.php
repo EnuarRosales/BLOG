@@ -12,10 +12,7 @@ class ReportePagina extends Model
     //CON ESTO LOGRAMOS HACER LA ASIGNACION MASIVA
     protected $guarded = [];
 
-     //RELACION UNO A MUCHOS INVERSA
-    //  public function tipoMonedaPagina(){ 
-    //     return $this->belongsTo(TipoUsuario::class,'tipoMoneda_id');
-    // }
+    
 
     //RELACION UNO A MUCHOS  INVERSA
     public function user(){
@@ -30,22 +27,7 @@ class ReportePagina extends Model
     } 
 
 
-    // //RELACION DE UNO A MUCHOS      
-    // public function metaModelo()
-    // {
-    //     return $this->hasMany('App\Models\MetaModelo');
-    // }
-
-
-
-
-    // RELACION DE UNO A MUCHOS      
-    // public function metaModelo()
-    // {
-    //     return $this->belongsTo('App\Models\MetaModelo','metaModelo_id');
-    // }
-
-   
+ 
 
 
 

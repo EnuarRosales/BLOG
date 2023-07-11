@@ -54,14 +54,13 @@
 
                         @if ($array == 'lleno')
                             {{-- {{ number_format($pago->suma - $descuento->suma, 2, '.', ',') }} --}}
-                            @if ($pago->user_id == $descuento->user_id)                                
-                                {{ number_format($pago->suma-$descuento->suma, 2, '.', ',') }}
+                            @if ($pago->user_id == $descuento->user_id)
+                                {{ number_format($pago->suma - $descuento->suma, 2, '.', ',') }}
                             @endif
 
-                            @if ($pago->user_id != $descuento->user_id)                                
+                            @if ($pago->user_id != $descuento->user_id)
                                 {{ number_format($pago->suma, 2, '.', ',') }}
                             @endif
-
                         @else
                             {{ number_format($pago->suma, 2, '.', ',') }}
                         @endif
@@ -111,6 +110,16 @@
             position: 'top-end',
             icon: 'success',
             title: 'Descuento registrado correctamente',
+            showConfirmButton: false,
+            timer: 2000
+        })
+    </script>
+@elseif(session('info') == 'enviarPagos')
+    <script>
+        Swal.fire({
+            position: 'top-end',
+            icon: 'success',
+            title: 'Pagos enviados exitosamente',
             showConfirmButton: false,
             timer: 2000
         })

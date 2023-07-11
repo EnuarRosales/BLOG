@@ -174,7 +174,9 @@ class PagoController extends Controller
         }
 
         $cambiarEstados->enviarPagoCambiarEstado();
-        return redirect()->route('admin.reportePaginas.pagos')->with('info', 'delete');
+        
+        return redirect()->route('admin.reportePaginas.pagos')->with('info', 'enviarPagos');
+        
     }
 
     public function enviarPagoCambiarEstado()

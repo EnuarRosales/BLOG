@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\Descontado;
 use App\Models\Descuento;
+use App\Models\Impuesto;
 use App\Models\Pago;
 use App\Models\ReportePagina;
 use Illuminate\Http\Request;
@@ -132,15 +133,17 @@ class PagoController extends Controller
             ->groupBy('user_id', 'descuento_id')
             ->get();
 
-            /*
+        /*
          *  
          * EN LA CUARTA PARTE CON LA AYUDA DE IN CICLO ITERAMOS LOS DATOS, LUEGO SE INSERTAN EN LA TABLA,
          * ASI MISMO UN SEGUNDO CICLO ITERA LOS DATOS DE LAS CONSULTAS ANTERIORES Y ACTUALZA SUS DATOS 
          * DE ACUERDO A  DOS CONDICIONES 
          * 
          */
+        
 
         foreach ($pagos as $pago) {
+            
 
             DB::table('pagos')->insert([
                 'fecha' => $pago->fecha,
@@ -150,8 +153,18 @@ class PagoController extends Controller
                 'neto' => $pago->suma,
                 'user_id' => $pago->user_id,
                 'created_at' => now(),
-                'updated_at' => now(),
+                'updated_at' => now()
+
+
             ]);
+
+            
+
+
+
+
+
+
 
             foreach ($descuentos as $descuento) {
                 if ($pago->user_id == $descuento->user_id) {
@@ -172,11 +185,14 @@ class PagoController extends Controller
                 }
             }
         }
+        // return $impuesto;
 
         $cambiarEstados->enviarPagoCambiarEstado();
+        $cambiarEstados->aplicarImpuesto();
         
+
+
         return redirect()->route('admin.reportePaginas.pagos')->with('info', 'enviarPagos');
-        
     }
 
     public function enviarPagoCambiarEstado()
@@ -185,6 +201,21 @@ class PagoController extends Controller
         foreach ($reportePaginas as $reportePagina) {
             $reportePagina->enviarPago = 1;
             $reportePagina->save();
+        }
+    }
+
+    public function aplicarImpuesto()
+    {
+        $impuestos = Impuesto::where('estado', 1)->get();
+        // $pagos = Pago::where('pagado', 1)->get();
+
+        foreach ($impuestos as $impuesto) {
+            if ($impuesto->estado == 1) {
+                DB::table('pagos')
+                    ->where('pagado', 1)
+                    ->where('impuesto_id', null)
+                    ->update(['impuesto_id' => 2]);
+            }
         }
     }
 }

@@ -25,7 +25,8 @@
                     <th>Fecha</th>
                     <th>Usuario</th>
                     <th>Devengado</th>
-                    <th>Descuentos</th>
+                    <th>Impuesto</th>
+                    <th>Descuento</th>
                     <th>Neto</th>
                 </tr>
             </thead>
@@ -36,6 +37,9 @@
                         <td>{{ $pago->user->name }}</td>
 
                         <td>{{ number_format($pago->suma, 2, '.', ',') }}</td>
+
+                        <td></td>
+
                         <td>
                             @foreach ($descuentos as $descuento)
                                 @if ($pago->user_id == $descuento->user_id)

@@ -22,13 +22,18 @@ return new class extends Migration
             $table->float('neto', 12, 2)->nullable();
             // $table->unsignedBigInteger('descuento_id')->nullable(); //campo para relacion 
             $table->unsignedBigInteger('user_id')->nullable(); //campo para relacion  
+            $table->unsignedBigInteger('impuesto_id')->nullable(); //campo para relacion  
 
             // $table->foreign('descuento_id')
             //     ->references('id')->on('descuentos')
             //     ->onDelete('cascade');
-                
+
             $table->foreign('user_id')
                 ->references('id')->on('users')
+                ->onDelete('cascade');
+
+            $table->foreign('impuesto_id')
+                ->references('id')->on('impuestos')
                 ->onDelete('cascade');
 
             $table->timestamps();

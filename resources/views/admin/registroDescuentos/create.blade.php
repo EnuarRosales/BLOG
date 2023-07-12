@@ -6,14 +6,10 @@
 @section('content')
     <div class="card">
         <div class="card-body">
-<<<<<<< HEAD
-            {!! Form::open(['route' => 'admin.abonos.abonoParcial.store']) !!}
-=======
             {!! Form::open(['route' => 'admin.registroDescuentos.store']) !!}
 
             
          
->>>>>>> enuarDesarrollo
             <div class="form-group">
                 {!! Form::label('user_id', 'Usuario') !!}
                 {!! Form::select('user_id', $users->pluck('name', 'id'), null, [

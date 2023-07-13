@@ -111,14 +111,12 @@ class PagoController extends Controller
             ->where('enviarPago', 0)
             ->groupBy('fecha', 'user_id')
             ->get();
-
         /*
          *  
          * EN LA TERCERO PARTE ES UNA COSNSULTA A DOS TABLAS EN DONDE TRAEMOS INFORMACION QUE NOS INTERESA LA CUAL 
          * MAS ADELANTE SE USA  EN LOS CICLOS  
          * 
          */
-
 
         $descuentos = DB::table('descuentos')
             ->join('descontados', 'descontados.descuento_id', '=', 'descuentos.id')
@@ -140,10 +138,8 @@ class PagoController extends Controller
          * DE ACUERDO A  DOS CONDICIONES 
          * 
          */
-        
 
         foreach ($pagos as $pago) {
-            
 
             DB::table('pagos')->insert([
                 'fecha' => $pago->fecha,
@@ -154,17 +150,7 @@ class PagoController extends Controller
                 'user_id' => $pago->user_id,
                 'created_at' => now(),
                 'updated_at' => now()
-
-
             ]);
-
-            
-
-
-
-
-
-
 
             foreach ($descuentos as $descuento) {
                 if ($pago->user_id == $descuento->user_id) {
@@ -185,13 +171,9 @@ class PagoController extends Controller
                 }
             }
         }
-        // return $impuesto;
 
         $cambiarEstados->enviarPagoCambiarEstado();
         $cambiarEstados->aplicarImpuesto();
-        
-
-
         return redirect()->route('admin.reportePaginas.pagos')->with('info', 'enviarPagos');
     }
 
@@ -207,14 +189,24 @@ class PagoController extends Controller
     public function aplicarImpuesto()
     {
         $impuestos = Impuesto::where('estado', 1)->get();
-        // $pagos = Pago::where('pagado', 1)->get();
-
         foreach ($impuestos as $impuesto) {
             if ($impuesto->estado == 1) {
+                
+                DB::table('pagos')->chunk(100, function ($pagos) {
+                    foreach ($pagos as $pago) {
+
+                        
+                        
+                        //
+                    }
+                });
+
                 DB::table('pagos')
                     ->where('pagado', 1)
                     ->where('impuesto_id', null)
-                    ->update(['impuesto_id' => 2]);
+                    ->where('devengado', '>', $impuesto->mayorQue)
+                    ->update(['impuesto_id' => $impuesto->id, 
+                    'porcentajeImpuesto' => $impuesto->porcentaje, 'descuentoImpuesto' => 'neto',]);
             }
         }
     }

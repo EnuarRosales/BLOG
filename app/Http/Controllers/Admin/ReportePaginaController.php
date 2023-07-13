@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Imports\ReportePaginasImport;
 use App\Models\Descontado;
 use App\Models\Descuento;
+use App\Models\Impuesto;
 use App\Models\MetaModelo;
 use App\Models\Pagina;
 use App\Models\Pago;
@@ -336,29 +337,17 @@ class ReportePaginaController extends Controller
 
     public function pagos()
     {
-        /*
-         * No BORRAR LA CONSULTA QUE SE VE A CONTINUACION YA QUE PUEDE SERVIR MAS ADELNATE
-         */
-        // $pagos= DB::table('reporte_paginas')
-        // ->select(DB::raw('sum(netoPesos) as suma'),
-        //         DB::raw('user_id'),
-        //         DB::raw('fecha'))
-        //         ->where('verificado', 0)
-        //         ->groupBy('fecha', 'user_id')
-        //         ->get();
-
 
         $pagos = ReportePagina::with('user', 'pagina')->select(
             DB::raw('sum(netoPesos) as suma'),
             DB::raw('user_id'),
             DB::raw('fecha'),
-
-
         )
             ->where('verificado', 1)
             ->where('enviarPago', 0)
             ->groupBy('fecha', 'user_id')
             ->get();
+
 
         $descuentos = DB::table('descuentos')
             ->join('descontados', 'descontados.descuento_id', '=', 'descuentos.id')
@@ -376,7 +365,8 @@ class ReportePaginaController extends Controller
             $array = "lleno";
         }
 
-        return view('admin.reportePaginas.pago', compact('pagos', 'descuentos', "array"));
+        $impuestos = Impuesto::where('estado', 1)->get();
+        return view('admin.reportePaginas.pago', compact('pagos', 'descuentos', 'array','impuestos'));
     }
 
 

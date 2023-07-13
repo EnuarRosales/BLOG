@@ -5,6 +5,7 @@ use App\Http\Controllers\Admin\AsignacionRoomController;
 use App\Http\Controllers\Admin\AsignacionTurnoController;
 use App\Http\Controllers\Admin\DescontadoController;
 use App\Http\Controllers\Admin\HomeController;
+use App\Http\Controllers\Admin\ImpuestoController;
 use App\Http\Controllers\Admin\MetaModeloController;
 use App\Http\Controllers\Admin\PaginaController;
 use App\Http\Controllers\Admin\PagoController;
@@ -71,6 +72,8 @@ Route::get('', [ReportePaginaController::class,'pagos'])->name('admin.reportePag
 
 Route::get('cargarExcel', [ReportePaginaController::class,'cargarExcel'])->name('admin.reportePaginas.cargarExcel');
 
+
+Route::resource('impuestos', ImpuestoController::class)->middleware(['auth','verified'])->names('admin.impuestos');
 
 // //RUTA TIPO CONTROLLER
 

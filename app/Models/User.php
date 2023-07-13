@@ -44,7 +44,7 @@ class User extends Authenticatable implements MustVerifyEmail
         $this->attributes['name'] = strtolower($value);
     }
 
-    //RELACION UNO A MUCHOS INVERSA   
+    //RELACION UNO A MUCHOS INVERSA
     public function tipoUsuario()
     {
         return $this->belongsTo('App\Models\TipoUsuario', 'tipoUsuario_id');
@@ -101,13 +101,13 @@ class User extends Authenticatable implements MustVerifyEmail
         return $this->belongsToMany(Empresa::class, 'user_empresa');
     }
 
-    //RELACION DE UNO A MUCHOS      
+    //RELACION DE UNO A MUCHOS
     public function reportePaginas()
     {
         return $this->hasMany('App\Models\ReportePagina');
     }
 
-    //RELACION DE UNO A MUCHOS      
+    //RELACION DE UNO A MUCHOS
     public function pagos()
     {
         return $this->hasMany('App\Models\Pago');
@@ -126,12 +126,12 @@ class User extends Authenticatable implements MustVerifyEmail
         return $this->hasOne('App\Models\TipoUsuarios');
     }*/
 
-    // public function empresaId(): Attribute
-    // {
-    //     return new Attribute(
-    //         get: function ($value, $attributes) {
-    //             return $this->empresas()->where('user_id', $this->id)->first()? $this->empresas()->where('user_id', $this->id)->first()->id:null;
-    //         }
-    //     );
-    // }
+     public function empresaId(): Attribute
+     {
+         return new Attribute(
+             get: function ($value, $attributes) {
+                 return $this->empresas()->where('user_id', $this->id)->first()? $this->empresas()->where('user_id', $this->id)->first()->id:null;
+             }
+         );
+     }
 }

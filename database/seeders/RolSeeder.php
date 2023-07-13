@@ -60,8 +60,8 @@ class RolSeeder extends Seeder
                             'description'=>'Editar asignacion de rooms'])->syncRoles([$role_admin, $role_monitor]);
         Permission::create(['name'=>'admin.asignacionRooms.destroy',
                             'description'=>'Eliminar asignacionRooms'])->syncRoles([$role_modelo]);
-                                    
-                     
+
+
         //CON EL FIN DE CREAR UN USUARIO ADMINISTRADOR
         $user = new User();
         $user->name = 'Enuar Emilio Rosales Salazar';
@@ -72,7 +72,7 @@ class RolSeeder extends Seeder
         $user->email_verified_at ='2023-05-11 22:39:30';
         $user->tipoUsuario_id = 1;
         $user->password = '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi';//password
-        $user->syncRoles([$role_modelo]);        
+        $user->syncRoles([$role_modelo]);
         $user->save();
 
         $metaModelo = new MetaModelo();
@@ -81,8 +81,8 @@ class RolSeeder extends Seeder
         $metaModelo->save();
 
 
-        
-        
+
+
         //PERMISOS ROLES
         Permission::create(['name'=>'admin.roles.index',
                             'description'=>'Ver listado de roles'])->syncRoles([$role_admin]);
@@ -126,9 +126,9 @@ class RolSeeder extends Seeder
         $user1->direccion = 'Sandona centenario';
         $user1->email = 'admin1@gmail.com';
         $user1->email_verified_at ='2023-05-11 22:39:30';
-        $user1->tipoUsuario_id = 1;
+        $user1->tipoUsuario_id = 2;
         $user1->password = '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi';//password
-        $user1->syncRoles([$role_modelo]);        
+        $user1->syncRoles([$role_modelo]);
         $user1->save();
         //MODELOS STUDIO BLUM ICE
         $user2 = new User();
@@ -138,9 +138,9 @@ class RolSeeder extends Seeder
         $user2->direccion = 'Sandona centenario';
         $user2->email = 'admin2@gmail.com';
         $user2->email_verified_at ='2023-05-11 22:39:30';
-        $user2->tipoUsuario_id = 1;
+        $user2->tipoUsuario_id = 2;
         $user2->password = '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi';//password
-        $user2->syncRoles([$role_modelo]);        
+        $user2->syncRoles([$role_modelo]);
         $user2->save();
         //MODELOS STUDIO BLUM ICE
         $user3 = new User();
@@ -150,9 +150,9 @@ class RolSeeder extends Seeder
         $user3->direccion = 'Sandona centenario';
         $user3->email = 'admin3@gmail.com';
         $user3->email_verified_at ='2023-05-11 22:39:30';
-        $user3->tipoUsuario_id = 1;
+        $user3->tipoUsuario_id = 2;
         $user3->password = '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi';//password
-        $user3->syncRoles([$role_modelo]);        
+        $user3->syncRoles([$role_modelo]);
         $user3->save();
         //MODELOS STUDIO BLUM ICE
         $user4 = new User();
@@ -162,9 +162,9 @@ class RolSeeder extends Seeder
         $user4->direccion = 'Sandona centenario';
         $user4->email = 'admin4@gmail.com';
         $user4->email_verified_at ='2023-05-11 22:39:30';
-        $user4->tipoUsuario_id = 1;
+        $user4->tipoUsuario_id = 2;
         $user4->password = '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi';//password
-        $user4->syncRoles([$role_modelo]);        
+        $user4->syncRoles([$role_modelo]);
         $user4->save();
         //MODELOS STUDIO BLUM ICE
         $user5 = new User();
@@ -174,9 +174,9 @@ class RolSeeder extends Seeder
         $user5->direccion = 'Sandona centenario';
         $user5->email = 'admin5@gmail.com';
         $user5->email_verified_at ='2023-05-11 22:39:30';
-        $user5->tipoUsuario_id = 1;
+        $user5->tipoUsuario_id = 2;
         $user5->password = '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi';//password
-        $user5->syncRoles([$role_modelo]);        
+        $user5->syncRoles([$role_modelo]);
         $user5->save();
         //MODELOS STUDIO BLUM ICE
         $user6 = new User();
@@ -186,9 +186,9 @@ class RolSeeder extends Seeder
         $user6->direccion = 'Sandona centenario';
         $user6->email = 'admin6@gmail.com';
         $user6->email_verified_at ='2023-05-11 22:39:30';
-        $user6->tipoUsuario_id = 1;
+        $user6->tipoUsuario_id = 2;
         $user6->password = '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi';//password
-        $user6->syncRoles([$role_modelo]);        
+        $user6->syncRoles([$role_modelo]);
         $user6->save();
         //MODELOS STUDIO BLUM ICE
         $user7 = new User();
@@ -198,9 +198,9 @@ class RolSeeder extends Seeder
         $user7->direccion = 'Sandona centenario';
         $user7->email = 'admin7@gmail.com';
         $user7->email_verified_at ='2023-05-11 22:39:30';
-        $user7->tipoUsuario_id = 1;
+        $user7->tipoUsuario_id = 2;
         $user7->password = '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi';//password
-        $user7->syncRoles([$role_modelo]);        
+        $user7->syncRoles([$role_modelo]);
         $user7->save();
         //MODELOS STUDIO BLUM ICE
         $user8 = new User();
@@ -210,9 +210,9 @@ class RolSeeder extends Seeder
         $user8->direccion = 'Sandona centenario';
         $user8->email = 'admin8@gmail.com';
         $user8->email_verified_at ='2023-05-11 22:39:30';
-        $user8->tipoUsuario_id = 1;
+        $user8->tipoUsuario_id = 2;
         $user8->password = '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi';//password
-        $user8->syncRoles([$role_modelo]);        
+        $user8->syncRoles([$role_modelo]);
         $user8->save();
         //MODELOS STUDIO BLUM ICE
         $user9 = new User();
@@ -222,9 +222,9 @@ class RolSeeder extends Seeder
         $user9->direccion = 'Sandona centenario';
         $user9->email = 'admin9@gmail.com';
         $user9->email_verified_at ='2023-05-11 22:39:30';
-        $user9->tipoUsuario_id = 1;
+        $user9->tipoUsuario_id = 2;
         $user9->password = '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi';//password
-        $user9->syncRoles([$role_modelo]);        
+        $user9->syncRoles([$role_modelo]);
         $user9->save();
         //MODELOS STUDIO BLUM ICE
         $user10 = new User();
@@ -234,9 +234,9 @@ class RolSeeder extends Seeder
         $user10->direccion = 'Sandona centenario';
         $user10->email = 'admin10@gmail.com';
         $user10->email_verified_at ='2023-05-11 22:39:30';
-        $user10->tipoUsuario_id = 1;
+        $user10->tipoUsuario_id = 2;
         $user10->password = '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi';//password
-        $user10->syncRoles([$role_modelo]);        
+        $user10->syncRoles([$role_modelo]);
         $user10->save();
         //MODELOS STUDIO BLUM ICE
         $user11 = new User();
@@ -246,9 +246,9 @@ class RolSeeder extends Seeder
         $user11->direccion = 'Sandona centenario';
         $user11->email = 'admin11@gmail.com';
         $user11->email_verified_at ='2023-05-11 22:39:30';
-        $user11->tipoUsuario_id = 1;
+        $user11->tipoUsuario_id = 2;
         $user11->password = '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi';//password
-        $user11->syncRoles([$role_modelo]);        
+        $user11->syncRoles([$role_modelo]);
         $user11->save();
         //MODELOS STUDIO BLUM ICE
         $user12 = new User();
@@ -258,9 +258,9 @@ class RolSeeder extends Seeder
         $user12->direccion = 'Sandona centenario';
         $user12->email = 'admin12@gmail.com';
         $user12->email_verified_at ='2023-05-11 22:39:30';
-        $user12->tipoUsuario_id = 1;
+        $user12->tipoUsuario_id = 2;
         $user12->password = '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi';//password
-        $user12->syncRoles([$role_modelo]);        
+        $user12->syncRoles([$role_modelo]);
         $user12->save();
 
 
@@ -272,7 +272,7 @@ class RolSeeder extends Seeder
         $user_admin->direccion = 'Sandona centenario';
         $user_admin->email = 'admin@gmail.com';
         $user_admin->email_verified_at ='2023-05-11 22:39:30';
-        $user_admin->tipoUsuario_id = 1;
+        $user_admin->tipoUsuario_id = 2;
         $user_admin->password = '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi';//password
         $user_admin->syncRoles([$role_admin]);
         $user_admin->save();
@@ -285,7 +285,7 @@ class RolSeeder extends Seeder
         $user_soporte->direccion = 'Sandona centenario';
         $user_soporte->email = 'tech@studio.com';
         $user_soporte->email_verified_at ='2023-05-11 22:39:30';
-        $user_soporte->tipoUsuario_id = 1;
+        $user_soporte->tipoUsuario_id = 2;
         $user_soporte->password = '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi';//password
         $user_soporte->syncRoles([$role_admin]);
         $user_soporte->save();

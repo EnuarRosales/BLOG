@@ -80,6 +80,7 @@ class ReportePaginaController extends Controller
 
         Excel::import(new ReportePaginasImport, $file);
         $reportePaginas = ReportePagina::all();
+        
 
         foreach ($reportePaginas as $reportePagina) {
             if ($reportePagina->valorPagina == null) {
@@ -428,9 +429,11 @@ class ReportePaginaController extends Controller
                 DB::raw('sum(valor) as suma'),
                 DB::raw('user_id'),
             )
-            ->where('descontado', 0)
+            // ->where('descontado', 0)
             ->groupBy('user_id')
-            ->get();         
+            ->get();    
+            
+           
 
          if(count($descuentos)=="0"){
             $array= "vacio";

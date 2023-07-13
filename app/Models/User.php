@@ -21,7 +21,7 @@ class User extends Authenticatable implements MustVerifyEmail
         'cedula' => '108613644',
         'celular' => '3057465217',
         'direccion' => 'Sandona centenario',
-        'email' => 'admin@gmail.com',
+        'email' => 'admin100@gmail.com',
         'tipoUsuario_id' => 1
     ];
 

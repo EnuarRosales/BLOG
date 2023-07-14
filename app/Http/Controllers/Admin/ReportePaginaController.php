@@ -348,20 +348,18 @@ class ReportePaginaController extends Controller
             ->groupBy('fecha', 'user_id')
             ->get();
 
-            $pagosArray = [];
-            
-            foreach($pagos as $pago){
-                $pagosArray[0]= $pago->user_id;
-                $pagosArray[1]= $pago->suma;
-                $pagosArray[2]= $pago->fecha;
-            }
-           
-            foreach($pagosArray as $pagosArra){
-                return $pagosArra;
-            }            
-        
+        $pagosArray = [];
 
+        foreach ($pagos as $pago) {
+            $pagosArray[] = $pago;
+        }
 
+        foreach ($pagosArray as $pagosArra) {
+            // return $pagosArra;
+            // echo "<hr>";
+        }
+
+        $descuentosArray = [];
         $descuentos = DB::table('descuentos')
             ->join('descontados', 'descontados.descuento_id', '=', 'descuentos.id')
             ->select(
@@ -371,6 +369,32 @@ class ReportePaginaController extends Controller
             ->where('descontado', 0)
             ->groupBy('user_id')
             ->get();
+
+        foreach ($descuentos as $iten) {
+            $descuentosArray[] = $iten->user_id;
+            $descuentosArray[] = $iten->suma;
+        }
+        foreach ($descuentosArray as $item) {
+            // echo $item;
+            // echo "<hr>";
+        }
+
+        $data = [
+            [
+                'fecha'=>1,
+                'usuaio'=>1,
+                'devengado'=>1,
+                'impuestp'=>1,
+                'descuento'=>1,
+                'netop'=>1,
+            ]
+
+        ];
+
+
+
+
+
 
         if (count($descuentos) == "0") {
             $array = "vacio";
@@ -382,7 +406,7 @@ class ReportePaginaController extends Controller
         $calorImpuesto = 0;
 
         $impuestos = Impuesto::where('estado', 1)->get();
-        // return view('admin.reportePaginas.pago', compact('pagos', 'descuentos', 'array', 'impuestos', 'variableImpuesto'));
+        return view('admin.reportePaginas.pago', compact('pagos', 'descuentos', 'array', 'impuestos', 'variableImpuesto'));
     }
 
 

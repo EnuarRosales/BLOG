@@ -41,43 +41,32 @@
                             <td>{{ number_format($pago->suma, 2, '.', ',') }}</td>
 
                             <td>
-                                {{-- {{ ($impuesto->porcentaje / 100) * $pago->suma }} --}}
                                 @if ($pago->suma > $impuesto->mayorQue)
                                     @php
                                         $variableImpuesto = ($impuesto->porcentaje / 100) * $pago->suma;
+                                        $pago->neto = $variableImpuesto;
                                     @endphp
                                     {{ number_format($variableImpuesto, 2, '.', ',') }}
                                 @endif
                             </td>
-
                             <td>
                                 @foreach ($descuentos as $descuento)
                                     @if ($pago->user_id == $descuento->user_id)
-                                        {{-- @php$meta = $metaModelo->porcentaje;
-                                    @endphp --}}
                                         {{ number_format($descuento->suma, 2, '.', ',') }}
                                     @break
                                 @endif
                             @endforeach
                         </td>
-
-
                         <td>
-                            {{-- {{$descuento->suma }} --}}
-
                             @if ($array == 'lleno')
-                                {{-- {{ number_format($pago->suma - $descuento->suma, 2, '.', ',') }} --}}
                                 @if ($pago->user_id == $descuento->user_id)
-                                    {{ number_format($pago->suma - $descuento->suma - ($impuesto->porcentaje / 100) * $pago->suma, 2, '.', ',') }}
-                                @endif
-
-                                @if ($pago->user_id != $descuento->user_id)
-                                    {{ number_format($pago->suma - ($impuesto->porcentaje / 100) * $pago->suma, 2, '.', ',') }}
+                                    {{ number_format($pago->suma - $descuento->suma - $pago->neto, 2, '.', ',') }}
+                                @elseif ($pago->user_id != $descuento->user_id)
+                                    {{ number_format($pago->suma - $pago->neto, 2, '.', ',') }}
                                 @endif
                             @else
-                                {{ number_format($pago->suma, 2, '.', ',') }}
+                                {{ number_format($pago->suma - $pago->neto, 2, '.', ',') }}
                             @endif
-
                         </td>
                     </tr>
                 @endforeach

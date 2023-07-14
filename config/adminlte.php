@@ -496,15 +496,32 @@ return [
             ],
         ],
 
-        ['header' => 'DESPRENDIBLES'],
         [
-            'text' => 'Desprendible',
-            'url'  => 'user/1/PDF',
+            'text'    => 'Certificaciones',
+            'url'     => '#',
             'icon' => 'fas fa-fw fa-lock',
-            'can'=>'admin.roles.index'
+            'submenu' => [
+                [
+                    'text' => 'Laboral',
+                    'url'  => 'user/1/PDF',
+                ],
+                [
+                    'text' => 'Tiempo',
+                    'url'  => 'user/1/PDF',
+                ],
+                [
+                    'text' => 'Impuesto',
+                    'url'  => 'user/1/PDF',
+                ],
+                [
+                    'text' => 'Pago',
+                    'url'  => 'user/1/PDF',
+                ],
 
+            ],
         ],
 
+       
         ['header' => 'CONTROL'],
         [
             'text'       => 'Registro Multas',

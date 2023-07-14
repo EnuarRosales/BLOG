@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Imports\ReportePaginasImport;
 use App\Models\Descontado;
 use App\Models\Descuento;
+use App\Models\Impuesto;
 use App\Models\MetaModelo;
 use App\Models\Pagina;
 use App\Models\Pago;
@@ -32,6 +33,7 @@ class ReportePaginaController extends Controller
         $registroDatos = new ReportePaginaController;
         $registroDatos->ponerMeta();
         $registroDatos->poblarPorcentajeTotal();
+        $registroDatos->actualizarPorcentaje();
         $reportePaginas = ReportePagina::with('user', 'pagina')->where('verificado', 0)->get();
         return view('admin.reportePaginas.index', compact('reportePaginas'));
     }
@@ -95,12 +97,25 @@ class ReportePaginaController extends Controller
         // OJO DE ACA INICIA EL PROECSOOOOOOOOOOOOOOOOOOOOOOOOOOOO
         $asignarMeta = new ReportePaginaController;
         $asignarMeta->ponerMeta();
-
-
-
-
-        return redirect()->route('admin.reportePaginas.index')->with('info', 'store');
+        // $asignarMeta->actualizarPorcentaje();
+        return redirect()->route('admin.reportePaginas.index')->with('info', 'storeExcel');
     }
+
+    public function actualizarPorcentaje()
+    {
+        $reportePaginas = ReportePagina::with('user')->where('verificado', 0)->get();
+        foreach ($reportePaginas as $reportePagina) {
+            if ($reportePagina->verificado == 0) {
+                $reportePagina->porcentaje = $reportePagina->user->tipoUsuario->porcentaje;
+                $reportePagina->save();
+            }
+        }
+    }
+
+
+
+
+
 
     public function storeIndividual(Request $request)
     {
@@ -237,46 +252,6 @@ class ReportePaginaController extends Controller
      *
      */
 
-    // public function ponerMeta()
-    // {
-    //     // with('user', 'pagina', 'metaModelo')
-    //     $reporteQuincenas = ReportePagina::select(
-    //         DB::raw('sum(dolares) as suma'),
-    //         DB::raw('user_id'),
-    //         DB::raw('fecha'),
-
-    //     )
-    //         ->groupBy('fecha', 'user_id')
-    //         ->get();
-    //     $metaModeloss = DB::table('meta_modelos')
-    //         ->orderBy('mayorQue', 'desc')
-    //         ->get();
-
-    //     $meta = 0;
-
-    //     return $metaModeloss;
-
-    //     $reportePaginas = ReportePagina::all();
-
-    //     foreach ($reportePaginas as $reportePagina) {
-    //         foreach ($reporteQuincenas as $reporteQuincena) {
-    //             foreach ($metaModeloss as $metaModelo) {
-    //                 if ($reporteQuincena->suma >= $metaModelo->mayorQue) {
-    //                     $meta = $metaModelo->id;
-    //                     // $meta = $metaModelo->porcentaje;
-    //                     if ($reporteQuincena->user_id == $reportePagina->user_id && $reporteQuincena->fecha == $reportePagina->fecha) {
-    //                         // echo $meta . "   " . $reporteQuincena->user_id . "   " . $reporteQuincena->fecha;
-    //                         // echo "<br>";
-    //                         $reportePagina->metaModelo_id = $meta;
-    //                         $reportePagina->save();
-    //                     }
-    //                     break;
-    //                 }
-    //             }
-    //         }
-    //     }
-    // }
-
     public function ponerMeta()
     {
         // with('user', 'pagina', 'metaModelo')
@@ -343,43 +318,7 @@ class ReportePaginaController extends Controller
     }
 
 
-    public function pagoss()
-    {
 
-
-        // $reportePaginas = ReportePagina::where('descontado', 1)->get();
-
-        // return $descuentos;
-
-        $descuentos = Descontado::where('descontado', 0)->get();
-
-        // echo $reportePaginas;
-
-        foreach ($descuentos as $descuento) {
-
-            echo $descuento->descuento->user->name;
-        }
-
-        // return $descuentos->descuento->id;
-
-
-        // $reportePaginas = ReportePagina::addSelect([
-        //     'pagos'=>
-
-        // ])->get();
-
-
-
-
-
-
-
-        // foreach ($reportePaginas  as $reportePagina) {
-        //     if ($reportePagina->verificado == 1) {
-        //         echo $reportePagina;
-        //     }
-        // }
-    }
 
 
 
@@ -392,36 +331,25 @@ class ReportePaginaController extends Controller
             $reportePagina->verificado = 1;
             $reportePagina->save();
         }
-        return redirect()->route('admin.reportePaginas.index')->with('info', 'update');
+        return redirect()->route('admin.reportePaginas.index')->with('info', 'verificadoMasivo');
     }
 
 
 
     public function pagos()
     {
-        /*
-         * No BORRAR LA CONSULTA QUE SE VE A CONTINUACION YA QUE PUEDE SERVIR MAS ADELNATE
-         */
-        // $pagos= DB::table('reporte_paginas')
-        // ->select(DB::raw('sum(netoPesos) as suma'),
-        //         DB::raw('user_id'),
-        //         DB::raw('fecha'))
-        //         ->where('verificado', 0)
-        //         ->groupBy('fecha', 'user_id')
-        //         ->get();
-
 
         $pagos = ReportePagina::with('user', 'pagina')->select(
             DB::raw('sum(netoPesos) as suma'),
             DB::raw('user_id'),
             DB::raw('fecha'),
-
-
         )
             ->where('verificado', 1)
             ->where('enviarPago', 0)
             ->groupBy('fecha', 'user_id')
-            ->get();
+            ->get(); 
+            
+            
 
         $descuentos = DB::table('descuentos')
             ->join('descontados', 'descontados.descuento_id', '=', 'descuentos.id')
@@ -431,18 +359,20 @@ class ReportePaginaController extends Controller
             )
             // ->where('descontado', 0)
             ->groupBy('user_id')
-            ->get();    
-            
-           
+            ->get();     
 
-         if(count($descuentos)=="0"){
-            $array= "vacio";
-         }
-         else{
-            $array= "lleno";
-         }  
-     
-        return view('admin.reportePaginas.pago', compact('pagos', 'descuentos', "array"));
+
+
+        if (count($descuentos) == "0") {
+            $array = "vacio";
+        } else {
+            $array = "lleno";
+        }
+
+        $variableImpuesto = 0;      
+
+        $impuestos = Impuesto::where('estado', 1)->get();
+        return view('admin.reportePaginas.pago', compact('pagos', 'descuentos', 'array', 'impuestos', 'variableImpuesto'));
     }
 
 

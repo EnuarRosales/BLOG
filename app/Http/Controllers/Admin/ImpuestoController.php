@@ -3,10 +3,10 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Models\MetaModelo;
+use App\Models\Impuesto;
 use Illuminate\Http\Request;
 
-class MetaModeloController extends Controller
+class ImpuestoController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -15,18 +15,18 @@ class MetaModeloController extends Controller
      */
     public function index()
     {
-        $metaModelos = MetaModelo::all();
-        return view('admin.metaModelos.index', compact('metaModelos'));
+        $impuestos = Impuesto::all();
+        return view('admin.impuestos.index', compact('impuestos'));
     }
 
     /**
      * Show the form for creating a new resource.
-     * 
+     *
      * @return \Illuminate\Http\Response
      */
     public function create()
     {
-        return view('admin.metaModelos.create');
+        return view('admin.impuestos.create');
     }
 
     /**
@@ -39,13 +39,15 @@ class MetaModeloController extends Controller
     {
         //VALiDACION FORMULARIO 
        $request->validate([
-        'mayorQue'=>'required',
+        'nombre'=>'required',
         'porcentaje'=>'required',
+        'mayorQue'=>'required',
+        
        
               
     ]); 
-    $metaModelo= MetaModelo::create($request->all());
-    return redirect()->route('admin.metaModelos.index',$metaModelo->id)->with('info','store');
+    $impuesto= Impuesto::create($request->all());
+    return redirect()->route('admin.impuestos.index',$impuesto->id)->with('info','store');
     }
 
     /**
@@ -65,9 +67,9 @@ class MetaModeloController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit(MetaModelo $metaModelo)
+    public function edit(Impuesto $impuesto)
     {
-        return view('admin.metaModelos.edit',compact('metaModelo'));
+        return view('admin.impuestos.edit',compact('impuesto'));
     }
 
     /**
@@ -77,17 +79,21 @@ class MetaModeloController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, MetaModelo $metaModelo)
+    public function update(Request $request, Impuesto $impuesto)
     {
-         //VALLIDACION DE FORMULARIOS
-         $request->validate([
-            'mayorQue'=>'required',
-            'porcentaje'=>'required',             
-            
-        ]);
+        //VALLIDACION DE FORMULARIOS
+       
+       $request->validate([
+        'nombre'=>'required',
+        'porcentaje'=>'required',
+        'mayorQue'=>'required',
+        
+       
+              
+    ]);
         //ASINACION MASIVA DE VARIABLES A LOS CAMPOS
-        $metaModelo->update($request->all());           
-        return redirect()->route('admin.metaModelos.index',$metaModelo->id)->with('info','update');//with mensaje de sesion
+        $impuesto->update($request->all());           
+        return redirect()->route('admin.impuestos.index',$impuesto->id)->with('info','update');//with mensaje de sesion
     }
 
     /**
@@ -96,11 +102,9 @@ class MetaModeloController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy(MetaModelo $metaModelo)
+    public function destroy(Impuesto $impuesto)
     {
-
-        $metaModelo->delete();
-        return redirect()->route('admin.metaModelos.index')->with('info','delete');
-        
+        $impuesto->delete();
+        return redirect()->route('admin.impuestos.index')->with('info','delete');
     }
 }

@@ -12,7 +12,7 @@ class Pago extends Model
     //CON ESTO LOGRAMOS HACER LA ASIGNACION MASIVA
     protected $guarded = [];
 
-    
+
     //RELACION UNO A MUCHOS  INVERSA
     // public function descuentos()
     // {
@@ -23,5 +23,11 @@ class Pago extends Model
     public function users()
     {
         return $this->belongsTo('App\Models\User', 'user_id');
+    }
+
+    //RELACION UNO A MUCHOS  INVERSA
+    public function impuestos()
+    {
+        return $this->belongsTo('App\Models\Impuesto', 'impuesto_id');
     }
 }

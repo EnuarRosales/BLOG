@@ -422,6 +422,11 @@ return [
                     'route'  => 'admin.empresa.index',
                 ],
                 [
+                    'text' => 'Impuestos',
+                    'route'  => 'admin.impuestos.index',
+                ],
+
+                [
                     'text' => 'Tipo Usuarios',
                     'route'  => 'admin.tipoUsuarios.index',
                 ],
@@ -496,7 +501,7 @@ return [
             'text' => 'Desprendible',
             'url'  => 'user/1/PDF',
             'icon' => 'fas fa-fw fa-lock',
-            // 'can'=>'admin.roles.index'
+            'can'=>'admin.roles.index'
 
         ],
 

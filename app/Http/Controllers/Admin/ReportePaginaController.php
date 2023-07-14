@@ -348,6 +348,19 @@ class ReportePaginaController extends Controller
             ->groupBy('fecha', 'user_id')
             ->get();
 
+            $pagosArray = [];
+            
+            foreach($pagos as $pago){
+                $pagosArray[0]= $pago->user_id;
+                $pagosArray[1]= $pago->suma;
+                $pagosArray[2]= $pago->fecha;
+            }
+           
+            foreach($pagosArray as $pagosArra){
+                return $pagosArra;
+            }            
+        
+
 
         $descuentos = DB::table('descuentos')
             ->join('descontados', 'descontados.descuento_id', '=', 'descuentos.id')
@@ -365,8 +378,11 @@ class ReportePaginaController extends Controller
             $array = "lleno";
         }
 
+        $variableImpuesto = 0;
+        $calorImpuesto = 0;
+
         $impuestos = Impuesto::where('estado', 1)->get();
-        return view('admin.reportePaginas.pago', compact('pagos', 'descuentos', 'array','impuestos'));
+        // return view('admin.reportePaginas.pago', compact('pagos', 'descuentos', 'array', 'impuestos', 'variableImpuesto'));
     }
 
 

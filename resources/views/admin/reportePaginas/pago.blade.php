@@ -31,49 +31,56 @@
                 </tr>
             </thead>
             <tbody>
+
                 @foreach ($pagos as $pago)
-                    <tr>
-                        <td>{{ $pago->fecha }}</td>
-                        <td>{{ $pago->user->name }}</td>
+                    @foreach ($impuestos as $impuesto)
+                        <tr>
+                            <td>{{ $pago->fecha }}</td>
+                            <td>{{ $pago->user->name }}</td>
 
-                        <td>{{ number_format($pago->suma, 2, '.', ',') }}</td>
+                            <td>{{ number_format($pago->suma, 2, '.', ',') }}</td>
 
-                        <td></td>
+                            <td>
+                                {{-- {{ ($impuesto->porcentaje / 100) * $pago->suma }} --}}
+                                @if ($pago->suma > $impuesto->mayorQue)
+                                    @php
+                                        $variableImpuesto = ($impuesto->porcentaje / 100) * $pago->suma;
+                                    @endphp
+                                    {{ number_format($variableImpuesto, 2, '.', ',') }}
+                                @endif
+                            </td>
+
+                            <td>
+                                @foreach ($descuentos as $descuento)
+                                    @if ($pago->user_id == $descuento->user_id)
+                                        {{-- @php$meta = $metaModelo->porcentaje;
+                                    @endphp --}}
+                                        {{ number_format($descuento->suma, 2, '.', ',') }}
+                                    @break
+                                @endif
+                            @endforeach
+                        </td>
+
 
                         <td>
-                            @foreach ($descuentos as $descuento)
+                            {{-- {{$descuento->suma }} --}}
+
+                            @if ($array == 'lleno')
+                                {{-- {{ number_format($pago->suma - $descuento->suma, 2, '.', ',') }} --}}
                                 @if ($pago->user_id == $descuento->user_id)
-                                    {{-- @php$meta = $metaModelo->porcentaje;
-                                    @endphp --}}
-                                    {{ number_format($descuento->suma, 2, '.', ',') }}
-                                @break
-                            @endif
-                        @endforeach
-                    </td>
+                                    {{ number_format($pago->suma - $descuento->suma - ($impuesto->porcentaje / 100) * $pago->suma, 2, '.', ',') }}
+                                @endif
 
-
-                    <td>
-
-                        {{-- {{$descuento->suma }} --}}
-
-                        @if ($array == 'lleno')
-                            {{-- {{ number_format($pago->suma - $descuento->suma, 2, '.', ',') }} --}}
-                            @if ($pago->user_id == $descuento->user_id)
-                                {{ number_format($pago->suma - $descuento->suma, 2, '.', ',') }}
-                            @endif
-
-                            @if ($pago->user_id != $descuento->user_id)
+                                @if ($pago->user_id != $descuento->user_id)
+                                    {{ number_format($pago->suma - ($impuesto->porcentaje / 100) * $pago->suma, 2, '.', ',') }}
+                                @endif
+                            @else
                                 {{ number_format($pago->suma, 2, '.', ',') }}
                             @endif
-                        @else
-                            {{ number_format($pago->suma, 2, '.', ',') }}
-                        @endif
 
-
-
-
-                    </td>
-                </tr>
+                        </td>
+                    </tr>
+                @endforeach
             @endforeach
         </tbody>
     </table>

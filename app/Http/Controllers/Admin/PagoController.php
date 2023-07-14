@@ -139,7 +139,7 @@ class PagoController extends Controller
          * 
          */
 
-       
+
         foreach ($pagos as $pago) {
 
             DB::table('pagos')->insert([
@@ -189,18 +189,10 @@ class PagoController extends Controller
     public function aplicarImpuesto()
     {
         $impuestos = Impuesto::where('estado', 1)->get();
+        // $pagos = Pago::where('pagado', 1)->get();
+
         foreach ($impuestos as $impuesto) {
             if ($impuesto->estado == 1) {
-                
-                DB::table('pagos')->chunk(100, function ($pagos) {
-                    foreach ($pagos as $pago) {
-
-                        
-                        
-                        //
-                    }
-                });
-
                 DB::table('pagos')
                     ->where('pagado', 1)
                     ->where('impuesto_id', null)
@@ -216,7 +208,7 @@ class PagoController extends Controller
             ->get();
         foreach ($pagos as $pago) {
             $pago->impuestoDescuento = ($pago->devengado * (($pago->impuestoPorcentaje) / 100));
-            $pago->neto = $pago->neto-$pago->impuestoDescuento;
+            $pago->neto = $pago->neto - $pago->impuestoDescuento;
             $pago->save();
         }
 

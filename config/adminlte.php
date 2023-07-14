@@ -418,6 +418,11 @@ return [
                 ],
 
                 [
+                    'text' => 'Impuestos',
+                    'route'  => 'admin.impuestos.index',
+                ],
+
+                [
                     'text' => 'Tipo Usuarios',
                     'route'  => 'admin.tipoUsuarios.index',
                 ],

@@ -20,9 +20,8 @@ return new class extends Migration
             $table->float('devengado', 12, 2)->nullable();
             $table->float('descuento', 12, 2)->nullable();
             $table->float('neto', 12, 2)->nullable();
-            $table->float('descuentoImpuesto', 12, 2)->nullable();
-            $table->float('porcentajeImpuesto', 12, 2)->nullable();
-
+            $table->float('impuestoPorcentaje', 12, 2)->nullable();
+            $table->float('impuestoDescuento', 12, 2)->nullable();
             // $table->unsignedBigInteger('descuento_id')->nullable(); //campo para relacion 
             $table->unsignedBigInteger('user_id')->nullable(); //campo para relacion  
             $table->unsignedBigInteger('impuesto_id')->nullable(); //campo para relacion  

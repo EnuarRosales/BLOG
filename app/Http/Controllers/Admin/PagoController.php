@@ -139,6 +139,7 @@ class PagoController extends Controller
          * 
          */
 
+       
         foreach ($pagos as $pago) {
 
             DB::table('pagos')->insert([
@@ -151,7 +152,6 @@ class PagoController extends Controller
                 'created_at' => now(),
                 'updated_at' => now()
             ]);
-
             foreach ($descuentos as $descuento) {
                 if ($pago->user_id == $descuento->user_id) {
                     DB::table('pagos')
@@ -159,7 +159,7 @@ class PagoController extends Controller
                         ->where('fecha', $pago->fecha)
                         ->update([
                             'descuento' => $descuento->suma,
-                            'neto' => $pago->suma - $descuento->suma,
+                            'neto' => $pago->suma - $descuento->suma - $pago->impuestoDescuento,
                         ]);
 
                     DB::table('descontados')
@@ -204,10 +204,36 @@ class PagoController extends Controller
                 DB::table('pagos')
                     ->where('pagado', 1)
                     ->where('impuesto_id', null)
-                    ->where('devengado', '>', $impuesto->mayorQue)
-                    ->update(['impuesto_id' => $impuesto->id, 
-                    'porcentajeImpuesto' => $impuesto->porcentaje, 'descuentoImpuesto' => 'neto',]);
+                    ->where('neto', '>', $impuesto->mayorQue)
+                    ->update([
+                        'impuesto_id' => $impuesto->id,
+                        'impuestoPorcentaje' => $impuesto->porcentaje,
+                    ]);
             }
         }
+
+        $pagos = Pago::where('pagado', 1)
+            ->get();
+        foreach ($pagos as $pago) {
+            $pago->impuestoDescuento = ($pago->devengado * (($pago->impuestoPorcentaje) / 100));
+            $pago->neto = $pago->neto-$pago->impuestoDescuento;
+            $pago->save();
+        }
+
+
+
+        // DB::table('pagos')
+        //     ->orderBy('id')
+        //     ->chunk(100, function ($pagos) {
+        //         foreach ($pagos as $pago) {
+        //             DB::table('pagos')
+        //                 ->where('pagado', 1)
+        //                 ->where('impuesto_id', null)
+        //                 ->update(['impuestoDescuento' => $pago->devengado - ($pago->devengado * (($pago->impuestoPorcentaje) / 100))]);
+
+        //             // $pago->impuestoDescuento = $pago->neto - ($pago->neto * (($pago->impuestoPorcentaje) / 100))
+        //             //     ->update(['active' => true]);
+        //         }
+        //     });
     }
 }

@@ -317,13 +317,6 @@ class ReportePaginaController extends Controller
         }
     }
 
-
-
-
-
-
-
-
     public function verificadoMasivo()
     {
         $reportePaginas = ReportePagina::where('verificado', 0)->get();
@@ -333,9 +326,6 @@ class ReportePaginaController extends Controller
         }
         return redirect()->route('admin.reportePaginas.index')->with('info', 'verificadoMasivo');
     }
-
-
-
     public function pagos()
     {
 

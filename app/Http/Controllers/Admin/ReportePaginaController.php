@@ -347,8 +347,7 @@ class ReportePaginaController extends Controller
             ->where('verificado', 1)
             ->where('enviarPago', 0)
             ->groupBy('fecha', 'user_id')
-            ->get(); 
-            
+            ->get();           
             
 
         $descuentos = DB::table('descuentos')

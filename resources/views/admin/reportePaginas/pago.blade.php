@@ -25,52 +25,51 @@
                     <th>Fecha</th>
                     <th>Usuario</th>
                     <th>Devengado</th>
-                    <th>Descuentos</th>
+                    <th>Impuesto</th>
+                    <th>Descuento</th>
                     <th>Neto</th>
                 </tr>
             </thead>
             <tbody>
+
                 @foreach ($pagos as $pago)
-                    <tr>
-                        <td>{{ $pago->fecha }}</td>
-                        <td>{{ $pago->user->name }}</td>
+                    @foreach ($impuestos as $impuesto)
+                        <tr>
+                            <td>{{ $pago->fecha }}</td>
+                            <td>{{ $pago->user->name }}</td>
 
-                        <td>{{ number_format($pago->suma, 2, '.', ',') }}</td>
+                            <td>{{ number_format($pago->suma, 2, '.', ',') }}</td>
+
+                            <td>
+                                @if ($pago->suma > $impuesto->mayorQue)
+                                    @php
+                                        $variableImpuesto = ($impuesto->porcentaje / 100) * $pago->suma;
+                                        $pago->neto = $variableImpuesto;
+                                    @endphp
+                                    {{ number_format($variableImpuesto, 2, '.', ',') }}
+                                @endif
+                            </td>
+                            <td>
+                                @foreach ($descuentos as $descuento)
+                                    @if ($pago->user_id == $descuento->user_id)
+                                        {{ number_format($descuento->suma, 2, '.', ',') }}
+                                    @break
+                                @endif
+                            @endforeach
+                        </td>
                         <td>
-                            @foreach ($descuentos as $descuento)
+                            @if ($array == 'lleno')
                                 @if ($pago->user_id == $descuento->user_id)
-                                    {{-- @php$meta = $metaModelo->porcentaje;
-                                    @endphp --}}
-                                    {{ number_format($descuento->suma, 2, '.', ',') }}
-                                @break
+                                    {{ number_format($pago->suma - $descuento->suma - $pago->neto, 2, '.', ',') }}
+                                @elseif ($pago->user_id != $descuento->user_id)
+                                    {{ number_format($pago->suma - $pago->neto, 2, '.', ',') }}
+                                @endif
+                            @else
+                                {{ number_format($pago->suma - $pago->neto, 2, '.', ',') }}
                             @endif
-                        @endforeach
-                    </td>
-
-
-                    <td>
-
-                        {{-- {{$descuento->suma }} --}}
-
-                        @if ($array == 'lleno')
-                            {{-- {{ number_format($pago->suma - $descuento->suma, 2, '.', ',') }} --}}
-                            @if ($pago->user_id == $descuento->user_id)                                
-                                {{ number_format($pago->suma-$descuento->suma, 2, '.', ',') }}
-                            @endif
-
-                            @if ($pago->user_id != $descuento->user_id)                                
-                                {{ number_format($pago->suma, 2, '.', ',') }}
-                            @endif
-
-                        @else
-                            {{ number_format($pago->suma, 2, '.', ',') }}
-                        @endif
-
-
-
-
-                    </td>
-                </tr>
+                        </td>
+                    </tr>
+                @endforeach
             @endforeach
         </tbody>
     </table>
@@ -111,6 +110,16 @@
             position: 'top-end',
             icon: 'success',
             title: 'Descuento registrado correctamente',
+            showConfirmButton: false,
+            timer: 2000
+        })
+    </script>
+@elseif(session('info') == 'enviarPagos')
+    <script>
+        Swal.fire({
+            position: 'top-end',
+            icon: 'success',
+            title: 'Pagos enviados exitosamente',
             showConfirmButton: false,
             timer: 2000
         })

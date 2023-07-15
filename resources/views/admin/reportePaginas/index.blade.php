@@ -16,34 +16,41 @@
 
     <div class="card">
 
-        <div class="card-body">
-
-            {{-- <div class="btn-group">
-                <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true"
-                    aria-expanded="false">
-                    Carga Datos
-                </button>
-                <div class="dropdown-menu">
-                    <a class="dropdown-item" href="{{ route('admin.reportePaginas.create') }}">Cargar individual</a>
-                    <a class="dropdown-item" href="#">Cargar Excel</a> --}}
-                    {{-- <a class="dropdown-item" href="{{ route('admin.reportePaginas.cargarExcel') }}">Carga Excel</a> --}}
-
-                    
-                {{-- </div>
-            </div> --}}
-
-            {{-- @can('admin.asignacionTurnos.create') --}}
-            <a class="btn btn-primary" href="{{ route('admin.reportePaginas.create') }}">Carga individual</a>
+        <div class="card-body">            
 
             <!-- Button trigger modal -->
-            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
+            {{-- <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
                 Cargar Excel
+            </button>
+            @include('admin.reportePaginas.partials.import-excel') --}}
+
+
+            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+
+                <a data-toggle="modal" data-target="#exampleModal" class="dropdown-item"  href="{{ route('admin.reportePaginas.cargarExcel') }}">
+                    Cargar Excel
+                </a>
+                {{-- @include('admin.reportePaginas.partials.import-excel') --}}
+                {{-- <a class="dropdown-item" data-target="#exampleModal" href="{{ route('admin.reportePaginas.cargarExcel') }}">Action</a>
+                @include('admin.reportePaginas.partials.import-excel') --}}
+                {{-- <a class="dropdown-item" href="#">Another action</a> --}}
+                <a class="dropdown-item" href="{{ route('admin.reportePaginas.create') }}">Cargar individual</a>
+
+            </div>
+
+
+
+            <button class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown"
+                aria-haspopup="true" aria-expanded="false">
+                Cargar datos
             </button>
             @include('admin.reportePaginas.partials.import-excel')
 
-            <a class="btn btn-info" href="{{ route('admin.reportePaginas.reporteQuincena') }}">Porcentajes</a>
 
-            <a class="btn btn-info" href="{{ route('admin.reportePaginas.pagos') }}">Pagos</a>
+
+            <a class="btn btn-primary" href="{{ route('admin.reportePaginas.reporteQuincena') }}">Porcentajes</a>
+
+            <a class="btn btn-primary" href="{{ route('admin.reportePaginas.pagos') }}">Pagos</a>
             <a class="btn btn-success" href="{{ route('admin.reportePaginas.verificadoMasivo') }}">Verificado Masivo</a>
         </div>
         <table id="reportePaginas" class="table table-striped table-bordered shadow-lg mt-4">
@@ -76,7 +83,7 @@
             </thead>
             <tbody>
                 @foreach ($reportePaginas as $reportePagina)
-                    <tr> 
+                    <tr>
                         <td>{{ $reportePagina->id }}</td>
                         <td>{{ $reportePagina->fecha }}</td>
                         <td>{{ $reportePagina->user->name }}</td>
@@ -86,7 +93,7 @@
                         <td>{{ number_format($reportePagina->dolares, 2, '.', ',') }}</td>
                         <td>{{ number_format($reportePagina->TRM, 2, '.', ',') }}</td>
                         <td>{{ number_format($reportePagina->pesos, 2, '.', ',') }}</td>
-                        <td>{{ $reportePagina->porcentaje }}{{ ' %' }}</td>
+                        <td>{{ $reportePagina->user->tipoUsuario->porcentaje }}{{ ' %' }}</td>
                         <td>{{ number_format($reportePagina->metaModelo) }}</td>
                         <td>{{ number_format($reportePagina->porcentajeTotal) }}</td>
                         <td>{{ number_format($reportePagina->netoPesos, 2, '.', ',') }}</td>
@@ -153,6 +160,36 @@
                 position: 'top-end',
                 icon: 'success',
                 title: 'Descuento registrado correctamente',
+                showConfirmButton: false,
+                timer: 2000
+            })
+        </script>
+    @elseif(session('info') == 'storeExcel')
+        <script>
+            Swal.fire({
+                position: 'top-end',
+                icon: 'success',
+                title: 'Datos cargados con exito',
+                showConfirmButton: false,
+                timer: 2000
+            })
+        </script>
+    @elseif(session('info') == 'verificadoMasivo')
+        <script>
+            Swal.fire({
+                position: 'top-end',
+                icon: 'success',
+                title: 'Datos verificados con exito',
+                showConfirmButton: false,
+                timer: 2000
+            })
+        </script>
+    @elseif(session('info') == 'enviarPagos')
+        <script>
+            Swal.fire({
+                position: 'top-end',
+                icon: 'success',
+                title: 'Pagos enviados exitosamente',
                 showConfirmButton: false,
                 timer: 2000
             })

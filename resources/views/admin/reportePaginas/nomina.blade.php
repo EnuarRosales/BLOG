@@ -61,7 +61,7 @@
 
                         </td>
 
-                        <td>{{ $reporteQuincena->porcentaje}}</td>
+                        <td>{{ $reporteQuincena->user->tipoUsuario->porcentaje}}</td>
 
                         <td>{{$reporteQuincena->porcentajeTotal}}</td>
 

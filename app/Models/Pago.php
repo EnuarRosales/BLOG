@@ -18,12 +18,12 @@ class Pago extends Model
     // {
     //     return $this->belongsTo('App\Models\Descuento', 'descuento_id');
     // }
+  
 
-    //RELACION UNO A MUCHOS  INVERSA
-    public function users()
-    {
-        return $this->belongsTo('App\Models\User', 'user_id');
-    }
+    //RELACION UNO A MUCHOS INVERSA
+    public function user(){
+        return $this->belongsTo('App\Models\User','user_id');
+    }   
 
     //RELACION UNO A MUCHOS  INVERSA
     public function impuestos()

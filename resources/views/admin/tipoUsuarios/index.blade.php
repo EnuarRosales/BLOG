@@ -27,8 +27,6 @@
                     <th>Porcentaje</th>
                     <th>Editar</th>
                     <th>Eliminar</th>
-
-
                 </tr>
             </thead>
 

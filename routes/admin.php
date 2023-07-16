@@ -28,7 +28,7 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/',[HomeController::class,'index'])->middleware(['auth','verified']);
 Route::get('abonos/{abonoParcial}',[DescontadoController::class,'abonoParcial'])->name('admin.abonos.abonoParcial');
-
+Route::get('comprobantePagoPDF/{pago}',[PagoController::class,'comprobantePagoPDF'])->name('admin.pagos.comprobantePagoPDF');
 
 // Route::post('abonos/{abonado}',[DescontadoController::class,'store'])->name('admin.abonos.store');
 Route::post('abonos',[DescontadoController::class,'store'])->name('admin.abonos.store');
@@ -61,6 +61,10 @@ Route::resource('asignacionRooms',AsignacionRoomController::class)->middleware([
 Route::resource('asignacionMultas',AsignacionMultaController::class)->middleware(['auth','verified'])->names('admin.asignacionMultas');
 Route::resource('metaModelos', MetaModeloController::class)->middleware(['auth','verified'])->names('admin.metaModelos');
 Route::get('enviarPago', [PagoController::class,'enviarPago'])->name('admin.pagos.enviarPago');
+
+Route::resource('pagosss', PagoController::class)->middleware(['auth','verified'])->names('admin.pagos');
+
+
 
 
 Route::resource('reportePaginas', ReportePaginaController::class)->middleware(['auth','verified'])->names('admin.reportePaginas');

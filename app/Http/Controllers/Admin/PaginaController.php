@@ -73,6 +73,7 @@ class PaginaController extends Controller
     public function edit(Pagina $pagina)
     {
         // $tipoMonedapaginas = TipoMonedaPagina::orderBy('id','desc'); 
+        // return $pagina;
         return view('admin.paginas.edit',compact('pagina'));
     } 
 

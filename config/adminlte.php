@@ -515,13 +515,14 @@ return [
                 ],
                 [
                     'text' => 'Pago',
-                    'url'  => 'user/1/PDF',
+                    // 'url'  => 'user/1/comprobantePagoPDF',
+                    'route'=> 'admin.pagos.index',                                    
                 ],
 
             ],
         ],
 
-       
+
         ['header' => 'CONTROL'],
         [
             'text'       => 'Registro Multas',

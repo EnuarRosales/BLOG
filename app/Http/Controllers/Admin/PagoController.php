@@ -10,6 +10,7 @@ use App\Models\Pago;
 use App\Models\ReportePagina;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Barryvdh\DomPDF\Facade\Pdf;
 
 class PagoController extends Controller
 {
@@ -20,7 +21,8 @@ class PagoController extends Controller
      */
     public function index()
     {
-        //
+        $pagos = Pago::all();
+        return view('admin.pagos.index', compact('pagos'));
     }
 
     /**
@@ -121,15 +123,31 @@ class PagoController extends Controller
         $descuentos = DB::table('descuentos')
             ->join('descontados', 'descontados.descuento_id', '=', 'descuentos.id')
             ->select(
+                // 'descontados.descuento_id', 
                 DB::raw('sum(valor) as suma'),
-                DB::raw('user_id'),
-                DB::raw('descuento_id'),
-
+                DB::raw('user_id'),                
+                // DB::raw('descuento_id'),
             )
             ->where('descontado', 0)
 
-            ->groupBy('user_id', 'descuento_id')
+            ->groupBy('user_id')
             ->get();
+
+
+            $descuentoss = DB::table('descuentos')
+            ->join('descontados', 'descontados.descuento_id', '=', 'descuentos.id')
+            ->select(
+                // 'descontados.descuento_id', 
+                DB::raw('sum(valor) as suma'),
+                DB::raw('user_id'),                
+                DB::raw('descuento_id'),
+            )
+            ->where('descontado', 0)
+
+            ->groupBy('user_id','descuento_id')
+            ->get();
+
+            // return $descuentos;
 
         /*
          *  
@@ -138,6 +156,21 @@ class PagoController extends Controller
          * DE ACUERDO A  DOS CONDICIONES 
          * 
          */
+        foreach ($pagos as $pago) {
+            foreach ($descuentoss as $descuento) {
+                if ($pago->user_id == $descuento->user_id) {
+                    DB::table('descontados')
+                    ->where('descuento_id', $descuento->descuento_id)
+                    ->update([
+                        'descontado' => 1,
+                        'fechaDescontado' => $pago->fecha,
+                    ]);
+                }
+            }
+        }
+         
+
+         
 
 
         foreach ($pagos as $pago) {
@@ -162,15 +195,17 @@ class PagoController extends Controller
                             'neto' => $pago->suma - $descuento->suma - $pago->impuestoDescuento,
                         ]);
 
-                    DB::table('descontados')
-                        ->where('descuento_id', $descuento->descuento_id)
-                        ->update([
-                            'descontado' => 1,
-                            'fechaDescontado' => $pago->fecha,
-                        ]);
+                    // DB::table('descontados')
+                    //     ->where('descuento_id', $descuento->descuento_id)
+                    //     ->update([
+                    //         'descontado' => 1,
+                    //         'fechaDescontado' => $pago->fecha,
+                    //     ]);
                 }
             }
         }
+
+        
 
         $cambiarEstados->enviarPagoCambiarEstado();
         $cambiarEstados->aplicarImpuesto();
@@ -211,21 +246,79 @@ class PagoController extends Controller
             $pago->neto = $pago->neto - $pago->impuestoDescuento;
             $pago->save();
         }
+    }
+
+    public function comprobantePagoPDF(Pago $pago)
+    {
+        $reportePaginas = ReportePagina::with('user', 'pagina')->select(
+            // DB::raw('sum(netoPesos) as suma'),
+            DB::raw('Cantidad'),
+            DB::raw('netoPesos'),
+            DB::raw('user_id'),
+            DB::raw('fecha'),
+            DB::raw('pagina_id'),
+            DB::raw('porcentajeTotal'),
+        )
+            ->where('verificado', 1)
+            ->where('enviarPago', 1)
+            ->where('user_id', $pago->user_id)
+            ->where('fecha', $pago->fecha)
+            ->groupBy('fecha', 'user_id', 'pagina_id', 'Cantidad', 'netoPesos','porcentajeTotal')
+            ->get();
+
+
+        // $descontados = Descontado::with('descuento')->get();
+        // foreach ($descontados as $descuento) {
+        //     if ($descuento->descuento->user_id == $pago->user_id)
+        //         $descuentos = $descuento;
+        //     else {
+        //         $descuentos = 0;
+        //     }
+        // }
+
+
+        $TRM = ReportePagina::with('user', 'pagina')->select(
+            DB::raw('TRM'),
+            DB::raw('pagina_id'),
+
+        )           
+            ->groupBy('TRM', 'pagina_id')
+            ->get();
 
 
 
-        // DB::table('pagos')
-        //     ->orderBy('id')
-        //     ->chunk(100, function ($pagos) {
-        //         foreach ($pagos as $pago) {
-        //             DB::table('pagos')
-        //                 ->where('pagado', 1)
-        //                 ->where('impuesto_id', null)
-        //                 ->update(['impuestoDescuento' => $pago->devengado - ($pago->devengado * (($pago->impuestoPorcentaje) / 100))]);
 
-        //             // $pago->impuestoDescuento = $pago->neto - ($pago->neto * (($pago->impuestoPorcentaje) / 100))
-        //             //     ->update(['active' => true]);
-        //         }
-        //     });
+        $descuentos = DB::table('descuentos')
+            ->join('descontados', 'descontados.descuento_id', '=', 'descuentos.id')
+            ->leftJoin('tipo_descuentos', 'tipo_descuentos.id', '=', 'descuentos.tipoDescuento_id')
+            ->select('descuentos.user_id', 'descontados.valor', 'descuentos.tipoDescuento_id', 'tipo_descuentos.nombre')
+            ->where('descuentos.user_id', $pago->user_id)
+            ->where('descontados.descontado', 1)
+            ->where('descontados.fechaDescontado', $pago->fecha)
+            ->get();
+
+
+        // return $descuentos;
+
+
+
+        // $descontados = Descontado::addSelect([
+        //     'prueba' => Descuento::select('user_id')
+        //         ->whereColumn('user_id', $pago->user_id)
+
+        // ])->get();
+
+        // return $descontados;
+
+
+
+        // foreach($descontados as $descontado){
+        //     return $descontado;
+        // }
+
+
+        $pdf = Pdf::loadView('admin.pagos.comprobantePago', compact('reportePaginas', 'pago', 'descuentos','TRM'));
+
+        return $pdf->stream();
     }
 }

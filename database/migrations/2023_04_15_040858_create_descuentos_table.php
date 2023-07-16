@@ -25,7 +25,7 @@ class CreateDescuentosTable extends Migration
             $table->foreign('tipoDescuento_id')
                     ->references('id')->on('tipo_descuentos')//tabla
                     ->onDelete('cascade');         
-
+ 
             $table->foreign('user_id')
                     ->references('id')->on('users')
                     ->onDelete('cascade');

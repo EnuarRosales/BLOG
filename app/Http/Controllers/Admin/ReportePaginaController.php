@@ -97,13 +97,14 @@ class ReportePaginaController extends Controller
         // OJO DE ACA INICIA EL PROECSOOOOOOOOOOOOOOOOOOOOOOOOOOOO
         $asignarMeta = new ReportePaginaController;
         $asignarMeta->ponerMeta();
-        // $asignarMeta->actualizarPorcentaje();
+        $asignarMeta->actualizarPorcentaje();
         return redirect()->route('admin.reportePaginas.index')->with('info', 'storeExcel');
     }
+    
 
     public function actualizarPorcentaje()
     {
-        $reportePaginas = ReportePagina::with('user')->where('verificado', 0)->get();
+        $reportePaginas = ReportePagina::where('verificado', 0)->get();
         foreach ($reportePaginas as $reportePagina) {
             if ($reportePagina->verificado == 0) {
                 $reportePagina->porcentaje = $reportePagina->user->tipoUsuario->porcentaje;
@@ -346,7 +347,7 @@ class ReportePaginaController extends Controller
                 DB::raw('sum(valor) as suma'),
                 DB::raw('user_id'),
             )
-            // ->where('descontado', 0)
+            ->where('descontado', 0)
             ->groupBy('user_id')
             ->get();     
 

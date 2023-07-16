@@ -37,5 +37,8 @@ Route::put('users/{user}',[UserController::class,'updateRol'])->name('admin.user
 Route::post('reportePaginas',[ReportePaginaController::class,'storeIndividual'])->name('admin.reportePaginas.storeIndividual');
 
 route::get('user/{User_id}/PDF',[UserController::class,'CertificacionLaboral']);
+route::get('user/{User_id}/comprobantePagoPDF',[UserController::class,'comprobantePagoPDF']);
+
+
 
  

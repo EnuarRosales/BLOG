@@ -86,6 +86,15 @@ pd<html>
             left: 270px;
             right: 100px;
         }
+
+        .cabecera{
+            background-color: black;
+            color: white;
+
+
+        }
+
+
     </style>
 </head>
 
@@ -93,7 +102,7 @@ pd<html>
     <header>
         <img src="{{ public_path() . '\image\Imagen2.png' }}" width="105" height="90">
         <p style="position: fixed; top: -60px; left: 220px; center: 0px; height: 50px; color:#858585;">
-            BLUM ICE STUDIOS S.A.S.
+            BLUM ICE STUDIOS S.A.S. enuar rosales salaazar
         </p>
         <br>
         <p style="position: fixed; top: -42px; left: 250px; center: 0px; height: 50px; color:#858585;">NIT 901683515-1
@@ -101,14 +110,13 @@ pd<html>
 
 
     </header>
-
     <div class="content ex1">
         <p style="text-align:center;"> <b> HACE CONSTAR </b></p>
 
         <p class="Paragrap" style="text-align: justify;">
             El (la) suscrito (a) GERENTE de la empresa BLUM ICE STUDIOS S.A.S, hace constar que una vez verificada la
             base de datos del Sistema de Información para la Administración de estudios WC (SIAEWC), certifica que
-            el(la) Señor(a)(ita) {{$userLogueado->name}} identificado (a) con CC No. {{$userLogueado->cedula}} se encuentra
+            {{-- el(la) Señor(a)(ita) {{}} identificado (a) con CC No. {{}} se encuentra --}}
             prestando sus servicios, mediante CONTRATO DE MANDATO N°001 del 20 Mayo 2014, ostentando el cargo de MODELO.
         </p>
         <p style="text-align: justify;"">
@@ -124,6 +132,33 @@ pd<html>
             Gerente BLUM ICE STUDIOS S.A.S.
         </p>
     </div>
+
+    <table class="table" style="text-align:center">
+        <thead class="cabecera">
+            <tr>
+                <th>Fecha</th>
+                <th>Devengado</th>
+                <th>Descuentos</th>
+                <th>Impuestos</th>
+                <th>Neto</th>
+            </tr>
+        </thead>
+
+
+        <tbody>
+            @foreach ($pagos as $pago)
+                <tr>
+                    <td>{{ $pago->fecha }}</td>
+                    
+                    <td>{{ $pago->devengado }}</td>
+                    <td>{{ $pago->descuento }}</td>
+                    <td>{{ $pago->impuestoDescuento }}</td>
+                    <td>{{ $pago->neto}}</td>
+                    
+                </tr>
+            @endforeach
+        </tbody>
+    </table>
 
     
 

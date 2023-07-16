@@ -305,7 +305,7 @@ class ReportePaginaController extends Controller
         // $reportePaginas = ReportePagina::with('user', 'metaModelo')->get();
         $reportePaginas = ReportePagina::all();
         foreach ($reportePaginas as $reportePagina) {
-            if ($reportePagina->user->tipoUsuario->nombre == "MODELO") {
+            if ($reportePagina->user->tipoUsuario->nombre == "Modelo") {
                 $reportePagina->porcentajeTotal = $reportePagina->user->tipoUsuario->porcentaje + $reportePagina->metaModelo; //+ $reportePagina->metaModelo->porcentaje
                 $reportePagina->save();
             } else {

@@ -258,23 +258,14 @@ class PagoController extends Controller
             DB::raw('fecha'),
             DB::raw('pagina_id'),
             DB::raw('porcentajeTotal'),
+            DB::raw('pesos'),
         )
             ->where('verificado', 1)
             ->where('enviarPago', 1)
             ->where('user_id', $pago->user_id)
             ->where('fecha', $pago->fecha)
-            ->groupBy('fecha', 'user_id', 'pagina_id', 'Cantidad', 'netoPesos','porcentajeTotal')
+            ->groupBy('fecha', 'user_id', 'pagina_id', 'Cantidad', 'netoPesos','porcentajeTotal','pesos')
             ->get();
-
-
-        // $descontados = Descontado::with('descuento')->get();
-        // foreach ($descontados as $descuento) {
-        //     if ($descuento->descuento->user_id == $pago->user_id)
-        //         $descuentos = $descuento;
-        //     else {
-        //         $descuentos = 0;
-        //     }
-        // }
 
 
         $TRM = ReportePagina::with('user', 'pagina')->select(
@@ -295,27 +286,9 @@ class PagoController extends Controller
             ->where('descuentos.user_id', $pago->user_id)
             ->where('descontados.descontado', 1)
             ->where('descontados.fechaDescontado', $pago->fecha)
-            ->get();
-
-
-        // return $descuentos;
-
-
-
-        // $descontados = Descontado::addSelect([
-        //     'prueba' => Descuento::select('user_id')
-        //         ->whereColumn('user_id', $pago->user_id)
-
-        // ])->get();
-
-        // return $descontados;
-
-
-
-        // foreach($descontados as $descontado){
-        //     return $descontado;
-        // }
-
+            ->get(); 
+            
+            // $consignaciones = Pago::where('user_id', $pago->user_id)->get();          
 
         $pdf = Pdf::loadView('admin.pagos.comprobantePago', compact('reportePaginas', 'pago', 'descuentos','TRM'));
 

@@ -14,15 +14,19 @@ class CreateAsignacionMultasTable extends Migration
     public function up()
     {
         Schema::create('asignacion_multas', function (Blueprint $table) {
-            $table->id();            
-            $table->unsignedBigInteger('user_id');//campo para relacion
-            $table->unsignedBigInteger('tipoMulta_id');//campo para relacion            
-            
+            $table->id();
+            $table->boolean('descontado')->default(false)->nullable();
+            $table->date('fechaDescontado')->nullable();
+
+
+            $table->unsignedBigInteger('user_id'); //campo para relacion
+            $table->unsignedBigInteger('tipoMulta_id'); //campo para relacion            
+
             $table->foreign('user_id')
-                    ->references('id')->on('users')//tabla
-                    ->onDelete('cascade');
+                ->references('id')->on('users') //tabla
+                ->onDelete('cascade');
             $table->foreign('tipoMulta_id')
-                    ->references('id')->on('tipo_multas');
+                ->references('id')->on('tipo_multas');
 
 
             $table->timestamps();

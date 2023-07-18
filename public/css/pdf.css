@@ -37,6 +37,26 @@ table {
     width: 100%;   
 }
 
+	
+
+
+
+.texto-vertical-2 {
+    float: left;
+    transform: rotate(-90deg);
+    transform-origin: left top 0;
+    margin-left: 0px;
+    padding: 0px;
+    /* background-color: rgba(37, 34, 34, 0.3); */
+    opacity: 0.9;
+    font-size: 12px;
+    color: #858585;
+    text-transform: uppercase;    
+    margin-left: -40px;
+    margin-right: 0px;
+}
+
+
 .tablaIndividual  {
     /* margin-top: auto; */
     /* caption-side: bottom; */
@@ -127,3 +147,5 @@ th {
     background-color: black;
     color: white;
 }
+
+

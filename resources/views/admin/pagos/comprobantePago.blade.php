@@ -48,40 +48,95 @@
                             <td>{{ $reportePagina->pagina->nombre }}</td>
                             <td>{{ $reportePagina->Cantidad }}</td>
                             <td>{{ number_format($reportePagina->netoPesos, 2, '.', ',') }}</td>
-
-                            
-                            
                             <td></td>
                         </tr>
                     @endforeach
                 </tbody>
             </table>
             <br>
-            <table class="table" style="text-align:center">
-                <thead class="cabecera">
-                    <tr>
-                        <th>Descuento</th>
-                        <th>Cantidad</th>
-                        <th>Devengado</th>
-                        <th>Deducido</th>
-                    </tr>
-                </thead>
 
 
-                <tbody>
-                    @foreach ($descuentos as $descuento)
+            @if ($descuentosArray == 'lleno')
+                {{ 'vacio' }}
+                <table class="table" style="text-align:center">
+                    <thead class="cabecera">
                         <tr>
-                            <td>{{ $descuento->nombre }}</td>
-                            <td></td>
-                            <td></td>
-                            <td>{{ number_format($descuento->valor, 2, '.', ',') }}</td>
-                            
+                            <th>Descuento</th>
+                            <th>Cantidad</th>
+                            <th>Devengado</th>
+                            <th>Deducido</th>
                         </tr>
-                    @endforeach
-                </tbody>
-            </table>
-            <br>
+                    </thead>
+                    <tbody>
+                        @foreach ($descuentos as $descuento)
+                            <tr>
+                                <td>{{ $descuento->nombre }}</td>
+                                <td></td>
+                                <td></td>
+                                <td>{{ number_format($descuento->valor, 2, '.', ',') }}</td>
 
+                            </tr>
+                        @endforeach
+                    </tbody>
+                </table>
+                <br>
+            @endif
+
+            {{-- descuentos --}}
+
+
+            {{-- multas --}}
+
+            @if ($multasDescuentosArray == 'lleno')
+                <table class="table" style="text-align:center">
+                    <thead class="cabecera">
+                        <tr>
+                            <th>Multa</th>
+                            <th>Cantidad</th>
+                            <th>Devengado</th>
+                            <th>Deducido</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach ($multasDescuentos as $multasDescuento)
+                            <tr>
+                                <td>{{ $multasDescuento->tipoMulta->nombre }}</td>
+                                <td>{{ $multasDescuento->count }}</td>
+                                <td></td>
+                                <td>{{ number_format($multasDescuento->tipoMulta->costo * $multasDescuento->count, 2, '.', ',') }}
+                                </td>
+                            </tr>
+                        @endforeach
+                    </tbody>
+                </table>
+                <br>
+            @endif
+
+
+
+            @if ($pago->impuestoDescuento > 1)
+                <table class="table" style="text-align:center">
+                    <thead class="cabecera">
+                        <tr>
+                            <th>Impuesto</th>
+                            <th>Cantidad</th>
+                            <th>Devengado</th>
+                            <th>Deducido</th>
+                        </tr>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {{-- @foreach ($descuentos as $descuento) --}}
+                        <tr>
+                            <td>{{ $pago->impuestos->nombre }}</td>
+                            <td>{{ $pago->impuestoPorcentaje . '%' }}</td>
+                            <td></td>
+                            <td>{{ number_format($pago->impuestoDescuento, 2, '.', ',') }}</td>
+                        </tr>
+                    </tbody>
+                </table>
+                <br>
+            @endif
 
             <table class="table" style="text-align:center">
                 <thead class="cabecera">
@@ -92,20 +147,18 @@
                         <th></th>
                     </tr>
                 </thead>
-
-
                 <tbody>
                     {{-- @foreach ($descuentos as $descuento) --}}
                     <tr>
                         <td>Total</td>
-                        <td></td>                        
-                        <td>{{ number_format($pago->devengado, 2, '.', ',') }}</td>                      
-                        <td>{{ number_format($pago->descuento, 2, '.', ',') }}</td>
+                        <td></td>
+                        <td>{{ number_format($pago->devengado, 2, '.', ',') }}</td>
+                        <td>{{ number_format($pago->devengado-$pago->neto, 2, '.', ',') }}</td>
                     </tr>
                     <tr>
                         <td>Neto a pagar</td>
                         <td></td>
-                        <td></td>              
+                        <td></td>
                         <td>{{ number_format($pago->neto, 2, '.', ',') }}</td>
                     </tr>
                     {{-- @endforeach --}}
@@ -125,7 +178,7 @@
                 <tbody>
                     @foreach ($TRM as $item)
                         <tr>
-                            <td>{{ $item->pagina->nombre }}</td>                          
+                            <td>{{ $item->pagina->nombre }}</td>
                             <td>{{ number_format($item->TRM, 2, '.', ',') }}</td>
                         </tr>
                     @endforeach
@@ -177,6 +230,10 @@
 
         </div>
 
+        
+        
+      
+
 
 
 
@@ -190,5 +247,9 @@
 
 
     </body>
+
+    <p class="texto-vertical-2"> Sistema de Información para la Administración de estudios WC (SIAEWC)</p>
+
+    
 
 </html>

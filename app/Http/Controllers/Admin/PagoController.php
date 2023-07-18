@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\AsignacionMulta;
 use App\Models\Descontado;
 use App\Models\Descuento;
 use App\Models\Impuesto;
@@ -125,7 +126,7 @@ class PagoController extends Controller
             ->select(
                 // 'descontados.descuento_id', 
                 DB::raw('sum(valor) as suma'),
-                DB::raw('user_id'),                
+                DB::raw('user_id'),
                 // DB::raw('descuento_id'),
             )
             ->where('descontado', 0)
@@ -134,20 +135,20 @@ class PagoController extends Controller
             ->get();
 
 
-            $descuentoss = DB::table('descuentos')
+        $descuentoss = DB::table('descuentos')
             ->join('descontados', 'descontados.descuento_id', '=', 'descuentos.id')
             ->select(
                 // 'descontados.descuento_id', 
                 DB::raw('sum(valor) as suma'),
-                DB::raw('user_id'),                
+                DB::raw('user_id'),
                 DB::raw('descuento_id'),
             )
             ->where('descontado', 0)
 
-            ->groupBy('user_id','descuento_id')
+            ->groupBy('user_id', 'descuento_id')
             ->get();
 
-            // return $descuentos;
+        // return $descuentos;
 
         /*
          *  
@@ -160,17 +161,26 @@ class PagoController extends Controller
             foreach ($descuentoss as $descuento) {
                 if ($pago->user_id == $descuento->user_id) {
                     DB::table('descontados')
-                    ->where('descuento_id', $descuento->descuento_id)
-                    ->update([
-                        'descontado' => 1,
-                        'fechaDescontado' => $pago->fecha,
-                    ]);
+                        ->where('descuento_id', $descuento->descuento_id)
+                        ->update([
+                            'descontado' => 1,
+                            'fechaDescontado' => $pago->fecha,
+                        ]);
                 }
             }
         }
-         
 
-         
+        $descuentoMultas = DB::table('asignacion_multas')
+            ->join('tipo_multas', 'tipo_multas.id', '=', 'asignacion_multas.tipoMulta_id')
+            ->select(
+                DB::raw('sum(tipo_multas.costo) as suma'),
+                DB::raw('user_id'),
+            )
+            ->where('asignacion_multas.descontado', 0)
+
+            ->groupBy('user_id')
+            ->get();
+
 
 
         foreach ($pagos as $pago) {
@@ -185,6 +195,7 @@ class PagoController extends Controller
                 'created_at' => now(),
                 'updated_at' => now()
             ]);
+
             foreach ($descuentos as $descuento) {
                 if ($pago->user_id == $descuento->user_id) {
                     DB::table('pagos')
@@ -203,9 +214,42 @@ class PagoController extends Controller
                     //     ]);
                 }
             }
+
+            foreach ($descuentoMultas  as $descuentoMulta) {
+
+                if ($pago->user_id == $descuentoMulta->user_id) {
+                    DB::table('pagos')
+                        ->where('user_id', $descuentoMulta->user_id)
+                        ->update([
+                            'multaDescuento' => $descuentoMulta->suma,
+                            'neto' => $pago->suma - $descuentoMulta->suma- $descuento->suma,
+                        ]);
+
+                    DB::table('asignacion_multas')
+                        ->where('user_id', $descuentoMulta->user_id)
+                        ->update([
+                            'descontado' => true,
+                            'fechaDescontado' => $pago->fecha,
+                        ]);
+                }
+            }
         }
 
-        
+
+
+
+
+
+        // $descuentos = DB::table('descuentos')
+        // ->join('descontados', 'descontados.descuento_id', '=', 'descuentos.id')
+        // ->leftJoin('tipo_descuentos', 'tipo_descuentos.id', '=', 'descuentos.tipoDescuento_id')
+        // ->select('descuentos.user_id', 'descontados.valor', 'descuentos.tipoDescuento_id', 'tipo_descuentos.nombre')
+        // ->where('descuentos.user_id', $pago->user_id)
+        // ->where('descontados.descontado', 1)
+        // ->where('descontados.fechaDescontado', $pago->fecha)
+        // ->get(); 
+
+
 
         $cambiarEstados->enviarPagoCambiarEstado();
         $cambiarEstados->aplicarImpuesto();
@@ -221,10 +265,21 @@ class PagoController extends Controller
         }
     }
 
+    public function aplicarMultaDescuento()
+    {
+    }
+
     public function aplicarImpuesto()
     {
         $impuestos = Impuesto::where('estado', 1)->get();
         // $pagos = Pago::where('pagado', 1)->get();
+
+       
+
+        
+
+        
+       
 
         foreach ($impuestos as $impuesto) {
             if ($impuesto->estado == 1) {
@@ -264,7 +319,7 @@ class PagoController extends Controller
             ->where('enviarPago', 1)
             ->where('user_id', $pago->user_id)
             ->where('fecha', $pago->fecha)
-            ->groupBy('fecha', 'user_id', 'pagina_id', 'Cantidad', 'netoPesos','porcentajeTotal','pesos')
+            ->groupBy('fecha', 'user_id', 'pagina_id', 'Cantidad', 'netoPesos', 'porcentajeTotal', 'pesos')
             ->get();
 
 
@@ -272,13 +327,29 @@ class PagoController extends Controller
             DB::raw('TRM'),
             DB::raw('pagina_id'),
 
-        )           
+        )
             ->groupBy('TRM', 'pagina_id')
             ->get();
 
+        $multasDescuentos = AsignacionMulta::select(
+            DB::raw('count(tipoMulta_id) as count'),
+            DB::raw('user_id'),
+            DB::raw('tipoMulta_id'),
+            
+        )
+            ->where('descontado', 1)
+            ->where('user_id', $pago->user_id)
+            ->where('fechaDescontado', $pago->fecha)
+            ->groupBy('user_id', 'tipoMulta_id')            
+            ->get();
 
+            if (count($multasDescuentos) == "0") {
+                $multasDescuentosArray = "vacio";
+            } else {
+                $multasDescuentosArray = "lleno";
+            }           
 
-
+            // return  $multasDescuentos;
         $descuentos = DB::table('descuentos')
             ->join('descontados', 'descontados.descuento_id', '=', 'descuentos.id')
             ->leftJoin('tipo_descuentos', 'tipo_descuentos.id', '=', 'descuentos.tipoDescuento_id')
@@ -286,11 +357,17 @@ class PagoController extends Controller
             ->where('descuentos.user_id', $pago->user_id)
             ->where('descontados.descontado', 1)
             ->where('descontados.fechaDescontado', $pago->fecha)
-            ->get(); 
-            
-            // $consignaciones = Pago::where('user_id', $pago->user_id)->get();          
+            ->get();
 
-        $pdf = Pdf::loadView('admin.pagos.comprobantePago', compact('reportePaginas', 'pago', 'descuentos','TRM'));
+            if (count($descuentos) == "0") {
+                $descuentosArray = "vacio";
+            } else {
+                $descuentosArray = "lleno";
+            }
+            
+            
+
+        $pdf = Pdf::loadView('admin.pagos.comprobantePago', compact('reportePaginas', 'pago', 'descuentos', 'TRM','multasDescuentos','multasDescuentosArray','descuentosArray'));
 
         return $pdf->stream();
     }

@@ -22,6 +22,7 @@
                     <th style="text-align:center">Devengado</th>
                     <th style="text-align:center">Descuentos</th>
                     <th style="text-align:center">Impuestos</th>
+                    <th style="text-align:center">Multas</th>
                     <th style="text-align:center">Neto</th>
                     <th style="text-align:center">Comprobante</th>
                     <th style="text-align:center">Editar</th>
@@ -37,6 +38,7 @@
                         <td>{{ $pago->devengado }}</td>
                         <td>{{ $pago->descuento }}</td>
                         <td>{{ $pago->impuestoDescuento }}</td>
+                        <td>{{ $pago->multaDescuento}}</td>
                         <td>{{ $pago->neto }}</td>
 
                         <td width="10px" style="text-align:center">

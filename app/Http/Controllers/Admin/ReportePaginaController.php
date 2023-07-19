@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Imports\ReportePaginasImport;
+use App\Models\AsignacionMulta;
 use App\Models\Descontado;
 use App\Models\Descuento;
 use App\Models\Impuesto;
@@ -82,7 +83,7 @@ class ReportePaginaController extends Controller
 
         Excel::import(new ReportePaginasImport, $file);
         $reportePaginas = ReportePagina::all();
-        
+
 
         foreach ($reportePaginas as $reportePagina) {
             if ($reportePagina->valorPagina == null) {
@@ -100,7 +101,7 @@ class ReportePaginaController extends Controller
         $asignarMeta->actualizarPorcentaje();
         return redirect()->route('admin.reportePaginas.index')->with('info', 'storeExcel');
     }
-    
+
 
     public function actualizarPorcentaje()
     {
@@ -338,8 +339,8 @@ class ReportePaginaController extends Controller
             ->where('verificado', 1)
             ->where('enviarPago', 0)
             ->groupBy('fecha', 'user_id')
-            ->get();           
-            
+            ->get();
+
 
         $descuentos = DB::table('descuentos')
             ->join('descontados', 'descontados.descuento_id', '=', 'descuentos.id')
@@ -349,9 +350,7 @@ class ReportePaginaController extends Controller
             )
             ->where('descontado', 0)
             ->groupBy('user_id')
-            ->get();     
-
-
+            ->get();
 
         if (count($descuentos) == "0") {
             $array = "vacio";
@@ -359,10 +358,26 @@ class ReportePaginaController extends Controller
             $array = "lleno";
         }
 
-        $variableImpuesto = 0;      
-
+        $variableImpuesto = 0;
         $impuestos = Impuesto::where('estado', 1)->get();
-        return view('admin.reportePaginas.pago', compact('pagos', 'descuentos', 'array', 'impuestos', 'variableImpuesto'));
+        $multas = AsignacionMulta::where('descontado', 0)->get();
+
+
+        $multas = DB::table('asignacion_multas')
+            ->join('tipo_multas', 'tipo_multas.id', '=', 'asignacion_multas.tipoMulta_id')
+            ->select(
+                DB::raw('sum(tipo_multas.costo) as suma'),
+                DB::raw('user_id'),
+            )
+            ->where('asignacion_multas.descontado', 0)
+
+            ->groupBy('user_id')
+            ->get();
+
+
+
+
+        return view('admin.reportePaginas.pago', compact('pagos', 'descuentos', 'array', 'impuestos', 'variableImpuesto', 'multas'));
     }
 
 

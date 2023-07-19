@@ -92,6 +92,8 @@ class PagoController extends Controller
         //
     }
 
+    
+
     public function enviarPago()
     {
         /*
@@ -99,6 +101,8 @@ class PagoController extends Controller
          * EN LA PRIMERA PARTA INSTANCIA DE LA CALSE PAGOCONTROLLER CON EL FIN DE IMPLEMENTAR UN METODO
          */
         $cambiarEstados = new PagoController;
+
+        $descuentos=0;
 
         /*
          *  
@@ -166,6 +170,8 @@ class PagoController extends Controller
                             'descontado' => 1,
                             'fechaDescontado' => $pago->fecha,
                         ]);
+
+                       
                 }
             }
         }
@@ -196,6 +202,8 @@ class PagoController extends Controller
                 'updated_at' => now()
             ]);
 
+         
+
             foreach ($descuentos as $descuento) {
                 if ($pago->user_id == $descuento->user_id) {
                     DB::table('pagos')
@@ -205,6 +213,7 @@ class PagoController extends Controller
                             'descuento' => $descuento->suma,
                             'neto' => $pago->suma - $descuento->suma - $pago->impuestoDescuento,
                         ]);
+                        
 
                     // DB::table('descontados')
                     //     ->where('descuento_id', $descuento->descuento_id)
@@ -218,11 +227,12 @@ class PagoController extends Controller
             foreach ($descuentoMultas  as $descuentoMulta) {
 
                 if ($pago->user_id == $descuentoMulta->user_id) {
+                    $descuento =  $descuento - $descuentoMulta->suma;
                     DB::table('pagos')
                         ->where('user_id', $descuentoMulta->user_id)
                         ->update([
                             'multaDescuento' => $descuentoMulta->suma,
-                            'neto' => $pago->suma - $descuentoMulta->suma- $descuento->suma,
+                            'neto' => $descuento,
                         ]);
 
                     DB::table('asignacion_multas')
@@ -235,26 +245,13 @@ class PagoController extends Controller
             }
         }
 
-
-
-
-
-
-        // $descuentos = DB::table('descuentos')
-        // ->join('descontados', 'descontados.descuento_id', '=', 'descuentos.id')
-        // ->leftJoin('tipo_descuentos', 'tipo_descuentos.id', '=', 'descuentos.tipoDescuento_id')
-        // ->select('descuentos.user_id', 'descontados.valor', 'descuentos.tipoDescuento_id', 'tipo_descuentos.nombre')
-        // ->where('descuentos.user_id', $pago->user_id)
-        // ->where('descontados.descontado', 1)
-        // ->where('descontados.fechaDescontado', $pago->fecha)
-        // ->get(); 
-
-
-
         $cambiarEstados->enviarPagoCambiarEstado();
         $cambiarEstados->aplicarImpuesto();
         return redirect()->route('admin.reportePaginas.pagos')->with('info', 'enviarPagos');
     }
+
+
+
 
     public function enviarPagoCambiarEstado()
     {
@@ -272,15 +269,7 @@ class PagoController extends Controller
     public function aplicarImpuesto()
     {
         $impuestos = Impuesto::where('estado', 1)->get();
-        // $pagos = Pago::where('pagado', 1)->get();
-
-       
-
-        
-
-        
-       
-
+        // $pagos = Pago::where('pagado', 1)->get();  
         foreach ($impuestos as $impuesto) {
             if ($impuesto->estado == 1) {
                 DB::table('pagos')
@@ -335,21 +324,21 @@ class PagoController extends Controller
             DB::raw('count(tipoMulta_id) as count'),
             DB::raw('user_id'),
             DB::raw('tipoMulta_id'),
-            
+
         )
             ->where('descontado', 1)
             ->where('user_id', $pago->user_id)
             ->where('fechaDescontado', $pago->fecha)
-            ->groupBy('user_id', 'tipoMulta_id')            
+            ->groupBy('user_id', 'tipoMulta_id')
             ->get();
 
-            if (count($multasDescuentos) == "0") {
-                $multasDescuentosArray = "vacio";
-            } else {
-                $multasDescuentosArray = "lleno";
-            }           
+        if (count($multasDescuentos) == "0") {
+            $multasDescuentosArray = "vacio";
+        } else {
+            $multasDescuentosArray = "lleno";
+        }
 
-            // return  $multasDescuentos;
+        // return  $multasDescuentos;
         $descuentos = DB::table('descuentos')
             ->join('descontados', 'descontados.descuento_id', '=', 'descuentos.id')
             ->leftJoin('tipo_descuentos', 'tipo_descuentos.id', '=', 'descuentos.tipoDescuento_id')
@@ -359,15 +348,15 @@ class PagoController extends Controller
             ->where('descontados.fechaDescontado', $pago->fecha)
             ->get();
 
-            if (count($descuentos) == "0") {
-                $descuentosArray = "vacio";
-            } else {
-                $descuentosArray = "lleno";
-            }
-            
-            
+        if (count($descuentos) == "0") {
+            $descuentosArray = "vacio";
+        } else {
+            $descuentosArray = "lleno";
+        }
 
-        $pdf = Pdf::loadView('admin.pagos.comprobantePago', compact('reportePaginas', 'pago', 'descuentos', 'TRM','multasDescuentos','multasDescuentosArray','descuentosArray'));
+
+
+        $pdf = Pdf::loadView('admin.pagos.comprobantePago', compact('reportePaginas', 'pago', 'descuentos', 'TRM', 'multasDescuentos', 'multasDescuentosArray', 'descuentosArray'));
 
         return $pdf->stream();
     }

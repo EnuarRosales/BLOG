@@ -57,7 +57,7 @@
 
 
             @if ($descuentosArray == 'lleno')
-                {{ 'vacio' }}
+                
                 <table class="table" style="text-align:center">
                     <thead class="cabecera">
                         <tr>

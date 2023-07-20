@@ -12,6 +12,7 @@ use App\Models\ReportePagina;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Barryvdh\DomPDF\Facade\Pdf;
+use Carbon\Carbon;
 
 class PagoController extends Controller
 {
@@ -92,7 +93,7 @@ class PagoController extends Controller
         //
     }
 
-    
+
 
     public function enviarPago()
     {
@@ -102,7 +103,7 @@ class PagoController extends Controller
          */
         $cambiarEstados = new PagoController;
 
-        $descuentos=0;
+        $descuentos = 0;
 
         /*
          *  
@@ -170,8 +171,6 @@ class PagoController extends Controller
                             'descontado' => 1,
                             'fechaDescontado' => $pago->fecha,
                         ]);
-
-                       
                 }
             }
         }
@@ -202,10 +201,12 @@ class PagoController extends Controller
                 'updated_at' => now()
             ]);
 
-         
+
+            $iten = 0;
 
             foreach ($descuentos as $descuento) {
                 if ($pago->user_id == $descuento->user_id) {
+                    $iten = $descuento->suma;
                     DB::table('pagos')
                         ->where('user_id', $pago->user_id)
                         ->where('fecha', $pago->fecha)
@@ -213,7 +214,8 @@ class PagoController extends Controller
                             'descuento' => $descuento->suma,
                             'neto' => $pago->suma - $descuento->suma - $pago->impuestoDescuento,
                         ]);
-                        
+                    $iten = $descuento->suma;
+
 
                     // DB::table('descontados')
                     //     ->where('descuento_id', $descuento->descuento_id)
@@ -227,12 +229,12 @@ class PagoController extends Controller
             foreach ($descuentoMultas  as $descuentoMulta) {
 
                 if ($pago->user_id == $descuentoMulta->user_id) {
-                    $descuento =  $descuento - $descuentoMulta->suma;
+                    // $descuento =  $descuento - $descuentoMulta->suma;
                     DB::table('pagos')
                         ->where('user_id', $descuentoMulta->user_id)
                         ->update([
                             'multaDescuento' => $descuentoMulta->suma,
-                            'neto' => $descuento,
+                            'neto' => $pago->suma -  $descuentoMulta->suma - $iten,
                         ]);
 
                     DB::table('asignacion_multas')
@@ -249,10 +251,7 @@ class PagoController extends Controller
         $cambiarEstados->aplicarImpuesto();
         return redirect()->route('admin.reportePaginas.pagos')->with('info', 'enviarPagos');
     }
-
-
-
-
+    
     public function enviarPagoCambiarEstado()
     {
         $reportePaginas = ReportePagina::where('enviarPago', 0)->get();
@@ -275,7 +274,7 @@ class PagoController extends Controller
                 DB::table('pagos')
                     ->where('pagado', 1)
                     ->where('impuesto_id', null)
-                    ->where('neto', '>', $impuesto->mayorQue)
+                    ->where('devengado', '>', $impuesto->mayorQue)
                     ->update([
                         'impuesto_id' => $impuesto->id,
                         'impuestoPorcentaje' => $impuesto->porcentaje,
@@ -283,14 +282,24 @@ class PagoController extends Controller
             }
         }
 
-        $pagos = Pago::where('pagado', 1)
-            ->get();
+
+
+        $pagos = Pago::where('pagado', 1)->get();
+
         foreach ($pagos as $pago) {
             $pago->impuestoDescuento = ($pago->devengado * (($pago->impuestoPorcentaje) / 100));
             $pago->neto = $pago->neto - $pago->impuestoDescuento;
             $pago->save();
         }
     }
+
+
+
+    /*
+         *  
+         * METODO PARA IMPRIMRI EL COMPROBANTE DE PAGO.
+         * 
+         */
 
     public function comprobantePagoPDF(Pago $pago)
     {
@@ -317,6 +326,7 @@ class PagoController extends Controller
             DB::raw('pagina_id'),
 
         )
+            ->where('user_id', $pago->user_id)
             ->groupBy('TRM', 'pagina_id')
             ->get();
 
@@ -352,11 +362,10 @@ class PagoController extends Controller
             $descuentosArray = "vacio";
         } else {
             $descuentosArray = "lleno";
-        }
-
-
-
-        $pdf = Pdf::loadView('admin.pagos.comprobantePago', compact('reportePaginas', 'pago', 'descuentos', 'TRM', 'multasDescuentos', 'multasDescuentosArray', 'descuentosArray'));
+        }       
+       
+        $date = Carbon::now()->locale('es');        
+        $pdf = Pdf::loadView('admin.pagos.comprobantePago', compact('reportePaginas', 'pago', 'descuentos', 'TRM', 'multasDescuentos', 'multasDescuentosArray', 'descuentosArray','date'));
 
         return $pdf->stream();
     }

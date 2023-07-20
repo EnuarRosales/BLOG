@@ -33,13 +33,15 @@
             <tbody>
                 @foreach ($pagos as $pago)
                     <tr>
+                        
                         <td>{{ $pago->fecha }}</td>
                         <td>{{ $pago->user->name }}</td>
-                        <td>{{ $pago->devengado }}</td>
-                        <td>{{ $pago->descuento }}</td>
-                        <td>{{ $pago->impuestoDescuento }}</td>
-                        <td>{{ $pago->multaDescuento}}</td>
-                        <td>{{ $pago->neto }}</td>
+                        <td>{{ number_format($pago->devengado , 2, '.', ',') }}</td>  
+                        <td>{{ number_format($pago->descuento, 2, '.', ',') }}</td>                          
+                        <td>{{ number_format($pago->impuestoDescuento , 2, '.', ',') }}</td>
+                        <td>{{ number_format($pago->multaDescuento , 2, '.', ',') }}</td>
+                        <td>{{ number_format($pago->neto, 2, '.', ',') }}</td>
+                        
 
                         <td width="10px" style="text-align:center">
                             <a class="btn btn-secondary btn-sm" target="_blank" href="{{ route('admin.pagos.comprobantePagoPDF', $pago)}}" >Ver</a>

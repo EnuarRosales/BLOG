@@ -511,7 +511,8 @@ return [
                 ],
                 [
                     'text' => 'Impuesto',
-                    'url'  => 'user/1/PDF',
+                    'route'  => 'admin.impuestos.comprobanteImpuestoss', 
+                    
                 ],
                 [
                     'text' => 'Pago',

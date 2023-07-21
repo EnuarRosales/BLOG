@@ -23,10 +23,10 @@
             <thead>
                 <tr>
                     <th>ID</th>
-                    <th>Nombre</th> 
+                    <th>Nombre</th>
                     <th>Porcentaje</th>
                     <th>Mayor Que</th>
-                    <th>Activo</th>                      
+                    <th>Activo</th>
                     <th>Editar</th>
                     <th>Eliminar</th>
 
@@ -42,17 +42,34 @@
                         <td>{{ $impuesto->nombre }}</td>
                         <td>{{ $impuesto->porcentaje }}</td>
                         <td>{{ $impuesto->mayorQue }}</td>
-                        <td>{{ $impuesto->estado }}</td>
+                        {{-- <td>{{ $impuesto->estado }}</td> --}}
+
+                        <td>
+
+                            {{-- @if ($impuesto->estado == 1)
+                                <button type="button" class="btn btn-secondary btn-sm btn-success">Activa</button>
+                            @else
+                                <button type="button" class="btn btn-secondary btn-sm btn-danger">Inactiva</button>
+                            @endif --}}
+
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="pruba" id="radio1">
+                                <label  class="form-check-label" for="radio1">{{$impuesto->estado }}</label>
+}}
+                            </div>
+
+                        </td>
+
+
 
 
                         <td width="10px">
                             <a class="btn btn-secondary btn-sm"
-                            href="{{ route('admin.impuestos.edit', $impuesto) }}">Editar</a>
+                                href="{{ route('admin.impuestos.edit', $impuesto) }}">Editar</a>
                         </td>
 
                         <td class="bg-light" width="10px">
-                            <form class="formulario-eliminar"
-                                action="{{ route('admin.impuestos.destroy', $impuesto) }}"
+                            <form class="formulario-eliminar" action="{{ route('admin.impuestos.destroy', $impuesto) }}"
                                 method="POST">
                                 @csrf
                                 @method('delete')

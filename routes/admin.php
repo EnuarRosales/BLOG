@@ -30,6 +30,7 @@ Route::get('/',[HomeController::class,'index'])->middleware(['auth','verified'])
 Route::get('abonos/{abonoParcial}',[DescontadoController::class,'abonoParcial'])->name('admin.abonos.abonoParcial');
 Route::get('comprobantePagoPDF/{pago}',[PagoController::class,'comprobantePagoPDF'])->name('admin.pagos.comprobantePagoPDF');
 
+
 // Route::post('abonos/{abonado}',[DescontadoController::class,'store'])->name('admin.abonos.store');
 Route::post('abonos',[DescontadoController::class,'store'])->name('admin.abonos.store');
 
@@ -79,7 +80,8 @@ Route::get('cargarExcel', [ReportePaginaController::class,'cargarExcel'])->name(
 Route::resource('empresa', EmpresaController::class)->middleware(['auth','verified'])->names('admin.empresa');
 
 Route::resource('impuestos', ImpuestoController::class)->middleware(['auth','verified'])->names('admin.impuestos');
-
+Route::get('comprobanteImpuestoss',[ImpuestoController::class,'comprobanteImpuesto'])->name('admin.impuestos.comprobanteImpuestoss');
+Route::get('comprobanteImpuestoPDF/{pago}',[ImpuestoController::class,'comprobanteImpuestoPDF'])->name('admin.impuestos.comprobanteImpuestoPDF');
 // //RUTA TIPO CONTROLLER
 
 // Route::get('tipoUsuarios', [TipoUsuarioController::class,'index'])->name('tipoUsuarios.index');

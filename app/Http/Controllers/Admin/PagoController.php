@@ -251,7 +251,7 @@ class PagoController extends Controller
         $cambiarEstados->aplicarImpuesto();
         return redirect()->route('admin.reportePaginas.pagos')->with('info', 'enviarPagos');
     }
-    
+
     public function enviarPagoCambiarEstado()
     {
         $reportePaginas = ReportePagina::where('enviarPago', 0)->get();
@@ -362,11 +362,21 @@ class PagoController extends Controller
             $descuentosArray = "vacio";
         } else {
             $descuentosArray = "lleno";
-        }       
-       
-        $date = Carbon::now()->locale('es');        
-        $pdf = Pdf::loadView('admin.pagos.comprobantePago', compact('reportePaginas', 'pago', 'descuentos', 'TRM', 'multasDescuentos', 'multasDescuentosArray', 'descuentosArray','date'));
+        }
 
+        $date = Carbon::now()->locale('es');
+        $pdf = Pdf::loadView('admin.pagos.comprobantePago', compact('reportePaginas', 'pago', 'descuentos', 'TRM', 'multasDescuentos', 'multasDescuentosArray', 'descuentosArray', 'date'));
+
+        return $pdf->stream();
+    }
+
+
+
+    public function comprobanteImpuestoPDF(Pago $pago)
+    {
+        $pagos = Pago::where('pagado', $pago->id)->get();
+        $date = Carbon::now()->locale('es');
+        $pdf = Pdf::loadView('admin.pagos.comprobanteImpuesto', compact('pagos'));
         return $pdf->stream();
     }
 }

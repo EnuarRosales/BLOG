@@ -16,8 +16,9 @@
             COMPROBANTE DE IMPUESTOS
         </p>
         <br>
-        <p style="position: fixed; top: -42px; left: 250px; center: 0px; height: 50px;  color:#858585;">NIT
-                 901683515-1
+        <p style="position: fixed; top: -42px; left: 250px; center: 0px; height: 50px;  color:#858585;">NIT          
+            
+            {{$nitEmpresa}}
         </p>
 
     </header>
@@ -27,7 +28,7 @@
 
         <p class="Paragrap" style="text-align: justify;">
             Que el (la) Señor (a) {{ $pago->user->name }} identificado con CC No. {{ $pago->user->cedula }},
-            En la quincena del {{ $pago->fecha }} , se le consignaron los siguientes haberes:
+            En la quincena del {{ $pago->fecha }} , se le realizo la siguiente retencion:
         </p>
 
 
@@ -37,10 +38,10 @@
             <table class="table" style="text-align:center">
                 <thead class="cabecera">
                     <tr>
-                        <th>Impuesto</th>                        
-                        <th>Cantidad</th>
-                        <th>Devengado</th>
-                        <th>Deducido</th>
+                        <th>Concepto</th>
+                        <th>Porcentaje</th>
+                        <th>Base Grabable</th>
+                        <th>Retenido</th>
                     </tr>
                     </tr>
                 </thead>
@@ -49,7 +50,7 @@
                     <tr>
                         <td>{{ $pago->impuestos->nombre }}</td>
                         <td>{{ $pago->impuestoPorcentaje . '%' }}</td>
-                        <td></td>
+                        <td>{{ $pago->devengado}}</td>
                         <td>{{ number_format($pago->impuestoDescuento, 2, '.', ',') }}</td>
                     </tr>
                 </tbody>
@@ -57,17 +58,29 @@
             <br>
         @endif
 
-
-
         <br>
+
+        <p class="ParagrapNormative" style="text-align: justify;">
+            ESTE DOCUMENTO NO REQUIERE PARA SU VALIDEZ FIRMA, DE ACUERDO CON EL ARTICULO 10 DEL DECRETO 836 DE 1991,
+            RECOPILADO EN EL ARTICULO 1.6.1.12.12 DEL DECRETO 1625 DE 2016 MATERIA TRIBUTARIA DE OCTUBRE 11 DE 2016, QUE
+            REGULA EL CONTENIDO DEL CERTIFICADO DE RETENCIONES A TITULO DE RENTA
+        </p>
 
         {{-- <p class="texto-vertical-2"> Sistema de Información para la Administración de estudios WC (SIAEWC)</p> --}}
 
     </div>
 
+
+
     <div class="content ex1">
+
+
+        
+
+
         <p style="text-align: justify;"">
-            Se expide la presente constancia. Dada a los {{ $date->day }} días del mes de {{ $date->monthName }} del
+            Se expide la presente constancia. Dada a los {{ $date->day }} días del mes de {{ $date->monthName }}
+            del
             año {{ $date->year }} en la ciudad de Cali
 
         </p>

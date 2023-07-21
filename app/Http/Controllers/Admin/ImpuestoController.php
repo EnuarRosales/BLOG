@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\Empresa;
 use App\Models\Impuesto;
 use App\Models\Pago;
 use Barryvdh\DomPDF\Facade\Pdf;
@@ -37,7 +38,7 @@ class ImpuestoController extends Controller
 
         $impuestos = Impuesto::all();
         $pagos = Pago::all()->where('pagado', 1);
-        return view('admin.impuestos.comprobanteImpuesto', compact('pagos','impuestos'));
+        return view('admin.impuestos.comprobanteImpuesto', compact('pagos', 'impuestos'));
     }
 
     /**
@@ -143,11 +144,15 @@ class ImpuestoController extends Controller
 
         // return $pagos;
 
+        $empresas = Empresa::all();
 
-
+        foreach ($empresas as $empresa) {
+            $nombreEmpresa = $empresa->name;
+            $nitEmpresa = $empresa->nit;
+        }
         // $pagos = Pago::where('user_id', $pago->id)->get();
         $date = Carbon::now()->locale('es');
-        $pdf = Pdf::loadView('admin.impuestos.comprobanteImpuestoPDF', compact('pago', 'date'));
+        $pdf = Pdf::loadView('admin.impuestos.comprobanteImpuestoPDF', compact('pago', 'date', 'nombreEmpresa','nitEmpresa'));
         return $pdf->stream();
     }
 }

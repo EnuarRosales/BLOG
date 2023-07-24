@@ -507,7 +507,7 @@ return [
                 ],
                 [
                     'text' => 'Tiempo',
-                    'url'  => 'user/1/PDF',
+                    'route'  => 'admin.users.certificacionTiempo',
                 ],
                 [
                     'text' => 'Impuesto',

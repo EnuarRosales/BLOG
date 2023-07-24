@@ -68,7 +68,10 @@
 
 
 <p>
-    esto es  {{$cantidadDias}}
+    esto es dia  {{$cantidadDias}}
+    esto es  mes {{$cantidadMes}}
+    esto es  año {{$cantidadAno}}
+    esto es  DateAno {{$a}}
 </p>
 
 

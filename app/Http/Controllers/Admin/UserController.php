@@ -13,6 +13,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Spatie\Permission\Models\Role;
 use Barryvdh\DomPDF\Facade\Pdf;
+use Carbon\Carbon;
 
 class UserController extends Controller
 {
@@ -36,6 +37,57 @@ class UserController extends Controller
             Log::error("Error UC index: {$exception->getMessage()}, File: {$exception->getFile()}, Line: {$exception->getLine()}");
         }
     }
+
+    public function userCertificacion()
+    {
+        try {
+            $users = User::all();
+            $date = Carbon::now()->locale('es');
+
+
+
+            // $fechaAntigua  = User::first()->fechaIngreso;
+          
+            // // $now->format('d-m-Y H:i:s');
+            // // $date->format('Y-m-d');
+            // $cantidadDias = $fechaAntigua->diffInDays($date);
+
+            
+            // $formatted_dt1 = Carbon::parse($fechaAntigua);
+            // $formatted_dt2 = Carbon::parse($date);
+            // $date_diff = $formatted_dt1->diffInDays($formatted_dt2);
+
+            // return $date_diff;
+
+            return view('admin.users.certificacionLaboral', compact('users'));
+        } catch (\Exception $exception) {
+            Log::error("Error UC index: {$exception->getMessage()}, File: {$exception->getFile()}, Line: {$exception->getLine()}");
+        }
+    }
+
+
+    public function certificacionLaboralPDF(User $user){
+
+        $date = Carbon::now()->locale('es');
+        $fechaReciente = Carbon::now();
+
+        $empresas = Empresa::all();
+
+        foreach ($empresas as $empresa) {
+            $nombreEmpresa = $empresa->name;
+            $nitEmpresa = $empresa->nit;
+            $gerenteEmpresa = $empresa->representative;
+        }
+        $fechaAntigua1 = Carbon::parse($user->fechaIngreso);
+        $fechaAntigua = $fechaAntigua1->locale('es');
+        $cantidadDias = $fechaAntigua->diffInDays($fechaReciente);        
+        $pdf = Pdf::loadView('admin.users.certificacionLaboralPDF', compact('user', 'date', 'nombreEmpresa','nitEmpresa','gerenteEmpresa','fechaAntigua','cantidadDias'));
+        return $pdf->stream();
+
+    }
+
+
+
 
     /**
      * Show the form for creating a new resource.
@@ -65,6 +117,7 @@ class UserController extends Controller
             DB::beginTransaction();
 
             $request->validate([
+                'fechaIngreso' => 'required',
                 'name' => 'required',
                 'cedula' => 'required',
                 'celular' => 'required',
@@ -136,6 +189,7 @@ class UserController extends Controller
         try {
             DB::beginTransaction();
             $request->validate([
+                'fechaIngreso' => 'required',
                 'name' => 'required',
                 'cedula' => 'required',
                 'celular' => 'required',
@@ -246,11 +300,12 @@ class UserController extends Controller
         return $pdf->stream('PDF');
     }
 
+
+
     public function comprobantePagoPDF(Pago $pago)
     {
         $pagos = Pago::all();
         $pdf = Pdf::loadView('User.comprobantePago', compact('pagos'));
         return $pdf->stream();
     }
-    
 }

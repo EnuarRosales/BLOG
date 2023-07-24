@@ -13,7 +13,7 @@
     <header style="margin-bottom: 50%">
         <img src="{{ public_path() . '\image\Imagen2.png' }}" width="105" height="90">
         <p style="position: fixed; top: -60px; left: 220px; center: 0px; height: 200px; color:#858585;">
-            COMPROBANTE DE PAGO
+            CERTIFICACION LABORAL
         </p>
         <br>
         <p style="position: fixed; top: -42px; left: 260px; center: 0px; height: 50px;  color:#858585;">NIT
@@ -34,23 +34,48 @@
         <p style="text-align:center;"> <b> HACE CONSTAR </b></p>
 
         <p class="Paragrap" style="text-align: justify;">
-            Que el (la) Señor (a) {{ $pago->user->name }} identificado con CC No. {{ $pago->user->cedula }},
-            En la quincena del {{ $pago->fecha }} , se le consignaron los siguientes haberes:
+            El (la) suscrito (a) GERENTE de la empresa {{ $nombreEmpresa }}, hace constar que una vez verificada la
+            base de datos del Sistema de Información para la Administración de estudios WC (SIAEWC), certifica que
+            el (la) Señor (a) (ita) {{ $user->name }} identificado (a) con CC No. {{ $user->cedula }} se encuentra
+            prestando sus servicios a nuestra empresa, mediante CONTRATO DE MANDATO, desde el dia {{$fechaAntigua->day}} de {{$fechaAntigua->monthName}} del año {{$fechaAntigua->year}}
+           , ostentando el cargo de {{ $user->tipoUsuario->nombre }}.
         </p>
-        @include('admin.pagos.partials.tablePagina')
-        @include('admin.pagos.partials.tableDescuento')
-        @include('admin.pagos.partials.tableMultaDescuento')
-        @include('admin.pagos.partials.tableImpuestoDescuento')
-        @include('admin.pagos.partials.tableTotal')
-        @include('admin.pagos.partials.tableTRM')
-        @include('admin.pagos.partials.tablePorcentaje')
     </div>
+
     <div class="content ex1">
         <p style="text-align: justify;"">
             Se expide la presente constancia. Dada a los {{ $date->day }} días del mes de {{ $date->monthName }}
             del año {{ $date->year }} en la ciudad de Cali
         </p>
     </div>
+
+    <div class="content ex1">
+        <p style="text-align: justify;">
+            Atentamente;
+            <br>
+            <br>
+            <br>
+        </p>
+        <p style="text-align: justify;">
+            {{$gerenteEmpresa}}
+            <br>            
+            Gerente {{ $nombreEmpresa}}
+        </p>
+    </div>
+
+
+
+
+
+<p>
+    esto es  {{$cantidadDias}}
+</p>
+
+
+
+
+
+
 </body>
 
 </html>

@@ -54,7 +54,7 @@
 
                             <div class="form-check">
                                 <input class="form-check-input" type="radio" name="pruba" id="radio1">
-                                <label  class="form-check-label" for="radio1">{{$impuesto->estado }}</label>
+                                <label  class="form-check-label" for="radio1">{{$impuesto->estado}}</label>
 }}
                             </div>
 

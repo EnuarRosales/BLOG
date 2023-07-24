@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\AsignacionMulta;
 use App\Models\Descontado;
 use App\Models\Descuento;
+use App\Models\Empresa;
 use App\Models\Impuesto;
 use App\Models\Pago;
 use App\Models\ReportePagina;
@@ -320,7 +321,6 @@ class PagoController extends Controller
             ->groupBy('fecha', 'user_id', 'pagina_id', 'Cantidad', 'netoPesos', 'porcentajeTotal', 'pesos')
             ->get();
 
-
         $TRM = ReportePagina::with('user', 'pagina')->select(
             DB::raw('TRM'),
             DB::raw('pagina_id'),
@@ -364,19 +364,27 @@ class PagoController extends Controller
             $descuentosArray = "lleno";
         }
 
+        $empresas = Empresa::all();
+
+        foreach ($empresas as $empresa) {
+            $nombreEmpresa = $empresa->name;
+            $nitEmpresa = $empresa->nit;
+        }
+
         $date = Carbon::now()->locale('es');
-        $pdf = Pdf::loadView('admin.pagos.comprobantePago', compact('reportePaginas', 'pago', 'descuentos', 'TRM', 'multasDescuentos', 'multasDescuentosArray', 'descuentosArray', 'date'));
+        $pdf = Pdf::loadView('admin.pagos.comprobantePago', compact('reportePaginas', 'pago', 'descuentos', 'TRM', 'multasDescuentos', 'multasDescuentosArray', 'descuentosArray', 'date','nitEmpresa','nombreEmpresa'));
 
         return $pdf->stream();
     }
 
 
 
-    public function comprobanteImpuestoPDF(Pago $pago)
-    {
-        $pagos = Pago::where('pagado', $pago->id)->get();
-        $date = Carbon::now()->locale('es');
-        $pdf = Pdf::loadView('admin.pagos.comprobanteImpuesto', compact('pagos'));
-        return $pdf->stream();
-    }
+//     public function comprobanteImpuestoPDF(Pago $pago) {
+
+       
+//         $pagos = Pago::where('pagado', $pago->id)->get();
+//         $date = Carbon::now()->locale('es');
+//         $pdf = Pdf::loadView('admin.pagos.comprobanteImpuesto', compact('pagos'));
+//         return $pdf->stream();
+//     }
 }

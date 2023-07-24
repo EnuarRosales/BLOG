@@ -28,6 +28,7 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/',[HomeController::class,'index'])->middleware(['auth','verified']);
 Route::get('abonos/{abonoParcial}',[DescontadoController::class,'abonoParcial'])->name('admin.abonos.abonoParcial');
+
 Route::get('comprobantePagoPDF/{pago}',[PagoController::class,'comprobantePagoPDF'])->name('admin.pagos.comprobantePagoPDF');
 
 
@@ -49,6 +50,11 @@ Route::resource('registroDescuentos',RegistroDescuentoController::class)->middle
 
 Route::resource('tipoUsuarios', TipoUsuarioController::class)->middleware(['auth','verified'])->names('admin.tipoUsuarios');
 Route::resource('users', UserController::class)->middleware(['auth','verified'])->names('admin.users');
+Route::get('userCertificacion',[UserController::class,'userCertificacion'])->name('admin.users.userCertificacion');
+Route::get('userCertificacionPDF/{user}',[UserController::class,'certificacionLaboralPDF'])->name('admin.users.certificacionLaboralPDF');
+
+
+
 Route::resource('roles', RoleController::class)->middleware(['auth','verified'])->names('admin.roles');
 Route::resource('asignacionTurnos',AsignacionTurnoController::class)->middleware(['auth','verified'])->names('admin.asignacionTurnos');
 Route::resource('tipoTurnos',TipoTurnoController::class)->middleware(['auth','verified'])->names('admin.tipoTurnos');

@@ -120,6 +120,7 @@ class RolSeeder extends Seeder
 
         //MODELOS STUDIO BLUM ICE
         $user1 = new User();
+        $user1->fechaIngreso = '2023-07-15';
         $user1->name = 'David Diaz Lotero';
         $user1->cedula = '1006017454';
         $user1->celular = '3057465217';
@@ -132,6 +133,7 @@ class RolSeeder extends Seeder
         $user1->save();
         //MODELOS STUDIO BLUM ICE
         $user2 = new User();
+        $user2->fechaIngreso = '2023-07-15';
         $user2->name = 'Abraham Ricardo Charris Ariza';
         $user2->cedula = '1107535076';
         $user2->celular = '3057465217';
@@ -144,6 +146,7 @@ class RolSeeder extends Seeder
         $user2->save();
         //MODELOS STUDIO BLUM ICE
         $user3 = new User();
+        $user3->fechaIngreso = '2023-07-15';
         $user3->name = 'Linda Alvarez Calderon';
         $user3->cedula = '1081512474';
         $user3->celular = '3057465217';
@@ -156,6 +159,7 @@ class RolSeeder extends Seeder
         $user3->save();
         //MODELOS STUDIO BLUM ICE
         $user4 = new User();
+        $user4->fechaIngreso = '2023-07-15';
         $user4->name = 'Rivero Guite Carlos Audedi';
         $user4->cedula = '6967342';
         $user4->celular = '3057465217';
@@ -168,6 +172,7 @@ class RolSeeder extends Seeder
         $user4->save();
         //MODELOS STUDIO BLUM ICE
         $user5 = new User();
+        $user5->fechaIngreso = '2023-07-15';
         $user5->name = 'Barry Stivens Zapata Rendon';
         $user5->cedula = '1118312219';
         $user5->celular = '3057465217';
@@ -180,6 +185,7 @@ class RolSeeder extends Seeder
         $user5->save();
         //MODELOS STUDIO BLUM ICE
         $user6 = new User();
+        $user6->fechaIngreso = '2023-07-15';
         $user6->name = 'Jhojan Esteban Bermeo Mejia';
         $user6->cedula = '1143995841';
         $user6->celular = '3057465217';
@@ -192,6 +198,7 @@ class RolSeeder extends Seeder
         $user6->save();
         //MODELOS STUDIO BLUM ICE
         $user7 = new User();
+        $user7->fechaIngreso = '2023-07-15';
         $user7->name = 'Sabina Bejarano';
         $user7->cedula = '1193251842';
         $user7->celular = '3057465217';
@@ -204,6 +211,7 @@ class RolSeeder extends Seeder
         $user7->save();
         //MODELOS STUDIO BLUM ICE
         $user8 = new User();
+        $user8->fechaIngreso = '2023-07-15';
         $user8->name = 'Nicole Rodriguez Zoriilla';
         $user8->cedula = '1006010863';
         $user8->celular = '3057465217';
@@ -216,6 +224,7 @@ class RolSeeder extends Seeder
         $user8->save();
         //MODELOS STUDIO BLUM ICE
         $user9 = new User();
+        $user9->fechaIngreso = '2023-07-15';
         $user9->name = 'Jhonatan Estiven Moreno Guaza';
         $user9->cedula = '1192735426';
         $user9->celular = '3057465217';
@@ -228,6 +237,7 @@ class RolSeeder extends Seeder
         $user9->save();
         //MODELOS STUDIO BLUM ICE
         $user10 = new User();
+        $user10->fechaIngreso = '2023-07-15';
         $user10->name = 'Dayanna Katherine Gomez Pantoja';
         $user10->cedula = '186132127';
         $user10->celular = '3057465217';
@@ -240,6 +250,7 @@ class RolSeeder extends Seeder
         $user10->save();
         //MODELOS STUDIO BLUM ICE
         $user11 = new User();
+        $user11->fechaIngreso = '2023-07-15';
         $user11->name = 'Brahyan Eduardo Rodriguez Cardonas';
         $user11->cedula = '6473437';
         $user11->celular = '3057465217';
@@ -252,6 +263,7 @@ class RolSeeder extends Seeder
         $user11->save();
         //MODELOS STUDIO BLUM ICE
         $user12 = new User();
+        $user12->fechaIngreso = '2023-07-15';
         $user12->name = 'Jordy Fabian Narvaez Velazco';
         $user12->cedula = '1110363024';
         $user12->celular = '3057465217';
@@ -266,6 +278,7 @@ class RolSeeder extends Seeder
 
         //CON EL FIN DE CREAR UN USUARIO ADMINISTRADOR
         $user_admin = new User();
+        $user_admin->fechaIngreso = '2023-07-15';
         $user_admin->name = 'Enuar Emilio Rosales Salazar';
         $user_admin->cedula = '108613644';
         $user_admin->celular = '3057465217';
@@ -279,6 +292,7 @@ class RolSeeder extends Seeder
 
         //CON EL FIN DE CREAR UN USUARIO de Soporte
         $user_soporte = new User();
+        $user_soporte->fechaIngreso = '2023-07-15';
         $user_soporte->name = 'Enuar Emilio Rosales Salazar';
         $user_soporte->cedula = '108613644';
         $user_soporte->celular = '3057465217';

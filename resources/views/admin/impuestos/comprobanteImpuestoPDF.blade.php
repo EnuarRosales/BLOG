@@ -12,16 +12,22 @@
 <body>
     <header style="margin-bottom: 50%">
         <img src="{{ public_path() . '\image\Imagen2.png' }}" width="105" height="90">
-        <p style="position: fixed; top: -60px; left: 220px; center: 0px; height: 200px; color:#858585;">
-            COMPROBANTE DE IMPUESTOS
+        <p style="position: fixed; top: -60px; left: 195px; center: 0px; height: 200px; color:#858585;">
+            CERTIFICACION DE IMPUESTOS
         </p>
         <br>
-        <p style="position: fixed; top: -42px; left: 250px; center: 0px; height: 50px;  color:#858585;">NIT          
-            
-            {{$nitEmpresa}}
+        <p style="position: fixed; top: -42px; left: 257px; center: 0px; height: 50px;  color:#858585;">NIT
+            {{ $nitEmpresa }}
         </p>
 
     </header>
+
+    <footer style="color: #858585;">
+        @include('admin.pagos.partials.marcaAgua')
+        {{-- Cali Barrio Ciudadela Comfandi <br> --}}
+        <p> {{ $nombreEmpresa }}</p>
+
+    </footer>
 
     <div class="content ex1">
         <p style="text-align:center;"> <b> HACE CONSTAR </b></p>
@@ -46,11 +52,11 @@
                     </tr>
                 </thead>
                 <tbody>
-                    {{-- @foreach ($descuentos as $descuento) --}}
+
                     <tr>
                         <td>{{ $pago->impuestos->nombre }}</td>
                         <td>{{ $pago->impuestoPorcentaje . '%' }}</td>
-                        <td>{{ $pago->devengado}}</td>
+                        <td>{{ number_format($pago->devengado, 2, '.', ',') }}</td>
                         <td>{{ number_format($pago->impuestoDescuento, 2, '.', ',') }}</td>
                     </tr>
                 </tbody>
@@ -73,26 +79,12 @@
 
 
     <div class="content ex1">
-
-
-        
-
-
         <p style="text-align: justify;"">
             Se expide la presente constancia. Dada a los {{ $date->day }} días del mes de {{ $date->monthName }}
             del
             año {{ $date->year }} en la ciudad de Cali
-
         </p>
-
     </div>
-
-
-    @include('admin.pagos.partials.footer')
-    @include('admin.pagos.partials.marcaAgua')
-
-    {{-- <p class="texto-vertical-2"> Sistema de Información para la Administración de estudios WC (SIAEWC)</p> --}}
-
 </body>
 
 </html>

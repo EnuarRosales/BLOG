@@ -503,7 +503,7 @@ return [
             'submenu' => [
                 [
                     'text' => 'Laboral',
-                    'url'  => 'user/1/PDF',
+                    'route'  => 'admin.users.userCertificacion',
                 ],
                 [
                     'text' => 'Tiempo',
@@ -513,7 +513,7 @@ return [
                     'text' => 'Impuesto',
                     'route'  => 'admin.impuestos.comprobanteImpuestoss', 
                     
-                ],
+                ], 
                 [
                     'text' => 'Pago',
                     // 'url'  => 'user/1/comprobantePagoPDF',

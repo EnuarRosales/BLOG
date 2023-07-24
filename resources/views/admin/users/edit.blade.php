@@ -21,6 +21,17 @@
             {!! Form::model($user, ['route' => ['admin.users.update', $user], 'method' => 'put']) !!}
             <div class="form-group">
 
+
+                {!! Form::label('fechaIngreso', 'Fecha Ingreso') !!}
+                {!! Form::date('fechaIngreso', null, [
+                    'class' => 'form-control',
+                ]) !!}
+                @error('fechaIngreso')
+                    <br>
+                    <span class="text-danger">{{ $message }}</span>
+                    <br>
+                @enderror
+
                 {!! Form::label('name', 'Nombre') !!}
                 {{-- ojo que en la linea siguiente va el nombre de la columa =( --}}
                 {!! Form::text('name', null, ['class' => 'form-control', 'placeholder' => 'Favor ingrese nombres y apellidos']) !!}

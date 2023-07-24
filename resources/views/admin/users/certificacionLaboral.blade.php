@@ -9,7 +9,7 @@
 @section('content')
     <div class="card">
         <div class="card-body">
-            <a class="btn btn-primary" href="{{ route('admin.users.create') }}">Agregar Usuario</a>
+            
         </div>
         <table id="users" class="table table-striped table-bordered shadow-lg mt-4">
             <thead>
@@ -23,40 +23,28 @@
                     <th>Email</th>
                     <th>Tipo Usuario</th>
                     @can('admin.users.edit')
-                        <th>Editar</th>
-                    @endcan
-                    @can('admin.users.destroy')
-                        <th>Eliminar</th>
-                    @endcan
+                        <th>Certificacion</th>
+                    @endcan                    
                 </tr>
             </thead>
             <tbody>
-                @foreach ($users as $usuario)
+                @foreach ($users as $user)
                     <tr>
-                        <td>{{ $usuario->id }}</td>
-                        <td>{{ $usuario->fechaIngreso}}</td>
-                        <td>{{ $usuario->name }}</td>
-                        <td>{{ $usuario->cedula }}</td>
-                        <td>{{ $usuario->celular }}</td>
-                        <td>{{ $usuario->direccion }}</td>
-                        <td>{{ $usuario->email }}</td>
-                        <td>{{ $usuario->tipoUsuario->nombre }}</td>
+                        <td>{{ $user->id }}</td>
+                        <td>{{ $user->fechaIngreso}}</td>
+                        <td>{{ $user->name }}</td>
+                        <td>{{ $user->cedula }}</td>
+                        <td>{{ $user->celular }}</td>
+                        <td>{{ $user->direccion }}</td>
+                        <td>{{ $user->email }}</td>
+                        <td>{{ $user->tipoUsuario->nombre }}</td>
 
                         @can('admin.users.edit')
-                            <td width="10px">
-                                <a class="btn btn-secondary btn-sm" href="{{ route('admin.users.edit', $usuario) }}">Editar</a>
+                            <td width="10px" style="text-align:center">
+                                <a class="btn btn-secondary btn-sm" target="_blank" href="{{ route('admin.users.certificacionLaboralPDF', $user) }}">Ver</a>
                             </td>
                         @endcan
-                        @can('admin.users.destroy')
-                            <td width="10px">
-                                <form class="formulario-eliminar" action="{{ route('admin.users.destroy', $usuario) }}"
-                                    method="POST">
-                                    @csrf
-                                    @method('delete')
-                                    <button type="submit" class="btn btn-dark btn-sm">Eliminar</button>
-                                </form>
-                            </td>
-                        @endcan
+                        
                     </tr>
                 @endforeach
             </tbody>

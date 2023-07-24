@@ -12,7 +12,7 @@
             {!! Form::model($reportePagina, ['route' => ['admin.reportePaginas.update', $reportePagina],'method' => 'put',]) !!}
             <div class="form-group">
                 {!! Form::label('fecha', 'Fecha') !!}
-                {!! Form::date('fecha', now(), [
+                {!! Form::date('fecha', null, [
                     'class' => 'form-control',
                 ]) !!}
                 @error('fecha')

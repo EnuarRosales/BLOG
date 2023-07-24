@@ -104,6 +104,7 @@
                             @else
                                 <button type="button" class="btn btn-secondary btn-sm btn-danger">Inactiva</button>
                             @endif --}}
+                            
                             <input type="checkbox" data-plugin="switchery" data-color="#77dd77"
                                 {{ $reportePagina->verificado ? 'checked' : '' }} data-id="{{ $reportePagina->id }}"
                                 data-secondary-color="#ff6961" data-size="small" />

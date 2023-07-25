@@ -70,9 +70,7 @@ class UserController extends Controller
 
         $date = Carbon::now()->locale('es');
         $fechaReciente = Carbon::now();
-
         $empresas = Empresa::all();
-
         foreach ($empresas as $empresa) {
             $nombreEmpresa = $empresa->name;
             $nitEmpresa = $empresa->nit;

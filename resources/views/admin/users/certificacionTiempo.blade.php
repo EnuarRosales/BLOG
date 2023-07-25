@@ -3,67 +3,41 @@
 @section('content_header')
     <h1>Personal</h1>
 @stop
-
 @section('content')
     <div class="card">
         <div class="card-body">
 
         </div>
         <table id="users" class="table table-striped table-bordered shadow-lg mt-4">
-            <thead>
-                <tr>
+            <thead >
+                <tr >
                     <th>ID</th>
                     <th>Fecha ingreso</th>
                     <th>Nombre</th>
-                    <th>Dias</th>
-                    <th>Meses</th>
-                    <th>Años</th>
+                    <th style="text-align:center">Años</th>
+                    <th style="text-align:center">Meses</th>
+                    <th style="text-align:center">Dias</th>
                     <th>Certificacion</th>
-
-
                 </tr>
             </thead>
             <tbody>
-                @php
-                    $i = 0;                                       
-                @endphp
-                @foreach ($users as $user)
-                    {{ $i++ }}
-
+                @foreach ($users as $user)                    
+                    @php
+                        $i++;
+                    @endphp
                     <tr>
                         <td>{{ $user->id }}</td>
                         <td>{{ $user->fechaIngreso }}</td>
                         <td>{{ $user->name }}</td>
-                        <td>
-                            {{-- @php
-                                $fechaReciente = Carbon\Carbon::now();
-                                $fechaAntigua1 = Carbon\Carbon::parse($user->fechaIngreso);
-                                $fechaAntigua = $fechaAntigua1->locale('es');
-                                $cantidadDias = $fechaAntigua->diffInDays($fechaReciente);
-                                $cantidadMes = $fechaAntigua->diffInMonths($fechaReciente);
-                                $cantidadAno = $fechaAntigua->diffInYears($fechaReciente);
-                            @endphp --}}
-
-
-                            {{ $day[$i-1] }}
-                        </td>
-                        <td>{{ $month[$i-1] }}</td>
-                        <td>{{ $year[$i-1] }}</td>
-                        {{-- <td> {{'%d años, %d meses, %d días, %d horas, %d minutos', $cantidadAno->y, $cantidadAno->m, $cantidadAno->d, $cantidadAno->h, $cantidadAno->i}}</td> --}}
-
-
-                        {{-- printf('%d años, %d meses, %d días, %d horas, %d minutos', $cantidadAno->y, $cantidadAno->m, $cantidadAno->d, $cantidadAno->h, $cantidadAno->i); --}}
-
-
+                        <td style="text-align:center">{{ $year[$i - 1] }}</td>
+                        <td style="text-align:center">{{ $month[$i - 1] }}</td>
+                        <td style="text-align:center">{{ $day[$i - 1] }}</td>
                         @can('admin.users.edit')
                             <td width="10px" style="text-align:center">
                                 <a class="btn btn-secondary btn-sm" target="_blank"
-                                    href="{{ route('admin.users.certificacionLaboralPDF', $user) }}">Ver</a>
+                                    href="{{ route('admin.users.certificacionTiempoPDF', $user) }}">Ver</a>
                             </td>
                         @endcan
-
-                        {{-- {{'%d años, %d meses, %d días, %d horas, %d minutos', $cantidadAno->y, $cantidadAno->m, $cantidadAno->d, $cantidadAno->h, $cantidadAno->i}} --}}
-
                     </tr>
                 @endforeach
             </tbody>
@@ -74,26 +48,14 @@
 @stop
 
 @section('css')
-    {{-- <link rel="stylesheet" href="/css/admin_custom.css">
-    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.4/css/dataTables.bootstrap5.min.css" rel="styleshet"> --}}
-
-
     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.13.4/css/jquery.dataTables.min.css" />
     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/buttons/2.3.6/css/buttons.dataTables.min.css" />
-
-
-
-
 @stop
-
 @section('js')
     <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
     <script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
     <script src="https://cdn.datatables.net/1.13.4/js/dataTables.bootstrap5.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-
-
-
     {{-- SWET ALERT --}}
     @if (session('info') == 'delete')
         <script>

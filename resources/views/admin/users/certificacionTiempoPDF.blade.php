@@ -13,7 +13,7 @@
     <header style="margin-bottom: 50%">
         <img src="{{ public_path() . '\image\Imagen2.png' }}" width="105" height="90">
         <p style="position: fixed; top: -60px; left: 220px; center: 0px; height: 200px; color:#858585;">
-            CERTIFICACION LABORAL
+            CERTIFICACION TIEMPO
         </p>
         <br>
         <p style="position: fixed; top: -42px; left: 260px; center: 0px; height: 50px;  color:#858585;">NIT
@@ -24,9 +24,7 @@
 
     <footer style="color: #858585;">
         @include('admin.pagos.partials.marcaAgua')
-        {{-- Cali Barrio Ciudadela Comfandi <br> --}}
         <p> {{ $nombreEmpresa }}</p>
-
     </footer>
 
 
@@ -39,10 +37,28 @@
             el (la) Señor (a) (ita) {{ $user->name }} identificado (a) con CC No. {{ $user->cedula }} se encuentra
             prestando sus servicios a nuestra empresa, mediante CONTRATO DE MANDATO, desde el dia
             {{ $fechaAntigua->day }} de {{ $fechaAntigua->monthName }} del año {{ $fechaAntigua->year }}
-            , ostentando el cargo de {{ $user->tipoUsuario->nombre }}.
+            , ostentando el cargo de {{ $user->tipoUsuario->nombre }}. Donde respecto al tiempo laborado, se reporta la
+            siguiente información.
         </p>
-    </div>
 
+        <table class="table" style="text-align:center">
+            <thead class="cabecera">
+                <tr>
+                    <th>Años</th>
+                    <th>Meses</th>
+                    <th>Dias</th>
+                </tr>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>{{ $tiempo->y }}</td>
+                    <td>{{ $tiempo->m }}</td>
+                    <td>{{ $tiempo->d }}</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
     <div class="content ex1">
         <p style="text-align: justify;"">
             Se expide la presente constancia. Dada a los {{ $date->day }} días del mes de {{ $date->monthName }}
@@ -63,7 +79,6 @@
             Gerente {{ $nombreEmpresa }}
         </p>
     </div>
-
 </body>
 
 </html>

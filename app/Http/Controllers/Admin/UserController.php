@@ -44,29 +44,57 @@ class UserController extends Controller
             $users = User::all();
             $date = Carbon::now()->locale('es');
 
-
-
-            // $fechaAntigua  = User::first()->fechaIngreso;
-          
-            // // $now->format('d-m-Y H:i:s');
-            // // $date->format('Y-m-d');
-            // $cantidadDias = $fechaAntigua->diffInDays($date);
-
-            
-            // $formatted_dt1 = Carbon::parse($fechaAntigua);
-            // $formatted_dt2 = Carbon::parse($date);
-            // $date_diff = $formatted_dt1->diffInDays($formatted_dt2);
-
-            // return $date_diff;
-
             return view('admin.users.certificacionLaboral', compact('users'));
         } catch (\Exception $exception) {
             Log::error("Error UC index: {$exception->getMessage()}, File: {$exception->getFile()}, Line: {$exception->getLine()}");
         }
     }
 
+    public function certificacionTiempo(User $user)
+    {
+        try {
+            $users = User::all()->where('active', 1);
+            $date = Carbon::now()->locale('es');
 
-    public function certificacionLaboralPDF(User $user){
+
+
+            $fechaReciente = Carbon::now();
+
+
+            foreach ($users  as $user) {
+
+                $fechaAntigua1 = Carbon::parse($user->fechaIngreso);
+                $fechaAntigua = $fechaAntigua1->locale('es');                                
+                $cantidadAno = $fechaAntigua->diff($fechaReciente);
+                $year[] = $cantidadAno->y;
+                $month[] = $cantidadAno->m;
+                $day[] = $cantidadAno->d;
+
+                // echo $day;
+
+                
+            }
+            // $cantidadAno = $fechaAntigua->diff($fechaReciente);
+            // printf('%d años, %d meses, %d días, %d horas, %d minutos', $cantidadAno->y, $cantidadAno->m, $cantidadAno->d, $cantidadAno->h, $cantidadAno->i);
+
+
+
+
+            return view('admin.users.certificacionTiempo', compact('users','year','month','day'));
+        } catch (\Exception $exception) {
+            Log::error("Error UC index: {$exception->getMessage()}, File: {$exception->getFile()}, Line: {$exception->getLine()}");
+        }
+    }
+
+
+
+
+
+
+
+
+    public function certificacionLaboralPDF(User $user)
+    {
 
         $date = Carbon::now()->locale('es');
         $fechaReciente = Carbon::now();
@@ -76,11 +104,19 @@ class UserController extends Controller
             $nitEmpresa = $empresa->nit;
             $gerenteEmpresa = $empresa->representative;
         }
+
         $fechaAntigua1 = Carbon::parse($user->fechaIngreso);
         $fechaAntigua = $fechaAntigua1->locale('es');
-        $cantidadDias = $fechaAntigua->diffInDays($fechaReciente);        
-        $pdf = Pdf::loadView('admin.users.certificacionLaboralPDF', compact('user', 'date', 'nombreEmpresa','nitEmpresa','gerenteEmpresa','fechaAntigua','cantidadDias'));
-        return $pdf->stream();
+        $cantidadDias = $fechaAntigua->diffInDays($fechaReciente);
+        $cantidadMes = $fechaAntigua->diffInMonths($fechaReciente);
+        $cantidadAno = $fechaAntigua->diff($fechaReciente);
+        $ano = $cantidadAno->m;
+        printf($ano);
+
+        // printf('%d años, %d meses, %d días, %d horas, %d minutos', $cantidadAno->y, $cantidadAno->m, $cantidadAno->d, $cantidadAno->h, $cantidadAno->i);
+
+        // $pdf = Pdf::loadView('admin.users.certificacionLaboralPDF', compact('user', 'date', 'nombreEmpresa','nitEmpresa','gerenteEmpresa','fechaAntigua','cantidadDias','cantidadMes','cantidadAno'));
+        // return $pdf->stream();
 
     }
 

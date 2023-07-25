@@ -52,7 +52,7 @@ Route::resource('tipoUsuarios', TipoUsuarioController::class)->middleware(['auth
 Route::resource('users', UserController::class)->middleware(['auth','verified'])->names('admin.users');
 Route::get('userCertificacion',[UserController::class,'userCertificacion'])->name('admin.users.userCertificacion');
 Route::get('userCertificacionPDF/{user}',[UserController::class,'certificacionLaboralPDF'])->name('admin.users.certificacionLaboralPDF');
-
+Route::get('userCertificacionTiempo',[UserController::class,'certificacionTiempo'])->name('admin.users.certificacionTiempo');
 
 
 Route::resource('roles', RoleController::class)->middleware(['auth','verified'])->names('admin.roles');

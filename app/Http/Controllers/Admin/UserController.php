@@ -14,6 +14,7 @@ use Illuminate\Support\Facades\Log;
 use Spatie\Permission\Models\Role;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Carbon\Carbon;
+use SimpleSoftwareIO\QrCode\Facades\QrCode;
 
 class UserController extends Controller
 {
@@ -89,11 +90,20 @@ class UserController extends Controller
         $cantidadDias = $fechaAntigua->diffInDays($fechaReciente);
         $cantidadMes = $fechaAntigua->diffInMonths($fechaReciente);
         $cantidadAno = $fechaAntigua->diff($fechaReciente);
-        $ano = $cantidadAno->m;       
+        $ano = $cantidadAno->m;
+        
+        $codigoQR =QrCode::size(80)->generate("CERTIFICACION LABORAL"."\n". 
+                                                "NOMBRE: ".$user->name."\n".
+                                                "LABORANDO: "."\n".
+                                                "EMPRESA: ".$empresa->name."\n".
+                                                "DESDE: ".$user->fechaIngreso."\n".
+                                                "HASTA: ".$fechaReciente."\n"
+                                                
+                                            );
 
         // printf('%d años, %d meses, %d días, %d horas, %d minutos', $cantidadAno->y, $cantidadAno->m, $cantidadAno->d, $cantidadAno->h, $cantidadAno->i);
 
-        $pdf = Pdf::loadView('admin.users.certificacionLaboralPDF', compact('user', 'date', 'nombreEmpresa','nitEmpresa','gerenteEmpresa','fechaAntigua','cantidadDias','cantidadMes','cantidadAno'));
+        $pdf = Pdf::loadView('admin.users.certificacionLaboralPDF',compact('user', 'date', 'nombreEmpresa','nitEmpresa','gerenteEmpresa','fechaAntigua','cantidadDias','cantidadMes','cantidadAno','codigoQR'));
         return $pdf->stream();
 
     }
@@ -113,11 +123,16 @@ class UserController extends Controller
         $cantidadDias = $fechaAntigua->diffInDays($fechaReciente);
         $cantidadMes = $fechaAntigua->diffInMonths($fechaReciente);
         $tiempo = $fechaAntigua->diff($fechaReciente);
+
+
+        $codigoQR =QrCode::size(80)->generate("CERTIFICACION TIEMPO"."\n". 
+                                                "NOMBRE: ".$user->name."\n".
+                                                "TIEMPO: "."Años ".$tiempo->y." Meses ".$tiempo->m." Dias ".$tiempo->d);
               
 
         // printf('%d años, %d meses, %d días, %d horas, %d minutos', $cantidadAno->y, $cantidadAno->m, $cantidadAno->d, $cantidadAno->h, $cantidadAno->i);
 
-        $pdf = Pdf::loadView('admin.users.certificacionTiempoPDF', compact('user', 'date', 'nombreEmpresa','nitEmpresa','gerenteEmpresa','fechaAntigua','cantidadDias','cantidadMes','tiempo'));
+        $pdf = Pdf::loadView('admin.users.certificacionTiempoPDF', compact('user', 'date', 'nombreEmpresa','nitEmpresa','gerenteEmpresa','fechaAntigua','cantidadDias','cantidadMes','tiempo','codigoQR'));
         return $pdf->stream();
 
     }

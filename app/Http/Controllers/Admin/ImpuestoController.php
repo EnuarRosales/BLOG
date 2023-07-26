@@ -10,6 +10,7 @@ use Barryvdh\DomPDF\Facade\Pdf;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use SimpleSoftwareIO\QrCode\Facades\QrCode;
 
 class ImpuestoController extends Controller
 {
@@ -134,25 +135,25 @@ class ImpuestoController extends Controller
 
     public function comprobanteImpuestoPDF(Pago $pago)
     {
-
-        // $pagos = DB::table('pagos')
-        //     ->leftJoin('impuestos', 'impuestos.id', '=', 'pagos.impuesto_id')
-        //     ->select('pagos.user_id', 'pagos.impuestoPorcentaje', 'pagos.impuestoDescuento', 'impuestos.nombre')
-        //     // ->where('pagos.user_id', $pago->user_id)
-        //     ->where('pagos.pagado', 1)
-        //     ->get();
-
-        // return $pagos;
-
         $empresas = Empresa::all();
-
         foreach ($empresas as $empresa) {
             $nombreEmpresa = $empresa->name;
             $nitEmpresa = $empresa->nit;
         }
+
+        $codigoQR =QrCode::size(80)->generate("CERTIFICACION IMPUESTO"."\n". 
+                                                "NOMBRE: ".$pago->user->name."\n".
+                                                "FECHA: ".$pago->fecha."\n".
+                                                "CONCEPTO: ". $pago->impuestos->nombre."\n".
+                                                "PORCENTAJE: ".$pago->impuestoPorcentaje." %"."\n".
+                                                "BASE GRABABLE: "."$ ".number_format($pago->devengado, 2, '.', ',')."\n".
+                                                "RETENIDO: "."$ ".number_format($pago->impuestoDescuento, 2, '.', ',')."\n"
+                                                );
+
+                                               
         // $pagos = Pago::where('user_id', $pago->id)->get();
         $date = Carbon::now()->locale('es');
-        $pdf = Pdf::loadView('admin.impuestos.comprobanteImpuestoPDF', compact('pago', 'date', 'nombreEmpresa','nitEmpresa'));
+        $pdf = Pdf::loadView('admin.impuestos.comprobanteImpuestoPDF', compact('pago', 'date', 'nombreEmpresa','nitEmpresa','codigoQR'));
         return $pdf->stream();
     }
 }

@@ -12,6 +12,7 @@
 <body>
     <header style="margin-bottom: 50%">
         <img src="{{ public_path() . '\image\Imagen2.png' }}" width="105" height="90">
+        <img class="QR" src="data:image/png;base64,{!!base64_encode($codigoQR)!!}">
         <p style="position: fixed; top: -60px; left: 220px; center: 0px; height: 200px; color:#858585;">
             CERTIFICACION LABORAL
         </p>
@@ -64,9 +65,20 @@
         </p>
     </div>
 
-  
+    {{-- <div class="visible-print text-center">
+        {!! QrCode::size(100)->generate(Request::url()) !!}
+        <p>Scan me to return to the original page.</p>
+    </div> --}}
+
+    
+
+    
 
    
+
+
+
+
 
 </body>
 

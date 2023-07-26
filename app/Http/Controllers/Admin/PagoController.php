@@ -14,6 +14,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Carbon\Carbon;
+use SimpleSoftwareIO\QrCode\Facades\QrCode;
 
 class PagoController extends Controller
 {
@@ -371,8 +372,18 @@ class PagoController extends Controller
             $nitEmpresa = $empresa->nit;
         }
 
+        $codigoQR =QrCode::size(80)->generate("COMPROBANTE DE PAGO"."\n". 
+                                                "NOMBRE: ".$pago->user->name."\n".
+                                                "FECHA: ".$pago->fecha."\n".
+                                                "DEVENGADO: "."$ ".number_format($pago->devengado , 2, '.', ',') ."\n".
+                                                "DESCUENTO: "."$ ".number_format($pago->descuento, 2, '.', ',') ."\n".
+                                                "IMPUESTO: "."$ ".number_format($pago->impuestoDescuento , 2, '.', ',')."\n".
+                                                "MULTA: "."$ ".number_format($pago->multaDescuento , 2, '.', ',')."\n".
+                                                "NETO: "."$ ".number_format($pago->neto, 2, '.', ',')."\n"
+                                                );                       
+
         $date = Carbon::now()->locale('es');
-        $pdf = Pdf::loadView('admin.pagos.comprobantePago', compact('reportePaginas', 'pago', 'descuentos', 'TRM', 'multasDescuentos', 'multasDescuentosArray', 'descuentosArray', 'date','nitEmpresa','nombreEmpresa'));
+        $pdf = Pdf::loadView('admin.pagos.comprobantePago', compact('reportePaginas', 'pago', 'descuentos', 'TRM', 'multasDescuentos', 'multasDescuentosArray', 'descuentosArray', 'date','nitEmpresa','nombreEmpresa','codigoQR'));
 
         return $pdf->stream();
     }

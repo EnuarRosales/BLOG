@@ -63,6 +63,11 @@
             <br>
             Gerente {{ $nombreEmpresa }}
         </p>
+
+        
+        <img id="preview"  src="{{asset($logoEmpresa)}}" alt="">        
+
+      
     </div>
 
     {{-- <div class="visible-print text-center">

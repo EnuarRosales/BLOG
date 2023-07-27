@@ -83,6 +83,7 @@ class UserController extends Controller
             $nombreEmpresa = $empresa->name;
             $nitEmpresa = $empresa->nit;
             $gerenteEmpresa = $empresa->representative;
+            $logoEmpresa = $empresa->logo;
         }
 
         $fechaAntigua1 = Carbon::parse($user->fechaIngreso);
@@ -103,7 +104,7 @@ class UserController extends Controller
 
         // printf('%d años, %d meses, %d días, %d horas, %d minutos', $cantidadAno->y, $cantidadAno->m, $cantidadAno->d, $cantidadAno->h, $cantidadAno->i);
 
-        $pdf = Pdf::loadView('admin.users.certificacionLaboralPDF',compact('user', 'date', 'nombreEmpresa','nitEmpresa','gerenteEmpresa','fechaAntigua','cantidadDias','cantidadMes','cantidadAno','codigoQR'));
+        $pdf = Pdf::loadView('admin.users.certificacionLaboralPDF',compact('user', 'date', 'nombreEmpresa','nitEmpresa','gerenteEmpresa','fechaAntigua','cantidadDias','cantidadMes','cantidadAno','codigoQR','logoEmpresa'));
         return $pdf->stream();
 
     }

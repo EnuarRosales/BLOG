@@ -17,6 +17,7 @@
             <p class="h5">Nombre</p>
             <p class="form-control">{{ $user->name }}</p>
             {!! Form::model($user, ['route' => ['admin.users.updateRol', $user], 'method' => 'put']) !!}
+           
             @foreach ($roles as $role)
                 <div>
                     <label>
@@ -24,7 +25,7 @@
                         {{ $role->name }}
                     </label>
                 </div>
-            @endforeach
+            @endforeach 
         </div>
         {!! Form::submit('Asignar Rol', ['class' => 'btn btn-primary']) !!}
         {!! Form::close() !!}

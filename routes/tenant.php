@@ -65,6 +65,7 @@ Route::middleware([
     //     return $user;
     // });
 
+   
 
     Route::get('/', [HomeController::class, 'index'])->middleware(['auth', 'verified']);
     Route::get('abonos/{abonoParcial}', [DescontadoController::class, 'abonoParcial'])->name('admin.abonos.abonoParcial');

@@ -35,7 +35,7 @@ class HomeController extends Controller
 
             $porcentaje_model_actives = $porcentaje_model_actives!=0?number_format($porcentaje_model_actives, 2):$porcentaje_model_actives;
             */
-            $userModelos = DB::table('users')->where('tipoUsuario_id', '=', 3)->get(); //id
+            $userModelos = DB::table('users')->get(); //id
             // MULTAS
 
             $count_multas_user = AsignacionMulta::select(['id'])

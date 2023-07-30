@@ -25,7 +25,7 @@ use App\Http\Controllers\Admin\UserController;
 
 use Illuminate\Support\Facades\Route;
 
-Route::get('/',[HomeController::class,'index'])->middleware(['auth','verified']);
+// Route::get('/',[HomeController::class,'index'])->middleware(['auth','verified']);
 Route::get('abonos/{abonoParcial}',[DescontadoController::class,'abonoParcial'])->name('admin.abonos.abonoParcial');
 
 

@@ -329,8 +329,8 @@ return [
         ],
         [
             'text'        => 'Dashborad',
-            'url'         => 'admin',
-            'can'         => 'admin.home',
+            'url'         => '/',
+            // 'can'         => 'admin.home',
             'icon'        => 'far fa-fw fa-file',
 
         ], //ojo que aca inicia para modificar el menu

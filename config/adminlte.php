@@ -336,26 +336,37 @@ return [
         ], //ojo que aca inicia para modificar el menu
         ['header' => 'ADMINISTRADOR'],
 
+        [
+            'text' => 'Estudios',
+            'route'  => 'admin.tenants.index',
+            'icon' => 'fas fa-fw fa-user',
+            // 'can' => 'admin.users.index',
+            'submenu' => [
 
+                [
+                    'text' => 'Inquilinos',
+                    'route'  => 'admin.tenants.index',
+                    // 'can' => 'admin.users.index',
+                    'icon' => 'fas fa-fw fa-user',
+                ],
 
+                [
+                    'text' => 'Asignacion Turno',
+                    'route'  => 'admin.asignacionTurnos.index',
+                    'can' => 'admin.asignacionTurnos.index',
+                    'icon' => '	far fa-address-book',
+                ],
+                [
+                    'text' => 'Asignacion Room',
+                    'route'  => 'admin.asignacionRooms.index',
+                    'can' => 'admin.asignacionRooms.index',
+                    'icon' => ' fas fa-house-user',
+                ],
 
-
-
+            ]
+        ],
 
         [
-
-
-
-
-
-
-
-
-
-
-
-
-
             'text' => 'Personal',
             'route'  => 'admin.users.index',
             'icon' => 'fas fa-fw fa-user',

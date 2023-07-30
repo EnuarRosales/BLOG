@@ -15,6 +15,7 @@ use App\Http\Controllers\Admin\RegistroDescuentoController;
 use App\Http\Controllers\Admin\RegistroProducidoController;
 use App\Http\Controllers\Admin\ReportePaginaController;
 use App\Http\Controllers\Admin\RoleController;
+use App\Http\Controllers\Admin\TenantController;
 use App\Http\Controllers\Admin\TipoDescuentoController;
 use App\Http\Controllers\Admin\TipoMetaController;
 use App\Http\Controllers\Admin\TipoMonedaPaginaController;
@@ -90,6 +91,8 @@ Route::resource('impuestos', ImpuestoController::class)->middleware(['auth','ver
 Route::get('comprobanteImpuestoss',[ImpuestoController::class,'comprobanteImpuesto'])->name('admin.impuestos.comprobanteImpuestoss');
 Route::get('comprobanteImpuestoPDF/{pago}',[ImpuestoController::class,'comprobanteImpuestoPDF'])->name('admin.impuestos.comprobanteImpuestoPDF');
 // //RUTA TIPO CONTROLLER
+
+Route::resource('tenants',TenantController::class)->middleware(['auth','verified'])->names('admin.tenants');
 
 // Route::get('tipoUsuarios', [TipoUsuarioController::class,'index'])->name('tipoUsuarios.index');
 // Route::get('tipoUsuarios/create', [TipoUsuarioController::class,'create'])->name('admin.tipoUsuarios.create');

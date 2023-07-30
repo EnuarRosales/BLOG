@@ -65,7 +65,7 @@
         </p>
 
         
-        <img id="preview"  src="{{asset($logoEmpresa)}}" alt="">        
+        {{-- <img id="preview"  src="{{asset($logoEmpresa)}}" alt="">         --}}
 
       
     </div>

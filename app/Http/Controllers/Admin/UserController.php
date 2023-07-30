@@ -175,7 +175,7 @@ class UserController extends Controller
                 'celular' => 'required',
                 'direccion' => 'required',
                 'email' => 'required',
-                'tipoUsuario_id' => 'required',
+                // 'tipoUsuario_id' => 'required',
 
 
             ]);

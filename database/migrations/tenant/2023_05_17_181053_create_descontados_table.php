@@ -15,16 +15,18 @@ return new class extends Migration
     {
         Schema::create('descontados', function (Blueprint $table) {
             $table->id();
-            $table->float('valor')->nullable();
+            $table->double('valor')->nullable();
             $table->string('descripcion',150)->nullable();
+            $table->boolean('descontado')->default(false)->nullable();                      
+            
+            $table->date('fechaDescontado')->nullable();
+
             $table->unsignedBigInteger('descuento_id');//campo para relacion
             $table->timestamps();
 
             $table->foreign('descuento_id')
                     ->references('id')->on('descuentos')//tabla
-                    ->onDelete('cascade');  
-
-
+                    ->onDelete('cascade'); 
 
         });
     }

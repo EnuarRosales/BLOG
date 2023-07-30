@@ -3,68 +3,66 @@
 @section('title', 'Dashboard')
 
 @section('content_header')
-    <h1>Personal</h1>
+    <h1>Listado de Estudios</h1>
 @stop
 
 @section('content')
     <div class="card">
         <div class="card-body">
-            
+            {{-- @can('admin.asignacionTurnos.create') --}}
+            <a class="btn btn-primary" href="{{ route('admin.tenants.create') }}">Agregar Inquilino</a>
+            {{-- @endcan --}}
         </div>
-        <table id="users" class="table table-striped table-bordered shadow-lg mt-4">
+
+        <table id="registroDescuentos" class="table table-striped table-bordered shadow-lg mt-4">
             <thead>
                 <tr>
-                    <th>ID</th>
-                    <th>Fecha ingreso</th>
-                    <th>Nombre</th>
-                    <th>Cedula</th>
-                    <th>Celular</th>
-                    <th>Direccion</th>
-                    <th>Email</th>
-                    <th>Tipo Usuario</th>
-                    @can('admin.users.edit')
-                        <th>Certificacion</th>
-                    @endcan                    
+                    <th>Id</th>
+                    <th>Dominio</th>
+                    <th>Editar</th>
+                    <th>Eliminar</th>
                 </tr>
             </thead>
             <tbody>
-                @foreach ($users as $user)
+                @foreach ($tenants as $tenant)
                     <tr>
-                        <td>{{ $user->id }}</td>
-                        <td>{{ $user->fechaIngreso}}</td>
-                        <td>{{ $user->name }}</td>
-                        <td>{{ $user->cedula }}</td>
-                        <td>{{ $user->celular }}</td>
-                        <td>{{ $user->direccion }}</td>
-                        <td>{{ $user->email }}</td>
-                        <td>{{ $user->tipoUsuario->nombre }}</td>
+                        <td>{{ $tenant->id }}</td>
+                        <td>{{ $tenant->domains->first()->domain ?? '' }}</td>
 
-                        @can('admin.users.edit')
-                            <td width="10px" style="text-align:center">
-                                <a class="btn btn-secondary btn-sm" target="_blank" href="{{ route('admin.users.certificacionLaboralPDF', $user) }}">Ver</a>
-                            </td>
-                        @endcan
-                        
+                        {{-- @can('admin.asignacionTurnos.edit') --}}
+                        <td class="bg-light" width="10px">
+                            <a class="btn btn-secondary btn-sm"
+                                href="{{ route('admin.tenants.edit', $tenant) }}">Editar</a>
+                        </td>
+                        {{-- @endcan
+                        {{-- @can('admin.registroAsistencias.destroy') --}}
+                        <td class="bg-light" width="10px">
+                            <form class="formulario-eliminar"
+                                action="{{ route('admin.tenants.destroy', $tenant) }}" method="POST">
+                                @csrf
+                                @method('delete')
+                                <button type="submit" class="btn btn-dark btn-sm">Eliminar</button>
+                            </form>
+                        </td>
+                        {{-- @endcan --}}
                     </tr>
                 @endforeach
             </tbody>
         </table>
-    </div>   
 
-
+    </div>
 
 @stop
 
 @section('css')
-    {{-- <link rel="stylesheet" href="/css/admin_custom.css">
-    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.4/css/dataTables.bootstrap5.min.css" rel="styleshet"> --}}
-
     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.13.4/css/jquery.dataTables.min.css" />
     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/buttons/2.3.6/css/buttons.dataTables.min.css" />
-
 @stop
 
 @section('js')
+    <script>
+        console.log('Hi!');
+    </script>
     <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
     <script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
     <script src="https://cdn.datatables.net/1.13.4/js/dataTables.bootstrap5.min.js"></script>
@@ -86,7 +84,17 @@
             Swal.fire({
                 position: 'top-end',
                 icon: 'success',
-                title: 'Usuario creado correctamente',
+                title: 'Descuento registrado correctamente',
+                showConfirmButton: false,
+                timer: 2000
+            })
+        </script>
+    @elseif(session('info') == 'valorCero')
+        <script>
+            Swal.fire({
+                position: 'top-end',
+                icon: 'warning',
+                title: 'No hay saldo que descontar',
                 showConfirmButton: false,
                 timer: 2000
             })
@@ -96,17 +104,7 @@
             Swal.fire({
                 position: 'top-end',
                 icon: 'success',
-                title: 'Usuario actualizado correctamente',
-                showConfirmButton: false,
-                timer: 2000
-            })
-        </script>
-    @elseif(session('info') == 'updateRol')
-        <script>
-            Swal.fire({
-                position: 'top-end',
-                icon: 'success',
-                title: 'Asignacion de rol exitosa',
+                title: 'Descuento correctamente',
                 showConfirmButton: false,
                 timer: 2000
             })
@@ -140,11 +138,11 @@
 
     <script>
         $(document).ready(function() {
-            $('#users').DataTable({
+            $('#registroDescuentos').DataTable({
                 dom: 'Blfrtip',
 
                 buttons: [
-                    'copy', 'csv', 'excel','pdf', 'print'
+                    'copy', 'csv', 'excel', 'pdf', 'print'
                 ]
             });
 
@@ -159,6 +157,5 @@
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js"></script>
     <script type="text/javascript" src="https://cdn.datatables.net/buttons/2.3.6/js/buttons.html5.min.js"></script>
     <script type="text/javascript" src="https://cdn.datatables.net/buttons/2.3.6/js/buttons.print.min.js"></script>
-
 
 @stop

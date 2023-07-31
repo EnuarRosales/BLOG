@@ -122,7 +122,7 @@
                         <label for="active_no" class="form-check-label ml-2">
                             Inactivo
                         </label>
-                    </div>
+                    </div> 
                 </div>
 
             </div>

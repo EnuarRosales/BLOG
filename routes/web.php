@@ -30,14 +30,14 @@ Route::get('/dashboard', function () {
 require __DIR__.'/auth.php';
 
 
-Route::get('users/{user}/rol', [UserController::class,'rol'])->name('admin.users.rol');
-Route::put('users/{user}',[UserController::class,'updateRol'])->name('admin.users.updateRol');
+// Route::get('users/{user}/rol', [UserController::class,'rol'])->name('admin.users.rol');
+// Route::put('users/{user}',[UserController::class,'updateRol'])->name('admin.users.updateRol');
 
 //RUTAS INDIVIDUALES
-Route::post('reportePaginas',[ReportePaginaController::class,'storeIndividual'])->name('admin.reportePaginas.storeIndividual');
+// Route::post('reportePaginas',[ReportePaginaController::class,'storeIndividual'])->name('admin.reportePaginas.storeIndividual');
 
-route::get('user/{User_id}/PDF',[UserController::class,'CertificacionLaboral']);
-route::get('user/{User_id}/comprobantePagoPDF',[UserController::class,'comprobantePagoPDF']);
+// route::get('user/{User_id}/PDF',[UserController::class,'CertificacionLaboral']);
+// route::get('user/{User_id}/comprobantePagoPDF',[UserController::class,'comprobantePagoPDF']);
 
 
 

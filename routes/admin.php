@@ -56,6 +56,8 @@ Route::get('userCertificacionPDF/{user}',[UserController::class,'certificacionLa
 Route::get('userCertificacionTiempo',[UserController::class,'certificacionTiempo'])->name('admin.users.certificacionTiempo');
 Route::get('userCertificacionTiempoPDF/{user}',[UserController::class,'certificacionTiempoPDF'])->name('admin.users.certificacionTiempoPDF');
 
+Route::get('users/{user}/rol', [UserController::class,'rol'])->name('admin.users.rol');
+Route::put('users/{user}',[UserController::class,'updateRol'])->name('admin.users.updateRol');
 
 Route::resource('roles', RoleController::class)->middleware(['auth','verified'])->names('admin.roles');
 Route::resource('asignacionTurnos',AsignacionTurnoController::class)->middleware(['auth','verified'])->names('admin.asignacionTurnos');

@@ -276,8 +276,11 @@ class UserController extends Controller
     public function updateRol(Request $request, User $user)
     {
         // $user->update($request->all());
-        
 
+        // $user->roles()->sync($request->roles);
+        // return redirect()->route('admin.users.index')->with('info', 'updateRol'); //with mensaje de sesion
+        
+ 
         try {
             DB::beginTransaction();
             $user->roles()->sync($request->roles);
@@ -288,6 +291,9 @@ class UserController extends Controller
             Log::error("Error UC updateRol: {$exception->getMessage()}, File: {$exception->getFile()}, Line: {$exception->getLine()}");
         }
     }
+
+
+      
 
     /**
      * Remove the specified resource from storage.

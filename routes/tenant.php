@@ -65,7 +65,7 @@ Route::middleware([
     //     return $user;
     // });
 
-   
+
 
     Route::get('/', [HomeController::class, 'index'])->middleware(['auth', 'verified']);
     Route::get('abonos/{abonoParcial}', [DescontadoController::class, 'abonoParcial'])->name('admin.abonos.abonoParcial');
@@ -133,11 +133,11 @@ Route::middleware([
     // //RUTA TIPO CONTROLLER
 
     Route::resource('tenants', TenantController::class)->middleware(['auth', 'verified'])->names('admin.tenants');
-
-
-
-
+    Route::get('users/{user}/rol', [UserController::class, 'rol'])->name('admin.users.rol');
+    Route::put('users/{user}', [UserController::class, 'updateRol'])->name('admin.users.updateRol');
     require __DIR__ . '/auth.php';
+
+    
 });
 
 

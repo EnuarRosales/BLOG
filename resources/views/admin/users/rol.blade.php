@@ -14,10 +14,25 @@
     @endif
     <div class="card">
         <div class="card-body">
-            <p class="h5">Nombre</p>
-            <p class="form-control">{{ $user->name }}</p>
+
             {!! Form::model($user, ['route' => ['admin.users.updateRol', $user], 'method' => 'put']) !!}
+            {{-- <p class="h5">Nombre</p> --}}
+            {{-- <p class="form-control">{{ $user->name }}</p> --}}
+
+
+            {!! Form::label('name', 'Nombre') !!}
+            {{-- ojo que en la linea siguiente va el nombre de la columa =( --}}
+            {!! Form::text('name', null, ['class' => 'form-control', 'placeholder' => 'Favor ingrese nombres y apellidos']) !!}
+
+            @error('name')
+                <br>
+                <span class="text-danger">{{ $message }}</span>
+                <br>
+            @enderror
            
+
+
+
             @foreach ($roles as $role)
                 <div>
                     <label>
@@ -25,9 +40,13 @@
                         {{ $role->name }}
                     </label>
                 </div>
-            @endforeach 
+            @endforeach
         </div>
         {!! Form::submit('Asignar Rol', ['class' => 'btn btn-primary']) !!}
         {!! Form::close() !!}
+
+     
     </div>
 @stop
+
+

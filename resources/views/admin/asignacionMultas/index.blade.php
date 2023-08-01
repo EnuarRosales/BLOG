@@ -1,16 +1,16 @@
 @extends('adminlte::page')
 
-@section('title', 'Dashboard')
+@section('title', 'Lista multas')
 
 @section('content_header')
-    <h1>Asignacion Multa</h1>
+    <h1>Lista multas</h1>
 @stop
 
 @section('content')
     <div class="card">
         <div class="card-body">
             @can('admin.registroMultas.create')
-                <a class="btn btn-primary" href="{{ route('admin.asignacionMultas.create') }}">Agregar Asignacion Multa</a>
+                <a class="btn btn-primary" href="{{ route('admin.asignacionMultas.create') }}">Agregar Multa</a>
             @endcan
         </div>
         <table id="asignacionMultas" class="table table-striped table-bordered shadow-lg mt-4">

@@ -1,6 +1,6 @@
 @extends('adminlte::page')
 
-@section('title', 'Studio WC')
+@section('title', 'Lista tipo usuarios')
 
 @section('content_header')
     <h1>Lista tipo usuarios</h1>
@@ -19,47 +19,51 @@
         <div class="card-body">
             <a class="btn btn-primary" href="{{ route('admin.tipoUsuarios.create') }}">Agregar TipoUsuario</a>
         </div>
-        <table class="table table-striped table-bordered shadow-lg mt-4">
-            <thead>
-                <tr>
-                    <th>ID</th>
-                    <th>Nombre</th>
-                    <th>Porcentaje</th>
-                    <th>Editar</th>
-                    <th>Eliminar</th>
-                </tr>
-            </thead>
-
-
-            <tbody>
-                @foreach ($tipoUsuarios as $tipoUsuario)
+        @if ($tipoUsuarios->count())
+            <table class="table table-striped table-bordered shadow-lg mt-4">
+                <thead>
                     <tr>
-                        <td>{{ $tipoUsuario->id }}</td>
-                        <td>{{ $tipoUsuario->nombre }}</td>
-                        <td>{{ $tipoUsuario->porcentaje }}</td>
-                        <td width="10px">
-                            <a class="btn btn-secondary btn-sm"
-                                href="{{ route('admin.tipoUsuarios.edit', $tipoUsuario) }}">Editar</a>
-                        </td>
-
-                        <td width="10px">
-                            <form class="formulario-eliminar" action="{{ route('admin.tipoUsuarios.destroy', $tipoUsuario) }}" method="POST">
-                                @csrf
-                                @method('delete')
-                                <button type="submit" class="btn btn-dark btn-sm">Eliminar</button>
-                            </form>
-
-                        </td>
-
+                        <th>ID</th>
+                        <th>Nombre</th>
+                        <th>Porcentaje</th>
+                        <th>Editar</th>
+                        <th>Eliminar</th>
                     </tr>
-                @endforeach
-            </tbody>
-        </table>
+                </thead>
 
+
+                <tbody>
+                    @foreach ($tipoUsuarios as $tipoUsuario)
+                        <tr>
+                            <td>{{ $tipoUsuario->id }}</td>
+                            <td>{{ $tipoUsuario->nombre }}</td>
+                            <td>{{ $tipoUsuario->porcentaje }}</td>
+                            <td width="10px">
+                                <a class="btn btn-secondary btn-sm"
+                                    href="{{ route('admin.tipoUsuarios.edit', $tipoUsuario) }}">Editar</a>
+                            </td>
+
+                            <td width="10px">
+                                <form class="formulario-eliminar"
+                                    action="{{ route('admin.tipoUsuarios.destroy', $tipoUsuario) }}" method="POST">
+                                    @csrf
+                                    @method('delete')
+                                    <button type="submit" class="btn btn-dark btn-sm">Eliminar</button>
+                                </form>
+
+                            </td>
+
+                        </tr>
+                    @endforeach
+                </tbody>
+            </table>
+        @else()
+            <div class="card-body">
+                <strong>No hay registros</strong>
+            </div>
+        @endif
     </div>
-
 @stop
-
 @section('js')
     <script>
         console.log('Hi!');

@@ -1,6 +1,6 @@
 @extends('adminlte::page')
 
-@section('title', 'Dashboard')
+@section('title', 'Lista tipo multas')
 
 @section('content_header')
     <h1>Lista tipo multas</h1>
@@ -12,44 +12,50 @@
         <div class="card-body">
             <a class="btn btn-primary" href="{{ route('admin.tipoMultas.create') }}">Agregar tipo multa</a>
         </div>
-        <table class="table table-striped table-bordered shadow-lg mt-4">
-            <thead>
-                <tr>
-                    <th>ID</th>
-                    <th>Nombre</th>
-                    <th>Costo</th>
-                    <th>Editar</th>
-                    <th>Eliminar</th>
-
-
-                </tr>
-            </thead>
-
-            <tbody>
-                @foreach ($tipoMultas as $tipoMulta)
+        @if ($tipoMultas->count())
+            <table class="table table-striped table-bordered shadow-lg mt-4">
+                <thead>
                     <tr>
-                        <td>{{ $tipoMulta->id }}</td>
-                        <td>{{ $tipoMulta->nombre }}</td>
-                        <td>{{ $tipoMulta->costo }}</td>
-                        <td width="10px">
-                            <a class="btn btn-secondary btn-sm"
-                                href="{{ route('admin.tipoMultas.edit', $tipoMulta) }}">Editar</a>
-                        </td>
+                        <th>ID</th>
+                        <th>Nombre</th>
+                        <th>Costo</th>
+                        <th>Editar</th>
+                        <th>Eliminar</th>
 
-                        <td width="10px">
-                            <form class="formulario-eliminar" action="{{ route('admin.tipoMultas.destroy', $tipoMulta) }}"
-                                method="POST">
-                                @csrf
-                                @method('delete')
-                                <button type="submit" class="btn btn-dark btn-sm">Eliminar</button>
-                            </form>
-
-                        </td>
 
                     </tr>
-                @endforeach
-            </tbody>
-        </table>
+                </thead>
+
+                <tbody>
+                    @foreach ($tipoMultas as $tipoMulta)
+                        <tr>
+                            <td>{{ $tipoMulta->id }}</td>
+                            <td>{{ $tipoMulta->nombre }}</td>
+                            <td>{{ $tipoMulta->costo }}</td>
+                            <td width="10px">
+                                <a class="btn btn-secondary btn-sm"
+                                    href="{{ route('admin.tipoMultas.edit', $tipoMulta) }}">Editar</a>
+                            </td>
+
+                            <td width="10px">
+                                <form class="formulario-eliminar"
+                                    action="{{ route('admin.tipoMultas.destroy', $tipoMulta) }}" method="POST">
+                                    @csrf
+                                    @method('delete')
+                                    <button type="submit" class="btn btn-dark btn-sm">Eliminar</button>
+                                </form>
+
+                            </td>
+
+                        </tr>
+                    @endforeach
+                </tbody>
+            </table>
+        @else()
+            <div class="card-body">
+                <strong>No hay registros</strong>
+            </div>
+        @endif
     </div>
 
 @stop

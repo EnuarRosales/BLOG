@@ -460,11 +460,7 @@ return [
                     'route'  => 'admin.tipoDescuentos.index',
                 ],
 
-                [
-                    'text' => 'Tipo Metas',
-                    'route'  => 'admin.tipoMetas.index',
-                ],
-
+                
                 [
                     'text' => 'Paginas',
                     'route'  => 'admin.paginas.index',

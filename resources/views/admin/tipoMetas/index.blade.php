@@ -1,9 +1,9 @@
 @extends('adminlte::page')
 
-@section('title', 'Dashboard')
+@section('title', 'Lista metas estudio')
 
 @section('content_header')
-    <h1>Listado tipo metas</h1>
+    <h1>Lista metas estudio</h1>
 @stop
 
 @section('content')
@@ -11,46 +11,53 @@
         <div class="card-body">
             <a class="btn btn-primary" href="{{ route('admin.tipoMetas.create') }}">Agregar tipo meta</a>
         </div>
-        <table class="table table-striped table-bordered shadow-lg mt-4">
-            <thead>
-                <tr>
-                    <th>ID</th>
-                    <th>Nombre</th>
-                    <th>Valor</th>
-                    <th>Numero dias</th>
-                    <th>Editar</th>
-                    <th>Eliminar</th>
-
-                </tr>
-            </thead>
-
-            <tbody>
-                @foreach ($tipoMetas as $tipoMeta)
+        @if ($tipoMetas->count())
+            <table class="table table-striped table-bordered shadow-lg mt-4">
+                <thead>
                     <tr>
-                        <td>{{ $tipoMeta->id }}</td>
-                        <td>{{ $tipoMeta->nombre }}</td>
-                        <td>{{ $tipoMeta->valor }}</td>
-                        <td>{{ $tipoMeta->dias }}</td>
-
-                        <td width="10px">
-                            <a class="btn btn-secondary btn-sm"
-                                href="{{ route('admin.tipoMetas.edit', $tipoMeta) }}">Editar</a>
-                        </td>
-
-                        <td width="10px">
-                            <form class="formulario-eliminar" action="{{ route('admin.tipoMetas.destroy', $tipoMeta) }}"
-                                method="POST">
-                                @csrf
-                                @method('delete')
-                                <button type="submit" class="btn btn-dark btn-sm">Eliminar</button>
-                            </form>
-
-                        </td>
+                        <th>ID</th>
+                        <th>Nombre</th>
+                        <th>Valor</th>
+                        <th>Numero dias</th>
+                        <th>Editar</th>
+                        <th>Eliminar</th>
 
                     </tr>
-                @endforeach
-            </tbody>
-        </table>
+                </thead>
+
+                <tbody>
+                    @foreach ($tipoMetas as $tipoMeta)
+                        <tr>
+                            <td>{{ $tipoMeta->id }}</td>
+                            <td>{{ $tipoMeta->nombre }}</td>
+                            <td>{{ $tipoMeta->valor }}</td>
+                            <td>{{ $tipoMeta->dias }}</td>
+
+                            <td width="10px">
+                                <a class="btn btn-secondary btn-sm"
+                                    href="{{ route('admin.tipoMetas.edit', $tipoMeta) }}">Editar</a>
+                            </td>
+
+                            <td width="10px">
+                                <form class="formulario-eliminar" action="{{ route('admin.tipoMetas.destroy', $tipoMeta) }}"
+                                    method="POST">
+                                    @csrf
+                                    @method('delete')
+                                    <button type="submit" class="btn btn-dark btn-sm">Eliminar</button>
+                                </form>
+
+                            </td>
+
+                        </tr>
+                    @endforeach
+                </tbody>
+            </table>
+        @else()
+            <div class="card-body">
+                <strong>No hay registros</strong>
+            </div>
+        @endif
+    </div>
     </div>
 @stop
 

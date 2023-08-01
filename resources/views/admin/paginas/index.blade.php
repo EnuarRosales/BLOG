@@ -1,9 +1,9 @@
 @extends('adminlte::page')
 
-@section('title', 'Dashboard')
+@section('title', 'Lista paginas')
 
 @section('content_header')
-    <h1>Listado paginas</h1>
+    <h1>Lista paginas</h1>
 @stop
 
 @section('content')
@@ -11,46 +11,52 @@
         <div class="card-body">
             <a class="btn btn-primary" href="{{ route('admin.paginas.create') }}">Agregar Pagina</a>
         </div>
-        <table class="table table-striped table-bordered shadow-lg mt-4">
-            <thead>
-                <tr>
-                    <th>ID</th>
-                    <th>Nombre</th>
-                    <th>Moneda</th>
-                    <th>Valor Moneda Virtual</th>
-                    <th>Editar</th>
-                    <th>Eliminar</th>
-                </tr>
-            </thead>
-
-
-            <tbody>
-                @foreach ($paginas as $pagina)
+        @if ($paginas->count())
+            <table class="table table-striped table-bordered shadow-lg mt-4">
+                <thead>
                     <tr>
-                        <td>{{ $pagina->id }}</td>
-                        <td>{{ $pagina->nombre }}</td>
-                        <td>{{ $pagina->moneda }}</td>
-                        <td>{{ $pagina->valor }}</td>
-
-                        <td width="10px">
-                            <a class="btn btn-secondary btn-sm" href="{{ route('admin.paginas.edit', $pagina) }}">Editar</a>
-                        </td>
-
-                        <td width="10px">
-                            <form class="formulario-eliminar" action="{{ route('admin.paginas.destroy', $pagina) }}"
-                                method="POST">
-                                @csrf
-                                @method('delete')
-                                <button type="submit" class="btn btn-dark btn-sm">Eliminar</button>
-                            </form>
-
-                        </td>
-
+                        <th>ID</th>
+                        <th>Nombre</th>
+                        <th>Moneda</th>
+                        <th>Valor Moneda Virtual</th>
+                        <th>Editar</th>
+                        <th>Eliminar</th>
                     </tr>
-                @endforeach
-            </tbody>
-        </table>
+                </thead>
 
+
+                <tbody>
+                    @foreach ($paginas as $pagina)
+                        <tr>
+                            <td>{{ $pagina->id }}</td>
+                            <td>{{ $pagina->nombre }}</td>
+                            <td>{{ $pagina->moneda }}</td>
+                            <td>{{ $pagina->valor }}</td>
+
+                            <td width="10px">
+                                <a class="btn btn-secondary btn-sm"
+                                    href="{{ route('admin.paginas.edit', $pagina) }}">Editar</a>
+                            </td>
+
+                            <td width="10px">
+                                <form class="formulario-eliminar" action="{{ route('admin.paginas.destroy', $pagina) }}"
+                                    method="POST">
+                                    @csrf
+                                    @method('delete')
+                                    <button type="submit" class="btn btn-dark btn-sm">Eliminar</button>
+                                </form>
+
+                            </td>
+
+                        </tr>
+                    @endforeach
+                </tbody>
+            </table>
+        @else()
+            <div class="card-body">
+                <strong>No hay registros</strong>
+            </div>
+        @endif
     </div>
 @stop
 

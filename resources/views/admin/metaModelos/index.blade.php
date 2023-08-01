@@ -1,9 +1,9 @@
 @extends('adminlte::page')
 
-@section('title', 'Studio WC')
+@section('title', 'Lista metas modelos')
 
 @section('content_header')
-    <h1>Lista meta modelos</h1>
+    <h1>Lista metas modelos</h1>
 @stop
 
 
@@ -19,45 +19,51 @@
         <div class="card-body">
             <a class="btn btn-primary" href="{{ route('admin.metaModelos.create') }}">Agregar Meta Modelo</a>
         </div>
-        <table class="table table-striped table-bordered shadow-lg mt-4">
-            <thead>
-                <tr>
-                    <th>ID</th>
-                    <th>Mayor Que</th>
-                    <th>Porcentaje</th>                    
-                    <th>Editar</th>
-                    <th>Eliminar</th>
-
-
-                </tr>
-            </thead>
-
-
-            <tbody>
-                @foreach ($metaModelos as $metaModelo)
+        @if ($metaModelos->count())
+            <table class="table table-striped table-bordered shadow-lg mt-4">
+                <thead>
                     <tr>
-                        <td>{{ $metaModelo->id }}</td>
-                        <td>{{ $metaModelo->mayorQue }}</td>
-                        <td>{{ $metaModelo->porcentaje }}</td>
-                        <td width="10px">
-                            <a class="btn btn-secondary btn-sm"
-                            href="{{ route('admin.metaModelos.edit', $metaModelo) }}">Editar</a>
-                        </td>
+                        <th>ID</th>
+                        <th>Mayor Que</th>
+                        <th>Porcentaje</th>
+                        <th>Editar</th>
+                        <th>Eliminar</th>
 
-                        <td class="bg-light" width="10px">
-                            <form class="formulario-eliminar"
-                                action="{{ route('admin.metaModelos.destroy', $metaModelo) }}"
-                                method="POST">
-                                @csrf
-                                @method('delete')
-                                <button type="submit" class="btn btn-dark btn-sm">Eliminar</button>
-                            </form>
-                        </td>
 
                     </tr>
-                @endforeach
-            </tbody>
-        </table>
+                </thead>
+
+
+                <tbody>
+                    @foreach ($metaModelos as $metaModelo)
+                        <tr>
+                            <td>{{ $metaModelo->id }}</td>
+                            <td>{{ $metaModelo->mayorQue }}</td>
+                            <td>{{ $metaModelo->porcentaje }}</td>
+                            <td width="10px">
+                                <a class="btn btn-secondary btn-sm"
+                                    href="{{ route('admin.metaModelos.edit', $metaModelo) }}">Editar</a>
+                            </td>
+
+                            <td class="bg-light" width="10px">
+                                <form class="formulario-eliminar"
+                                    action="{{ route('admin.metaModelos.destroy', $metaModelo) }}" method="POST">
+                                    @csrf
+                                    @method('delete')
+                                    <button type="submit" class="btn btn-dark btn-sm">Eliminar</button>
+                                </form>
+                            </td>
+
+                        </tr>
+                    @endforeach
+                </tbody>
+            </table>
+        @else()
+            <div class="card-body">
+                <strong>No hay registros</strong>
+            </div>
+        @endif
+
 
     </div>
 

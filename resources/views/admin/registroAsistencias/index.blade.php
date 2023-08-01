@@ -1,16 +1,16 @@
 @extends('adminlte::page')
 
-@section('title', 'Dashboard')
+@section('title', 'Lista de asistencia')
 
 @section('content_header')
-    <h1>Listado de asistencia</h1>
+    <h1>Lista de asistencia</h1>
 @stop
 
 @section('content')
     <div class="card">
         <div class="card-body">
             {{-- @can('admin.asignacionTurnos.create') --}}
-            <a class="btn btn-primary" href="{{ route('admin.registroAsistencias.create') }}">Agregar Asistencia</a>
+            <a class="btn btn-primary" href="{{ route('admin.registroAsistencias.create') }}">Registrar Asistencia</a>
             {{-- @endcan --}}
 
         </div>

@@ -135,6 +135,7 @@ Route::middleware([
     Route::resource('tenants', TenantController::class)->middleware(['auth', 'verified'])->names('admin.tenants');
     Route::get('users/{user}/rol', [UserController::class, 'rol'])->name('admin.users.rol');
     Route::put('users/{user}', [UserController::class, 'updateRol'])->name('admin.users.updateRol');
+    Route::post('reportePaginas',[ReportePaginaController::class,'storeIndividual'])->name('admin.reportePaginas.storeIndividual');
     require __DIR__ . '/auth.php';
 
     

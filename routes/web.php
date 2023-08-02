@@ -23,9 +23,9 @@ use App\Http\Controllers\Admin\UserController;
 
 Route::get('/',[HomeController::class,'index'])->middleware(['auth','verified']);
 
-Route::get('/dashboard', function () {
-    return view('dashboard');
-})->middleware(['auth','verified'])->name('dashboard');
+// Route::get('/dashboard', function () {
+//     return view('dashboard');
+// })->middleware(['auth','verified'])->name('dashboard');
 
 require __DIR__.'/auth.php';
 

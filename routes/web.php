@@ -21,7 +21,8 @@ use App\Http\Controllers\Admin\UserController;
 //     return view('admin.index');  //admin.index
 // })->middleware(['auth','verified']); //->middleware(['auth'])
 
-Route::get('/',[HomeController::class,'index'])->middleware(['auth','verified']);
+route::view('/','welcome');
+// Route::get('/',[HomeController::class,'index'])->middleware(['auth','verified']);
 
 // Route::get('/dashboard', function () {
 //     return view('dashboard');

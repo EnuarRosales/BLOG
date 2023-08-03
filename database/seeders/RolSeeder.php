@@ -30,14 +30,19 @@ class RolSeeder extends Seeder
         //PERMISOS USUARIOS
         Permission::create(['name'=>'admin.home',
                             'description'=>'Ver el dashboard'])->syncRoles([$role_admin]);
+
         Permission::create(['name'=>'admin.users',
                             'description'=>'Ver ruta usuarios'])->syncRoles([$role_admin]);
+
         Permission::create(['name'=>'admin.users.index',
                             'description'=>'Ver listado de usuarios'])->syncRoles([$role_admin]);
+
         Permission::create(['name'=>'admin.users.create',
                             'description'=>'Crear usuarios'])->syncRoles([$role_admin]);
+
         Permission::create(['name'=>'admin.users.edit',
                             'description'=>'Editar usuarios'])->syncRoles([$role_admin]);
+                            
         Permission::create(['name'=>'admin.users.destroy',
                             'description'=>'Eliminar usuarios'])->syncRoles([$role_admin]);
 

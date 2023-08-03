@@ -28,7 +28,7 @@ route::view('/','welcome');
 //     return view('dashboard');
 // })->middleware(['auth','verified'])->name('dashboard');
 
-require __DIR__.'/auth.php';
+// require __DIR__.'/auth.php';
 
 
 // Route::get('users/{user}/rol', [UserController::class,'rol'])->name('admin.users.rol');

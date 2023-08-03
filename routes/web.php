@@ -17,25 +17,25 @@ use App\Http\Controllers\Admin\UserController;
 |
 */
 
-Route::get('/', function () {
-    return view('admin.index');  //admin.index
-})->middleware(['auth','verified']); //->middleware(['auth'])
+// Route::get('/', function () {
+//     return view('admin.index');  //admin.index
+// })->middleware(['auth','verified']); //->middleware(['auth'])
 
-// Route::get('/',[HomeController::class,'index'])->middleware(['auth','verified']);
-
-
-// Route::get('/dashboard', function () {
-//     return view('dashboard');
-// })->middleware(['auth','verified'])->name('dashboard');
-
-require __DIR__.'/auth.php';
+// // Route::get('/',[HomeController::class,'index'])->middleware(['auth','verified']);
 
 
-Route::get('users/{user}/rol', [UserController::class,'rol'])->name('admin.users.rol');
-Route::put('users/{user}',[UserController::class,'updateRol'])->name('admin.users.updateRol');
+// // Route::get('/dashboard', function () {
+// //     return view('dashboard');
+// // })->middleware(['auth','verified'])->name('dashboard');
 
-//RUTAS INDIVIDUALES
-Route::post('reportePaginas',[ReportePaginaController::class,'storeIndividual'])->name('admin.reportePaginas.storeIndividual');
+// require __DIR__.'/auth.php';
+
+
+// Route::get('users/{user}/rol', [UserController::class,'rol'])->name('admin.users.rol');
+// Route::put('users/{user}',[UserController::class,'updateRol'])->name('admin.users.updateRol');
+
+// //RUTAS INDIVIDUALES
+// Route::post('reportePaginas',[ReportePaginaController::class,'storeIndividual'])->name('admin.reportePaginas.storeIndividual');
 
 
 

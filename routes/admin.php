@@ -27,27 +27,29 @@ use App\Http\Controllers\Admin\UserController;
 
 use Illuminate\Support\Facades\Route;
 
-Route::get('/',[HomeController::class,'index'])->middleware(['auth','verified']);
+//ROUTES --DescontadoController-- Corresponden a las rutas que administran la tablas de lo que se desucuenta a lo descontado
 Route::get('abonos/{abonoParcial}',[DescontadoController::class,'abonoParcial'])->name('admin.abonos.abonoParcial');
-
-Route::get('comprobantePagoPDF/{pago}',[PagoController::class,'comprobantePagoPDF'])->name('admin.pagos.comprobantePagoPDF');
-
-
-// Route::post('abonos/{abonado}',[DescontadoController::class,'store'])->name('admin.abonos.store');
 Route::post('abonos',[DescontadoController::class,'store'])->name('admin.abonos.store');
-
-
 Route::put('abonos/{abonado}',[DescontadoController::class,'abono'])->name('admin.abonos.abono');
 Route::resource('abonosResources',DescontadoController::class)->middleware(['auth','verified'])->names('admin.abonosResources');
 
+//ROUTES --PagoController-- Corresponden a las rutas que administran las tablas de los pagos 
+Route::get('comprobantePagoPDF/{pago}',[PagoController::class,'comprobantePagoPDF'])->name('admin.pagos.comprobantePagoPDF');
+Route::get('enviarPago', [PagoController::class,'enviarPago'])->name('admin.pagos.enviarPago');
+Route::resource('pagosss', PagoController::class)->middleware(['auth','verified'])->names('admin.pagos');
 
-
+//ROUTES --RegistroProducidoController-- Corresponden a las rutas que administran las tablas de registro producido
 Route::resource('registroProducidos',RegistroProducidoController::class)->middleware(['auth','verified'])->names('admin.registroProducidos');
-// Route::get('registroProducidoss', [RegistroProducidoController::class,'resumen'])->name('admin.registroProducidoss.resumen');
+Route::get('registroProducidoss', [RegistroProducidoController::class,'resumen'])->name('admin.registroProducidoss.resumen');
 Route::get('registroProducidoss', [RegistroProducidoController::class,'reporte_dia'])->name('admin.registroProducidoss.reporte_dia');
 
+//ROUTES --RegistroAsistenciaController-- Corresponden a las rutas que administran las tablas de registro asistencia
 Route::resource('registroAsistencias',RegistroAsistenciaController::class)->middleware(['auth','verified'])->names('admin.registroAsistencias');
+
+
+
 Route::resource('registroDescuentos',RegistroDescuentoController::class)->middleware(['auth','verified'])->names('admin.registroDescuentos');
+
 
 Route::resource('tipoUsuarios', TipoUsuarioController::class)->middleware(['auth','verified'])->names('admin.tipoUsuarios');
 Route::resource('users', UserController::class)->middleware(['auth','verified'])->names('admin.users');
@@ -71,9 +73,6 @@ Route::resource('paginas',PaginaController::class)->middleware(['auth','verified
 Route::resource('asignacionRooms',AsignacionRoomController::class)->middleware(['auth','verified'])->names('admin.asignacionRooms');
 Route::resource('asignacionMultas',AsignacionMultaController::class)->middleware(['auth','verified'])->names('admin.asignacionMultas');
 Route::resource('metaModelos', MetaModeloController::class)->middleware(['auth','verified'])->names('admin.metaModelos');
-Route::get('enviarPago', [PagoController::class,'enviarPago'])->name('admin.pagos.enviarPago');
-
-Route::resource('pagosss', PagoController::class)->middleware(['auth','verified'])->names('admin.pagos');
 
 
 
@@ -84,7 +83,7 @@ Route::get('reportePaginasss', [ReportePaginaController::class,'reporteQuincena'
 Route::get('pagos', [ReportePaginaController::class,'pagos'])->name('admin.reportePaginas.pagos');
 Route::get('verificadoMasivo', [ReportePaginaController::class,'verificadoMasivo'])->name('admin.reportePaginas.verificadoMasivo');
 Route::post('reportePaginas/updateStatus', [ReportePaginaController::class,'updateStatus'])->name('admin.reportePaginas.updateStatus');
-Route::get('', [ReportePaginaController::class,'pagos'])->name('admin.reportePaginas.pagos');
+// Route::get('', [ReportePaginaController::class,'pagos'])->name('admin.reportePaginas.pagos');
 
 Route::get('cargarExcel', [ReportePaginaController::class,'cargarExcel'])->name('admin.reportePaginas.cargarExcel');
 Route::resource('empresa', EmpresaController::class)->middleware(['auth','verified'])->names('admin.empresa');
@@ -92,15 +91,9 @@ Route::resource('empresa', EmpresaController::class)->middleware(['auth','verifi
 Route::resource('impuestos', ImpuestoController::class)->middleware(['auth','verified'])->names('admin.impuestos');
 Route::get('comprobanteImpuestoss',[ImpuestoController::class,'comprobanteImpuesto'])->name('admin.impuestos.comprobanteImpuestoss');
 Route::get('comprobanteImpuestoPDF/{pago}',[ImpuestoController::class,'comprobanteImpuestoPDF'])->name('admin.impuestos.comprobanteImpuestoPDF');
-// //RUTA TIPO CONTROLLER
+
 
 Route::resource('tenants',TenantController::class)->middleware(['auth','verified'])->names('admin.tenants');
-// Route::post('reportePaginas',[ReportePaginaController::class,'storeIndividual'])->name('admin.reportePaginas.storeIndividual');
-// Route::get('tipoUsuarios', [TipoUsuarioController::class,'index'])->name('tipoUsuarios.index');
-// Route::get('tipoUsuarios/create', [TipoUsuarioController::class,'create'])->name('admin.tipoUsuarios.create');
-// Route::post('tipoUsuarios',[TipoUsuarioController::class,'store'])->name('admin.tipoUsuarios.store');
-// Route::get('tipoUsuarios/{tipoUsuario}', [TipoUsuarioController::class,'show'])->name('admin.tipoUsuarios.show');
-// Route::get('tipoUsuarios/{tipoUsuario}/edit', [TipoUsuarioController::class,'edit'])->name('admin.tipoUsuarios.edit');
-// Route::put('tipoUsuarios/{tipoUsuario}',[TipoUsuarioController::class,'update'])->name('admin.tipoUsuarios.update');
-// Route::delete('tipoUsuarios/{tipoUsuario}',[TipoUsuarioController::class,'destroy'])->name('admin.tipoUsuarios.destroy');
-// Route::post('abonos',[DescontadoController::class,'store'])->name('admin.abonos.store');
+
+
+

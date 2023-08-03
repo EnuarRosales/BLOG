@@ -29,7 +29,7 @@
                     <tr>
                         <td>{{ $asistencia->id }}</td>
                         <td>{{ $asistencia->user->name }}</td>
-                        <td>{{ $asistencia->created_at }}</td>
+                        <td>{{ $asistencia->fecha }}</td>
                         {{-- @can('admin.asignacionTurnos.edit') --}}
                         <td width="10px">
                             <a class="btn btn-secondary btn-sm"

@@ -24,15 +24,17 @@
                     <br> 
                 @enderror
 
-                {!! Form::label('created_at', 'Fecha') !!}
-                {{-- {!!Form::date('registroAsistencia',\Carbon\Carbon::now())!!} --}}
-                {!! Form::date('created_at', $registroAsistencia->pluck('created_at', 'id'), null,['class' => 'form-control','placeholder' => 'Seleccione Un Usuario']) !!}
-
-                @error('created_at')
+                 
+                
+                {!! Form::label('fecha', 'Fecha') !!}
+                {!! Form::date('fecha', null, [
+                    'class' => 'form-control',
+                ]) !!}
+                @error('fecha')
                     <br>
                     <span class="text-danger">{{ $message }}</span>
                     <br>
-                @enderror                 
+                @enderror     
 
                 {{-- {!! Form::label('created_at', 'Fecha') !!}
                 {!! Form::select($registroAsistencia->created_at, null, ['class' => 'form-control','placeholder' => 'Seleccione Un Usuario']) !!}

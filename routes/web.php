@@ -23,9 +23,9 @@ use App\Http\Controllers\Admin\UserController;
 
 Route::get('/',[HomeController::class,'index'])->middleware(['auth','verified']);
 
-Route::get('/dashboard', function () {
-    return view('dashboard');
-})->middleware(['auth','verified'])->name('dashboard');
+// Route::get('/dashboard', function () {
+//     return view('dashboard');
+// })->middleware(['auth','verified'])->name('dashboard');
 
 require __DIR__.'/auth.php';
 
@@ -34,7 +34,7 @@ require __DIR__.'/auth.php';
 // Route::put('users/{user}',[UserController::class,'updateRol'])->name('admin.users.updateRol');
 
 //RUTAS INDIVIDUALES
-// Route::post('reportePaginas',[ReportePaginaController::class,'storeIndividual'])->name('admin.reportePaginas.storeIndividual');
+Route::post('reportePaginas',[ReportePaginaController::class,'storeIndividual'])->name('admin.reportePaginas.storeIndividual');
 
 // route::get('user/{User_id}/PDF',[UserController::class,'CertificacionLaboral']);
 // route::get('user/{User_id}/comprobantePagoPDF',[UserController::class,'comprobantePagoPDF']);

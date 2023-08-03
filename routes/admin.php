@@ -95,6 +95,7 @@ Route::get('comprobanteImpuestoPDF/{pago}',[ImpuestoController::class,'comproban
 // //RUTA TIPO CONTROLLER
 
 Route::resource('tenants',TenantController::class)->middleware(['auth','verified'])->names('admin.tenants');
+// Route::post('reportePaginas',[ReportePaginaController::class,'storeIndividual'])->name('admin.reportePaginas.storeIndividual');
 // Route::get('tipoUsuarios', [TipoUsuarioController::class,'index'])->name('tipoUsuarios.index');
 // Route::get('tipoUsuarios/create', [TipoUsuarioController::class,'create'])->name('admin.tipoUsuarios.create');
 // Route::post('tipoUsuarios',[TipoUsuarioController::class,'store'])->name('admin.tipoUsuarios.store');

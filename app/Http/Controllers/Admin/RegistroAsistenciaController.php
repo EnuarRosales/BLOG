@@ -43,7 +43,9 @@ class RegistroAsistenciaController extends Controller
     {
         //VALiDACION FORMULARIO 
         $request->validate([
-            'user_id'=>'required',                  
+            'user_id'=>'required',
+            'fecha'=>'required', 
+                              
         ]);
  
         $registroAsistencia = Asistencia::create($request->all());
@@ -87,7 +89,7 @@ class RegistroAsistenciaController extends Controller
         //VALiDACION FORMULARIO 
         $request->validate([
             'user_id'=>'required',
-            'created_at'=>'required',         
+            'fecha'=>'required',         
         ]);
         //ASINACION MASIVA DE VARIABLES A LOS CAMPOS
         $registroAsistencia->update($request->all());

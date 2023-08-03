@@ -27,27 +27,31 @@ use App\Http\Controllers\Admin\UserController;
 
 use Illuminate\Support\Facades\Route;
 
-Route::get('/',[HomeController::class,'index'])->middleware(['auth','verified']);
+
+
+//ROUTES --DescontadoController-- Corresponden a las rutas que administran la tablas de lo que se desucuenta a lo descontado
 Route::get('abonos/{abonoParcial}',[DescontadoController::class,'abonoParcial'])->name('admin.abonos.abonoParcial');
-
-Route::get('comprobantePagoPDF/{pago}',[PagoController::class,'comprobantePagoPDF'])->name('admin.pagos.comprobantePagoPDF');
-
-
-Route::post('abonos/{abonado}',[DescontadoController::class,'store'])->name('admin.abonos.store');
-// Route::post('abonos',[DescontadoController::class,'store'])->name('admin.abonos.store');
-
-
+Route::post('abonos',[DescontadoController::class,'store'])->name('admin.abonos.store');
 Route::put('abonos/{abonado}',[DescontadoController::class,'abono'])->name('admin.abonos.abono');
 Route::resource('abonosResources',DescontadoController::class)->middleware(['auth','verified'])->names('admin.abonosResources');
 
+//ROUTES --PagoController-- Corresponden a las rutas que administran las tablas de los pagos 
+Route::get('comprobantePagoPDF/{pago}',[PagoController::class,'comprobantePagoPDF'])->name('admin.pagos.comprobantePagoPDF');
+Route::get('enviarPago', [PagoController::class,'enviarPago'])->name('admin.pagos.enviarPago');
+Route::resource('pagosss', PagoController::class)->middleware(['auth','verified'])->names('admin.pagos');
 
-
+//ROUTES --RegistroProducidoController-- Corresponden a las rutas que administran las tablas de registro producido
 Route::resource('registroProducidos',RegistroProducidoController::class)->middleware(['auth','verified'])->names('admin.registroProducidos');
- Route::get('registroProducidoss', [RegistroProducidoController::class,'resumen'])->name('admin.registroProducidoss.resumen');
+Route::get('registroProducidoss', [RegistroProducidoController::class,'resumen'])->name('admin.registroProducidoss.resumen');
 Route::get('registroProducidoss', [RegistroProducidoController::class,'reporte_dia'])->name('admin.registroProducidoss.reporte_dia');
 
+//ROUTES --RegistroAsistenciaController-- Corresponden a las rutas que administran las tablas de registro asistencia
 Route::resource('registroAsistencias',RegistroAsistenciaController::class)->middleware(['auth','verified'])->names('admin.registroAsistencias');
+
+
+
 Route::resource('registroDescuentos',RegistroDescuentoController::class)->middleware(['auth','verified'])->names('admin.registroDescuentos');
+
 
 Route::resource('tipoUsuarios', TipoUsuarioController::class)->middleware(['auth','verified'])->names('admin.tipoUsuarios');
 Route::resource('users', UserController::class)->middleware(['auth','verified'])->names('admin.users');
@@ -71,9 +75,6 @@ Route::resource('paginas',PaginaController::class)->middleware(['auth','verified
 Route::resource('asignacionRooms',AsignacionRoomController::class)->middleware(['auth','verified'])->names('admin.asignacionRooms');
 Route::resource('asignacionMultas',AsignacionMultaController::class)->middleware(['auth','verified'])->names('admin.asignacionMultas');
 Route::resource('metaModelos', MetaModeloController::class)->middleware(['auth','verified'])->names('admin.metaModelos');
-Route::get('enviarPago', [PagoController::class,'enviarPago'])->name('admin.pagos.enviarPago');
-
-Route::resource('pagosss', PagoController::class)->middleware(['auth','verified'])->names('admin.pagos');
 
 
 

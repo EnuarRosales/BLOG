@@ -34,7 +34,7 @@ Route::get('comprobantePagoPDF/{pago}',[PagoController::class,'comprobantePagoPD
 
 
 Route::post('abonos/{abonado}',[DescontadoController::class,'store'])->name('admin.abonos.store');
-Route::post('abonos',[DescontadoController::class,'store'])->name('admin.abonos.store');
+// Route::post('abonos',[DescontadoController::class,'store'])->name('admin.abonos.store');
 
 
 Route::put('abonos/{abonado}',[DescontadoController::class,'abono'])->name('admin.abonos.abono');

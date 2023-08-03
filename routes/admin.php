@@ -45,12 +45,10 @@ Route::get('registroProducidoss', [RegistroProducidoController::class,'reporte_d
 
 //ROUTES --RegistroAsistenciaController-- Corresponden a las rutas que administran las tablas de registro asistencia
 Route::resource('registroAsistencias',RegistroAsistenciaController::class)->middleware(['auth','verified'])->names('admin.registroAsistencias');
-
+ 
 
 
 Route::resource('registroDescuentos',RegistroDescuentoController::class)->middleware(['auth','verified'])->names('admin.registroDescuentos');
-
-
 Route::resource('tipoUsuarios', TipoUsuarioController::class)->middleware(['auth','verified'])->names('admin.tipoUsuarios');
 Route::resource('users', UserController::class)->middleware(['auth','verified'])->names('admin.users');
 Route::get('userCertificacion',[UserController::class,'userCertificacion'])->name('admin.users.userCertificacion');

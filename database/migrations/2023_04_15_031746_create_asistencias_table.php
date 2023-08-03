@@ -15,11 +15,12 @@ class CreateAsistenciasTable extends Migration
     {
         Schema::create('asistencias', function (Blueprint $table) {
             $table->id();
-            $table->dateTime('fecha');   
-            $table->unsignedBigInteger('user_id');//campo para relacion                       
+            $table->date('fecha');
+            $table->time('mi_hora');
+            $table->unsignedBigInteger('user_id'); //campo para relacion                       
             $table->foreign('user_id')
-                    ->references('id')->on('users')//tabla
-                    ->onDelete('cascade');
+                ->references('id')->on('users') //tabla
+                ->onDelete('cascade');
 
 
             $table->timestamps();

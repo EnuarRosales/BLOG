@@ -22,6 +22,18 @@
                     <br>
                 @enderror
 
+                {!! Form::label('mi_hora', 'Hora') !!}
+                {!! Form::time('mi_hora', now(), [
+                    'class' => 'form-control',
+                ]) !!}
+                @error('mi_hora')
+                    <br>
+                    <span class="text-danger">{{ $message }}</span>
+                    <br>
+                @enderror
+
+                
+
 
 
                 {!! Form::label('user_id', 'Usuario') !!}

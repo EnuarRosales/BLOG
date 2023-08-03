@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Asistencia;
 use App\Models\Descuento;
 use App\Models\User;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 
 class RegistroAsistenciaController extends Controller
@@ -17,7 +18,13 @@ class RegistroAsistenciaController extends Controller
      */
     public function index()
     {
-        $asistencias = Asistencia::all();        
+        $asistencias = Asistencia::all();  
+        
+        foreach($asistencias as $asistencia){
+
+        }
+        
+        
         return view('admin.registroAsistencias.index',compact('asistencias'));
     }  
 
@@ -45,8 +52,11 @@ class RegistroAsistenciaController extends Controller
         $request->validate([
             'user_id'=>'required',
             'fecha'=>'required', 
+            // 'my_hora'=>'required',
                               
         ]);
+
+        
  
         $registroAsistencia = Asistencia::create($request->all());
         return redirect()->route('admin.registroAsistencias.index',$registroAsistencia->id)->with('info','store');

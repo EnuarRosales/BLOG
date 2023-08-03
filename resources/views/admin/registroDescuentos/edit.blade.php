@@ -45,17 +45,19 @@
                     <br>
                 @enderror 
 
-                
-                
-
                 {{-- {!! Form::label('created_at', 'Fecha') !!}
-                {!! Form::select($registroAsistencia->created_at, null, ['class' => 'form-control','placeholder' => 'Seleccione Un Usuario']) !!}
+                {!! Form::date('created_at',null, [
+                    'class' => 'form-control',                    
+                ]) !!}
                 @error('created_at')
                     <br>
-                    <span class="text-danger">{{ $message }}</span>
+                    <span class="text-danger">{{$message}}</span>
                     <br>
                 @enderror  --}}
 
+              
+
+                
             </div>
             {!! Form::submit('Actualizar Descuento', ['class' => 'btn btn-primary']) !!}
             {!! Form::close() !!}

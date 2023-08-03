@@ -44,6 +44,23 @@
                     <br>
                 @enderror  --}}
 
+                {!! Form::label('mi_hora', 'Hora') !!}
+                {!! Form::time('mi_hora', null,  [
+                    'class' => 'form-control',
+                ]) !!}
+                @error('mi_hora')
+                    <br>
+                    <span class="text-danger">{{ $message }}</span>
+                    <br>
+                @enderror
+
+
+
+
+
+
+
+
             </div>
             {!! Form::submit('Actualizar Asistencia', ['class' => 'btn btn-primary']) !!}
             {!! Form::close() !!}

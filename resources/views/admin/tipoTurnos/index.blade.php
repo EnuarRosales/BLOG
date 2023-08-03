@@ -18,6 +18,8 @@
                     <tr>
                         <th>ID</th>
                         <th>Nombre</th>
+                        <th>Hora Ingreso</th>
+                        <th>Hora Termino</th>
                         <th>Editar</th>
                         <th>Eliminar</th>
                     </tr>
@@ -27,7 +29,9 @@
                     @foreach ($turnos as $turno)
                         <tr>
                             <td>{{ $turno->id }}</td>
-                            <td>{{ $turno->nombre }}</td>
+                            <td>{{ $turno->nombre}}</td>
+                            <td> {{ date('g:i a', strtotime($turno->horaIngreso))}}</td>
+                            <td> {{ date('g:i a', strtotime($turno->horaTermino))}}</td>                   
                             <td width="10px">
                                 <a class="btn btn-secondary btn-sm"
                                     href="{{ route('admin.tipoTurnos.edit', $turno) }}">Editar</a>

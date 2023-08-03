@@ -20,6 +20,8 @@
                     <th>ID</th>
                     <th>Usuario</th>
                     <th>Fecha</th>
+                    <th>Hora</th>
+                    <th>Control</th>
                     <th>Editar</th>
                     <th>Eliminar</th>
                 </tr>
@@ -30,6 +32,11 @@
                         <td>{{ $asistencia->id }}</td>
                         <td>{{ $asistencia->user->name }}</td>
                         <td>{{ $asistencia->fecha }}</td>
+                        <td>              
+                         {{ date('g:i a', strtotime($asistencia->mi_hora))}}
+                        </td>
+                        <td>{{"#"}}</td>
+
                         {{-- @can('admin.asignacionTurnos.edit') --}}
                         <td width="10px">
                             <a class="btn btn-secondary btn-sm"

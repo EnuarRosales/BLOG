@@ -51,12 +51,12 @@ use App\Http\Controllers\Admin\UserController;
 |
 */
 
-Route::middleware([
-    'web',
-    InitializeTenancyByDomain::class,
-    PreventAccessFromCentralDomains::class,
+// Route::middleware([
+//     'web',
+//     InitializeTenancyByDomain::class,
+//     PreventAccessFromCentralDomains::class,
 
-])->group(function () {
+// ])->group(function () {
 
 
     // Route::get('/',[HomeController::class,'index'])->middleware(['auth','verified']);
@@ -139,7 +139,7 @@ Route::middleware([
     // require __DIR__ . '/auth.php';
 
     
-});
+// });
 
 
 

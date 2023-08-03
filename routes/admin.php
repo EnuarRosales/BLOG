@@ -28,12 +28,12 @@ use App\Http\Controllers\Admin\UserController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/',[HomeController::class,'index'])->middleware(['auth','verified']);
-// Route::get('abonos/{abonoParcial}',[DescontadoController::class,'abonoParcial'])->name('admin.abonos.abonoParcial');
+Route::get('abonos/{abonoParcial}',[DescontadoController::class,'abonoParcial'])->name('admin.abonos.abonoParcial');
 
 Route::get('comprobantePagoPDF/{pago}',[PagoController::class,'comprobantePagoPDF'])->name('admin.pagos.comprobantePagoPDF');
 
 
-// Route::post('abonos/{abonado}',[DescontadoController::class,'store'])->name('admin.abonos.store');
+Route::post('abonos/{abonado}',[DescontadoController::class,'store'])->name('admin.abonos.store');
 Route::post('abonos',[DescontadoController::class,'store'])->name('admin.abonos.store');
 
 
@@ -43,7 +43,7 @@ Route::resource('abonosResources',DescontadoController::class)->middleware(['aut
 
 
 Route::resource('registroProducidos',RegistroProducidoController::class)->middleware(['auth','verified'])->names('admin.registroProducidos');
-// Route::get('registroProducidoss', [RegistroProducidoController::class,'resumen'])->name('admin.registroProducidoss.resumen');
+ Route::get('registroProducidoss', [RegistroProducidoController::class,'resumen'])->name('admin.registroProducidoss.resumen');
 Route::get('registroProducidoss', [RegistroProducidoController::class,'reporte_dia'])->name('admin.registroProducidoss.reporte_dia');
 
 Route::resource('registroAsistencias',RegistroAsistenciaController::class)->middleware(['auth','verified'])->names('admin.registroAsistencias');
@@ -81,10 +81,10 @@ Route::resource('pagosss', PagoController::class)->middleware(['auth','verified'
 Route::resource('reportePaginas', ReportePaginaController::class)->middleware(['auth','verified'])->names('admin.reportePaginas');
 Route::get('reportePaginass', [ReportePaginaController::class,'nomina'])->name('admin.reportePaginas.nomina');
 Route::get('reportePaginasss', [ReportePaginaController::class,'reporteQuincena'])->name('admin.reportePaginas.reporteQuincena');
-// Route::get('pagos', [ReportePaginaController::class,'pagos'])->name('admin.reportePaginas.pagos');
+Route::get('pagos', [ReportePaginaController::class,'pagos'])->name('admin.reportePaginas.pagos');
 Route::get('verificadoMasivo', [ReportePaginaController::class,'verificadoMasivo'])->name('admin.reportePaginas.verificadoMasivo');
 Route::post('reportePaginas/updateStatus', [ReportePaginaController::class,'updateStatus'])->name('admin.reportePaginas.updateStatus');
-// Route::get('', [ReportePaginaController::class,'pagos'])->name('admin.reportePaginas.pagos');
+Route::get('', [ReportePaginaController::class,'pagos'])->name('admin.reportePaginas.pagos');
 
 Route::get('cargarExcel', [ReportePaginaController::class,'cargarExcel'])->name('admin.reportePaginas.cargarExcel');
 Route::resource('empresa', EmpresaController::class)->middleware(['auth','verified'])->names('admin.empresa');
@@ -92,14 +92,9 @@ Route::resource('empresa', EmpresaController::class)->middleware(['auth','verifi
 Route::resource('impuestos', ImpuestoController::class)->middleware(['auth','verified'])->names('admin.impuestos');
 Route::get('comprobanteImpuestoss',[ImpuestoController::class,'comprobanteImpuesto'])->name('admin.impuestos.comprobanteImpuestoss');
 Route::get('comprobanteImpuestoPDF/{pago}',[ImpuestoController::class,'comprobanteImpuestoPDF'])->name('admin.impuestos.comprobanteImpuestoPDF');
-// //RUTA TIPO CONTROLLER
+
 
 Route::resource('tenants',TenantController::class)->middleware(['auth','verified'])->names('admin.tenants');
-// Route::get('tipoUsuarios', [TipoUsuarioController::class,'index'])->name('tipoUsuarios.index');
-// Route::get('tipoUsuarios/create', [TipoUsuarioController::class,'create'])->name('admin.tipoUsuarios.create');
-// Route::post('tipoUsuarios',[TipoUsuarioController::class,'store'])->name('admin.tipoUsuarios.store');
-// Route::get('tipoUsuarios/{tipoUsuario}', [TipoUsuarioController::class,'show'])->name('admin.tipoUsuarios.show');
-// Route::get('tipoUsuarios/{tipoUsuario}/edit', [TipoUsuarioController::class,'edit'])->name('admin.tipoUsuarios.edit');
-// Route::put('tipoUsuarios/{tipoUsuario}',[TipoUsuarioController::class,'update'])->name('admin.tipoUsuarios.update');
-// Route::delete('tipoUsuarios/{tipoUsuario}',[TipoUsuarioController::class,'destroy'])->name('admin.tipoUsuarios.destroy');
-// Route::post('abonos',[DescontadoController::class,'store'])->name('admin.abonos.store');
+
+
+

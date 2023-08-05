@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 
 use App\Models\MetaModelo;
+use App\Models\Pagina;
 use App\Models\User;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
@@ -85,7 +86,29 @@ class RolSeeder extends Seeder
         $metaModelo->mayorQue=0;
         $metaModelo->save();
 
+        $pagina = new Pagina();
+        $pagina->nombre ="CHATURBATE";
+        $pagina->moneda ="dolar";
+        $pagina->valor =0.05;
+        $pagina->save();
 
+        $pagina1 = new Pagina();
+        $pagina1->nombre ="STRIPCHAT";
+        $pagina1->moneda ="dolar";
+        $pagina1->valor =0.05;
+        $pagina1->save();
+
+        $pagina2 = new Pagina();
+        $pagina2->nombre ="CAMSODA";
+        $pagina2->moneda ="dolar";
+        $pagina2->valor =1;
+        $pagina2->save();
+
+        $pagina3 = new Pagina();
+        $pagina3->nombre ="BONGA";
+        $pagina3->moneda ="dolar";
+        $pagina3->valor =1;
+        $pagina3->save();
 
 
         //PERMISOS ROLES
@@ -280,6 +303,66 @@ class RolSeeder extends Seeder
         $user12->syncRoles([$role_modelo]);
         $user12->save();
 
+        $user13 = new User();
+        $user13->fechaIngreso = '2023-07-15';
+        $user13->name = 'Adriana Patricia Obando Mora'; 
+        $user13->cedula = '1004540560';
+        $user13->celular = '3057465217';
+        $user13->direccion = 'Sandona centenario';
+        $user13->email = 'admin13@gmail.com';
+        $user13->email_verified_at ='2023-05-11 22:39:30';
+        $user13->tipoUsuario_id = 2;
+        $user13->password = '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi';//password
+        $user13->syncRoles([$role_modelo]);
+        $user13->save();
+
+        $user14 = new User();
+        $user14->fechaIngreso = '2023-07-15';
+        $user14->name = 'Daniel Andres Escobar Acosta ';  
+        $user14->cedula = '1004540187';
+        $user14->celular = '1004540187';
+        $user14->direccion = 'Sandona centenario';
+        $user14->email = 'admin14@gmail.com';
+        $user14->email_verified_at ='2023-05-11 22:39:30';
+        $user14->tipoUsuario_id = 2;
+        $user14->password = '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi';//password
+        $user14->syncRoles([$role_modelo]);
+        $user14->save();
+
+        $user15 = new User();
+        $user15->fechaIngreso = '2023-07-15';
+        $user15->name = 'Liseth Katerine Rodriguez Redin';  
+        $user15->cedula = '1080832335';
+        $user15->celular = '1004540187';
+        $user15->direccion = 'Sandona centenario';
+        $user15->email = 'admin15@gmail.com';
+        $user15->email_verified_at ='2023-05-11 22:39:30';
+        $user15->tipoUsuario_id = 2;
+        $user15->password = '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi';//password
+        $user15->syncRoles([$role_modelo]);
+        $user15->save();
+
+        $user16 = new User();
+        $user16->fechaIngreso = '2023-07-15';
+        $user16->name = 'Edgar David Bedoya Andrade';  
+        $user16->cedula = '1081273020';
+        $user16->celular = '1004540187';
+        $user16->direccion = 'Sandona centenario';
+        $user16->email = 'admin16@gmail.com';
+        $user16->email_verified_at ='2023-05-11 22:39:30';
+        $user16->tipoUsuario_id = 2;
+        $user16->password = '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi';//password
+        $user16->syncRoles([$role_modelo]);
+        $user16->save();
+
+
+        
+
+
+
+
+
+
 
         //CON EL FIN DE CREAR UN USUARIO ADMINISTRADOR
         $user_admin = new User();
@@ -308,5 +391,9 @@ class RolSeeder extends Seeder
         $user_soporte->password = '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi';//password
         $user_soporte->syncRoles([$role_admin]);
         $user_soporte->save();
+
+        //CON EL FIN DE CREAR UN USUARIO de Soporte
+        
+
     }
 }

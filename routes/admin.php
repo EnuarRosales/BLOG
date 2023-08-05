@@ -28,6 +28,9 @@ use App\Http\Controllers\Admin\UserController;
 use Illuminate\Support\Facades\Route;
 
 //ROUTES --DescontadoController-- Corresponden a las rutas que administran la tablas de lo que se desucuenta a lo descontado
+Route::get('/',[HomeController::class,'index'])->middleware(['auth','verified']);
+// Route::get('/dashboard', function () { return view('dashboard');})->middleware(['auth', 'verified'])->name('dashboard');
+
 Route::get('abonos/{abonoParcial}',[DescontadoController::class,'abonoParcial'])->name('admin.abonos.abonoParcial');
 Route::post('abonos',[DescontadoController::class,'store'])->name('admin.abonos.store');
 Route::put('abonos/{abonado}',[DescontadoController::class,'abono'])->name('admin.abonos.abono');
@@ -56,8 +59,11 @@ Route::get('userCertificacionPDF/{user}',[UserController::class,'certificacionLa
 Route::get('userCertificacionTiempo',[UserController::class,'certificacionTiempo'])->name('admin.users.certificacionTiempo');
 Route::get('userCertificacionTiempoPDF/{user}',[UserController::class,'certificacionTiempoPDF'])->name('admin.users.certificacionTiempoPDF');
 
-Route::get('users/{user}/rol', [UserController::class,'rol'])->name('admin.users.rol');
-Route::put('users/{user}',[UserController::class,'updateRol'])->name('admin.users.updateRol');
+// Route::get('users/{user}/rol', [UserController::class,'rol'])->name('admin.users.rol');
+// Route::put('users/{user}',[UserController::class,'updateRol'])->name('admin.users.updateRol');
+
+Route::get('users/{user}/rol', [UserController::class, 'rol'])->name('admin.users.rol');
+Route::put('users/{user}', [UserController::class, 'updateRol'])->name('admin.users.updateRol');
 
 Route::resource('roles', RoleController::class)->middleware(['auth','verified'])->names('admin.roles');
 Route::resource('asignacionTurnos',AsignacionTurnoController::class)->middleware(['auth','verified'])->names('admin.asignacionTurnos');
@@ -66,7 +72,7 @@ Route::resource('tipoRooms',TipoRoomController::class)->middleware(['auth','veri
 Route::resource('tipoMultas',TipoMultaController::class)->middleware(['auth','verified'])->names('admin.tipoMultas');
 Route::resource('tipoDescuentos',TipoDescuentoController::class)->middleware(['auth','verified'])->names('admin.tipoDescuentos');
 Route::resource('tipoMetas',TipoMetaController::class)->middleware(['auth','verified'])->names('admin.tipoMetas');
-Route::resource('tipoMonedaPaginas',TipoMonedaPaginaController::class)->middleware(['auth','verified'])->names('admin.tipoMonedaPaginas');
+// Route::resource('tipoMonedaPaginas',TipoMonedaPaginaController::class)->middleware(['auth','verified'])->names('admin.tipoMonedaPaginas');
 Route::resource('paginas',PaginaController::class)->middleware(['auth','verified'])->names('admin.paginas');
 Route::resource('asignacionRooms',AsignacionRoomController::class)->middleware(['auth','verified'])->names('admin.asignacionRooms');
 Route::resource('asignacionMultas',AsignacionMultaController::class)->middleware(['auth','verified'])->names('admin.asignacionMultas');
@@ -93,5 +99,6 @@ Route::get('comprobanteImpuestoPDF/{pago}',[ImpuestoController::class,'comproban
 
 Route::resource('tenants',TenantController::class)->middleware(['auth','verified'])->names('admin.tenants');
 
+require __DIR__ . '/auth.php';
 
 

@@ -51,24 +51,24 @@ use App\Http\Controllers\Admin\UserController;
 |
 */
 
-Route::middleware([
-    'web',
-    InitializeTenancyByDomain::class,
-    PreventAccessFromCentralDomains::class,
+// Route::middleware([
+//     'web',
+//     InitializeTenancyByDomain::class,
+//     PreventAccessFromCentralDomains::class,
 
-])->group(function () {
+// ])->group(function () {
 
 
-    // Route::get('/',[HomeController::class,'index'])->middleware(['auth','verified']);
-    // Route::get('/', function () {
-    //     $user = \App\Models\User::first();
-    //     return $user;
-    // });
+//     // Route::get('/',[HomeController::class,'index'])->middleware(['auth','verified']);
+//     // Route::get('/', function () {
+//     //     $user = \App\Models\User::first();
+//     //     return $user;
+//     // });
 
 
 
     
-});
+// });
 
 
 

@@ -6,6 +6,7 @@ use App\Http\Controllers\Admin\RegistroDescuentoController;
 use App\Http\Controllers\Admin\ReportePaginaController;
 use App\Http\Controllers\Admin\UserController;
 
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -17,11 +18,14 @@ use App\Http\Controllers\Admin\UserController;
 |
 */
 
-Route::get('/', [HomeController::class, 'index'])->middleware(['auth', 'verified']);
-require __DIR__ . '/auth.php';
+
+
 
     // Route::get('users/{user}/rol', [UserController::class, 'rol'])->name('admin.users.rol');
     // Route::put('users/{user}', [UserController::class, 'updateRol'])->name('admin.users.updateRol');
     
     // RUTAS INDIVIDUALES
     // Route::post('reportePaginas', [ReportePaginaController::class, 'storeIndividual'])->name('admin.reportePaginas.storeIndividual');
+    Route::get('/', [HomeController::class, 'index'])->middleware(['auth', 'verified']);
+   
+    require __DIR__ . '/auth.php';

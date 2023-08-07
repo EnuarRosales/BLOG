@@ -16,13 +16,13 @@ return [
      *
      * Only relevant if you're using the domain or subdomain identification middleware.
      */
-    'central_domains' => [
-        'blog-studio.test',
-        'tenancy.test',
-        'localhost',
-        'blum.com',
-        'studio.artisandev.co'
-    ],
+    // 'central_domains' => [
+    //     'blog-studio.test',
+    //     'tenancy.test',
+    //     'localhost',
+    //     'blum.com',
+    //     'studio.artisandev.co'
+    // ],
 
     /**
      * Tenancy bootstrappers are executed when tenancy is initialized.

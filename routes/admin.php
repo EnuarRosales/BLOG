@@ -85,6 +85,9 @@ Route::get('pagos', [ReportePaginaController::class,'pagos'])->middleware(['auth
 Route::get('verificadoMasivo', [ReportePaginaController::class,'verificadoMasivo'])->middleware(['auth','verified'])->name('admin.reportePaginas.verificadoMasivo');
 Route::post('reportePaginas/updateStatus', [ReportePaginaController::class,'updateStatus'])->middleware(['auth','verified'])->name('admin.reportePaginas.updateStatus');
 // Route::get('', [ReportePaginaController::class,'pagos'])->name('admin.reportePaginas.pagos');
+//RUTAS INDIVIDUALES
+Route::post('reportePaginass',[ReportePaginaController::class,'storeIndividual'])->name('admin.reportePaginas.storeIndividual');
+
 
 Route::get('cargarExcel', [ReportePaginaController::class,'cargarExcel'])->middleware(['auth','verified'])->name('admin.reportePaginas.cargarExcel');
 Route::resource('empresa', EmpresaController::class)->middleware(['auth','verified'])->middleware(['auth','verified'])->names('admin.empresa');

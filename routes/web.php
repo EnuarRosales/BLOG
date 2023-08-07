@@ -5,7 +5,7 @@ use App\Http\Controllers\Admin\HomeController;
 use App\Http\Controllers\Admin\RegistroDescuentoController;
 use App\Http\Controllers\Admin\ReportePaginaController;
 use App\Http\Controllers\Admin\UserController;
-
+use Illuminate\Support\Facades\Auth;
 
 /*
 |--------------------------------------------------------------------------
@@ -26,6 +26,14 @@ use App\Http\Controllers\Admin\UserController;
     
     // RUTAS INDIVIDUALES
     // Route::post('reportePaginas', [ReportePaginaController::class, 'storeIndividual'])->name('admin.reportePaginas.storeIndividual');
-    Route::get('/', [HomeController::class, 'index'])->middleware(['auth', 'verified']);
-   
     require __DIR__ . '/auth.php';
+    Route::get('/', [HomeController::class, 'index']);
+    // Route::get('/', [HomeController::class, 'index'])->middleware(['auth', 'verified']);
+   
+    // Route::redirect('web.php','/auth.php');
+    
+ 
+
+   
+
+    

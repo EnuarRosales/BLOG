@@ -26,9 +26,11 @@ use Illuminate\Support\Facades\Auth;
     
     // RUTAS INDIVIDUALES
     // Route::post('reportePaginas', [ReportePaginaController::class, 'storeIndividual'])->name('admin.reportePaginas.storeIndividual');
+    
+ 
+    Route::get('/', [HomeController::class, 'index'])->middleware(['auth', 'verified']);
     require __DIR__ . '/auth.php';
-    Route::get('/', [HomeController::class, 'index']);
-    // Route::get('/', [HomeController::class, 'index'])->middleware(['auth', 'verified']);
+   
    
     // Route::redirect('web.php','/auth.php');
     

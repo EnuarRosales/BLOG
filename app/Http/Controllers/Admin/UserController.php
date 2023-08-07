@@ -180,6 +180,8 @@ class UserController extends Controller
 
             ]);
 
+            
+
             $empresa_id = $request->input('empresa_id');
 
             $request = $request->except('empresa_id');

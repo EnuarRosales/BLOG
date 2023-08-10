@@ -18,10 +18,10 @@ return [
      */
     'central_domains' => [
         // 'blog-studio.test',
-        'siaewc.com',
+        'www.siaewc.com',
         // 'foo.siaewc.com',
         // 'fo.blog-studio.test',
-        // 'localhost',
+        // 'localhost',S
         // 'blum.com',
         // 'studio.artisandev.co'
     ],

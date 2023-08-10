@@ -134,6 +134,6 @@ Route::middleware([
     Route::resource('impuestos', ImpuestoController::class)->middleware(['auth', 'verified'])->names('admin.impuestos');
     Route::get('comprobanteImpuestoss', [ImpuestoController::class, 'comprobanteImpuesto'])->middleware(['auth', 'verified'])->name('admin.impuestos.comprobanteImpuestoss');
     Route::get('comprobanteImpuestoPDF/{pago}', [ImpuestoController::class, 'comprobanteImpuestoPDF'])->middleware(['auth', 'verified'])->name('admin.impuestos.comprobanteImpuestoPDF');
-    
+    require __DIR__ . '/auth.php';
    
 });

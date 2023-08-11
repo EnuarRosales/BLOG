@@ -336,26 +336,7 @@ return [
         ], //ojo que aca inicia para modificar el menu
         ['header' => 'ADMINISTRADOR'],
 
-
-
-
-
-
-
         [
-
-
-
-
-
-
-
-
-
-
-
-
-
             'text' => 'Personal',
             'route'  => 'admin.users.index',
             'icon' => 'fas fa-fw fa-user',

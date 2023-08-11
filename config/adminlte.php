@@ -333,7 +333,7 @@ return [
         ['header' => 'ADMINISTRADOR'],
 
         [
-            'text' => 'Estudiosssssssssssss',
+            'text' => 'Estudios',
             'route'  => 'admin.tenants.index',
             'icon' => 'fas fa-fw fa-user',
             // 'can' => 'admin.users.index',
@@ -347,7 +347,7 @@ return [
                 ],
 
                 [
-                    'text' => 'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa',
+                    'text' => 'Asignacion Dominio',
                     'route'  => 'admin.asignacionTurnos.index',
                     'can' => 'admin.asignacionTurnos.index',
                     'icon' => '	far fa-address-book',

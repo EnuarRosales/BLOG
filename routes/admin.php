@@ -27,9 +27,9 @@ use App\Http\Controllers\Admin\UserController;
 //ROUTES --DescontadoController-- Corresponden a las rutas que administran la tablas de lo que se desucuenta a lo descontado
 Route::get('/',[HomeController::class,'index'])->middleware(['auth','verified']);
 
-
+// Route::resource('users', UserController::class)->middleware(['auth', 'verified'])->names('admin.users');
 Route::resource('tenants',TenantController::class)->middleware(['auth','verified'])->names('admin.tenants');
-Route::get('comprobantePagoPDF/{pago}', [PagoController::class, 'comprobantePagoPDF'])->middleware(['auth', 'verified'])->name('admin.pagos.comprobantePagoPDF');
+Route::get('tenantAsignacionDominio/{tenant}', [TenantController::class, 'agrgarUsuarioDominio'])->middleware(['auth', 'verified'])->name('admin.tenants.tenantAsignacionDominio');
 
 
 /*

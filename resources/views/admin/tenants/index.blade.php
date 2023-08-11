@@ -19,6 +19,7 @@
                 <tr>
                     <th>Id</th>
                     <th>Dominio</th>
+                    <th>Agregar</th>
                     <th>Editar</th>
                     <th>Eliminar</th>
                 </tr>
@@ -29,6 +30,9 @@
                         <td>{{ $tenant->id }}</td>
                         <td>{{ $tenant->domains->first()->domain ?? '' }}</td>
 
+                        <td width="10px" style="text-align:center">
+                            <a class="btn btn-secondary btn-sm" target="_blank" href="{{ route('admin.tenants.tenantAsignacionDominio', $tenant) }}">User</a>
+                        </td>
                         {{-- @can('admin.asignacionTurnos.edit') --}}
                         <td class="bg-light" width="10px">
                             <a class="btn btn-secondary btn-sm"

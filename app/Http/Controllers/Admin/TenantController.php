@@ -120,23 +120,17 @@ class TenantController extends Controller
 
     public function agrgarUsuarioDominio(Request $request, Tenant $tenant){
         $tenant = new TenantController;
-        $tenant->habilitarBDInquilino($tenant->id);
 
-         //VALiDACION FORMULARIO 
-         $request->validate([
-            'nombre'=>'required',
-            'porcentaje'=>'required'         
-        ]);
-
-        $tipoUsuario = TipoUsuario::create($request->all());
-        return redirect()->route('admin.tipoUsuarios.index',$tipoUsuario->id)->with('info','store');
+        // $tenants = DB::table('tenants')
+        //     ->where('id', $tenant)
+        //     ->get();
+        // tenancy()->initialize($tenants);
 
 
-        tenancy()->end();
-
-        
-
+        return redirect()->route('admin.users.create')->with('info', 'delete');        
+        tenancy()->end();      
     }
+
 
 
     public function habilitarBDInquilino(Tenant $tenant)

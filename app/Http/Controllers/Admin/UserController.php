@@ -178,14 +178,10 @@ class UserController extends Controller
                 // 'tipoUsuario_id' => 'required',
 
 
-            ]);
-
-            
+            ]);            
 
             $empresa_id = $request->input('empresa_id');
-
             $request = $request->except('empresa_id');
-
             $user = User::create($request);
 
             if ($empresa_id) {

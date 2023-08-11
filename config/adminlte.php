@@ -317,11 +317,6 @@ return [
             'text' => 'search',
         ],
 
-
-
-
-
-
         [
             'text' => 'blog',
             'url'  => 'admin/blog',
@@ -334,24 +329,25 @@ return [
             'icon'        => 'far fa-fw fa-file',
 
         ], //ojo que aca inicia para modificar el menu
+
         ['header' => 'ADMINISTRADOR'],
 
         [
-            'text' => 'Estudios',
+            'text' => 'Estudiosssssssssssss',
             'route'  => 'admin.tenants.index',
             'icon' => 'fas fa-fw fa-user',
             // 'can' => 'admin.users.index',
             'submenu' => [
 
                 [
-                    'text' => 'Inquilinos',
+                    'text' => 'Dominios',
                     'route'  => 'admin.tenants.index',
                     // 'can' => 'admin.users.index',
-                    'icon' => 'fas fa-fw fa-user',
+                    // 'icon' => 'fas fa-fw fa-user',
                 ],
 
                 [
-                    'text' => 'Asignacion Turno',
+                    'text' => 'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa',
                     'route'  => 'admin.asignacionTurnos.index',
                     'can' => 'admin.asignacionTurnos.index',
                     'icon' => '	far fa-address-book',
@@ -362,6 +358,14 @@ return [
                     'can' => 'admin.asignacionRooms.index',
                     'icon' => ' fas fa-house-user',
                 ],
+
+                [
+                    'text' => 'Asignacion Dominio',
+                    'route'  => 'admin.asignacionRooms.index',
+                    'can' => 'admin.asignacionRooms.index',
+                    'icon' => ' fas fa-house-user',
+                ],
+
 
             ]
         ],
@@ -471,7 +475,7 @@ return [
                     'url'     => '#',
                     'submenu' => [
                         [
-                            'text' => 'Tipo Moneda Paginas',
+                            'text' => 'Tipo Moneda Paginassssssssssssssssssss',
                             'url'     => '#',
                         ],
                         [

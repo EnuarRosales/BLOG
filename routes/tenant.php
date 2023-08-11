@@ -7,8 +7,6 @@ declare(strict_types=1);
 use Illuminate\Support\Facades\Route;
 use Stancl\Tenancy\Middleware\InitializeTenancyByDomain;
 use Stancl\Tenancy\Middleware\PreventAccessFromCentralDomains;
-
-
 use App\Http\Controllers\Admin\AsignacionMultaController;
 use App\Http\Controllers\Admin\AsignacionRoomController;
 use App\Http\Controllers\Admin\AsignacionTurnoController;
@@ -32,10 +30,6 @@ use App\Http\Controllers\Admin\TipoRoomController;
 use App\Http\Controllers\Admin\TipoTurnoController;
 use App\Http\Controllers\Admin\TipoUsuarioController;
 use App\Http\Controllers\Admin\UserController;
-
-
-
-
 
 
 

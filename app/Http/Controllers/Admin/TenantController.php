@@ -4,6 +4,9 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Tenant;
+use App\Models\TipoUsuario;
+use App\Models\User;
+use Database\Seeders\DatabaseSeeder;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -48,7 +51,7 @@ class TenantController extends Controller
         $tenant = Tenant::create($request->all());
 
         $tenant->domains()->create([
-            'domain' => $request->get('id') . '.' . 'siaewc.com',
+            'domain' => $request->get('id') . '.' . 'blog-studio.test',
         ]);
 
         return redirect()->route('admin.tenants.index', $tenant->id)->with('info', 'store');
@@ -99,7 +102,7 @@ class TenantController extends Controller
         ]);
 
         $tenant->domains()->update([
-            'domain' => $request->get('id') . '.' . 'siaewc.com',
+            'domain' => $request->get('id') . '.' . 'blog-studio.test',
         ]);
 
         return redirect()->route('admin.tenants.index', $tenant->id)->with('info', 'update'); //with mensaje de sesion
@@ -118,17 +121,13 @@ class TenantController extends Controller
         return redirect()->route('admin.tenants.index')->with('info', 'delete');
     }
 
-    public function agrgarUsuarioDominio(Request $request, Tenant $tenant){
-        $tenant = new TenantController;
-
-        // $tenants = DB::table('tenants')
-        //     ->where('id', $tenant)
-        //     ->get();
-        // tenancy()->initialize($tenants);
-
-
-        return redirect()->route('admin.users.create')->with('info', 'delete');        
-        tenancy()->end();      
+    public function agrgarUsuarioDominio(Request $request, Tenant $tenant)
+    {       
+        tenancy()->initialize($tenant->id);     
+        $seeder = new DatabaseSeeder();
+        $seeder->run();
+        tenancy()->end();
+        return redirect()->route('admin.tenants.index')->with('info', 'delete');
     }
 
 
@@ -143,12 +142,7 @@ class TenantController extends Controller
 
 
     public function desahabilitarBDInquilino()
-    {       
+    {
         tenancy()->end();
     }
-
-
-
-
-
 }

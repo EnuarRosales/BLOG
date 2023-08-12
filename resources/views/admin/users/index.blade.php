@@ -24,7 +24,7 @@
                     <th>Tipo Usuario</th>
                     @can('admin.users.edit')
                         <th>Editar</th>
-                    @endcan
+                    @endcan 
                     @can('admin.users.destroy')
                         <th>Eliminar</th>
                     @endcan

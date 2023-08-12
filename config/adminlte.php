@@ -336,14 +336,15 @@ return [
             'text' => 'Estudios',
             'route'  => 'admin.tenants.index',
             'icon' => 'fas fa-fw fa-user',
-            // 'can' => 'admin.users.index',
+            'can' => 'admin.tenants.index',
             'submenu' => [
 
                 [
                     'text' => 'Dominios',
                     'route'  => 'admin.tenants.index',
-                    // 'can' => 'admin.users.index',
-                    // 'icon' => 'fas fa-fw fa-user',
+                    'can' => 'admin.tenants.index',
+                    'icon' => 'fas fa-fw fa-user',
+                    
                 ],
 
                 [

@@ -9,9 +9,9 @@
 @section('content')
     <div class="card">
         <div class="card-body">
-            {{-- @can('admin.asignacionTurnos.create') --}}
-            <a class="btn btn-primary" href="{{ route('admin.tenants.create') }}">Agregar Inquilino</a>
-            {{-- @endcan --}}
+            @can('admin.tenants.create')
+                <a class="btn btn-primary" href="{{ route('admin.tenants.create') }}">Agregar Inquilino</a>
+            @endcan
         </div>
 
         <table id="registroDescuentos" class="table table-striped table-bordered shadow-lg mt-4">
@@ -19,9 +19,15 @@
                 <tr>
                     <th>Id</th>
                     <th>Dominio</th>
-                    <th>Agregar</th>
-                    <th>Editar</th>
-                    <th>Eliminar</th>
+                    @can('admin.tenants.seeders')
+                        <th>Seeders</th>
+                    @endcan
+                    @can('admin.tenants.edit')
+                        <th>Editar</th>
+                    @endcan
+                    @can('admin.tenants.destroy')
+                        <th>Eliminar</th>
+                    @endcan
                 </tr>
             </thead>
             <tbody>
@@ -30,32 +36,33 @@
                         <td>{{ $tenant->id }}</td>
                         <td>{{ $tenant->domains->first()->domain ?? '' }}</td>
 
-                        <td width="10px" style="text-align:center">
-                            <a class="btn btn-secondary btn-sm" target="_blank" href="{{ route('admin.tenants.tenantAsignacionDominio', $tenant) }}">User</a>
-                        </td>
-                        {{-- @can('admin.asignacionTurnos.edit') --}}
-                        <td class="bg-light" width="10px">
-                            <a class="btn btn-secondary btn-sm"
-                                href="{{ route('admin.tenants.edit', $tenant) }}">Editar</a>
-                        </td>
-                        {{-- @endcan
-                        {{-- @can('admin.registroAsistencias.destroy') --}}
-                        <td class="bg-light" width="10px">
-                            <form class="formulario-eliminar"
-                                action="{{ route('admin.tenants.destroy', $tenant) }}" method="POST">
-                                @csrf
-                                @method('delete')
-                                <button type="submit" class="btn btn-dark btn-sm">Eliminar</button>
-                            </form>
-                        </td>
-                        {{-- @endcan --}}
+                        @can('admin.tenants.seeders')
+                            <td width="10px" style="text-align:center">
+                                <a class="btn btn-secondary btn-sm" target="_blank"
+                                    href="{{ route('admin.tenants.tenantAsignacionDominio', $tenant) }}">Run</a>
+                            </td>
+                        @endcan
+
+                        @can('admin.tenants.edit')
+                            <td class="bg-light" width="10px">
+                                <a class="btn btn-secondary btn-sm" href="{{ route('admin.tenants.edit', $tenant) }}">Editar</a>
+                            </td>
+                        @endcan
+                        @can('admin.tenants.destroy')
+                            <td class="bg-light" width="10px">
+                                <form class="formulario-eliminar" action="{{ route('admin.tenants.destroy', $tenant) }}"
+                                    method="POST">
+                                    @csrf
+                                    @method('delete')
+                                    <button type="submit" class="btn btn-dark btn-sm">Eliminar</button>
+                                </form>
+                            </td>
+                        @endcan
                     </tr>
                 @endforeach
             </tbody>
         </table>
-
     </div>
-
 @stop
 
 @section('css')

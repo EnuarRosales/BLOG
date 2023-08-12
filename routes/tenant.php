@@ -58,7 +58,7 @@ Route::middleware([
     // });
 
     //ROUTES --DescontadoController-- Corresponden a las rutas que administran la tablas de lo que se desucuenta a lo descontado
-    Route::get('/', [HomeController::class, 'index'])->middleware(['auth', 'verified']);
+    // Route::get('/', [HomeController::class, 'index'])->middleware(['auth', 'verified']);
     // Route::get('/dashboard', function () { return view('dashboard');})->middleware(['auth', 'verified'])->name('dashboard');
 
     Route::get('abonos/{abonoParcial}', [DescontadoController::class, 'abonoParcial'])->middleware(['auth', 'verified'])->name('admin.abonos.abonoParcial');

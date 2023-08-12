@@ -3,8 +3,14 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\Empresa;
 use App\Models\Impuesto;
+use App\Models\Pago;
+use Barryvdh\DomPDF\Facade\Pdf;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use SimpleSoftwareIO\QrCode\Facades\QrCode;
 
 class ImpuestoController extends Controller
 {
@@ -17,6 +23,23 @@ class ImpuestoController extends Controller
     {
         $impuestos = Impuesto::all();
         return view('admin.impuestos.index', compact('impuestos'));
+    }
+
+    public function comprobanteImpuesto()
+    {
+        // $pagos = DB::table('pagos')
+        // ->leftJoin('impuestos', 'impuestos.id', '=', 'pagos.impuesto_id')
+        // ->select('pagos.user_id','pagos.impuestoPorcentaje','pagos.impuestoDescuento','pagos.fecha', 'impuestos.nombre')
+        // // ->where('pagos.user_id', $pago->user_id)
+        // ->where('pagos.pagado', 1)
+        // ->get();
+
+
+
+
+        $impuestos = Impuesto::all();
+        $pagos = Pago::all()->where('pagado', 1);
+        return view('admin.impuestos.comprobanteImpuesto', compact('pagos', 'impuestos'));
     }
 
     /**
@@ -38,16 +61,16 @@ class ImpuestoController extends Controller
     public function store(Request $request)
     {
         //VALiDACION FORMULARIO 
-       $request->validate([
-        'nombre'=>'required',
-        'porcentaje'=>'required',
-        'mayorQue'=>'required',
-        
-       
-              
-    ]); 
-    $impuesto= Impuesto::create($request->all());
-    return redirect()->route('admin.impuestos.index',$impuesto->id)->with('info','store');
+        $request->validate([
+            'nombre' => 'required',
+            'porcentaje' => 'required',
+            'mayorQue' => 'required',
+
+
+
+        ]);
+        $impuesto = Impuesto::create($request->all());
+        return redirect()->route('admin.impuestos.index', $impuesto->id)->with('info', 'store');
     }
 
     /**
@@ -69,7 +92,7 @@ class ImpuestoController extends Controller
      */
     public function edit(Impuesto $impuesto)
     {
-        return view('admin.impuestos.edit',compact('impuesto'));
+        return view('admin.impuestos.edit', compact('impuesto'));
     }
 
     /**
@@ -82,18 +105,18 @@ class ImpuestoController extends Controller
     public function update(Request $request, Impuesto $impuesto)
     {
         //VALLIDACION DE FORMULARIOS
-       
-       $request->validate([
-        'nombre'=>'required',
-        'porcentaje'=>'required',
-        'mayorQue'=>'required',
-        
-       
-              
-    ]);
+
+        $request->validate([
+            'nombre' => 'required',
+            'porcentaje' => 'required',
+            'mayorQue' => 'required',
+
+
+
+        ]);
         //ASINACION MASIVA DE VARIABLES A LOS CAMPOS
-        $impuesto->update($request->all());           
-        return redirect()->route('admin.impuestos.index',$impuesto->id)->with('info','update');//with mensaje de sesion
+        $impuesto->update($request->all());
+        return redirect()->route('admin.impuestos.index', $impuesto->id)->with('info', 'update'); //with mensaje de sesion
     }
 
     /**
@@ -105,6 +128,32 @@ class ImpuestoController extends Controller
     public function destroy(Impuesto $impuesto)
     {
         $impuesto->delete();
-        return redirect()->route('admin.impuestos.index')->with('info','delete');
+        return redirect()->route('admin.impuestos.index')->with('info', 'delete');
+    }
+
+
+
+    public function comprobanteImpuestoPDF(Pago $pago)
+    {
+        $empresas = Empresa::all();
+        foreach ($empresas as $empresa) {
+            $nombreEmpresa = $empresa->name;
+            $nitEmpresa = $empresa->nit;
+        }
+
+        $codigoQR =QrCode::size(80)->generate("CERTIFICACION IMPUESTO"."\n". 
+                                                "NOMBRE: ".$pago->user->name."\n".
+                                                "FECHA: ".$pago->fecha."\n".
+                                                "CONCEPTO: ". $pago->impuestos->nombre."\n".
+                                                "PORCENTAJE: ".$pago->impuestoPorcentaje." %"."\n".
+                                                "BASE GRABABLE: "."$ ".number_format($pago->devengado, 2, '.', ',')."\n".
+                                                "RETENIDO: "."$ ".number_format($pago->impuestoDescuento, 2, '.', ',')."\n"
+                                                );
+
+                                               
+        // $pagos = Pago::where('user_id', $pago->id)->get();
+        $date = Carbon::now()->locale('es');
+        $pdf = Pdf::loadView('admin.impuestos.comprobanteImpuestoPDF', compact('pago', 'date', 'nombreEmpresa','nitEmpresa','codigoQR'));
+        return $pdf->stream();
     }
 }

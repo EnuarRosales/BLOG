@@ -1,9 +1,9 @@
 @extends('adminlte::page')
 
-@section('title', 'Studio WC')
+@section('title', 'Impuesto')
 
 @section('content_header')
-    <h1>Lista de impuestos</h1>
+    <h1>Impuesto</h1>
 @stop
 
 
@@ -19,51 +19,74 @@
         <div class="card-body">
             <a class="btn btn-primary" href="{{ route('admin.impuestos.create') }}">Agregar Impuesto</a>
         </div>
-        <table class="table table-striped table-bordered shadow-lg mt-4">
-            <thead>
-                <tr>
-                    <th>ID</th>
-                    <th>Nombre</th> 
-                    <th>Porcentaje</th>
-                    <th>Mayor Que</th>
-                    <th>Activo</th>                      
-                    <th>Editar</th>
-                    <th>Eliminar</th>
-
-
-                </tr>
-            </thead>
-
-
-            <tbody>
-                @foreach ($impuestos as $impuesto)
+        @if ($impuestos->count())
+            <table class="table table-striped table-bordered shadow-lg mt-4">
+                <thead>
                     <tr>
-                        <td>{{ $impuesto->id }}</td>
-                        <td>{{ $impuesto->nombre }}</td>
-                        <td>{{ $impuesto->porcentaje }}</td>
-                        <td>{{ $impuesto->mayorQue }}</td>
-                        <td>{{ $impuesto->estado }}</td>
+                        <th>ID</th>
+                        <th>Nombre</th>
+                        <th>Porcentaje</th>
+                        <th>Mayor Que</th>
+                        <th>Activo</th>
+                        <th>Editar</th>
+                        <th>Eliminar</th>
 
-
-                        <td width="10px">
-                            <a class="btn btn-secondary btn-sm"
-                            href="{{ route('admin.impuestos.edit', $impuesto) }}">Editar</a>
-                        </td>
-
-                        <td class="bg-light" width="10px">
-                            <form class="formulario-eliminar"
-                                action="{{ route('admin.impuestos.destroy', $impuesto) }}"
-                                method="POST">
-                                @csrf
-                                @method('delete')
-                                <button type="submit" class="btn btn-dark btn-sm">Eliminar</button>
-                            </form>
-                        </td>
 
                     </tr>
-                @endforeach
-            </tbody>
-        </table>
+                </thead>
+
+
+                <tbody>
+                    @foreach ($impuestos as $impuesto)
+                        <tr>
+                            <td>{{ $impuesto->id }}</td>
+                            <td>{{ $impuesto->nombre }}</td>
+                            <td>{{ $impuesto->porcentaje }}</td>
+                            <td>{{ $impuesto->mayorQue }}</td>
+                            {{-- <td>{{ $impuesto->estado }}</td> --}}
+
+                            <td>
+
+                                {{-- @if ($impuesto->estado == 1)
+                                <button type="button" class="btn btn-secondary btn-sm btn-success">Activa</button>
+                            @else
+                                <button type="button" class="btn btn-secondary btn-sm btn-danger">Inactiva</button>
+                            @endif --}}
+
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="pruba" id="radio1">
+                                    <label class="form-check-label" for="radio1">{{ $impuesto->estado }}</label>
+                                    }}
+                                </div>
+
+                            </td>
+
+
+
+
+                            <td width="10px">
+                                <a class="btn btn-secondary btn-sm"
+                                    href="{{ route('admin.impuestos.edit', $impuesto) }}">Editar</a>
+                            </td>
+
+                            <td class="bg-light" width="10px">
+                                <form class="formulario-eliminar" action="{{ route('admin.impuestos.destroy', $impuesto) }}"
+                                    method="POST">
+                                    @csrf
+                                    @method('delete')
+                                    <button type="submit" class="btn btn-dark btn-sm">Eliminar</button>
+                                </form>
+                            </td>
+
+                        </tr>
+                    @endforeach
+                </tbody>
+            </table>
+        @else()
+            <div class="card-body">
+                <strong>No hay registros</strong>
+            </div>
+        @endif
 
     </div>
 

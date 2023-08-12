@@ -1,9 +1,9 @@
 @extends('adminlte::page')
 
-@section('title', 'Dashboard')
+@section('title', 'Lista personal')
 
 @section('content_header')
-    <h1>Personal</h1>
+    <h1>Lista personal</h1>
 @stop
 
 @section('content')
@@ -15,6 +15,7 @@
             <thead>
                 <tr>
                     <th>ID</th>
+                    <th>Fecha ingreso</th>
                     <th>Nombre</th>
                     <th>Cedula</th>
                     <th>Celular</th>
@@ -33,6 +34,7 @@
                 @foreach ($users as $usuario)
                     <tr>
                         <td>{{ $usuario->id }}</td>
+                        <td>{{ $usuario->fechaIngreso}}</td>
                         <td>{{ $usuario->name }}</td>
                         <td>{{ $usuario->cedula }}</td>
                         <td>{{ $usuario->celular }}</td>
@@ -69,15 +71,15 @@
     <link rel="stylesheet" href="https://cdn.datatables.net/1.13.4/css/dataTables.bootstrap5.min.css" rel="styleshet"> --}}
 
 
-    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.13.4/css/jquery.dataTables.min.css" />    
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.13.4/css/jquery.dataTables.min.css" />
     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/buttons/2.3.6/css/buttons.dataTables.min.css" />
 
 
-   
+
 
 @stop
 
-@section('js')    
+@section('js')
     <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
     <script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
     <script src="https://cdn.datatables.net/1.13.4/js/dataTables.bootstrap5.min.js"></script>
@@ -151,10 +153,10 @@
 
     {{-- DATATATABLE --}}
 
-    <script>        
+    <script>
         $(document).ready(function() {
             $('#users').DataTable({
-                dom: 'Blfrtip', 
+                dom: 'Blfrtip',
 
                 buttons: [
                     'copy', 'csv', 'excel','pdf', 'print'
@@ -162,7 +164,7 @@
             });
 
         });
-    </script>    
+    </script>
 
     <script type="text/javascript" src="https://code.jquery.com/jquery-3.5.1.js"></script>
     <script type="text/javascript" src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
@@ -173,5 +175,5 @@
     <script type="text/javascript" src="https://cdn.datatables.net/buttons/2.3.6/js/buttons.html5.min.js"></script>
     <script type="text/javascript" src="https://cdn.datatables.net/buttons/2.3.6/js/buttons.print.min.js"></script>
 
-    
+
 @stop

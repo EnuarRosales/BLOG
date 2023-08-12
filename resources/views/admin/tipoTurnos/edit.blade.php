@@ -3,7 +3,7 @@
 @section('title', 'Dashboard')
 
 @section('content_header')
-    <h1>Editar tipo turno</h1> 
+    <h1>Editar tipo turno</h1>
 @stop
 
 @section('content')
@@ -21,6 +21,26 @@
                 {{-- ojo que en la linea siguiente va el nombre de la columa =( --}}
                 {!! Form::text('nombre', null, ['class' => 'form-control', 'placeholder' => 'Favor ingrese un tipo turno']) !!}
                 @error('nombre')
+                    <br>
+                    <span class="text-danger">{{ $message }}</span>
+                    <br>
+                @enderror
+
+                {!! Form::label('horaIngreso', 'Hora Ingreso') !!}
+                {!! Form::time('horaIngreso', null, [
+                    'class' => 'form-control',
+                ]) !!}
+                @error('horaIngreso')
+                    <br>
+                    <span class="text-danger">{{ $message }}</span>
+                    <br>
+                @enderror
+
+                {!! Form::label('horaTermino', 'Hora Termino') !!}
+                {!! Form::time('horaTermino', null, [
+                    'class' => 'form-control',
+                ]) !!}
+                @error('horaTermino')
                     <br>
                     <span class="text-danger">{{ $message }}</span>
                     <br>

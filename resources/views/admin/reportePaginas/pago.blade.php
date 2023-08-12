@@ -23,10 +23,12 @@
             <thead>
                 <tr>
                     <th>Fecha</th>
-                    <th>Usuario</th>
+                    <th>Nombre</th>
                     <th>Devengado</th>
-                    <th>Impuesto</th>
                     <th>Descuento</th>
+                    <th>Impuesto</th>
+                    <th>Multas</th>
+
                     <th>Neto</th>
                 </tr>
             </thead>
@@ -41,15 +43,6 @@
                             <td>{{ number_format($pago->suma, 2, '.', ',') }}</td>
 
                             <td>
-                                @if ($pago->suma > $impuesto->mayorQue)
-                                    @php
-                                        $variableImpuesto = ($impuesto->porcentaje / 100) * $pago->suma;
-                                        $pago->neto = $variableImpuesto;
-                                    @endphp
-                                    {{ number_format($variableImpuesto, 2, '.', ',') }}
-                                @endif
-                            </td>
-                            <td>
                                 @foreach ($descuentos as $descuento)
                                     @if ($pago->user_id == $descuento->user_id)
                                         {{ number_format($descuento->suma, 2, '.', ',') }}
@@ -57,22 +50,44 @@
                                 @endif
                             @endforeach
                         </td>
+
                         <td>
-                            @if ($array == 'lleno')
-                                @if ($pago->user_id == $descuento->user_id)
-                                    {{ number_format($pago->suma - $descuento->suma - $pago->neto, 2, '.', ',') }}
-                                @elseif ($pago->user_id != $descuento->user_id)
-                                    {{ number_format($pago->suma - $pago->neto, 2, '.', ',') }}
-                                @endif
-                            @else
-                                {{ number_format($pago->suma - $pago->neto, 2, '.', ',') }}
+                            @if ($pago->suma > $impuesto->mayorQue)
+                                @php
+                                    $variableImpuesto = ($impuesto->porcentaje / 100) * $pago->suma;
+                                    $pago->neto = $variableImpuesto;
+                                @endphp
+                                {{ number_format($variableImpuesto, 2, '.', ',') }}
                             @endif
                         </td>
-                    </tr>
-                @endforeach
+
+                        <td>
+                            @foreach ($multas as $multa)
+                                @if ($pago->user_id == $multa->user_id)
+                                    {{ number_format($multa->suma, 2, '.', ',') }}
+                                    @php                                        
+                                        $pago->suma = $pago->suma-$multa->suma;
+                                    @endphp
+                                @break
+                            @endif
+                        @endforeach
+                    </td>
+                    <td>
+                        @if ($array == 'lleno')
+                            @if ($pago->user_id == $descuento->user_id)
+                                {{ number_format($pago->suma - $descuento->suma - $pago->neto, 2, '.', ',') }}
+                            @elseif ($pago->user_id != $descuento->user_id)
+                                {{ number_format($pago->suma - $pago->neto, 2, '.', ',') }}
+                            @endif
+                        @else
+                            {{ number_format($pago->suma - $pago->neto, 2, '.', ',') }}
+                        @endif
+                    </td>
+                </tr>
             @endforeach
-        </tbody>
-    </table>
+        @endforeach
+    </tbody>
+</table>
 
 </div>
 
@@ -97,53 +112,53 @@
 
 {{-- SWET ALERT --}}
 @if (session('info') == 'delete')
-    <script>
-        Swal.fire(
-            '¡Eliminado!',
-            'El registro se elimino con exito',
-            'success'
-        )
-    </script>
+<script>
+    Swal.fire(
+        '¡Eliminado!',
+        'El registro se elimino con exito',
+        'success'
+    )
+</script>
 @elseif(session('info') == 'store')
-    <script>
-        Swal.fire({
-            position: 'top-end',
-            icon: 'success',
-            title: 'Descuento registrado correctamente',
-            showConfirmButton: false,
-            timer: 2000
-        })
-    </script>
+<script>
+    Swal.fire({
+        position: 'top-end',
+        icon: 'success',
+        title: 'Descuento registrado correctamente',
+        showConfirmButton: false,
+        timer: 2000
+    })
+</script>
 @elseif(session('info') == 'enviarPagos')
-    <script>
-        Swal.fire({
-            position: 'top-end',
-            icon: 'success',
-            title: 'Pagos enviados exitosamente',
-            showConfirmButton: false,
-            timer: 2000
-        })
-    </script>
+<script>
+    Swal.fire({
+        position: 'top-end',
+        icon: 'success',
+        title: 'Pagos enviados exitosamente',
+        showConfirmButton: false,
+        timer: 2000
+    })
+</script>
 @elseif(session('info') == 'valorCero')
-    <script>
-        Swal.fire({
-            position: 'top-end',
-            icon: 'warning',
-            title: 'No hay saldo que descontar',
-            showConfirmButton: false,
-            timer: 2000
-        })
-    </script>
+<script>
+    Swal.fire({
+        position: 'top-end',
+        icon: 'warning',
+        title: 'No hay saldo que descontar',
+        showConfirmButton: false,
+        timer: 2000
+    })
+</script>
 @elseif(session('info') == 'update')
-    <script>
-        Swal.fire({
-            position: 'top-end',
-            icon: 'success',
-            title: 'Descuento correctamente',
-            showConfirmButton: false,
-            timer: 2000
-        })
-    </script>
+<script>
+    Swal.fire({
+        position: 'top-end',
+        icon: 'success',
+        title: 'Descuento correctamente',
+        showConfirmButton: false,
+        timer: 2000
+    })
+</script>
 @endif
 
 <script>

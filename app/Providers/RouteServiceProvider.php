@@ -35,7 +35,10 @@ class RouteServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        $this->configureRateLimiting();
+        $this->configureRateLimiting(); 
+
+        $this->mapWebRoutes();
+        $this->mapApiRoutes();
 
         $this->routes(function () {
             Route::prefix('api')
@@ -47,11 +50,13 @@ class RouteServiceProvider extends ServiceProvider
                 ->namespace($this->namespace)
                 ->group(base_path('routes/web.php'));
 
-                //SE DEFINE FUNCIONALIDAD PARA QUE LARAVEL RECONOZCA LA RUTAS DE ADMIN
-                Route::middleware('web')
+            //SE DEFINE FUNCIONALIDAD PARA QUE LARAVEL RECONOZCA LA RUTAS DE ADMIN
+            Route::middleware('web', 'auth')
                 ->prefix('admin')
                 ->namespace($this->namespace)
                 ->group(base_path('routes/admin.php'));
+
+           
         });
     }
 
@@ -65,5 +70,33 @@ class RouteServiceProvider extends ServiceProvider
         RateLimiter::for('api', function (Request $request) {
             return Limit::perMinute(60)->by(optional($request->user())->id ?: $request->ip());
         });
+    }
+
+
+
+    protected function mapWebRoutes()
+    {
+        foreach ($this->centralDomains() as $domain) {
+            Route::middleware('web')
+                ->domain($domain)
+                ->namespace($this->namespace)
+                ->group(base_path('routes/web.php'));
+        }
+    }
+
+    protected function mapApiRoutes()
+    {
+        foreach ($this->centralDomains() as $domain) {
+            Route::prefix('api')
+                ->domain($domain)
+                ->middleware('api')
+                ->namespace($this->namespace)
+                ->group(base_path('routes/api.php'));
+        }
+    }
+
+    protected function centralDomains(): array
+    {
+        return config('tenancy.central_domains');
     }
 }

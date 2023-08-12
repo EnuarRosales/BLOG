@@ -24,15 +24,17 @@
                     <br> 
                 @enderror
 
-                {!! Form::label('created_at', 'Fecha') !!}
-                {{-- {!!Form::date('registroAsistencia',\Carbon\Carbon::now())!!} --}}
-                {!! Form::date('created_at', $registroAsistencia->pluck('created_at', 'id'), null,['class' => 'form-control','placeholder' => 'Seleccione Un Usuario']) !!}
-
-                @error('created_at')
+                 
+                
+                {!! Form::label('fecha', 'Fecha') !!}
+                {!! Form::date('fecha', null, [
+                    'class' => 'form-control',
+                ]) !!}
+                @error('fecha')
                     <br>
                     <span class="text-danger">{{ $message }}</span>
                     <br>
-                @enderror                 
+                @enderror     
 
                 {{-- {!! Form::label('created_at', 'Fecha') !!}
                 {!! Form::select($registroAsistencia->created_at, null, ['class' => 'form-control','placeholder' => 'Seleccione Un Usuario']) !!}
@@ -41,6 +43,23 @@
                     <span class="text-danger">{{ $message }}</span>
                     <br>
                 @enderror  --}}
+
+                {!! Form::label('mi_hora', 'Hora') !!}
+                {!! Form::time('mi_hora', null,  [
+                    'class' => 'form-control',
+                ]) !!}
+                @error('mi_hora')
+                    <br>
+                    <span class="text-danger">{{ $message }}</span>
+                    <br>
+                @enderror
+
+
+
+
+
+
+
 
             </div>
             {!! Form::submit('Actualizar Asistencia', ['class' => 'btn btn-primary']) !!}

@@ -317,11 +317,6 @@ return [
             'text' => 'search',
         ],
 
-
-
-
-
-
         [
             'text' => 'blog',
             'url'  => 'admin/blog',
@@ -334,7 +329,46 @@ return [
             'icon'        => 'far fa-fw fa-file',
 
         ], //ojo que aca inicia para modificar el menu
+
         ['header' => 'ADMINISTRADOR'],
+
+        [
+            'text' => 'Estudios',
+            'route'  => 'admin.tenants.index',
+            'icon' => 'fas fa-fw fa-user',
+            // 'can' => 'admin.users.index',
+            'submenu' => [
+
+                [
+                    'text' => 'Dominios',
+                    'route'  => 'admin.tenants.index',
+                    // 'can' => 'admin.users.index',
+                    // 'icon' => 'fas fa-fw fa-user',
+                ],
+
+                [
+                    'text' => 'Asignacion Dominio',
+                    'route'  => 'admin.asignacionTurnos.index',
+                    'can' => 'admin.asignacionTurnos.index',
+                    'icon' => '	far fa-address-book',
+                ],
+                [
+                    'text' => 'Asignacion Room',
+                    'route'  => 'admin.asignacionRooms.index',
+                    'can' => 'admin.asignacionRooms.index',
+                    'icon' => ' fas fa-house-user',
+                ],
+
+                [
+                    'text' => 'Asignacion Dominio',
+                    'route'  => 'admin.asignacionRooms.index',
+                    'can' => 'admin.asignacionRooms.index',
+                    'icon' => ' fas fa-house-user',
+                ],
+
+
+            ]
+        ],
 
         [
             'text' => 'Personal',
@@ -399,6 +433,10 @@ return [
                 ],
 
                 [
+                    'text' => 'Empresa',
+                    'route'  => 'admin.empresa.index',
+                ],
+                [
                     'text' => 'Impuestos',
                     'route'  => 'admin.impuestos.index',
                 ],
@@ -426,11 +464,7 @@ return [
                     'route'  => 'admin.tipoDescuentos.index',
                 ],
 
-                [
-                    'text' => 'Tipo Metas',
-                    'route'  => 'admin.tipoMetas.index',
-                ],
-
+                
                 [
                     'text' => 'Paginas',
                     'route'  => 'admin.paginas.index',
@@ -441,7 +475,7 @@ return [
                     'url'     => '#',
                     'submenu' => [
                         [
-                            'text' => 'Tipo Moneda Paginas',
+                            'text' => 'Tipo Moneda Paginassssssssssssssssssss',
                             'url'     => '#',
                         ],
                         [
@@ -469,9 +503,38 @@ return [
                 [
                     'text' => 'level_one',
                     'url'  => '#',
-                ],
+                ]
             ],
         ],
+
+        [
+            'text'    => 'Certificaciones',
+            'url'     => '#',
+            'icon' => 'fas fa-fw fa-lock',
+            'submenu' => [
+                [
+                    'text' => 'Laboral',
+                    'route'  => 'admin.users.userCertificacion',
+                ],
+                [
+                    'text' => 'Tiempo',
+                    'route'  => 'admin.users.certificacionTiempo',
+                ],
+                [
+                    'text' => 'Impuesto',
+                    'route'  => 'admin.impuestos.comprobanteImpuestoss', 
+                    
+                ], 
+                [
+                    'text' => 'Pago',
+                    // 'url'  => 'user/1/comprobantePagoPDF',
+                    'route'=> 'admin.pagos.index',                                    
+                ],
+
+            ],
+        ],
+
+
         ['header' => 'CONTROL'],
         [
             'text'       => 'Registro Multas',

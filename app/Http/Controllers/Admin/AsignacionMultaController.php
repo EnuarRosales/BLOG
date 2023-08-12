@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Events\multaEvent;
 use App\Http\Controllers\Controller;
 use App\Models\AsignacionMulta;
 use App\Models\TipoMulta;
@@ -14,24 +15,24 @@ class AsignacionMultaController extends Controller
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Http\Response 
+     * @return \Illuminate\Http\Response
      */
-    public function index()    
+    public function index()
     {
-        $userLogueado = auth()->user()->id;                
-        $asignacionMultas = AsignacionMulta::orderBy('id','desc')->paginate();       
-        return view('admin.asignacionMultas.index', compact('asignacionMultas','userLogueado'));  
+        $userLogueado = auth()->user()->id;
+        $asignacionMultas = AsignacionMulta::orderBy('id','asc')->where('descontado', 0)->paginate();
+        return view('admin.asignacionMultas.index', compact('asignacionMultas','userLogueado'));
     }
 
     /**
      * Show the form for creating a new resource.
      *
      * @return \Illuminate\Http\Response
-     */ 
+     */
     public function create()
     {
-        $users = User::orderBy('id','desc'); 
-        $tipoMultas = TipoMulta::orderBy('id','desc'); 
+        $users = User::orderBy('id','desc');
+        $tipoMultas = TipoMulta::orderBy('id','desc');
         return view('admin.asignacionMultas.create', compact('users','tipoMultas'));
     }
 
@@ -45,22 +46,16 @@ class AsignacionMultaController extends Controller
     {
         $request->validate([
             'user_id'=>'required',
-            'tipoMulta_id'=>'required',         
+            'tipoMulta_id'=>'required',
         ]);
- 
-        $asignacionMulta = AsignacionMulta::create($request->all());
-        return redirect()->route('admin.asignacionMultas.index',$asignacionMulta->id)->with('info','store');
-    }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
+        $asignacionMulta = AsignacionMulta::create($request->all());
+
+        if ($asignacionMulta) {
+            multaEvent::dispatch($asignacionMulta->id);
+        }
+
+        return redirect()->route('admin.asignacionMultas.index',$asignacionMulta->id)->with('info','store');
     }
 
     /**
@@ -71,8 +66,8 @@ class AsignacionMultaController extends Controller
      */
     public function edit(AsignacionMulta $asignacionMulta)
     {
-        $users = User::orderBy('id','desc'); 
-        $tipoMultas = TipoMulta::orderBy('id','desc');  
+        $users = User::orderBy('id','desc');
+        $tipoMultas = TipoMulta::orderBy('id','desc');
 
         return view('admin.asignacionMultas.edit',compact('asignacionMulta','users','tipoMultas'));
     }
@@ -86,10 +81,10 @@ class AsignacionMultaController extends Controller
      */
     public function update(Request $request, AsignacionMulta $asignacionMulta)
     {
-        //VALiDACION FORMULARIO 
+        //VALiDACION FORMULARIO
         $request->validate([
             'user_id'=>'required',
-            'tipoMulta_id'=>'required',         
+            'tipoMulta_id'=>'required',
         ]);
         //ASINACION MASIVA DE VARIABLES A LOS CAMPOS
         $asignacionMulta->update($request->all());

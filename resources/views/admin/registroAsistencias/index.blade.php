@@ -1,16 +1,16 @@
 @extends('adminlte::page')
 
-@section('title', 'Dashboard')
+@section('title', 'Lista de asistencia')
 
 @section('content_header')
-    <h1>Listado de asistencia</h1>
+    <h1>Lista de asistencia</h1>
 @stop
 
 @section('content')
     <div class="card">
         <div class="card-body">
             {{-- @can('admin.asignacionTurnos.create') --}}
-            <a class="btn btn-primary" href="{{ route('admin.registroAsistencias.create') }}">Agregar Asistencia</a>
+            <a class="btn btn-primary" href="{{ route('admin.registroAsistencias.create') }}">Registrar Asistencia</a>
             {{-- @endcan --}}
 
         </div>
@@ -20,6 +20,8 @@
                     <th>ID</th>
                     <th>Usuario</th>
                     <th>Fecha</th>
+                    <th>Hora</th>
+                    <th>Control</th>
                     <th>Editar</th>
                     <th>Eliminar</th>
                 </tr>
@@ -29,7 +31,12 @@
                     <tr>
                         <td>{{ $asistencia->id }}</td>
                         <td>{{ $asistencia->user->name }}</td>
-                        <td>{{ $asistencia->created_at }}</td>
+                        <td>{{ $asistencia->fecha }}</td>
+                        <td>              
+                         {{ date('g:i a', strtotime($asistencia->mi_hora))}}
+                        </td>
+                        <td>{{"#"}}</td>
+
                         {{-- @can('admin.asignacionTurnos.edit') --}}
                         <td width="10px">
                             <a class="btn btn-secondary btn-sm"

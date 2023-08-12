@@ -5,7 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\Turno;
 use Illuminate\Http\Request;
- 
+
 class TipoTurnoController extends Controller
 {
     /**
@@ -15,8 +15,8 @@ class TipoTurnoController extends Controller
      */
     public function index()
     {
-        $turnos = Turno::orderBy('id','desc')->paginate(); 
-        return view('admin.tipoTurnos.index',compact('turnos'));
+        $turnos = Turno::orderBy('id', 'desc')->paginate();
+        return view('admin.tipoTurnos.index', compact('turnos'));
     }
 
     /**
@@ -37,13 +37,15 @@ class TipoTurnoController extends Controller
      */
     public function store(Request $request)
     {
-       //VALiDACION FORMULARIO 
-       $request->validate([
-        'nombre'=>'required',         
-    ]); 
-    $turno= Turno::create($request->all());
-    return redirect()->route('admin.tipoTurnos.index',$turno->id)->with('info','store');
+        //VALiDACION FORMULARIO 
+        $request->validate([
+            'nombre' => 'required',
+            'horaTermino' => 'required',
+            'horaIngreso' => 'required',
+        ]);
 
+        $turno = Turno::create($request->all());
+        return redirect()->route('admin.tipoTurnos.index', $turno->id)->with('info', 'store');
     }
 
     /**
@@ -65,7 +67,7 @@ class TipoTurnoController extends Controller
      */
     public function edit(Turno $tipoTurno)
     {
-        return view('admin.tipoTurnos.edit',compact('tipoTurno'));
+        return view('admin.tipoTurnos.edit', compact('tipoTurno'));
     }
 
     /**
@@ -77,14 +79,17 @@ class TipoTurnoController extends Controller
      */
     public function update(Request $request, Turno $tipoTurno)
     {
-         //VALLIDACION DE FORMULARIOS
-         $request->validate([ 
-            'nombre'=>'required'
+        //VALLIDACION DE FORMULARIOS
+        $request->validate([
+            'nombre' => 'required',
+            'horaIngreso' => 'required',
+            'horaTermino' => 'required',
+            
         ]);
         //ASINACION MASIVA DE VARIABLES A LOS CAMPOS
-        $tipoTurno->update($request->all());           
-        return redirect()->route('admin.tipoTurnos.index',$tipoTurno->id)->with('info','update');//with mensaje de sesion
-              
+        $tipoTurno->update($request->all());
+        return redirect()->route('admin.tipoTurnos.index', $tipoTurno->id)->with('info', 'update'); //with mensaje de sesion
+
     }
 
     /**
@@ -96,7 +101,6 @@ class TipoTurnoController extends Controller
     public function destroy(Turno $tipoTurno)
     {
         $tipoTurno->delete();
-        return redirect()->route('admin.tipoTurnos.index')->with('info','delete');
+        return redirect()->route('admin.tipoTurnos.index')->with('info', 'delete');
     }
-    
 }

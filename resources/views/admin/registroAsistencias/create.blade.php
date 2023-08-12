@@ -11,6 +11,31 @@
         <div class="card-body">
             {!! Form::open(['route' => 'admin.registroAsistencias.store']) !!}
             <div class="form-group">
+
+                {!! Form::label('fecha', 'Fecha') !!}
+                {!! Form::date('fecha', now(), [
+                    'class' => 'form-control',
+                ]) !!}
+                @error('fecha')
+                    <br>
+                    <span class="text-danger">{{ $message }}</span>
+                    <br>
+                @enderror
+
+                {!! Form::label('mi_hora', 'Hora') !!}
+                {!! Form::time('mi_hora', now(), [
+                    'class' => 'form-control',
+                ]) !!}
+                @error('mi_hora')
+                    <br>
+                    <span class="text-danger">{{ $message }}</span>
+                    <br>
+                @enderror
+
+                
+
+
+
                 {!! Form::label('user_id', 'Usuario') !!}
                 {!! Form::select('user_id', $users->pluck('name', 'id'), null, [
                     'class' => 'form-control',

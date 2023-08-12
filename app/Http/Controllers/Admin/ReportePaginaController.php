@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Imports\ReportePaginasImport;
+use App\Models\AsignacionMulta;
 use App\Models\Descontado;
 use App\Models\Descuento;
 use App\Models\Impuesto;
@@ -83,6 +84,7 @@ class ReportePaginaController extends Controller
         Excel::import(new ReportePaginasImport, $file);
         $reportePaginas = ReportePagina::all();
 
+
         foreach ($reportePaginas as $reportePagina) {
             if ($reportePagina->valorPagina == null) {
                 $reportePagina->valorPagina = $reportePagina->pagina->valor;
@@ -96,13 +98,14 @@ class ReportePaginaController extends Controller
         // OJO DE ACA INICIA EL PROECSOOOOOOOOOOOOOOOOOOOOOOOOOOOO
         $asignarMeta = new ReportePaginaController;
         $asignarMeta->ponerMeta();
-        // $asignarMeta->actualizarPorcentaje();
+        $asignarMeta->actualizarPorcentaje();
         return redirect()->route('admin.reportePaginas.index')->with('info', 'storeExcel');
     }
 
+
     public function actualizarPorcentaje()
     {
-        $reportePaginas = ReportePagina::with('user')->where('verificado', 0)->get();
+        $reportePaginas = ReportePagina::where('verificado', 0)->get();
         foreach ($reportePaginas as $reportePagina) {
             if ($reportePagina->verificado == 0) {
                 $reportePagina->porcentaje = $reportePagina->user->tipoUsuario->porcentaje;
@@ -303,7 +306,7 @@ class ReportePaginaController extends Controller
         // $reportePaginas = ReportePagina::with('user', 'metaModelo')->get();
         $reportePaginas = ReportePagina::all();
         foreach ($reportePaginas as $reportePagina) {
-            if ($reportePagina->user->tipoUsuario->nombre == "MODELO") {
+            if ($reportePagina->user->tipoUsuario->nombre == "Modelo") {
                 $reportePagina->porcentajeTotal = $reportePagina->user->tipoUsuario->porcentaje + $reportePagina->metaModelo; //+ $reportePagina->metaModelo->porcentaje
                 $reportePagina->save();
             } else {
@@ -316,13 +319,6 @@ class ReportePaginaController extends Controller
         }
     }
 
-
-
-
-
-
-
-
     public function verificadoMasivo()
     {
         $reportePaginas = ReportePagina::where('verificado', 0)->get();
@@ -332,9 +328,6 @@ class ReportePaginaController extends Controller
         }
         return redirect()->route('admin.reportePaginas.index')->with('info', 'verificadoMasivo');
     }
-
-
-
     public function pagos()
     {
 
@@ -348,18 +341,7 @@ class ReportePaginaController extends Controller
             ->groupBy('fecha', 'user_id')
             ->get();
 
-        $pagosArray = [];
 
-        foreach ($pagos as $pago) {
-            $pagosArray[] = $pago;
-        }
-
-        foreach ($pagosArray as $pagosArra) {
-            // return $pagosArra;
-            // echo "<hr>";
-        }
-
-        $descuentosArray = [];
         $descuentos = DB::table('descuentos')
             ->join('descontados', 'descontados.descuento_id', '=', 'descuentos.id')
             ->select(
@@ -370,32 +352,6 @@ class ReportePaginaController extends Controller
             ->groupBy('user_id')
             ->get();
 
-        foreach ($descuentos as $iten) {
-            $descuentosArray[] = $iten->user_id;
-            $descuentosArray[] = $iten->suma;
-        }
-        foreach ($descuentosArray as $item) {
-            // echo $item;
-            // echo "<hr>";
-        }
-
-        $data = [
-            [
-                'fecha'=>1,
-                'usuaio'=>1,
-                'devengado'=>1,
-                'impuestp'=>1,
-                'descuento'=>1,
-                'netop'=>1,
-            ]
-
-        ];
-
-
-
-
-
-
         if (count($descuentos) == "0") {
             $array = "vacio";
         } else {
@@ -403,10 +359,25 @@ class ReportePaginaController extends Controller
         }
 
         $variableImpuesto = 0;
-        $calorImpuesto = 0;
-
         $impuestos = Impuesto::where('estado', 1)->get();
-        return view('admin.reportePaginas.pago', compact('pagos', 'descuentos', 'array', 'impuestos', 'variableImpuesto'));
+        $multas = AsignacionMulta::where('descontado', 0)->get();
+
+
+        $multas = DB::table('asignacion_multas')
+            ->join('tipo_multas', 'tipo_multas.id', '=', 'asignacion_multas.tipoMulta_id')
+            ->select(
+                DB::raw('sum(tipo_multas.costo) as suma'),
+                DB::raw('user_id'),
+            )
+            ->where('asignacion_multas.descontado', 0)
+
+            ->groupBy('user_id')
+            ->get();
+
+
+
+
+        return view('admin.reportePaginas.pago', compact('pagos', 'descuentos', 'array', 'impuestos', 'variableImpuesto', 'multas'));
     }
 
 

@@ -9,7 +9,7 @@
 @section('content')
     <div class="card">
         <div class="card-body">
-            
+
         </div>
         <table id="users" class="table table-striped table-bordered shadow-lg mt-4">
             <thead>
@@ -22,36 +22,23 @@
                     <th>Direccion</th>
                     <th>Email</th>
                     <th>Tipo Usuario</th>
-                    @can('admin.users.edit')
-                        <th>Certificacion</th>
-                    @endcan                    
+                    <th>Certificacion</th>
+
                 </tr>
             </thead>
             <tbody>
                 @foreach ($users as $user)
-                    <tr>
-                        <td>{{ $user->id }}</td>
-                        <td>{{ $user->fechaIngreso}}</td>
-                        <td>{{ $user->name }}</td>
-                        <td>{{ $user->cedula }}</td>
-                        <td>{{ $user->celular }}</td>
-                        <td>{{ $user->direccion }}</td>
-                        <td>{{ $user->email }}</td>
-                        <td>{{ $user->tipoUsuario->nombre }}</td>
-
-                        @can('admin.users.edit')
-                            <td width="10px" style="text-align:center">
-                                <a class="btn btn-secondary btn-sm" target="_blank" href="{{ route('admin.users.certificacionLaboralPDF', $user) }}">Ver</a>
-                            </td>
-                        @endcan
-                        
-                    </tr>
+                    @if (auth()->user()->hasRole('Administrador'))
+                        @include('admin.users.partials.tableCertificacionLaboral')
+                    @elseif (auth()->user()->hasRole('Monitor'))
+                        @include('admin.users.partials.tableCertificacionLaboral')
+                    @elseif($user->id == $userLogueado)
+                        @include('admin.users.partials.tableCertificacionLaboral')
+                    @endif
                 @endforeach
             </tbody>
         </table>
-    </div>   
-
-
+    </div>
 
 @stop
 
@@ -144,7 +131,7 @@
                 dom: 'Blfrtip',
 
                 buttons: [
-                    'copy', 'csv', 'excel','pdf', 'print'
+                    'copy', 'csv', 'excel', 'pdf', 'print'
                 ]
             });
 

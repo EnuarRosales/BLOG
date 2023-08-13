@@ -22,24 +22,16 @@ class ImpuestoController extends Controller
     public function index()
     {
         $impuestos = Impuesto::all();
+
         return view('admin.impuestos.index', compact('impuestos'));
     }
 
     public function comprobanteImpuesto()
     {
-        // $pagos = DB::table('pagos')
-        // ->leftJoin('impuestos', 'impuestos.id', '=', 'pagos.impuesto_id')
-        // ->select('pagos.user_id','pagos.impuestoPorcentaje','pagos.impuestoDescuento','pagos.fecha', 'impuestos.nombre')
-        // // ->where('pagos.user_id', $pago->user_id)
-        // ->where('pagos.pagado', 1)
-        // ->get();
-
-
-
-
         $impuestos = Impuesto::all();
+        $userLogueado = auth()->user()->id;
         $pagos = Pago::all()->where('pagado', 1);
-        return view('admin.impuestos.comprobanteImpuesto', compact('pagos', 'impuestos'));
+        return view('admin.impuestos.comprobanteImpuesto', compact('pagos', 'impuestos', 'userLogueado'));
     }
 
     /**
@@ -141,19 +133,20 @@ class ImpuestoController extends Controller
             $nitEmpresa = $empresa->nit;
         }
 
-        $codigoQR =QrCode::size(80)->generate("CERTIFICACION IMPUESTO"."\n". 
-                                                "NOMBRE: ".$pago->user->name."\n".
-                                                "FECHA: ".$pago->fecha."\n".
-                                                "CONCEPTO: ". $pago->impuestos->nombre."\n".
-                                                "PORCENTAJE: ".$pago->impuestoPorcentaje." %"."\n".
-                                                "BASE GRABABLE: "."$ ".number_format($pago->devengado, 2, '.', ',')."\n".
-                                                "RETENIDO: "."$ ".number_format($pago->impuestoDescuento, 2, '.', ',')."\n"
-                                                );
+        $codigoQR = QrCode::size(80)->generate(
+            "CERTIFICACION IMPUESTO" . "\n" .
+                "NOMBRE: " . $pago->user->name . "\n" .
+                "FECHA: " . $pago->fecha . "\n" .
+                "CONCEPTO: " . $pago->impuestos->nombre . "\n" .
+                "PORCENTAJE: " . $pago->impuestoPorcentaje . " %" . "\n" .
+                "BASE GRABABLE: " . "$ " . number_format($pago->devengado, 2, '.', ',') . "\n" .
+                "RETENIDO: " . "$ " . number_format($pago->impuestoDescuento, 2, '.', ',') . "\n"
+        );
 
-                                               
+
         // $pagos = Pago::where('user_id', $pago->id)->get();
         $date = Carbon::now()->locale('es');
-        $pdf = Pdf::loadView('admin.impuestos.comprobanteImpuestoPDF', compact('pago', 'date', 'nombreEmpresa','nitEmpresa','codigoQR'));
+        $pdf = Pdf::loadView('admin.impuestos.comprobanteImpuestoPDF', compact('pago', 'date', 'nombreEmpresa', 'nitEmpresa', 'codigoQR'));
         return $pdf->stream();
     }
 }

@@ -18,9 +18,26 @@ class AsignacionMultaController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function index()
-    {
+    { 
         $userLogueado = auth()->user()->id;
         $asignacionMultas = AsignacionMulta::orderBy('id','asc')->where('descontado', 0)->paginate();
+
+    $rol = Role::all();
+
+    // return $rol;
+
+        // foreach($asignacionMultas as $asignacionMulta){
+        //     if (auth()->user()->hasRole('Administrador')){
+
+        //     }
+
+        // }
+
+        
+       
+    //  return $userLogueado = auth()->user();
+
+        
         return view('admin.asignacionMultas.index', compact('asignacionMultas','userLogueado'));
     }
 

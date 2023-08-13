@@ -44,8 +44,9 @@ class UserController extends Controller
         try {
             $users = User::all();
             $date = Carbon::now()->locale('es');
+            $userLogueado = auth()->user()->id;
 
-            return view('admin.users.certificacionLaboral', compact('users'));
+            return view('admin.users.certificacionLaboral', compact('users','userLogueado'));
         } catch (\Exception $exception) {
             Log::error("Error UC index: {$exception->getMessage()}, File: {$exception->getFile()}, Line: {$exception->getLine()}");
         }
@@ -54,6 +55,7 @@ class UserController extends Controller
     public function certificacionTiempo()
     {
         try {
+            $userLogueado = auth()->user()->id;
             $users = User::all()->where('active', 1);
             $date = Carbon::now()->locale('es');
             $fechaReciente = Carbon::now();
@@ -67,7 +69,7 @@ class UserController extends Controller
             }
 
             $i=0;
-            return view('admin.users.certificacionTiempo', compact('users', 'year', 'month', 'day','i'));
+            return view('admin.users.certificacionTiempo', compact('userLogueado','users', 'year', 'month', 'day','i'));
         } catch (\Exception $exception) {
             Log::error("Error UC index: {$exception->getMessage()}, File: {$exception->getFile()}, Line: {$exception->getLine()}");
         }

@@ -413,21 +413,24 @@ return [
         [
             'text'    => 'Configuracion',
             'icon'    => 'fas fa-fw fa-share',
-            'can' => 'admin.configuraciones',
+            'can' => 'admin.configuraciones.menu',
             'submenu' => [
 
 
                 [
                     'text'    => 'METAS',
                     'url'     => '#',
+                    'can' => 'admin.configuraciones.metas',
                     'submenu' => [
                         [
                             'text' => 'Metas Estudio',
                             'route'     => 'admin.tipoMetas.index',
+                            'can' => 'admin.tipoMetas',
                         ],
                         [
                             'text' => 'Metas Modelo',
                             'route'     => 'admin.metaModelos.index',
+                            'can' => 'admin.metasModelos',
                         ],
 
                     ],
@@ -436,39 +439,47 @@ return [
                 [
                     'text' => 'Empresa',
                     'route'  => 'admin.empresa.index',
+                    'can' => 'admin.empresas',
                 ],
                 [
                     'text' => 'Impuestos',
                     'route'  => 'admin.impuestos.index',
+                    'can' => 'admin.impuestos',
                 ],
 
                 [
                     'text' => 'Tipo Usuarios',
                     'route'  => 'admin.tipoUsuarios.index',
+                    'can' => 'admin.tipoUsuarios',
                 ],
 
                 [
                     'text' => 'Tipo Turnos',
                     'route'  => 'admin.tipoTurnos.index',
+                    'can' => 'admin.tipoTurnos',
                 ],
 
                 [
                     'text' => 'Tipo Rooms',
                     'route'  => 'admin.tipoRooms.index',
+                    'can' => 'admin.tipoRooms',
                 ],
                 [
                     'text' => 'Tipo Multas',
                     'route'  => 'admin.tipoMultas.index',
+                    'can' => 'admin.tipoMultas',
                 ],
                 [
                     'text' => 'Tipo Descuentos',
                     'route'  => 'admin.tipoDescuentos.index',
+                    'can' => 'admin.tipoDescuentos',
                 ],
 
                 
                 [
                     'text' => 'Paginas',
                     'route'  => 'admin.paginas.index',
+                    'can' => 'admin.paginas',
                 ],
 
                 [
@@ -512,24 +523,29 @@ return [
             'text'    => 'Certificaciones',
             'url'     => '#',
             'icon' => 'fas fa-fw fa-lock',
+            'can' => 'admin.certificaciones',
             'submenu' => [
                 [
                     'text' => 'Laboral',
                     'route'  => 'admin.users.userCertificacion',
+                    'can' => 'admin.certificacion.laboral',
                 ],
                 [
                     'text' => 'Tiempo',
                     'route'  => 'admin.users.certificacionTiempo',
+                    'can' => 'admin.certificacion.tiempo',
                 ],
                 [
                     'text' => 'Impuesto',
                     'route'  => 'admin.impuestos.comprobanteImpuestoss', 
+                    'can' => 'admin.certificacion.impuesto',
                     
                 ], 
                 [
                     'text' => 'Pago',
                     // 'url'  => 'user/1/comprobantePagoPDF',
-                    'route'=> 'admin.pagos.index',                                    
+                    'route'=> 'admin.pagos.index',    
+                    'can' => 'admin.certificacion.pago',                                
                 ],
 
             ],
@@ -547,23 +563,27 @@ return [
             'text'       => 'Registro Asistencias',
             'icon_color' => 'yellow',
             'route'        => 'admin.registroAsistencias.index',
+            'can' =>           'admin.registroAsistencias.index',
 
         ],
         [
-            'text'       => 'Registro Produccion',
-            'icon_color' => 'cyan',
-            'route'        => 'admin.registroProducidos.index',
+            'text'=>'Registro Produccion',
+            'icon_color'=>'cyan',
+            'route'=>'admin.registroProducidos.index',  
+            'can' =>'admin.registroProduccion.index',
         ],
 
         [
-            'text'       => 'Registro Descuentos',
-            'icon_color' => 'blue',
-            'route'        => 'admin.registroDescuentos.index',
+            'text'=>'Registro Descuentos',
+            'icon_color'=>'blue',
+            'route'=>'admin.registroDescuentos.index',  
+            'can'=>'admin.registroDescuentos.index',
         ],
         [
-            'text'       => 'Reportes Paginas',
+            'text' => 'Reportes Paginas',
             'icon_color' => 'green',
-            'route'        => 'admin.reportePaginas.index',
+            'route'=> 'admin.reportePaginas.index',  
+            'can'=>'admin.reportePaginas.index',
         ],
     ],
 

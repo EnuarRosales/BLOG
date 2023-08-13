@@ -6,11 +6,10 @@
 @section('content')
     <div class="card">
         <div class="card-body">
-
         </div>
         <table id="users" class="table table-striped table-bordered shadow-lg mt-4">
-            <thead >
-                <tr >
+            <thead>
+                <tr>
                     <th>ID</th>
                     <th>Fecha ingreso</th>
                     <th>Nombre</th>
@@ -21,30 +20,21 @@
                 </tr>
             </thead>
             <tbody>
-                @foreach ($users as $user)                    
+                @foreach ($users as $user)
                     @php
                         $i++;
                     @endphp
-                    <tr>
-                        <td>{{ $user->id }}</td>
-                        <td>{{ $user->fechaIngreso }}</td>
-                        <td>{{ $user->name }}</td>
-                        <td style="text-align:center">{{ $year[$i - 1] }}</td>
-                        <td style="text-align:center">{{ $month[$i - 1] }}</td>
-                        <td style="text-align:center">{{ $day[$i - 1] }}</td>
-                        @can('admin.users.edit')
-                            <td width="10px" style="text-align:center">
-                                <a class="btn btn-secondary btn-sm" target="_blank"
-                                    href="{{ route('admin.users.certificacionTiempoPDF', $user) }}">Ver</a>
-                            </td>
-                        @endcan
-                    </tr>
+                    @if (auth()->user()->hasRole('Administrador'))
+                        @include('admin.users.partials.tableCertificacionTiempo')
+                    @elseif (auth()->user()->hasRole('Monitor'))
+                        @include('admin.users.partials.tableCertificacionTiempo')
+                    @elseif($user->id == $userLogueado)
+                        @include('admin.users.partials.tableCertificacionTiempo')
+                    @endif
                 @endforeach
             </tbody>
         </table>
-
     </div>
-
 @stop
 
 @section('css')

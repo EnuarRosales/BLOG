@@ -18,11 +18,11 @@ use Illuminate\Support\Facades\Storage;
 class EmpresaController extends Controller
 {
 
-    public function __construct()
-    {
-        $this->middleware('can:admin.empresa.index')->only('index');
-        $this->middleware('can:admin.empresa.edit')->only('edit','update');
-    }
+    // public function __construct()
+    // {
+    //     $this->middleware('can:admin.empresa.index')->only('index');
+    //     $this->middleware('can:admin.empresa.edit')->only('edit','update');
+    // }
     /**
      * Display a listing of the resource.
      *

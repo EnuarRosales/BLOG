@@ -31,140 +31,113 @@
 
             <tbody>
                 @foreach ($pagos as $pago)
-                    <tr>
+                    @if (auth()->user()->hasRole('Administrador'))
+                        @include('admin.impuestos.partials.table')
+                    @elseif (auth()->user()->hasRole('Monitor'))
+                        @include('admin.impuestos.partials.table')
+                    @elseif($pago->user->id == $userLogueado)
+                        @include('admin.impuestos.partials.table')
+                    @endif
+                @endforeach
+            </tbody>
+        </table>
 
-                        <td>{{ $pago->fecha }}</td>
-                        <td>{{ $pago->user->name }}</td>
-                        {{-- <td>{{ $pago->impuestos }}</td> --}}
-
-                        <td>
-                            @foreach ($impuestos as $impuesto)
-                                @if ($impuesto->id == $pago->impuesto_id)                                    
-                                    {{ $impuesto->nombre }}
-                                {{-- @break --}}
-
-                                {{-- @else
-                                {{0}} --}}
-                            @endif
-                        @endforeach
-
-                    </td>
-
-
-
-
-
-
-                    <td>{{ number_format($pago->impuestoPorcentaje, 2, '.', ',') }}</td>
-                    <td>{{ number_format($pago->impuestoDescuento, 2, '.', ',') }}</td>
-
-
-                    <td width="10px" style="text-align:center">
-                        <a class="btn btn-secondary btn-sm" target="_blank" href="{{ route('admin.impuestos.comprobanteImpuestoPDF', $pago)}}" >Ver</a>
-                    </td>
-
-
-                </tr>
-            @endforeach
-        </tbody>
-    </table>
-
-</div>
+    </div>
 
 @stop
 
 @section('css')
-<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.13.4/css/jquery.dataTables.min.css" />
-<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/buttons/2.3.6/css/buttons.dataTables.min.css" />
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.13.4/css/jquery.dataTables.min.css" />
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/buttons/2.3.6/css/buttons.dataTables.min.css" />
 @stop
 
 @section('js')
-<script>
-    console.log('Hi!');
-</script>
-<script src="https://code.jquery.com/jquery-3.5.1.js"></script>
-<script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
-<script src="https://cdn.datatables.net/1.13.4/js/dataTables.bootstrap5.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-
-
-
-{{-- SWET ALERT --}}
-@if (session('info') == 'delete')
     <script>
-        Swal.fire(
-            '¡Eliminado!',
-            'El registro se elimino con exito',
-            'success'
-        )
+        console.log('Hi!');
     </script>
-@elseif(session('info') == 'store')
+    <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+    <script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.13.4/js/dataTables.bootstrap5.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+
+
+    {{-- SWET ALERT --}}
+    @if (session('info') == 'delete')
+        <script>
+            Swal.fire(
+                '¡Eliminado!',
+                'El registro se elimino con exito',
+                'success'
+            )
+        </script>
+    @elseif(session('info') == 'store')
+        <script>
+            Swal.fire({
+                position: 'top-end',
+                icon: 'success',
+                title: 'Registro de asistencia realizado correctamente',
+                showConfirmButton: false,
+                timer: 2000
+            })
+        </script>
+    @elseif(session('info') == 'update')
+        <script>
+            Swal.fire({
+                position: 'top-end',
+                icon: 'success',
+                title: 'asistencia editada correctamente',
+                showConfirmButton: false,
+                timer: 2000
+            })
+        </script>
+    @endif
+
     <script>
-        Swal.fire({
-            position: 'top-end',
-            icon: 'success',
-            title: 'Registro de asistencia realizado correctamente',
-            showConfirmButton: false,
-            timer: 2000
+        $('.formulario-eliminar').submit(function(e) {
+            e.preventDefault();
+
+            Swal.fire({
+                title: '¿Estas Seguro?',
+                text: "¡Este registro se eliminara definitivamente!",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: '¡Si, eliminar!',
+                cancelButtonText: '¡Cancelar!',
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    this.submit();
+                }
+            })
+
         })
     </script>
-@elseif(session('info') == 'update')
+
+
+    {{-- DATATATABLE --}}
+
     <script>
-        Swal.fire({
-            position: 'top-end',
-            icon: 'success',
-            title: 'asistencia editada correctamente',
-            showConfirmButton: false,
-            timer: 2000
-        })
-    </script>
-@endif
+        $(document).ready(function() {
+            $('#registroAsistencias').DataTable({
+                dom: 'Blfrtip',
 
-<script>
-    $('.formulario-eliminar').submit(function(e) {
-        e.preventDefault();
+                buttons: [
+                    'copy', 'csv', 'excel', 'pdf', 'print'
+                ]
+            });
 
-        Swal.fire({
-            title: '¿Estas Seguro?',
-            text: "¡Este registro se eliminara definitivamente!",
-            icon: 'warning',
-            showCancelButton: true,
-            confirmButtonColor: '#3085d6',
-            cancelButtonColor: '#d33',
-            confirmButtonText: '¡Si, eliminar!',
-            cancelButtonText: '¡Cancelar!',
-        }).then((result) => {
-            if (result.isConfirmed) {
-                this.submit();
-            }
-        })
-
-    })
-</script>
-
-
-{{-- DATATATABLE --}}
-
-<script>
-    $(document).ready(function() {
-        $('#registroAsistencias').DataTable({
-            dom: 'Blfrtip',
-
-            buttons: [
-                'copy', 'csv', 'excel', 'pdf', 'print'
-            ]
         });
+    </script>
 
-    });
-</script>
-
-<script type="text/javascript" src="https://code.jquery.com/jquery-3.5.1.js"></script>
-<script type="text/javascript" src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
-<script type="text/javascript" src="https://cdn.datatables.net/buttons/2.3.6/js/dataTables.buttons.min.js"></script>
-<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
-<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/pdfmake.min.js"></script>
-<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js"></script>
-<script type="text/javascript" src="https://cdn.datatables.net/buttons/2.3.6/js/buttons.html5.min.js"></script>
-<script type="text/javascript" src="https://cdn.datatables.net/buttons/2.3.6/js/buttons.print.min.js"></script>
+    <script type="text/javascript" src="https://code.jquery.com/jquery-3.5.1.js"></script>
+    <script type="text/javascript" src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
+    <script type="text/javascript" src="https://cdn.datatables.net/buttons/2.3.6/js/dataTables.buttons.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/pdfmake.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js"></script>
+    <script type="text/javascript" src="https://cdn.datatables.net/buttons/2.3.6/js/buttons.html5.min.js"></script>
+    <script type="text/javascript" src="https://cdn.datatables.net/buttons/2.3.6/js/buttons.print.min.js"></script>
 
 @stop

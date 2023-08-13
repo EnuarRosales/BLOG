@@ -19,8 +19,7 @@ use SimpleSoftwareIO\QrCode\Facades\QrCode;
 class UserController extends Controller
 {
     //PARA PROTEGER LAS RUTAS ESTO PERMITE QUE NO SE ACCEDAN SE HACE DE ESTA MANERA YA QUE LA RUTA ES RESOURCE
-    public function __construct()
-    {
+    public function __construct()    {
         $this->middleware('can:admin.users.index')->only('index');
         $this->middleware('can:admin.users.edit')->only('edit', 'update');
     }
@@ -323,44 +322,7 @@ class UserController extends Controller
         return "el resultado es " . $user;
     }
 
-    public function CertificacionLaboral($User_id)
-    {
-        $userLogueado = auth()->user();
-
-        $data[] = [];
-
-        $Colores = [
-            0 => ['id' => 1, 'nombre' => 'Naranja', 'color' => '#ff8000',],
-            1 => ['id' => 2, 'nombre' => 'Gris', 'color' => '#808080',],
-            2 => ['id' => 3, 'nombre' => 'Plata', 'color' => '#C0C0C0',],
-            3 => ['id' => 4, 'nombre' => 'Negro', 'color' => '#000000',],
-            4 => ['id' => 5, 'nombre' => 'Verde', 'color' => '#008000',],
-            5 => ['id' => 6, 'nombre' => 'Rosa', 'color' => '#ff0080',],
-            6 => ['id' => 7, 'nombre' => 'verde azulado', 'color' => '#008080',],
-            7 => ['id' => 8, 'nombre' => 'Azul', 'color' => '#0000FF',],
-            8 => ['id' => 9, 'nombre' => 'Cal', 'color' => '#00FF00',],
-            9 => ['id' => 10, 'nombre' => 'Púrpura', 'color' => '#800080',],
-            10 => ['id' => 11, 'nombre' => 'Blanco', 'color' =>    '#FFFFFF',],
-            11 => ['id' => 12, 'nombre' => 'Fucsia', 'color' => '#FF00FF',],
-            12 => ['id' => 13, 'nombre' => 'Marrón', 'color' => '#800000',],
-            13 => ['id' => 14, 'nombre' => 'Rojo', 'color' => '#FF0000',],
-            14 => ['id' => 15, 'nombre' => 'Amarillo', 'color' => '#FFFF00',],
-        ];
-
-        $nombre = "Enuar Emilio Rosales";
-        // return view('User.CertificacionLaboral');
-
-        $view =  \View::make('User.CertificacionLaboral', compact('userLogueado'))->render();
-
-        $pdf = \App::make('dompdf.wrapper'); //no cambia
-        //No cambia y carga los datos
-        $pdf->loadHTML($view);
-        set_time_limit(300);
-
-        return $pdf->stream('PDF');
-    }
-
-
+   
 
     public function comprobantePagoPDF(Pago $pago)
     {

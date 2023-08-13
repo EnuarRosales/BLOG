@@ -65,6 +65,7 @@ class AsignacionMultaController extends Controller
             'user_id'=>'required',
             'tipoMulta_id'=>'required',
         ]);
+        
 
         $asignacionMulta = AsignacionMulta::create($request->all());
 

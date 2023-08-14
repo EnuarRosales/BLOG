@@ -24,7 +24,7 @@
                 @enderror
 
 
-                {!! Form::label('name', 'Valor') !!}
+                {!! Form::label('valor', 'Valor') !!}
                 {{-- ojo que en la linea siguiente va el nombre de la columa =( --}}
                 {!! Form::text('valor', null, ['class' => 'form-control', 'placeholder' => 'Favor ingrese un valor']) !!}
 

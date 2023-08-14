@@ -19,7 +19,7 @@
     <div class="card">
         <div class="card-body">
             {!! Form::model($user, ['route' => ['admin.users.update', $user], 'method' => 'put']) !!}
-            <div class="form-group">
+            <div class="form-group"> 
 
 
                 {!! Form::label('fechaIngreso', 'Fecha Ingreso') !!}
@@ -42,7 +42,7 @@
                     <br>
                 @enderror
 
-                {!! Form::label('name', 'Cedula') !!}
+                {!! Form::label('cedula', 'Cedula') !!}
                 {{-- ojo que en la linea siguiente va el nombre de la columa =( --}}
                 {!! Form::text('cedula', null, ['class' => 'form-control', 'placeholder' => 'Favor ingrese cedula']) !!}
 
@@ -52,7 +52,7 @@
                     <br>
                 @enderror
 
-                {!! Form::label('name', 'Celular') !!}
+                {!! Form::label('celular', 'Celular') !!}
                 {{-- ojo que en la linea siguiente va el nombre de la columa =( --}}
                 {!! Form::text('celular', null, ['class' => 'form-control', 'placeholder' => 'Favor ingrese celular']) !!}
 
@@ -62,7 +62,7 @@
                     <br>
                 @enderror
 
-                {!! Form::label('name', 'Direccion') !!}
+                {!! Form::label('direccion', 'Direccion') !!}
                 {{-- ojo que en la linea siguiente va el nombre de la columa =( --}}
                 {!! Form::text('direccion', null, ['class' => 'form-control', 'placeholder' => 'Favor ingrese direccion']) !!}
 
@@ -72,7 +72,7 @@
                     <br>
                 @enderror
 
-                {!! Form::label('name', 'Correo') !!}
+                {!! Form::label('email', 'Correo') !!}
                 {{-- ojo que en la linea siguiente va el nombre de la columa =( --}}
                 {!! Form::text('email', null, ['class' => 'form-control', 'placeholder' => 'Favor ingrese correo electronico']) !!}
 
@@ -82,7 +82,7 @@
                     <br>
                 @enderror
 
-                {!! Form::label('name', 'Tipo Usuario') !!}
+                {!! Form::label('tipoUsuario_id', 'Tipo Usuario') !!}
                 {!! Form::select('tipoUsuario_id', $tipoUsuarios->pluck('nombre', 'id'), null, [
                     'class' => 'form-control',
                     'placeholder' => 'Seleccione Un Tipo de usuario',
@@ -94,7 +94,7 @@
                     <br>
                 @enderror
 
-                {!! Form::label('name', 'Empresa') !!}
+                {{-- {!! Form::label('name', 'Empresa') !!}
                 {!! Form::select('empresa_id', $empresas->pluck('name', 'empresa_id'), null, [
                     'class' => 'form-control',
                     'placeholder' => 'Seleccione una empresa',
@@ -104,7 +104,7 @@
                 <br>
                 <span class="text-danger">{{ $message }}</span>
                 <br>
-                @enderror
+                @enderror --}}
 
                 <div class="mt-2">
                     <div class="form-check form-check-inline radio radio-success custom-radio">

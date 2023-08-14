@@ -53,9 +53,7 @@
                     <br>
                     <span class="text-danger">{{ $message }}</span>
                     <br>
-                @enderror
-
-                
+                @enderror                
 
                 {!! Form::label('meta_id', 'Meta') !!}
                 {!! Form::select('meta_id', $metas->pluck('nombre', 'id'), null, [

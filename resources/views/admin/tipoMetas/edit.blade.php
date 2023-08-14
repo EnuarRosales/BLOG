@@ -27,7 +27,7 @@
                     <br>
                 @enderror
 
-                {!! Form::label('name', 'Valor') !!}
+                {!! Form::label('valor', 'Valor') !!}
                 {{-- ojo que en la linea siguiente va el nombre de la columa =( --}}
                 {!! Form::text('valor', null, ['class' => 'form-control', 'placeholder' => 'Favor ingrese un valor']) !!}
                 @error('valor')
@@ -37,14 +37,14 @@
                 @enderror
 
                 {!! Form::label('dias', 'Numero de dias') !!}
-                {!! Form::number('dias',null, [
-                    'class' => 'form-control',                    
+                {!! Form::number('dias', null, [
+                    'class' => 'form-control',
                 ]) !!}
                 @error('dias')
                     <br>
-                    <span class="text-danger">{{$message}}</span>
+                    <span class="text-danger">{{ $message }}</span>
                     <br>
-                @enderror 
+                @enderror
 
 
             </div>
@@ -54,4 +54,3 @@
     </div>
 
 @stop
- 

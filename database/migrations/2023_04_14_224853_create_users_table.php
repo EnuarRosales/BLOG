@@ -22,6 +22,7 @@ class CreateUsersTable extends Migration
             $table->string('direccion',150)->nullable();
             $table->string('email')->unique()->nullable();
             $table->timestamp('email_verified_at')->nullable();
+            $table->boolean('active')->default(true)->nullable();
               
 
 

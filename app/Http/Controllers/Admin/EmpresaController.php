@@ -15,14 +15,14 @@ use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
 
-class EmpresaController extends Controller
+class EmpresaController extends Controller 
 {
 
-    // public function __construct()
-    // {
-    //     $this->middleware('can:admin.empresa.index')->only('index');
-    //     $this->middleware('can:admin.empresa.edit')->only('edit','update');
-    // }
+    public function __construct()
+    {
+        $this->middleware('can:admin.empresas')->only('index');
+        $this->middleware('can:admin.empresas')->only('edit','update');
+    }
     /**
      * Display a listing of the resource.
      *
@@ -69,7 +69,6 @@ class EmpresaController extends Controller
     {
         try {
             DB::beginTransaction();
-
             $user_id= Auth::user()->id;
             $empresa = Empresa::create($request->all());
             $empresa->users()->attach($user_id);

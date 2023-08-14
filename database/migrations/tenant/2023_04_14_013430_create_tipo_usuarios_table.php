@@ -15,7 +15,7 @@ class CreateTipoUsuariosTable extends Migration
     {
         Schema::create('tipo_usuarios', function (Blueprint $table) {
             $table->id();
-            $table->string('nombre');
+            $table->string('nombre')->nullable();
             $table->float('porcentaje',5,2)->nullable();
             $table->timestamps();
         });

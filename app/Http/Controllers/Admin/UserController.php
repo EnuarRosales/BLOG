@@ -19,7 +19,8 @@ use SimpleSoftwareIO\QrCode\Facades\QrCode;
 class UserController extends Controller
 {
     //PARA PROTEGER LAS RUTAS ESTO PERMITE QUE NO SE ACCEDAN SE HACE DE ESTA MANERA YA QUE LA RUTA ES RESOURCE
-    public function __construct()    {
+    public function __construct()
+    {
         $this->middleware('can:admin.users.index')->only('index');
         $this->middleware('can:admin.users.edit')->only('edit', 'update');
     }
@@ -45,7 +46,7 @@ class UserController extends Controller
             $date = Carbon::now()->locale('es');
             $userLogueado = auth()->user()->id;
 
-            return view('admin.users.certificacionLaboral', compact('users','userLogueado'));
+            return view('admin.users.certificacionLaboral', compact('users', 'userLogueado'));
         } catch (\Exception $exception) {
             Log::error("Error UC index: {$exception->getMessage()}, File: {$exception->getFile()}, Line: {$exception->getLine()}");
         }
@@ -67,8 +68,8 @@ class UserController extends Controller
                 $day[] = $cantidadAno->d;
             }
 
-            $i=0;
-            return view('admin.users.certificacionTiempo', compact('userLogueado','users', 'year', 'month', 'day','i'));
+            $i = 0;
+            return view('admin.users.certificacionTiempo', compact('userLogueado', 'users', 'year', 'month', 'day', 'i'));
         } catch (\Exception $exception) {
             Log::error("Error UC index: {$exception->getMessage()}, File: {$exception->getFile()}, Line: {$exception->getLine()}");
         }
@@ -93,21 +94,21 @@ class UserController extends Controller
         $cantidadMes = $fechaAntigua->diffInMonths($fechaReciente);
         $cantidadAno = $fechaAntigua->diff($fechaReciente);
         $ano = $cantidadAno->m;
-        
-        $codigoQR =QrCode::size(80)->generate("CERTIFICACION LABORAL"."\n". 
-                                                "NOMBRE: ".$user->name."\n".
-                                                "LABORANDO: "."\n".
-                                                "EMPRESA: ".$empresa->name."\n".
-                                                "DESDE: ".$user->fechaIngreso."\n".
-                                                "HASTA: ".$fechaReciente."\n"
-                                                
-                                            );
+
+        $codigoQR = QrCode::size(80)->generate(
+            "CERTIFICACION LABORAL" . "\n" .
+                "NOMBRE: " . $user->name . "\n" .
+                "LABORANDO: " . "\n" .
+                "EMPRESA: " . $empresa->name . "\n" .
+                "DESDE: " . $user->fechaIngreso . "\n" .
+                "HASTA: " . $fechaReciente . "\n"
+
+        );
 
         // printf('%d años, %d meses, %d días, %d horas, %d minutos', $cantidadAno->y, $cantidadAno->m, $cantidadAno->d, $cantidadAno->h, $cantidadAno->i);
 
-        $pdf = Pdf::loadView('admin.users.certificacionLaboralPDF',compact('user', 'date', 'nombreEmpresa','nitEmpresa','gerenteEmpresa','fechaAntigua','cantidadDias','cantidadMes','cantidadAno','codigoQR','logoEmpresa'));
+        $pdf = Pdf::loadView('admin.users.certificacionLaboralPDF', compact('user', 'date', 'nombreEmpresa', 'nitEmpresa', 'gerenteEmpresa', 'fechaAntigua', 'cantidadDias', 'cantidadMes', 'cantidadAno', 'codigoQR', 'logoEmpresa'));
         return $pdf->stream();
-
     }
 
     public function certificacionTiempoPDF(User $user)
@@ -127,16 +128,15 @@ class UserController extends Controller
         $tiempo = $fechaAntigua->diff($fechaReciente);
 
 
-        $codigoQR =QrCode::size(80)->generate("CERTIFICACION TIEMPO"."\n". 
-                                                "NOMBRE: ".$user->name."\n".
-                                                "TIEMPO: "."Años ".$tiempo->y." Meses ".$tiempo->m." Dias ".$tiempo->d);
-              
+        $codigoQR = QrCode::size(80)->generate("CERTIFICACION TIEMPO" . "\n" .
+            "NOMBRE: " . $user->name . "\n" .
+            "TIEMPO: " . "Años " . $tiempo->y . " Meses " . $tiempo->m . " Dias " . $tiempo->d);
+
 
         // printf('%d años, %d meses, %d días, %d horas, %d minutos', $cantidadAno->y, $cantidadAno->m, $cantidadAno->d, $cantidadAno->h, $cantidadAno->i);
 
-        $pdf = Pdf::loadView('admin.users.certificacionTiempoPDF', compact('user', 'date', 'nombreEmpresa','nitEmpresa','gerenteEmpresa','fechaAntigua','cantidadDias','cantidadMes','tiempo','codigoQR'));
+        $pdf = Pdf::loadView('admin.users.certificacionTiempoPDF', compact('user', 'date', 'nombreEmpresa', 'nitEmpresa', 'gerenteEmpresa', 'fechaAntigua', 'cantidadDias', 'cantidadMes', 'tiempo', 'codigoQR'));
         return $pdf->stream();
-
     }
 
 
@@ -176,10 +176,8 @@ class UserController extends Controller
                 'celular' => 'required',
                 'direccion' => 'required',
                 'email' => 'required',
-                // 'tipoUsuario_id' => 'required',
-
-
-            ]);            
+                'tipoUsuario_id' => 'required',
+            ]);
 
             $empresa_id = $request->input('empresa_id');
             $request = $request->except('empresa_id');
@@ -234,52 +232,75 @@ class UserController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
+
+
+
+    // public function update(Request $request, User $user)
+    // {
+    //     //VALiDACION FORMULARIO
+    //     try {
+    //         DB::beginTransaction();
+    //         $request->validate([
+    //             'fechaIngreso' => 'required',
+    //             'name' => 'required',
+    //             'cedula' => 'required',
+    //             'celular' => 'required',
+    //             'direccion' => 'required',
+    //             'email' => 'required',
+    //             'tipoUsuario_id' => 'required',
+    //         ]);
+
+    //         if ($request->input('empresa_id')) {
+    //             $empresa = Empresa::find($request->input('empresa_id'));
+    //             if (!$empresa->users()->where('user_id', $user->id)->first())
+    //                 $empresa->users()->attach($user->id);
+    //         }
+
+    //         $request = $request->except('empresa_id');
+    //         //ASINACION MASIVA DE VARIABLES A LOS CAMPOS
+    //         $user->update($request);
+    //         DB::commit();
+
+    //         if ($user->active) {
+    //             userModelEvent::dispatch($user->id);
+    //         }
+
+    //         return redirect()->route('admin.users.index', $user->id)->with('info', 'update'); //with mensaje de sesion
+
+    //     } catch (\Exception $exception) {
+    //         DB::rollBack();
+    //         Log::error("Error UC update: {$exception->getMessage()}, File: {$exception->getFile()}, Line: {$exception->getLine()}");
+    //     }
+    // }
+
+
     public function update(Request $request, User $user)
     {
         //VALiDACION FORMULARIO
-        try {
-            DB::beginTransaction();
-            $request->validate([
-                'fechaIngreso' => 'required',
-                'name' => 'required',
-                'cedula' => 'required',
-                'celular' => 'required',
-                'direccion' => 'required',
-                'email' => 'required',
-                'tipoUsuario_id' => 'required',
-            ]);
+        $request->validate([
+            'fechaIngreso' => 'required',
+            'name' => 'required',
+            'cedula' => 'required',
+            'celular' => 'required',
+            'direccion' => 'required',
+            'email' => 'required',
+            'tipoUsuario_id' => 'required',
+        ]);
+        echo $request;
 
-            if ($request->input('empresa_id')) {
-                $empresa = Empresa::find($request->input('empresa_id'));
-                if (!$empresa->users()->where('user_id', $user->id)->first())
-                    $empresa->users()->attach($user->id);
-            }
-
-            $request = $request->except('empresa_id');
-            //ASINACION MASIVA DE VARIABLES A LOS CAMPOS
-            $user->update($request);
-            DB::commit();
-
-            if ($user->active) {
-                userModelEvent::dispatch($user->id);
-            }
-
-            return redirect()->route('admin.users.index', $user->id)->with('info', 'update'); //with mensaje de sesion
-
-        } catch (\Exception $exception) {
-            DB::rollBack();
-            Log::error("Error UC update: {$exception->getMessage()}, File: {$exception->getFile()}, Line: {$exception->getLine()}");
-        }
+        $user->update($request->all()); 
+        // return redirect()->route('admin.users.index', $user->id)->with('info', 'update'); //with mensaje de sesion
     }
+
+
+
+
+
+
+
 
     public function updateRol(Request $request, User $user)
     {
-        // $user->update($request->all());
-
-        // $user->roles()->sync($request->roles);
-        // return redirect()->route('admin.users.index')->with('info', 'updateRol'); //with mensaje de sesion
-        
- 
         try {
             DB::beginTransaction();
             $user->roles()->sync($request->roles);
@@ -292,7 +313,7 @@ class UserController extends Controller
     }
 
 
-      
+
 
     /**
      * Remove the specified resource from storage.
@@ -322,7 +343,7 @@ class UserController extends Controller
         return "el resultado es " . $user;
     }
 
-   
+
 
     public function comprobantePagoPDF(Pago $pago)
     {

@@ -16,14 +16,14 @@ class User extends Authenticatable implements MustVerifyEmail
     use HasApiTokens, HasFactory, Notifiable, HasRoles;
 
 
-    protected $attributes = [
-        'name' => 'Enuar Emilio Rosales Salazar',
-        'cedula' => '108613644',
-        'celular' => '3057465217',
-        'direccion' => 'Sandona centenario',
-        'email' => 'admin100@gmail.com',
-        'tipoUsuario_id' => 1
-    ];
+    // protected $attributes = [
+    //     'name' => 'Enuar Emilio Rosales Salazar',
+    //     'cedula' => '108613644',
+    //     'celular' => '3057465217',
+    //     'direccion' => 'Sandona centenario',
+    //     'email' => 'admin100@gmail.com',
+    //     'tipoUsuario_id' => 1
+    // ];
 
 
 

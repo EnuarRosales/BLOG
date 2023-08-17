@@ -120,7 +120,7 @@ class UserController extends Controller
             $nombreEmpresa = $empresa->name;
             $nitEmpresa = $empresa->nit;
             $gerenteEmpresa = $empresa->representative;
-        }
+        } 
         $fechaAntigua1 = Carbon::parse($user->fechaIngreso);
         $fechaAntigua = $fechaAntigua1->locale('es');
         $cantidadDias = $fechaAntigua->diffInDays($fechaReciente);

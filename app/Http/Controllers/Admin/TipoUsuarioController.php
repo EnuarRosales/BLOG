@@ -91,7 +91,7 @@ class TipoUsuarioController extends Controller
         $request->validate([
             'nombre'=>'required',
             'porcentaje'=>'required'
-        ]);
+        ]); 
         //ASINACION MASIVA DE VARIABLES A LOS CAMPOS
         $tipoUsuario->update($request->all());           
         return redirect()->route('admin.tipoUsuarios.index',$tipoUsuario->id)->with('info','update');//with mensaje de sesion

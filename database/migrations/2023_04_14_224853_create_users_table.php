@@ -25,6 +25,7 @@ class CreateUsersTable extends Migration
             $table->boolean('active')->default(true)->nullable();
               
 
+            
 
             $table->unsignedBigInteger('tipoUsuario_id')->nullable(); //campo para relacion 
             $table->foreign('tipoUsuario_id')->nullable()

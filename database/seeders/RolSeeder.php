@@ -32,6 +32,11 @@ class RolSeeder extends Seeder
         //ASI MISMO SE LE  ASIGNA ESTEPERMISO A UN ROL
         //PERMISOS USUARIOS
 
+        //PERMISOS DASHBOARD
+
+        Permission::create(['name'=>'admin.dashboard',
+                            'description'=>'Ver dashboard'])->syncRoles([$role_super_admin]);
+
         //PERMISOS TENANTS
         Permission::create(['name'=>'admin.tenants.index',
                             'description'=>'Ver listado de dominios'])->syncRoles([$role_super_admin]);

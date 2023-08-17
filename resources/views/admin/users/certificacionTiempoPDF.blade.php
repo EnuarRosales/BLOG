@@ -15,7 +15,7 @@
 
         {{-- C:\laragon\www\BLOG-STUDIO\storage\app\public\logos\1-64d1967249271.png
         storage\app\public\logos\1-64d1967249271.png --}}
-        <img src="{{ asset('/storage/app/public/logos/1-64d1967249271.png') }}" alt="{{'no hay nada'}}">
+        {{-- <img src="{{ asset('/storage/app/public/logos/1-64d1967249271.png') }}" alt="{{'no hay nada'}}"> --}}
 
         <img class="QR" src="data:image/png;base64,{!!base64_encode($codigoQR)!!}">
         <p style="position: fixed; top: -60px; left: 220px; center: 0px; height: 200px; color:#858585;">

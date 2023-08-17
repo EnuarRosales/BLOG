@@ -40,7 +40,7 @@
                         <td>{{ $usuario->celular }}</td>
                         <td>{{ $usuario->direccion }}</td>
                         <td>{{ $usuario->email }}</td>
-                        <td>{{ $usuario->tipoUsuario->nombre }}</td>
+                        <td>{{ $usuario->tipoUsuario->nombre}}</td>
 
                         @can('admin.users.edit')
                             <td width="10px">

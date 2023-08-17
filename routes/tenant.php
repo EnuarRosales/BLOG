@@ -93,7 +93,7 @@ Route::middleware([
     // Route::put('users/{user}',[UserController::class,'updateRol'])->name('admin.users.updateRol');
 
     Route::get('users/{user}/rol', [UserController::class, 'rol'])->middleware(['auth', 'verified'])->name('admin.users.rol');
-    Route::put('users/{user}', [UserController::class, 'updateRol'])->middleware(['auth', 'verified'])->name('admin.users.updateRol');
+    Route::put('usersRol/{user}', [UserController::class, 'updateRol'])->middleware(['auth', 'verified'])->name('admin.users.updateRol');
 
     Route::resource('roles', RoleController::class)->middleware(['auth', 'verified'])->names('admin.roles');
     Route::resource('asignacionTurnos', AsignacionTurnoController::class)->middleware(['auth', 'verified'])->names('admin.asignacionTurnos');

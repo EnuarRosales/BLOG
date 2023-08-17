@@ -176,7 +176,7 @@ class UserController extends Controller
                 'celular' => 'required',
                 'direccion' => 'required',
                 'email' => 'required',
-                'tipoUsuario_id' => 'required',
+                // 'tipoUsuario_id' => 'required',
             ]);
 
             $empresa_id = $request->input('empresa_id');
@@ -235,62 +235,62 @@ class UserController extends Controller
 
 
 
-    // public function update(Request $request, User $user)
-    // {
-    //     //VALiDACION FORMULARIO
-    //     try {
-    //         DB::beginTransaction();
-    //         $request->validate([
-    //             'fechaIngreso' => 'required',
-    //             'name' => 'required',
-    //             'cedula' => 'required',
-    //             'celular' => 'required',
-    //             'direccion' => 'required',
-    //             'email' => 'required',
-    //             'tipoUsuario_id' => 'required',
-    //         ]);
-
-    //         if ($request->input('empresa_id')) {
-    //             $empresa = Empresa::find($request->input('empresa_id'));
-    //             if (!$empresa->users()->where('user_id', $user->id)->first())
-    //                 $empresa->users()->attach($user->id);
-    //         }
-
-    //         $request = $request->except('empresa_id');
-    //         //ASINACION MASIVA DE VARIABLES A LOS CAMPOS
-    //         $user->update($request);
-    //         DB::commit();
-
-    //         if ($user->active) {
-    //             userModelEvent::dispatch($user->id);
-    //         }
-
-    //         return redirect()->route('admin.users.index', $user->id)->with('info', 'update'); //with mensaje de sesion
-
-    //     } catch (\Exception $exception) {
-    //         DB::rollBack();
-    //         Log::error("Error UC update: {$exception->getMessage()}, File: {$exception->getFile()}, Line: {$exception->getLine()}");
-    //     }
-    // }
-
-
     public function update(Request $request, User $user)
     {
         //VALiDACION FORMULARIO
-        $request->validate([
-            'fechaIngreso' => 'required',
-            'name' => 'required',
-            'cedula' => 'required',
-            'celular' => 'required',
-            'direccion' => 'required',
-            'email' => 'required',
-            'tipoUsuario_id' => 'required',
-        ]);
-        echo $request;
+        try {
+            DB::beginTransaction();
+            $request->validate([
+                'fechaIngreso' => 'required',
+                'name' => 'required',
+                'cedula' => 'required',
+                'celular' => 'required',
+                'direccion' => 'required',
+                'email' => 'required',
+                // 'tipoUsuario_id' => 'required',
+            ]);
 
-        $user->update($request->all()); 
-        // return redirect()->route('admin.users.index', $user->id)->with('info', 'update'); //with mensaje de sesion
+            if ($request->input('empresa_id')) {
+                $empresa = Empresa::find($request->input('empresa_id'));
+                if (!$empresa->users()->where('user_id', $user->id)->first())
+                    $empresa->users()->attach($user->id);
+            }
+
+            $request = $request->except('empresa_id');
+            //ASINACION MASIVA DE VARIABLES A LOS CAMPOS
+            $user->update($request);
+            DB::commit();
+
+            if ($user->active) {
+                userModelEvent::dispatch($user->id);
+            }
+
+            return redirect()->route('admin.users.index', $user->id)->with('info', 'update'); //with mensaje de sesion
+
+        } catch (\Exception $exception) {
+            DB::rollBack();
+            Log::error("Error UC update: {$exception->getMessage()}, File: {$exception->getFile()}, Line: {$exception->getLine()}");
+        }
     }
+
+
+    // public function update(Request $request, User $user)
+    // {
+    //     //VALiDACION FORMULARIO
+    //     $request->validate([
+    //         'fechaIngreso' => 'required',
+    //         'name' => 'required',
+    //         'cedula' => 'required',
+    //         'celular' => 'required',
+    //         'direccion' => 'required',
+    //         'email' => 'required',
+    //         'tipoUsuario_id' => 'required',
+    //     ]);
+       
+
+    //     $user->update($request->all()); 
+    //     return redirect()->route('admin.users.index', $user->id)->with('info', 'update'); //with mensaje de sesion
+    // }
 
 
 

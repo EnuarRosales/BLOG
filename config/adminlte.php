@@ -482,40 +482,40 @@ return [
                     'can' => 'admin.paginas',
                 ],
 
-                [
-                    'text'    => 'Desplegable Pr',
-                    'url'     => '#',
-                    'submenu' => [
-                        [
-                            'text' => 'Tipo Moneda Paginassssssssssssssssssss',
-                            'url'     => '#',
-                        ],
-                        [
-                            'text' => 'Paginas',
-                            'url'     => '#',
-                        ],
+                // [
+                //     'text'    => 'Desplegable Pr',
+                //     'url'     => '#',
+                //     'submenu' => [
+                //         [
+                //             'text' => 'Tipo Moneda Paginassssssssssssssssssss',
+                //             'url'     => '#',
+                //         ],
+                //         [
+                //             'text' => 'Paginas',
+                //             'url'     => '#',
+                //         ],
 
-                        [
-                            'text'    => 'Paginas',
-                            'url'     => '#',
-                            'submenu' => [
-                                [
-                                    'text' => 'level_three',
-                                    'url'  => '#',
-                                ],
-                                [
-                                    'text' => 'level_three',
-                                    'url'  => '#',
-                                ],
-                            ],
-                        ],
-                    ],
-                ],
+                //         [
+                //             'text'    => 'Paginas',
+                //             'url'     => '#',
+                //             'submenu' => [
+                //                 [
+                //                     'text' => 'level_three',
+                //                     'url'  => '#',
+                //                 ],
+                //                 [
+                //                     'text' => 'level_three',
+                //                     'url'  => '#',
+                //                 ],
+                //             ],
+                //         ],
+                //     ],
+                // ],
 
-                [
-                    'text' => 'level_one',
-                    'url'  => '#',
-                ]
+                // [
+                //     'text' => 'level_one',
+                //     'url'  => '#',
+                // ]
             ],
         ],
 

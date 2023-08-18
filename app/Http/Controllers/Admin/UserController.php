@@ -107,8 +107,10 @@ class UserController extends Controller
 
         // printf('%d años, %d meses, %d días, %d horas, %d minutos', $cantidadAno->y, $cantidadAno->m, $cantidadAno->d, $cantidadAno->h, $cantidadAno->i);
 
-        $pdf = Pdf::loadView('admin.users.certificacionLaboralPDF', compact('user', 'date', 'nombreEmpresa', 'nitEmpresa', 'gerenteEmpresa', 'fechaAntigua', 'cantidadDias', 'cantidadMes', 'cantidadAno', 'codigoQR', 'logoEmpresa'));
+        $pdf = Pdf::loadView('admin.users.laboralPDF', compact('user', 'date', 'nombreEmpresa', 'nitEmpresa', 'gerenteEmpresa', 'fechaAntigua', 'cantidadDias', 'cantidadMes', 'cantidadAno', 'codigoQR', 'logoEmpresa'));
         return $pdf->stream();
+
+       
     }
 
     public function certificacionTiempoPDF(User $user)

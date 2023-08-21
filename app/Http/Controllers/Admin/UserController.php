@@ -151,13 +151,13 @@ class UserController extends Controller
      */
     public function create()
     {
-        try {
+
+        // return "entro";
+        
             $tipoUsuarios = TipoUsuario::orderBy('id', 'desc');
-            $empresas = Empresa::select(['id as empresa_id', 'name'])->get();
+            $empresas = Empresa::orderBy('id', 'desc');
             return view('admin.users.create', compact('tipoUsuarios', 'empresas'));
-        } catch (\Exception $exception) {
-            Log::error("Error UC create: {$exception->getMessage()}, File: {$exception->getFile()}, Line: {$exception->getLine()}");
-        }
+        
     }
 
     /**
@@ -166,39 +166,67 @@ class UserController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
-    {
-        try {
-            DB::beginTransaction();
+    // public function store(Request $request)
+    // {
+    //     try {
+    //         DB::beginTransaction();
 
-            $request->validate([
-                'fechaIngreso' => 'required',
-                'name' => 'required',
-                'cedula' => 'required',
-                'celular' => 'required',
-                'direccion' => 'required',
-                'email' => 'required',
-                // 'tipoUsuario_id' => 'required',
-            ]);
+    //         $request->validate([
+    //             'fechaIngreso' => 'required',
+    //             'name' => 'required',
+    //             'cedula' => 'required',
+    //             'celular' => 'required',
+    //             'direccion' => 'required',
+    //             'email' => 'required',
+    //             'tipoUsuario_id' => 'required',
+    //         ]);
 
-            $empresa_id = $request->input('empresa_id');
-            $request = $request->except('empresa_id');
-            $user = User::create($request);
+    //         $empresa_id = $request->input('empresa_id');
+    //         $request = $request->except('empresa_id');
+    //         $user = User::create($request);
 
-            if ($empresa_id) {
-                $empresa = Empresa::find($empresa_id);
-                $empresa->users()->attach($user->id);
-            }
-            DB::commit();
-            if ($user->active) {
-                userModelEvent::dispatch($user->id);
-            }
-            return redirect()->route('admin.users.index', $user->id)->with('info', 'store');
-        } catch (\Exception $exception) {
-            DB::rollBack();
-            Log::error("Error UC store: {$exception->getMessage()}, File: {$exception->getFile()}, Line: {$exception->getLine()}");
-        }
+    //         if ($empresa_id) {
+    //             $empresa = Empresa::find($empresa_id);
+    //             $empresa->users()->attach($user->id);
+    //         }
+    //         DB::commit();
+    //         if ($user->active) {
+    //             userModelEvent::dispatch($user->id);
+    //         }
+    //         return redirect()->route('admin.users.index', $user->id)->with('info', 'store');
+    //     } catch (\Exception $exception) {
+    //         DB::rollBack();
+    //         Log::error("Error UC store: {$exception->getMessage()}, File: {$exception->getFile()}, Line: {$exception->getLine()}");
+    //     }
+    // }
+
+
+
+    public function store(Request $request){
+
+        //VALiDACION FORMULARIO 
+        $request->validate([
+            'fechaIngreso' => 'required',
+            'name' => 'required',
+            'cedula' => 'required',
+            'celular' => 'required',
+            'direccion' => 'required',
+            'email' => 'required',
+            'tipoUsuario_id' => 'required',
+            'empresa_id' => 'required',
+        ]);
+
+        $user = User::create($request->all());
+        return redirect()->route('admin.users.index', $user->id)->with('info', 'store');
+
     }
+
+
+
+
+
+
+
 
     /**
      * Show the form for editing the specified resource.
@@ -207,15 +235,12 @@ class UserController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function edit(User $user)
-    {
-        try {
+    {       
             $tipoUsuarios = TipoUsuario::orderBy('id', 'desc');
-            $empresas = Empresa::select(['id as empresa_id', 'name'])->get();
-            return view('admin.users.edit', compact('user', 'tipoUsuarios', 'empresas'));
-        } catch (\Exception $exception) {
-            Log::error("Error UC edit: {$exception->getMessage()}, File: {$exception->getFile()}, Line: {$exception->getLine()}");
-        }
+            $empresas = Empresa::orderBy('id', 'desc');
+            return view('admin.users.edit', compact('user', 'tipoUsuarios', 'empresas'));      
     }
+
 
     public function rol(User $user)
     {
@@ -237,62 +262,63 @@ class UserController extends Controller
 
 
 
-    public function update(Request $request, User $user)
-    {
-        //VALiDACION FORMULARIO
-        try {
-            DB::beginTransaction();
-            $request->validate([
-                'fechaIngreso' => 'required',
-                'name' => 'required',
-                'cedula' => 'required',
-                'celular' => 'required',
-                'direccion' => 'required',
-                'email' => 'required',
-                // 'tipoUsuario_id' => 'required',
-            ]);
-
-            if ($request->input('empresa_id')) {
-                $empresa = Empresa::find($request->input('empresa_id'));
-                if (!$empresa->users()->where('user_id', $user->id)->first())
-                    $empresa->users()->attach($user->id);
-            }
-
-            $request = $request->except('empresa_id');
-            //ASINACION MASIVA DE VARIABLES A LOS CAMPOS
-            $user->update($request);
-            DB::commit();
-
-            if ($user->active) {
-                userModelEvent::dispatch($user->id);
-            }
-
-            return redirect()->route('admin.users.index', $user->id)->with('info', 'update'); //with mensaje de sesion
-
-        } catch (\Exception $exception) {
-            DB::rollBack();
-            Log::error("Error UC update: {$exception->getMessage()}, File: {$exception->getFile()}, Line: {$exception->getLine()}");
-        }
-    }
-
-
     // public function update(Request $request, User $user)
     // {
     //     //VALiDACION FORMULARIO
-    //     $request->validate([
-    //         'fechaIngreso' => 'required',
-    //         'name' => 'required',
-    //         'cedula' => 'required',
-    //         'celular' => 'required',
-    //         'direccion' => 'required',
-    //         'email' => 'required',
-    //         'tipoUsuario_id' => 'required',
-    //     ]);
+    //     try {
+    //         DB::beginTransaction();
+    //         $request->validate([
+    //             'fechaIngreso' => 'required',
+    //             'name' => 'required',
+    //             'cedula' => 'required',
+    //             'celular' => 'required',
+    //             'direccion' => 'required',
+    //             'email' => 'required',
+    //             // 'tipoUsuario_id' => 'required',
+    //         ]);
+
+    //         if ($request->input('empresa_id')) {
+    //             $empresa = Empresa::find($request->input('empresa_id'));
+    //             if (!$empresa->users()->where('user_id', $user->id)->first())
+    //                 $empresa->users()->attach($user->id);
+    //         }
+
+    //         $request = $request->except('empresa_id');
+    //         //ASINACION MASIVA DE VARIABLES A LOS CAMPOS
+    //         $user->update($request);
+    //         DB::commit();
+
+    //         if ($user->active) {
+    //             userModelEvent::dispatch($user->id);
+    //         }
+
+    //         return redirect()->route('admin.users.index', $user->id)->with('info', 'update'); //with mensaje de sesion
+
+    //     } catch (\Exception $exception) {
+    //         DB::rollBack();
+    //         Log::error("Error UC update: {$exception->getMessage()}, File: {$exception->getFile()}, Line: {$exception->getLine()}");
+    //     }
+    // }
+
+
+    public function update(Request $request, User $user)
+    {
+        //VALiDACION FORMULARIO
+        $request->validate([
+            'fechaIngreso' => 'required',
+            'name' => 'required',
+            'cedula' => 'required',
+            'celular' => 'required',
+            'direccion' => 'required',
+            'email' => 'required',
+            'tipoUsuario_id' => 'required',
+            'empresa_id' => 'required',
+        ]);
        
 
-    //     $user->update($request->all()); 
-    //     return redirect()->route('admin.users.index', $user->id)->with('info', 'update'); //with mensaje de sesion
-    // }
+        $user->update($request->all()); 
+        return redirect()->route('admin.users.index', $user->id)->with('info', 'update'); //with mensaje de sesion
+    }
 
 
 

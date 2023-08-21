@@ -250,6 +250,7 @@ class RolSeeder extends Seeder
         $user_soporte->email = 'admin@gmail.com';
         $user_soporte->email_verified_at ='2023-05-11 22:39:30';
         $user_soporte->tipoUsuario_id = 2;
+        // $user_soporte->empresa_id = 1;
         $user_soporte->password = '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi';//password
         $user_soporte->syncRoles([$role_admin]);
         $user_soporte->save();     

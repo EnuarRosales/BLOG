@@ -50,6 +50,12 @@ class User extends Authenticatable implements MustVerifyEmail
         return $this->belongsTo('App\Models\TipoUsuario', 'tipoUsuario_id');
     }
 
+     //RELACION UNO A MUCHOS INVERSA
+     public function empresa()
+     {
+         return $this->belongsTo('App\Models\Empresa', 'empresa_id');
+     }
+
     // public function tipoUsuario()
     // {
     //     return $this->belongsTo(TipoUsuario::class,'tipoUsuario_id');

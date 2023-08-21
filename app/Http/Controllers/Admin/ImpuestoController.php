@@ -22,7 +22,6 @@ class ImpuestoController extends Controller
     public function index()
     {
         $impuestos = Impuesto::all();
-
         return view('admin.impuestos.index', compact('impuestos'));
     }
 
@@ -34,7 +33,7 @@ class ImpuestoController extends Controller
         return view('admin.impuestos.comprobanteImpuesto', compact('pagos', 'impuestos', 'userLogueado'));
     }
 
-    /**
+    /** 
      * Show the form for creating a new resource.
      *
      * @return \Illuminate\Http\Response

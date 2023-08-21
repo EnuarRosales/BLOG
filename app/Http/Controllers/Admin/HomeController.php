@@ -11,11 +11,33 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
+use LaravelDaily\LaravelCharts\Classes\LaravelChart;
 
 class HomeController extends Controller
 {
     public function index()
     {
+
+        $chart_options = [
+
+            'chart_title' => 'Transactions by user',
+            'chart_type' => 'bar',
+            'report_type' => 'group_by_relationship',
+            'model' => 'App\Models\User',
+        
+            'relationship_name' => 'tipoUsuario', // represents function user() on Transaction model
+            'group_by_field' => 'users.tipoUsuario_id.nombre', // users.name
+        
+            // 'aggregate_function' => 'sum',
+            // 'aggregate_field' => 'amount',
+            
+            'filter_field' => 'tipoUsuario_id',
+            'filter_days' => 3, // show only transactions for last 30 days
+            'filter_period' => 'week', // show only transactions for this week
+        ];
+
+        $chart = new LaravelChart($chart_options);
+        // return view('admin.index', compact('chart'));
         try {
             // MODELS
             // TODO En el where de la empresa, cuando se pase a multiempresa se coloca un where in con un select anterior donde se selecciones todas las empresas a las que pertenece el dueño, o en el cast poner que los dueños tengan un array de ids
@@ -39,9 +61,9 @@ class HomeController extends Controller
             // MULTAS
 
             $count_multas_user = AsignacionMulta::select(['id'])
-                                ->count();
+                ->count();
 
-            return view('admin.index', compact('count_multas_user', 'userModelos'));
+            return view('admin.index', compact('count_multas_user', 'userModelos','chart'));
         } catch (\Exception $exception) {
             Log::error("Error UC index: {$exception->getMessage()}, File: {$exception->getFile()}, Line: {$exception->getLine()}");
         }

@@ -21,7 +21,6 @@
             {!! Form::model($user, ['route' => ['admin.users.update', $user], 'method' => 'put']) !!}
             <div class="form-group"> 
 
-
                 {!! Form::label('fechaIngreso', 'Fecha Ingreso') !!}
                 {!! Form::date('fechaIngreso', null, [
                     'class' => 'form-control',
@@ -93,18 +92,17 @@
                     <span class="text-danger">{{ $message }}</span>
                     <br>
                 @enderror
-
-                {{-- {!! Form::label('name', 'Empresa') !!}
-                {!! Form::select('empresa_id', $empresas->pluck('name', 'empresa_id'), null, [
+               
+                {!! Form::label('empresa_id', 'Empresa') !!}
+                {!! Form::select('empresa_id', $empresas->pluck('name', 'id'), null, [
                     'class' => 'form-control',
                     'placeholder' => 'Seleccione una empresa',
                 ]) !!}
-
                 @error('empresa_id')
-                <br>
-                <span class="text-danger">{{ $message }}</span>
-                <br>
-                @enderror --}}
+                    <br>
+                    <span class="text-danger">{{ $message }}</span>
+                    <br>
+                @enderror
 
                 <div class="mt-2">
                     <div class="form-check form-check-inline radio radio-success custom-radio">

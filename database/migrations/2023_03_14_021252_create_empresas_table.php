@@ -23,6 +23,8 @@ return new class extends Migration
             $table->integer('number_rooms')->nullable();
             $table->integer('capacity_models')->nullable();
             $table->string('logo')->nullable();
+
+           
             $table->timestamps();
         });
     }

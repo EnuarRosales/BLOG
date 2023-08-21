@@ -15,13 +15,13 @@ use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
 
-class EmpresaController extends Controller 
+class EmpresaController extends Controller
 {
 
     public function __construct()
     {
         $this->middleware('can:admin.empresas')->only('index');
-        $this->middleware('can:admin.empresas')->only('edit','update');
+        $this->middleware('can:admin.empresas')->only('edit', 'update');
     }
     /**
      * Display a listing of the resource.
@@ -30,19 +30,14 @@ class EmpresaController extends Controller
      */
     public function index()
     {
-        try {
+        $empresas = Empresa::all();
 
-            $empresas = Empresa::select('empresas.*')
-                ->join('user_empresa', 'user_empresa.empresa_id','=','empresas.id')
-                ->where('user_empresa.user_id', Auth::id())
-                ->get();
-
-            return view('admin.empresa.index', compact('empresas'));
-
-        } catch (\Exception $exception) {
-            Log::error("Error EmpCr index: {$exception->getMessage()}, File: {$exception->getFile()}, Line: {$exception->getLine()}");
-            return back();
+        if (count($empresas) == "0") {
+            $descuentosArray = "vacio";
+        } else {
+            $descuentosArray = "lleno";
         }
+        return view('admin.empresa.index', compact('empresas', 'descuentosArray'));
     }
     /**
      * Show the form for creating a new resource.
@@ -51,12 +46,7 @@ class EmpresaController extends Controller
      */
     public function create()
     {
-        try {
-            return view('admin.empresa.create');
-        } catch (\Exception $exception) {
-            Log::error("Error EmpCr create: {$exception->getMessage()}, File: {$exception->getFile()}, Line: {$exception->getLine()}");
-            return back();
-        }
+        return view('admin.empresa.create');
     }
 
     /**
@@ -67,21 +57,14 @@ class EmpresaController extends Controller
      */
     public function store(StoreEmpresaRequest $request): RedirectResponse
     {
-        try {
-            DB::beginTransaction();
-            $user_id= Auth::user()->id;
-            $empresa = Empresa::create($request->all());
-            $empresa->users()->attach($user_id);
-
-            DB::commit();
-
-            return redirect()->route('admin.empresa.index')->with('info', 'store');
-
-        } catch (\Exception $exception) {
-            DB::rollBack();
-            Log::error("Error EmpCr store: {$exception->getMessage()}, File: {$exception->getFile()}, Line: {$exception->getLine()}");
-            return back();
-        }
+        //VALiDACION FORMULARIO 
+        $request->validate([
+            'name' => 'required',
+            // 'porcentaje' => 'required',
+            // 'mayorQue' => 'required',
+        ]);
+        Empresa::create($request->all());
+        return redirect()->route('admin.empresa.index')->with('info', 'store');
     }
 
     /**
@@ -90,12 +73,11 @@ class EmpresaController extends Controller
      * @param  int  $id
      * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View|RedirectResponse
      */
-    public function edit (Empresa $empresa)
+    public function edit(Empresa $empresa)
     {
         try {
 
             return view('admin.empresa.edit', compact('empresa'));
-
         } catch (\Exception $exception) {
             Log::error("Error EmpCr edit: {$exception->getMessage()}, File: {$exception->getFile()}, Line: {$exception->getLine()}");
             return back();
@@ -115,12 +97,12 @@ class EmpresaController extends Controller
 
             DB::beginTransaction();
 
-            if(!$request->file('logo')) {
+            if (!$request->file('logo')) {
                 $empresa->update($request->all());
             } else {
                 $request_data = $request->all();
 
-                $name_logo = uniqid($empresa->id . '-').'.'.$request->file('logo')->getClientOriginalExtension();
+                $name_logo = uniqid($empresa->id . '-') . '.' . $request->file('logo')->getClientOriginalExtension();
 
                 Storage::disk('public-logo')->put($name_logo, File::get($request->file('logo')));
 
@@ -132,7 +114,7 @@ class EmpresaController extends Controller
             }
             DB::commit();
             return redirect()->route('admin.empresa.index')->with('info', 'update');
-        }catch (\Exception $exception) {
+        } catch (\Exception $exception) {
             DB::rollBack();
             Log::error("Error EmpCr update: {$exception->getMessage()}, File: {$exception->getFile()}, Line: {$exception->getLine()}");
             return back();

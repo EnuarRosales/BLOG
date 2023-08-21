@@ -23,7 +23,7 @@
                     <span class="text-danger">{{ $message }}</span>
                     <br>
                 @enderror
-                
+
                 {!! Form::label('horaIngreso', 'Hora Ingreso') !!}
                 {!! Form::time('horaIngreso', null, [
                     'class' => 'form-control',
@@ -35,9 +35,13 @@
                 @enderror
 
                 {!! Form::label('horaTermino', 'Hora Termino') !!}
-                {!! Form::time('horaTermino', null, [
+                {!! Form::time('horaTermino', date('g:i a'), [
                     'class' => 'form-control',
                 ]) !!}
+
+                
+
+
                 @error('horaTermino')
                     <br>
                     <span class="text-danger">{{ $message }}</span>

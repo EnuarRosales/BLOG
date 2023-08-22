@@ -22,10 +22,18 @@ class RegistroAsistenciaController extends Controller
         
         foreach($asistencias as $asistencia){
 
+            return $asistencia->user->asignacionTurnos;
+
+            // if ($asistencia ->turnos->horaIngreso >= now()->toDateString()){
+            //     echo "llegada tarde";
+            // }
+
         }
+
         
         
-        return view('admin.registroAsistencias.index',compact('asistencias'));
+        
+        // return view('admin.registroAsistencias.index',compact('asistencias'));
     }  
 
     /**

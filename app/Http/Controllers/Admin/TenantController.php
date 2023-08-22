@@ -4,7 +4,11 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Tenant;
+use App\Models\TipoUsuario;
+use App\Models\User;
+use Database\Seeders\DatabaseSeeder;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class TenantController extends Controller
 {
@@ -47,7 +51,7 @@ class TenantController extends Controller
         $tenant = Tenant::create($request->all());
 
         $tenant->domains()->create([
-            'domain'=>$request->get('id'). '.'. 'blog-studio.test',
+            'domain' => $request->get('id') . '.' . 'siaewc.com',
         ]);
 
         return redirect()->route('admin.tenants.index', $tenant->id)->with('info', 'store');
@@ -72,7 +76,7 @@ class TenantController extends Controller
      */
     public function edit(Tenant $tenant)
     {
-        return view('admin.tenants.edit',compact('tenant'));
+        return view('admin.tenants.edit', compact('tenant'));
     }
 
     /**
@@ -86,7 +90,7 @@ class TenantController extends Controller
     {
         //VALLIDACION DE FORMULARIOS
         $request->validate([
-            'id' => 'required|unique:tenants,id,',$tenant->id,            
+            'id' => 'required|unique:tenants,id,', $tenant->id,
         ]);
 
 
@@ -94,11 +98,11 @@ class TenantController extends Controller
         $tenant->update($request->all());
 
         $tenant->update([
-            'id'=>$request->get('id'),
+            'id' => $request->get('id'),
         ]);
 
         $tenant->domains()->update([
-            'domain'=>$request->get('id'). '.'. 'blog-studio.test',
+            'domain' => $request->get('id') . '.' . 'siaewc.com',
         ]);
 
         return redirect()->route('admin.tenants.index', $tenant->id)->with('info', 'update'); //with mensaje de sesion
@@ -114,6 +118,31 @@ class TenantController extends Controller
     public function destroy(Tenant $tenant)
     {
         $tenant->delete();
-        return redirect()->route('admin.tenants.index')->with('info','delete');
+        return redirect()->route('admin.tenants.index')->with('info', 'delete');
+    }
+
+    public function agrgarUsuarioDominio(Request $request, Tenant $tenant)
+    {       
+        tenancy()->initialize($tenant->id);     
+        $seeder = new DatabaseSeeder();
+        $seeder->run();
+        tenancy()->end();
+        return redirect()->route('admin.tenants.index')->with('info', 'delete');
+    }
+
+
+
+    public function habilitarBDInquilino(Tenant $tenant)
+    {
+        $tenants = DB::table('tenants')
+            ->where('id', $tenant->id)
+            ->get();
+        tenancy()->initialize($tenants);
+    }
+
+
+    public function desahabilitarBDInquilino()
+    {
+        tenancy()->end();
     }
 }

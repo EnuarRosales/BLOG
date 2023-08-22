@@ -9,9 +9,9 @@
 @section('content')
     <div class="card">
         <div class="card-body">
-            {{-- @can('admin.asignacionTurnos.create') --}}
-            <a class="btn btn-primary" href="{{ route('admin.registroDescuentos.create') }}">Agregar Descuento</a>
-            {{-- @endcan --}}
+            @can('admin.registroDescuentos.create')
+                <a class="btn btn-primary" href="{{ route('admin.registroDescuentos.create') }}">Agregar Descuento</a>
+            @endcan
         </div>
 
         <table id="registroDescuentos" class="table table-striped table-bordered shadow-lg mt-4">
@@ -24,88 +24,33 @@
                     <th>Saldo</th>
                     <th>Tipo Descuento</th>
                     <th>Usuario</th>
-                    <th>Descontar</th>
-                    <th>Descontar</th>
-                    <th>Editar</th>
-                    <th>Eliminar</th>
+                    @can('admin.registroDescuentos.total')
+                        <th>Descontar</th>
+                    @endcan
+                    @can('admin.registroDescuentos.parcial')
+                        <th>Descontar</th>
+                    @endcan
+                    @can('admin.registroDescuentos.edit')
+                        <th>Editar</th>
+                    @endcan
+                    @can('admin.registroDescuentos.destroy')
+                        <th>Eliminar</th>
+                    @endcan
                 </tr>
             </thead>
             <tbody>
                 @foreach ($registroDescuentos as $registroDescuento)
-                    <tr
-                        @if ($registroDescuento->saldo > 0) {{-- class="p-3 mb-2 bg-success text-white" --}}
-                    class="table-warning"
-                    {{-- class="p-3 mb-2 bg-success-subtle text-emphasis-success" --}}
 
-                    @elseif($registroDescuento->saldo < 0)
-                    class="table-danger""
-                    {{-- style="background-color:red;" --}} 
-                   
-                    @else
-                    class="table-success""
-                    {{-- style="background-color:red;" --}} @endif>
-
-                        <td>{{ $registroDescuento->id }}</td>
-                        <td>{{ $registroDescuento->created_at }}</td>
-                        <td>{{ $registroDescuento->montoDescuento }}</td>
-                        <td>{{ $registroDescuento->montoDescontado }}</td>
-                        <td>{{ $registroDescuento->saldo }}</td>
-                        <td>{{ $registroDescuento->tipoDescuento->nombre }}</td>
-                        <td>{{ $registroDescuento->user->name }}</td>
-                        {{-- <td>{{$registroDescuento->user->saldo}}</td>  --}}
-
-                        {{-- <td width="10px">
-                            <a class="btn btn-secondary btn-sm"
-                                href="{{ route('admin.registroDescuento.descuentoTotal',$registroDescuento)}}">Total</a>
-                        </td> --}}
-
-                        <td class="bg-light" width="10px">
-                            <form action="{{ route('admin.abonos.abono', $registroDescuento) }}" method="POST">
-                                @csrf
-                                @method('PUT')
-                                <button type="submit" class="btn btn-dark btn-sm">Total</button>
-                                {{-- <button type="submit"class="btn btn-outline-success">Total</button> --}}
-                            </form>
-                        </td>
+                @if (auth()->user()->hasRole('Administrador'))
+                        @include('admin.registroDescuentos.partials.table')
+                    @elseif (auth()->user()->hasRole('Monitor'))
+                        @include('admin.registroDescuentos.partials.table')
+                    @elseif($registroDescuento->user->id == $userLogueado)
+                        @include('admin.registroDescuentos.partials.table')
+                    @endif
+                    
 
 
-                        {{-- <td width="10px">
-                            <form action="{{route('admin.abonos.abonoParcial',$registroDescuento) }}" method="POST" >
-                                @csrf
-                                @method('PUT')                               
-                                <button type="submit" class="btn btn-dark btn-sm">Parcial</button>
-                            </form>
-                        </td> --}}
-
-
-
-                        <td class="bg-light" width="10px">
-                            <a class="btn btn-secondary btn-sm"
-                                href="{{ route('admin.abonos.abonoParcial', $registroDescuento) }}">Parcial</a>
-                        </td>
-
-
-                        {{-- @can('admin.asignacionTurnos.edit') --}}
-                        <td class="bg-light" width="10px">
-                            <a class="btn btn-secondary btn-sm"
-                                href="{{ route('admin.registroDescuentos.edit', $registroDescuento) }}">Editar</a>
-                        </td>
-                        {{-- @endcan
-                        {{-- @can('admin.registroAsistencias.destroy') --}}
-                        <td class="bg-light" width="10px">
-                            <form class="formulario-eliminar"
-                                action="{{ route('admin.registroDescuentos.destroy', $registroDescuento) }}"
-                                method="POST">
-                                @csrf
-                                @method('delete')
-                                <button type="submit" class="btn btn-dark btn-sm">Eliminar</button>
-                            </form>
-                        </td>
-                        {{-- @endcan --}}
-
-
-
-                    </tr>
                 @endforeach
             </tbody>
         </table>

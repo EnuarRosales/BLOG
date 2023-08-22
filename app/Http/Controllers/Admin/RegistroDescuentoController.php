@@ -19,12 +19,13 @@ class RegistroDescuentoController extends Controller
     public function index()
     {
         $registroDescuentos = Descuento::all(); 
+        $userLogueado = auth()->user()->id;
                
         foreach ($registroDescuentos as $registroDescuento){
             $registroDescuento->saldo = $registroDescuento->montoDescuento - $registroDescuento->montoDescontado;
             $registroDescuento->save();           
         }        
-        return view('admin.registroDescuentos.index',compact('registroDescuentos')); 
+        return view('admin.registroDescuentos.index',compact('registroDescuentos','userLogueado')); 
     }
 
     /** 

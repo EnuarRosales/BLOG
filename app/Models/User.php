@@ -16,20 +16,20 @@ class User extends Authenticatable implements MustVerifyEmail
     use HasApiTokens, HasFactory, Notifiable, HasRoles;
 
 
-    protected $attributes = [
-        'name' => 'Enuar Emilio Rosales Salazar',
-        'cedula' => '108613644',
-        'celular' => '3057465217',
-        'direccion' => 'Sandona centenario',
-        'email' => 'admin100@gmail.com',
-        'tipoUsuario_id' => 1
-    ];
+    // protected $attributes = [
+    //     'name' => 'Enuar Emilio Rosales Salazar',
+    //     'cedula' => '108613644',
+    //     'celular' => '3057465217',
+    //     'direccion' => 'Sandona centenario',
+    //     'email' => 'admin100@gmail.com',
+    //     'tipoUsuario_id' => 1
+    // ];
 
 
 
     //CON ESTO LOGRAMOS HACER LA ASIGNACION MASIVA
     protected $guarded = [];
-    protected $appends = ['empresa_id'];
+    // protected $appends = ['empresa_id'];
 
 
     //ACCESOR
@@ -126,12 +126,5 @@ class User extends Authenticatable implements MustVerifyEmail
         return $this->hasOne('App\Models\TipoUsuarios');
     }*/
 
-     public function empresaId(): Attribute
-     {
-         return new Attribute(
-             get: function ($value, $attributes) {
-                 return $this->empresas()->where('user_id', $this->id)->first()? $this->empresas()->where('user_id', $this->id)->first()->id:null;
-             }
-         );
-     }
+    
 }

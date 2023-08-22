@@ -9,9 +9,9 @@
 @section('content')
     <div class="card">
         <div class="card-body">
-            {{-- @can('admin.asignacionTurnos.create') --}}
-            <a class="btn btn-primary" href="{{ route('admin.registroAsistencias.create') }}">Registrar Asistencia</a>
-            {{-- @endcan --}}
+            @can('admin.registroAsistencias.create')
+                <a class="btn btn-primary" href="{{ route('admin.registroAsistencias.create') }}">Registrar Asistencia</a>
+            @endcan
 
         </div>
         <table id="registroAsistencias" class="table table-striped table-bordered shadow-lg mt-4">
@@ -21,39 +21,26 @@
                     <th>Usuario</th>
                     <th>Fecha</th>
                     <th>Hora</th>
-                    <th>Control</th>
-                    <th>Editar</th>
-                    <th>Eliminar</th>
+                    @can('admin.registroAsistencias.control')
+                        <th>Control</th>
+                    @endcan
+                    @can('admin.registroAsistencias.edit')
+                        <th>Editar</th>
+                    @endcan
+                    @can('admin.registroAsistencias.destroy')
+                        <th>Eliminar</th>
+                    @endcan
                 </tr>
             </thead>
             <tbody>
                 @foreach ($asistencias as $asistencia)
-                    <tr>
-                        <td>{{ $asistencia->id }}</td>
-                        <td>{{ $asistencia->user->name }}</td>
-                        <td>{{ $asistencia->fecha }}</td>
-                        <td>              
-                         {{ date('g:i a', strtotime($asistencia->mi_hora))}}
-                        </td>
-                        <td>{{"#"}}</td>
-
-                        {{-- @can('admin.asignacionTurnos.edit') --}}
-                        <td width="10px">
-                            <a class="btn btn-secondary btn-sm"
-                                href="{{ route('admin.registroAsistencias.edit', $asistencia) }}">Editar</a>
-                        </td>
-                        {{-- @endcan --}}
-                        {{-- @can('admin.registroAsistencias.destroy') --}}
-                        <td width="10px">
-                            <form class="formulario-eliminar"
-                                action="{{ route('admin.registroAsistencias.destroy', $asistencia) }}" method="POST">
-                                @csrf
-                                @method('delete')
-                                <button type="submit" class="btn btn-dark btn-sm">Eliminar</button>
-                            </form>
-                        </td>
-                        {{-- @endcan --}}
-                    </tr>
+                    @if (auth()->user()->hasRole('Administrador'))
+                        @include('admin.registroAsistencias.partials.table')
+                    @elseif (auth()->user()->hasRole('Monitor'))
+                        @include('admin.registroAsistencias.partials.table')
+                    @elseif($asistencia->user->id == $userLogueado)
+                        @include('admin.registroAsistencias.partials.table')
+                    @endif
                 @endforeach
             </tbody>
         </table>

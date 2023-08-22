@@ -44,8 +44,9 @@ class UserController extends Controller
         try {
             $users = User::all();
             $date = Carbon::now()->locale('es');
+            $userLogueado = auth()->user()->id;
 
-            return view('admin.users.certificacionLaboral', compact('users'));
+            return view('admin.users.certificacionLaboral', compact('users', 'userLogueado'));
         } catch (\Exception $exception) {
             Log::error("Error UC index: {$exception->getMessage()}, File: {$exception->getFile()}, Line: {$exception->getLine()}");
         }
@@ -54,6 +55,7 @@ class UserController extends Controller
     public function certificacionTiempo()
     {
         try {
+            $userLogueado = auth()->user()->id;
             $users = User::all()->where('active', 1);
             $date = Carbon::now()->locale('es');
             $fechaReciente = Carbon::now();
@@ -66,8 +68,8 @@ class UserController extends Controller
                 $day[] = $cantidadAno->d;
             }
 
-            $i=0;
-            return view('admin.users.certificacionTiempo', compact('users', 'year', 'month', 'day','i'));
+            $i = 0;
+            return view('admin.users.certificacionTiempo', compact('userLogueado', 'users', 'year', 'month', 'day', 'i'));
         } catch (\Exception $exception) {
             Log::error("Error UC index: {$exception->getMessage()}, File: {$exception->getFile()}, Line: {$exception->getLine()}");
         }
@@ -92,21 +94,23 @@ class UserController extends Controller
         $cantidadMes = $fechaAntigua->diffInMonths($fechaReciente);
         $cantidadAno = $fechaAntigua->diff($fechaReciente);
         $ano = $cantidadAno->m;
-        
-        $codigoQR =QrCode::size(80)->generate("CERTIFICACION LABORAL"."\n". 
-                                                "NOMBRE: ".$user->name."\n".
-                                                "LABORANDO: "."\n".
-                                                "EMPRESA: ".$empresa->name."\n".
-                                                "DESDE: ".$user->fechaIngreso."\n".
-                                                "HASTA: ".$fechaReciente."\n"
-                                                
-                                            );
+
+        $codigoQR = QrCode::size(80)->generate(
+            "CERTIFICACION LABORAL" . "\n" .
+                "NOMBRE: " . $user->name . "\n" .
+                "LABORANDO: " . "\n" .
+                "EMPRESA: " . $empresa->name . "\n" .
+                "DESDE: " . $user->fechaIngreso . "\n" .
+                "HASTA: " . $fechaReciente . "\n"
+
+        );
 
         // printf('%d años, %d meses, %d días, %d horas, %d minutos', $cantidadAno->y, $cantidadAno->m, $cantidadAno->d, $cantidadAno->h, $cantidadAno->i);
 
-        $pdf = Pdf::loadView('admin.users.certificacionLaboralPDF',compact('user', 'date', 'nombreEmpresa','nitEmpresa','gerenteEmpresa','fechaAntigua','cantidadDias','cantidadMes','cantidadAno','codigoQR','logoEmpresa'));
+        $pdf = Pdf::loadView('admin.users.laboralPDF', compact('user', 'date', 'nombreEmpresa', 'nitEmpresa', 'gerenteEmpresa', 'fechaAntigua', 'cantidadDias', 'cantidadMes', 'cantidadAno', 'codigoQR', 'logoEmpresa'));
         return $pdf->stream();
 
+       
     }
 
     public function certificacionTiempoPDF(User $user)
@@ -118,7 +122,7 @@ class UserController extends Controller
             $nombreEmpresa = $empresa->name;
             $nitEmpresa = $empresa->nit;
             $gerenteEmpresa = $empresa->representative;
-        }
+        } 
         $fechaAntigua1 = Carbon::parse($user->fechaIngreso);
         $fechaAntigua = $fechaAntigua1->locale('es');
         $cantidadDias = $fechaAntigua->diffInDays($fechaReciente);
@@ -126,16 +130,15 @@ class UserController extends Controller
         $tiempo = $fechaAntigua->diff($fechaReciente);
 
 
-        $codigoQR =QrCode::size(80)->generate("CERTIFICACION TIEMPO"."\n". 
-                                                "NOMBRE: ".$user->name."\n".
-                                                "TIEMPO: "."Años ".$tiempo->y." Meses ".$tiempo->m." Dias ".$tiempo->d);
-              
+        $codigoQR = QrCode::size(80)->generate("CERTIFICACION TIEMPO" . "\n" .
+            "NOMBRE: " . $user->name . "\n" .
+            "TIEMPO: " . "Años " . $tiempo->y . " Meses " . $tiempo->m . " Dias " . $tiempo->d);
+
 
         // printf('%d años, %d meses, %d días, %d horas, %d minutos', $cantidadAno->y, $cantidadAno->m, $cantidadAno->d, $cantidadAno->h, $cantidadAno->i);
 
-        $pdf = Pdf::loadView('admin.users.certificacionTiempoPDF', compact('user', 'date', 'nombreEmpresa','nitEmpresa','gerenteEmpresa','fechaAntigua','cantidadDias','cantidadMes','tiempo','codigoQR'));
+        $pdf = Pdf::loadView('admin.users.certificacionTiempoPDF', compact('user', 'date', 'nombreEmpresa', 'nitEmpresa', 'gerenteEmpresa', 'fechaAntigua', 'cantidadDias', 'cantidadMes', 'tiempo', 'codigoQR'));
         return $pdf->stream();
-
     }
 
 
@@ -176,14 +179,10 @@ class UserController extends Controller
                 'direccion' => 'required',
                 'email' => 'required',
                 // 'tipoUsuario_id' => 'required',
-
-
             ]);
 
             $empresa_id = $request->input('empresa_id');
-
             $request = $request->except('empresa_id');
-
             $user = User::create($request);
 
             if ($empresa_id) {
@@ -235,6 +234,9 @@ class UserController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
+
+
+
     public function update(Request $request, User $user)
     {
         //VALiDACION FORMULARIO
@@ -247,7 +249,7 @@ class UserController extends Controller
                 'celular' => 'required',
                 'direccion' => 'required',
                 'email' => 'required',
-                'tipoUsuario_id' => 'required',
+                // 'tipoUsuario_id' => 'required',
             ]);
 
             if ($request->input('empresa_id')) {
@@ -273,14 +275,34 @@ class UserController extends Controller
         }
     }
 
+
+    // public function update(Request $request, User $user)
+    // {
+    //     //VALiDACION FORMULARIO
+    //     $request->validate([
+    //         'fechaIngreso' => 'required',
+    //         'name' => 'required',
+    //         'cedula' => 'required',
+    //         'celular' => 'required',
+    //         'direccion' => 'required',
+    //         'email' => 'required',
+    //         'tipoUsuario_id' => 'required',
+    //     ]);
+       
+
+    //     $user->update($request->all()); 
+    //     return redirect()->route('admin.users.index', $user->id)->with('info', 'update'); //with mensaje de sesion
+    // }
+
+
+
+
+
+
+
+
     public function updateRol(Request $request, User $user)
     {
-        // $user->update($request->all());
-
-        // $user->roles()->sync($request->roles);
-        // return redirect()->route('admin.users.index')->with('info', 'updateRol'); //with mensaje de sesion
-        
- 
         try {
             DB::beginTransaction();
             $user->roles()->sync($request->roles);
@@ -293,7 +315,7 @@ class UserController extends Controller
     }
 
 
-      
+
 
     /**
      * Remove the specified resource from storage.
@@ -321,43 +343,6 @@ class UserController extends Controller
 
         $user = DB::table('user')->count();
         return "el resultado es " . $user;
-    }
-
-    public function CertificacionLaboral($User_id)
-    {
-        $userLogueado = auth()->user();
-
-        $data[] = [];
-
-        $Colores = [
-            0 => ['id' => 1, 'nombre' => 'Naranja', 'color' => '#ff8000',],
-            1 => ['id' => 2, 'nombre' => 'Gris', 'color' => '#808080',],
-            2 => ['id' => 3, 'nombre' => 'Plata', 'color' => '#C0C0C0',],
-            3 => ['id' => 4, 'nombre' => 'Negro', 'color' => '#000000',],
-            4 => ['id' => 5, 'nombre' => 'Verde', 'color' => '#008000',],
-            5 => ['id' => 6, 'nombre' => 'Rosa', 'color' => '#ff0080',],
-            6 => ['id' => 7, 'nombre' => 'verde azulado', 'color' => '#008080',],
-            7 => ['id' => 8, 'nombre' => 'Azul', 'color' => '#0000FF',],
-            8 => ['id' => 9, 'nombre' => 'Cal', 'color' => '#00FF00',],
-            9 => ['id' => 10, 'nombre' => 'Púrpura', 'color' => '#800080',],
-            10 => ['id' => 11, 'nombre' => 'Blanco', 'color' =>    '#FFFFFF',],
-            11 => ['id' => 12, 'nombre' => 'Fucsia', 'color' => '#FF00FF',],
-            12 => ['id' => 13, 'nombre' => 'Marrón', 'color' => '#800000',],
-            13 => ['id' => 14, 'nombre' => 'Rojo', 'color' => '#FF0000',],
-            14 => ['id' => 15, 'nombre' => 'Amarillo', 'color' => '#FFFF00',],
-        ];
-
-        $nombre = "Enuar Emilio Rosales";
-        // return view('User.CertificacionLaboral');
-
-        $view =  \View::make('User.CertificacionLaboral', compact('userLogueado'))->render();
-
-        $pdf = \App::make('dompdf.wrapper'); //no cambia
-        //No cambia y carga los datos
-        $pdf->loadHTML($view);
-        set_time_limit(300);
-
-        return $pdf->stream('PDF');
     }
 
 

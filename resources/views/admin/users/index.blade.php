@@ -24,7 +24,7 @@
                     <th>Tipo Usuario</th>
                     @can('admin.users.edit')
                         <th>Editar</th>
-                    @endcan
+                    @endcan 
                     @can('admin.users.destroy')
                         <th>Eliminar</th>
                     @endcan
@@ -40,7 +40,7 @@
                         <td>{{ $usuario->celular }}</td>
                         <td>{{ $usuario->direccion }}</td>
                         <td>{{ $usuario->email }}</td>
-                        <td>{{ $usuario->tipoUsuario->nombre }}</td>
+                        <td>{{ $usuario->tipoUsuario->nombre}}</td>
 
                         @can('admin.users.edit')
                             <td width="10px">

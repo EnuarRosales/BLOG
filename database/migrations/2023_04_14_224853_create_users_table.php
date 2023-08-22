@@ -22,8 +22,10 @@ class CreateUsersTable extends Migration
             $table->string('direccion',150)->nullable();
             $table->string('email')->unique()->nullable();
             $table->timestamp('email_verified_at')->nullable();
+            $table->boolean('active')->default(true)->nullable();
               
 
+            
 
             $table->unsignedBigInteger('tipoUsuario_id')->nullable(); //campo para relacion 
             $table->foreign('tipoUsuario_id')->nullable()

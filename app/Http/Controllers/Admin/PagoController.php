@@ -26,7 +26,8 @@ class PagoController extends Controller
     public function index()
     {
         $pagos = Pago::all();
-        return view('admin.pagos.index', compact('pagos'));
+        $userLogueado = auth()->user()->id;
+        return view('admin.pagos.index', compact('pagos','userLogueado'));
     }
 
     /**

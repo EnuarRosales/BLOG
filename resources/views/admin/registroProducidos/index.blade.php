@@ -10,15 +10,13 @@
 @section('content')
     <div class="card">
         <div class="card-body">
-            {{-- @can('admin.asignacionTurnos.create') --}}
-            <a class="btn btn-primary" href="{{ route('admin.registroProducidos.create') }}">Agregar Producido</a>
-
-            <a class="btn btn-secondary" href="{{ route('admin.registroProducidoss.reporte_dia') }}">Resumen</a>
-            {{-- @endcan --}}
+            @can('admin.registroProduccion.create')
+                <a class="btn btn-primary" href="{{ route('admin.registroProducidos.create') }}">Agregar Producido</a>
+            @endcan
+            @can('admin.registroProduccion.resumen')
+                <a class="btn btn-secondary" href="{{ route('admin.registroProducidoss.reporte_dia') }}">Resumen</a>
+            @endcan
         </div>
-
-
-
         <table id="registroProducidos" class="table table-striped table-bordered shadow-lg mt-4">
             <thead>
                 <tr>
@@ -31,8 +29,12 @@
                     <th>Meta</th>
                     <th>Pagina</th>
                     <th>Usuario que registra</th>
-                    <th>Editar</th>
-                    <th>Eliminar</th>
+                    @can('admin.registroProduccion.edit')
+                        <th>Editar</th>
+                    @endcan
+                    @can('admin.registroProduccion.destroy')
+                        <th>Eliminar</th>
+                    @endcan
                 </tr>
             </thead>
             <tbody>
@@ -57,25 +59,6 @@
                             <td class="text-center"> <i class="fas fa-eye-slash"> </i> </td>
                             <td class="text-center"> <i class="fas fa-eye-slash"> </i> </td>
                         @endif
-
-
-
-                        {{-- <td width="10px">
-                            <a class="btn btn-secondary btn-sm"
-                                href="{{ route('admin.registroProducidos.edit', $registroProducido) }}">Editar</a>
-                        </td>
-                        
-                        <td width="10px">
-                            <form class="formulario-eliminar"
-                                action="{{ route('admin.registroProducidos.destroy', $registroProducido) }}" method="POST">
-                                @csrf
-                                @method('delete')
-                                <button type="submit" class="btn btn-dark btn-sm">Eliminar</button>
-                            </form>
-                        </td> --}}
-
-
-
 
                     </tr>
                 @endforeach

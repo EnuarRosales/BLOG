@@ -18,23 +18,10 @@ class RegistroAsistenciaController extends Controller
      */
     public function index()
     {
-        $asistencias = Asistencia::all();  
-        
-        foreach($asistencias as $asistencia){
-
-            return $asistencia->user->asignacionTurnos;
-
-            // if ($asistencia ->turnos->horaIngreso >= now()->toDateString()){
-            //     echo "llegada tarde";
-            // }
-
-        }
-
-        
-        
-        
-        // return view('admin.registroAsistencias.index',compact('asistencias'));
-    }  
+        $userLogueado = auth()->user()->id;
+        $asistencias = Asistencia::all();
+        return view('admin.registroAsistencias.index', compact('asistencias','userLogueado'));
+    }
 
     /**
      * Show the form for creating a new resource.
@@ -43,7 +30,7 @@ class RegistroAsistenciaController extends Controller
      */
     public function create()
     {
-        $users = User::orderBy('id','desc'); 
+        $users = User::orderBy('id', 'desc');
         // $turnos = Turno::orderBy('id','desc'); 
         return view('admin.registroAsistencias.create', compact('users'));
     }
@@ -54,22 +41,20 @@ class RegistroAsistenciaController extends Controller
      * @param  \Illuminate\Http\Request  $request 
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request) 
+    public function store(Request $request)
     {
         //VALiDACION FORMULARIO 
         $request->validate([
-            'user_id'=>'required',
-            'fecha'=>'required', 
+            'user_id' => 'required',
+            'fecha' => 'required',
             // 'my_hora'=>'required',
-                              
+
         ]);
 
-        
- 
-        $registroAsistencia = Asistencia::create($request->all());
-        return redirect()->route('admin.registroAsistencias.index',$registroAsistencia->id)->with('info','store');
 
-        
+
+        $registroAsistencia = Asistencia::create($request->all());
+        return redirect()->route('admin.registroAsistencias.index', $registroAsistencia->id)->with('info', 'store');
     }
 
     /**
@@ -81,7 +66,7 @@ class RegistroAsistenciaController extends Controller
     public function show($id)
     {
         //
-    } 
+    }
 
     /**
      * Show the form for editing the specified resource.
@@ -91,8 +76,8 @@ class RegistroAsistenciaController extends Controller
      */
     public function edit(Asistencia $registroAsistencia)
     {
-        $users = User::orderBy('id','desc');        
-        return view('admin.registroAsistencias.edit',compact('registroAsistencia','users'));
+        $users = User::orderBy('id', 'desc');
+        return view('admin.registroAsistencias.edit', compact('registroAsistencia', 'users'));
     }
 
     /**
@@ -106,8 +91,8 @@ class RegistroAsistenciaController extends Controller
     {
         //VALiDACION FORMULARIO 
         $request->validate([
-            'user_id'=>'required',
-            'fecha'=>'required',         
+            'user_id' => 'required',
+            'fecha' => 'required',
         ]);
         //ASINACION MASIVA DE VARIABLES A LOS CAMPOS
         $registroAsistencia->update($request->all());
@@ -115,7 +100,7 @@ class RegistroAsistenciaController extends Controller
 
     }
 
-    
+
 
 
 
@@ -133,6 +118,6 @@ class RegistroAsistenciaController extends Controller
     public function destroy(Asistencia $registroAsistencia)
     {
         $registroAsistencia->delete();
-        return redirect()->route('admin.registroAsistencias.index')->with('info','delete');
+        return redirect()->route('admin.registroAsistencias.index')->with('info', 'delete');
     }
 }

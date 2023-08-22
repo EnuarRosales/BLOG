@@ -17,11 +17,12 @@ return [
      * Only relevant if you're using the domain or subdomain identification middleware.
      */
     'central_domains' => [
-        'blog-studio.test',
-        'tenancy.test',
-        'localhost',
-        'blum.com',
-        'studio.artisandev.co'
+        // 'blog-studio.test',
+        'siaewc.com',        
+        // 'fo.blog-studio.test',
+        // 'localhost',S
+        // 'blum.com',
+        // 'studio.artisandev.co'
     ],
 
     /**

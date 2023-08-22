@@ -30,8 +30,9 @@
                 </tr>
             </thead>
             <tbody>
-                @foreach ($asignacionMultas as $asignacionMulta)
-                    @if (auth()->user()->hasRole('Admin'))
+                
+                @foreach ($asignacionMultas as $asignacionMulta)                
+                    @if (auth()->user()->hasRole('Administrador'))
                         @include('admin.asignacionMultas.partials.table')
                     @elseif (auth()->user()->hasRole('Monitor'))
                         @include('admin.asignacionMultas.partials.table')

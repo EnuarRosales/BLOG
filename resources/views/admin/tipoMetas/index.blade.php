@@ -21,7 +21,6 @@
                         <th>Numero dias</th>
                         <th>Editar</th>
                         <th>Eliminar</th>
-
                     </tr>
                 </thead>
 
@@ -32,12 +31,10 @@
                             <td>{{ $tipoMeta->nombre }}</td>
                             <td>{{ $tipoMeta->valor }}</td>
                             <td>{{ $tipoMeta->dias }}</td>
-
                             <td width="10px">
                                 <a class="btn btn-secondary btn-sm"
                                     href="{{ route('admin.tipoMetas.edit', $tipoMeta) }}">Editar</a>
                             </td>
-
                             <td width="10px">
                                 <form class="formulario-eliminar" action="{{ route('admin.tipoMetas.destroy', $tipoMeta) }}"
                                     method="POST">
@@ -45,9 +42,7 @@
                                     @method('delete')
                                     <button type="submit" class="btn btn-dark btn-sm">Eliminar</button>
                                 </form>
-
                             </td>
-
                         </tr>
                     @endforeach
                 </tbody>

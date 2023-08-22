@@ -18,8 +18,11 @@ class DatabaseSeeder extends Seeder
     {
         $this->call(TipoUsuarioSeeder::class);
         //TipoUsuario::factory(1)->create();
-        User::factory(1)->create();
+        // User::factory(1)->create();
         $this->call(RolSeeder::class);
+        $this->call(PaginaSeeder::class);
+        $this->call(MetaModeloSeeder::class);
+        $this->call(ImpuestoSeeder::class);
 
     }
 }

@@ -37,10 +37,7 @@
                 {!! Form::label('horaTermino', 'Hora Termino') !!}
                 {!! Form::time('horaTermino', date('g:i a'), [
                     'class' => 'form-control',
-                ]) !!}
-
-                
-
+                ]) !!}              
 
                 @error('horaTermino')
                     <br>

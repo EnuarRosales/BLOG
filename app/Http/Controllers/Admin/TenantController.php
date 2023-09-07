@@ -42,7 +42,7 @@ class TenantController extends Controller
      */
     public function store(Request $request)
     {
-        //VALiDACION FORMULARIO 
+        //VALiDACION FORMULARIO
         $request->validate([
             'id' => 'required|unique:tenants',
 
@@ -51,7 +51,7 @@ class TenantController extends Controller
         $tenant = Tenant::create($request->all());
 
         $tenant->domains()->create([
-            'domain' => $request->get('id') . '.' . 'siaewc.com',
+            'domain' => $request->get('id') . '.' . 'blog-studio.test',
         ]);
 
         return redirect()->route('admin.tenants.index', $tenant->id)->with('info', 'store');
@@ -102,7 +102,7 @@ class TenantController extends Controller
         ]);
 
         $tenant->domains()->update([
-            'domain' => $request->get('id') . '.' . 'siaewc.com',
+            'domain' => $request->get('id') . '.' . 'blog-studio.test',
         ]);
 
         return redirect()->route('admin.tenants.index', $tenant->id)->with('info', 'update'); //with mensaje de sesion
@@ -122,8 +122,8 @@ class TenantController extends Controller
     }
 
     public function agrgarUsuarioDominio(Request $request, Tenant $tenant)
-    {       
-        tenancy()->initialize($tenant->id);     
+    {
+        tenancy()->initialize($tenant->id);
         $seeder = new DatabaseSeeder();
         $seeder->run();
         tenancy()->end();

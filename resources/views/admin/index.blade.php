@@ -1,10 +1,5 @@
-@extends('adminlte::page')
+@extends('template.index')
 
-@section('title', 'Studio WC')
-
-@section('content_header')
-    <h1>Sitema Administracion Studio</h1>
-@stop
 
 @section('content')
     <p>Welcome to this beautiful admin panel.</p>
@@ -55,7 +50,7 @@
                 <h1>{{ $chart->options['chart_title'] }}</h1>
                 {!! $chart->renderHtml() !!}
             </div>
-            
+
             <div class="row">
                 <div class="col-4">
                     <h2>Turnos</h2>
@@ -128,10 +123,10 @@
             </div>
         </div>
         </div>
-
     @endcan
-@stop
-@vite('resources/js/app.js')
+
+@endsection
+
 @section('js')
     <script type="module">
         Echo.channel(`userModelUpdateCreate`)
@@ -154,9 +149,4 @@
 
     {!! $chart->renderChartJsLibrary() !!}
     {!! $chart->renderJs() !!}
-
-
-
-
-
-@stop
+@endsection

@@ -1,10 +1,10 @@
-@extends('adminlte::page')
+@extends('template.index')
 
-@section('title', 'Dashboard')
+{{-- @section('title', 'Dashboard')
 
 @section('content_header')
     <h1>Listado de Estudios</h1>
-@stop
+@stop --}}
 
 @section('content')
     <div class="card">
@@ -65,7 +65,7 @@
     </div>
 @stop
 
-@section('css')
+@section('styles')
     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.13.4/css/jquery.dataTables.min.css" />
     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/buttons/2.3.6/css/buttons.dataTables.min.css" />
 @stop

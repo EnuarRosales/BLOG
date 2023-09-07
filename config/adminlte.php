@@ -291,44 +291,34 @@ return [
 
     'menu' => [
         // Navbar items:
-
-
-
-
-
-
-
-
-
-
-        [
-            'type'         => 'navbar-search',
-            'text'         => 'search',
-            'topnav_right' => true,
-        ],
-        [
-            'type'         => 'fullscreen-widget',
-            'topnav_right' => true,
-        ],
+        // [
+        //     'type'         => 'navbar-search',
+        //     'text'         => 'search',
+        //     'topnav_right' => true,
+        // ],
+        // [
+        //     'type'         => 'fullscreen-widget',
+        //     'topnav_right' => true,
+        // ],
 
         // Sidebar items:
-        [
-            'type' => 'sidebar-menu-search',
-            'text' => 'search',
-        ],
+        // [
+        //     'type' => 'sidebar-menu-search',
+        //     'text' => 'search',
+        // ],
 
-        [
-            'text' => 'blog',
-            'url'  => 'admin/blog',
-            'can'  => 'manage-blog',
-        ],
-        [
-            'text'        => 'Dashborad',
-            'url'         => '/',
-            'can'         => 'admin.dashboard',
-            'icon'        => 'far fa-fw fa-file',
+        // [
+        //     'text' => 'blog',
+        //     'url'  => 'admin/blog',
+        //     'can'  => 'manage-blog',
+        // ],
+        // [
+        //     'text'        => 'Dashborad',
+        //     'url'         => '/',
+        //     'can'         => 'admin.dashboard',
+        //     'icon'        => 'far fa-fw fa-file',
 
-        ], //ojo que aca inicia para modificar el menu
+        // ], //ojo que aca inicia para modificar el menu
 
         ['header' => 'ADMINISTRADOR'],
 
@@ -341,10 +331,10 @@ return [
 
                 [
                     'text' => 'Dominios',
-                    'route'  => 'admin.tenants.index',
+                    'route'  => 'admin/tenants',
                     'can' => 'admin.tenants.index',
                     'icon' => 'fas fa-fw fa-user',
-                    
+
                 ],
 
                 [
@@ -475,7 +465,7 @@ return [
                     'can' => 'admin.tipoDescuentos',
                 ],
 
-                
+
                 [
                     'text' => 'Paginas',
                     'route'  => 'admin.paginas.index',
@@ -537,15 +527,15 @@ return [
                 ],
                 [
                     'text' => 'Impuesto',
-                    'route'  => 'admin.impuestos.comprobanteImpuestoss', 
+                    'route'  => 'admin.impuestos.comprobanteImpuestoss',
                     'can' => 'admin.certificacion.impuesto',
-                    
-                ], 
+
+                ],
                 [
                     'text' => 'Pago',
                     // 'url'  => 'user/1/comprobantePagoPDF',
-                    'route'=> 'admin.pagos.index',    
-                    'can' => 'admin.certificacion.pago',                                
+                    'route'=> 'admin.pagos.index',
+                    'can' => 'admin.certificacion.pago',
                 ],
 
             ],
@@ -569,20 +559,20 @@ return [
         [
             'text'=>'Registro Produccion',
             'icon_color'=>'cyan',
-            'route'=>'admin.registroProducidos.index',  
+            'route'=>'admin.registroProducidos.index',
             'can' =>'admin.registroProduccion.index',
         ],
 
         [
             'text'=>'Registro Descuentos',
             'icon_color'=>'blue',
-            'route'=>'admin.registroDescuentos.index',  
+            'route'=>'admin.registroDescuentos.index',
             'can'=>'admin.registroDescuentos.index',
         ],
         [
             'text' => 'Reportes Paginas',
             'icon_color' => 'green',
-            'route'=> 'admin.reportePaginas.index',  
+            'route'=> 'admin.reportePaginas.index',
             'can'=>'admin.reportePaginas.index',
         ],
     ],

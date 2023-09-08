@@ -10,4 +10,5 @@
         });
     </script>
     <script src="{{asset('template/assets/js/custom.js')}}"></script>
+    <script src="{{asset('template/assets/js/elements/tooltip.js')}}"></script>
     <!-- END GLOBAL MANDATORY SCRIPTS -->

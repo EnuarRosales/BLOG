@@ -5,7 +5,7 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, shrink-to-fit=no">
-    <title>Blank Page - Multipurpose Bootstrap Dashboard Template </title>
+    <title> @yield('tittle-tab', 'Page - Multipurpose Bootstrap Dashboard Template')  </title>
     <link rel="icon" type="image/x-icon" href="{{ asset('template/assets/img/favicon.ico') }}" />
     <link href="{{ asset('template/assets/css/loader.css') }}" rel="stylesheet" type="text/css" />
     <script src="{{ asset('template/assets/js/loader.js') }}"></script>
@@ -52,7 +52,9 @@
                 <li>
                     <div class="page-header">
                         <div class="page-title">
-                            <h3>Blank Page</h3>
+                            <h3>
+                                @yield('page-title', 'Blank Page')
+                            </h3>
                         </div>
                     </div>
                 </li>

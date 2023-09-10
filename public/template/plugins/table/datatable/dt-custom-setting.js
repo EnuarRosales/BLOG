@@ -4,7 +4,7 @@ var DTcustomsetting = {
           "previous": "<i class='flaticon-left-arrow-1'></i>",
           "next": "<i class='flaticon-right-arrow-1'></i>"
         },
-        "info": "Showing page _PAGE_ of _PAGES_"
+        "info": "Página _PAGE_ de _PAGES_"
     },
 
 
@@ -19,18 +19,18 @@ var DTcustomsetting = {
           "previous": "<i class='flaticon-left-arrow-1'></i>",
           "next": "<i class='flaticon-right-arrow-1'></i>"
         },
-        "info": "Showing page _PAGE_ of _PAGES_"
+        "info": "Página _PAGE_ de _PAGES_"
     },
 
     languagePaginate: {
         "previous": "<i class='flaticon-left-arrow-1'></i> Previous",
         "next": "Next <i class='flaticon-right-arrow-1'></i>"
-    }
+    },
 
     languageInfo: {
-    	"Showing page _PAGE_ of _PAGES_"
+    	"Página _PAGE_ de _PAGES_"
     }
 
-    
-    
+
+
 };

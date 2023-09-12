@@ -60,7 +60,7 @@
                                 <td>{{ $empresa->capacity_models }}</td>
                                 <td>
                                     {{-- <div class="btn-group"> --}}
-                                    @can('admin.empresa.edit')
+                                    {{-- @can('admin.empresa.edit') --}}
                                     <a href="{{ route('admin.empresa.edit', $empresa) }}" class="ml-4 rounded bs-tooltip"
                                         data-placement="top" title="Editar">
                                         <svg class="mr-4" xmlns="http://www.w3.org/2000/svg" width="24" height="24"
@@ -70,8 +70,8 @@
                                             <path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"></path>
                                         </svg>
                                     </a>
-                                    @endcan
-                                    @can('admin.empresa.destroy')
+                                    {{-- @endcan --}}
+                                    {{-- @can('admin.empresa.destroy') --}}
                                         <a href="javascript:void(0);" class="ml-2 eliminar-registro rounded bs-tooltip"
                                             data-placement="top" title="Eliminar" data-empresa-id="{{ $empresa->id }}">
                                             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
@@ -83,7 +83,7 @@
                                                 <line x1="9" y1="9" x2="15" y2="15"></line>
                                             </svg>
                                         </a>
-                                    @endcan
+                                    {{-- @endcan     --}}
                                     {{-- </div> --}}
                                 </td>
                             </tr>

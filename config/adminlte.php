@@ -339,7 +339,7 @@ return [
 
                 [
                     'text' => 'Asignacion Dominio',
-                    'route'  => 'admin.asignacionTurnos.index',
+                    'route'  => 'asignacionRooms',
                     'can' => 'admin.asignacionTurnos.index',
                     'icon' => '	far fa-address-book',
                 ],
@@ -393,7 +393,7 @@ return [
 
         [
             'text' => 'Roles',
-            'route'  => 'admin.roles.index',
+            'route'  => 'roles',
             'icon' => 'fas fa-fw fa-lock',
             'can' => 'admin.roles.index'
 
@@ -572,7 +572,7 @@ return [
         [
             'text' => 'Reportes Paginas',
             'icon_color' => 'green',
-            'route'=> 'admin.reportePaginas.index',
+            'route'=> 'reportePaginas',
             'can'=>'admin.reportePaginas.index',
         ],
     ],

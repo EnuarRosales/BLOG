@@ -70,7 +70,7 @@ class RolSeeder extends Seeder
 
         Permission::create(['name'=>'admin.users.edit',
                             'description'=>'Editar usuarios'])->syncRoles([$role_admin]);
-                            
+
         Permission::create(['name'=>'admin.users.destroy',
                             'description'=>'Eliminar usuarios'])->syncRoles([$role_admin]);
 
@@ -109,7 +109,7 @@ class RolSeeder extends Seeder
         Permission::create(['name'=>'admin.roles.destroy',
                             'description'=>'Eliminar roles'])->syncRoles([$role_admin]);
 
-        
+
 
 
         //PERMISOS  CONFIGURACIONES
@@ -124,11 +124,11 @@ class RolSeeder extends Seeder
                             'description'=>'Ver, crear, editar, eliminar, menu metas estudio'])->syncRoles([$role_admin]);
 
         Permission::create(['name'=>'admin.metasModelos',
-                            'description'=>'Ver, crear, editar, eliminar, menu metas modelos'])->syncRoles([$role_admin]);          
+                            'description'=>'Ver, crear, editar, eliminar, menu metas modelos'])->syncRoles([$role_admin]);
 
         Permission::create(['name'=>'admin.empresas',
                             'description'=>'Ver, crear, editar, eliminar, menu empresa'])->syncRoles([$role_admin]);
-        
+
         Permission::create(['name'=>'admin.impuestos',
                             'description'=>'Ver, crear, editar, eliminar, menu impuesto'])->syncRoles([$role_admin]);
 
@@ -137,21 +137,21 @@ class RolSeeder extends Seeder
 
         Permission::create(['name'=>'admin.tipoTurnos',
                             'description'=>'Ver, crear, editar, eliminar,menu tipo turnos'])->syncRoles([$role_admin]);
-                            
+
 
         Permission::create(['name'=>'admin.tipoRooms',
                             'description'=>'Ver, crear, editar, eliminar, menu tipo rooms'])->syncRoles([$role_admin]);
 
         Permission::create(['name'=>'admin.tipoMultas',
                             'description'=>'Ver, crear, editar, eliminar, menu tipo multas'])->syncRoles([$role_admin]);
-                            
+
         Permission::create(['name'=>'admin.tipoDescuentos',
                             'description'=>'Ver, crear, editar, eliminar, menu tipo descuentos'])->syncRoles([$role_admin]);
 
         Permission::create(['name'=>'admin.paginas',
                             'description'=>'Ver, crear, editar, eliminar, menu paginas'])->syncRoles([$role_admin]);
 
-        //PERMISOS CERTIFICACIONES        
+        //PERMISOS CERTIFICACIONES
         Permission::create(['name'=>'admin.certificaciones',
                             'description'=>'Ver menu certificaiones'])->syncRoles([$role_admin]);
 
@@ -194,9 +194,9 @@ class RolSeeder extends Seeder
 
         //PERMISOS REGISTRO PRODUCCION
         Permission::create(['name'=>'admin.registroProduccion.index',
-        'description'=>'Ver listado de produccion'])->syncRoles([$role_admin, $role_monitor, $role_modelo]);        
-        Permission::create(['name'=>'admin.registroProduccion.resumen',        
-        'description'=>'Ver resumen produccion'])->syncRoles([$role_admin, $role_monitor]);        
+        'description'=>'Ver listado de produccion'])->syncRoles([$role_admin, $role_monitor, $role_modelo]);
+        Permission::create(['name'=>'admin.registroProduccion.resumen',
+        'description'=>'Ver resumen produccion'])->syncRoles([$role_admin, $role_monitor]);
         Permission::create(['name'=>'admin.registroProduccion.create',
         'description'=>'Crear produccion'])->syncRoles([$role_admin, $role_monitor]);
         Permission::create(['name'=>'admin.registroProduccion.edit',
@@ -218,10 +218,10 @@ class RolSeeder extends Seeder
         Permission::create(['name'=>'admin.registroDescuentos.parcial',
         'description'=>'Ver boton descuento parcial'])->syncRoles([$role_admin, $role_monitor]);
 
-        
+
         //PERMISOS REPORTE APGINAS
         Permission::create(['name'=>'admin.reportePaginas.index',
-        'description'=>'Ver listado de produccion'])->syncRoles([$role_admin, $role_monitor]);     
+        'description'=>'Ver listado de produccion'])->syncRoles([$role_admin, $role_monitor]);
 
 
 
@@ -238,7 +238,7 @@ class RolSeeder extends Seeder
         // Permission::create(['name'=>'admin.empresa.destroy',
         //     'description'=>'Eliminar Empresas'])->syncRoles([$role_admin]);
 
-        
+
 
         //CON EL FIN DE CREAR UN USUARIO de Soporte
         $user_soporte = new User();
@@ -253,21 +253,21 @@ class RolSeeder extends Seeder
         // $user_soporte->empresa_id = 1;
         $user_soporte->password = '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi';//password
         $user_soporte->syncRoles([$role_admin]);
-        $user_soporte->save();     
+        $user_soporte->save();
 
 
 
 
-        
-
-        
-        
 
 
-        
+
+
+
+
+
     }
 
-    
+
 
 
 

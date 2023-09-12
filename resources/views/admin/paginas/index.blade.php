@@ -67,8 +67,7 @@
 
                                 <td width="10px">
                                     <a href="javascript:void(0);" class="ml-2 eliminar-registro rounded bs-tooltip"
-                                        data-placement="top" title="Eliminar"
-                                        data-pagina-id="{{ $pagina->id }}">
+                                        data-placement="top" title="Eliminar" data-pagina-id="{{ $pagina->id }}">
                                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
                                             viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
                                             stroke-linecap="round" stroke-linejoin="round"
@@ -150,7 +149,6 @@
 
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
-    {{-- SWET ALERT --}}
     @if (session('info') == 'delete')
         <script>
             Swal.fire(

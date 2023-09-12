@@ -1,6 +1,13 @@
-@extends('adminlte::page')
+@extends('template.index')
 
-@section('title', 'Impuesto')
+@section('tittle-tab')
+    Configuracion-Impuestos-Crear
+@endsection
+
+@section('page-title')
+    <a href="{{ route('admin.impuestos.index') }}"> Configuracion-Impuestos </a>
+
+@endsection
 
 @section('content_header')
     <h1>Crear Impuesto</h1>
@@ -8,45 +15,50 @@
 
 @section('content')
 
-    <div class="card">
-        <div class="card-body">
-            {!! Form::open(['route' => 'admin.impuestos.store']) !!}
-            {{-- @csrf{!! Form::model($tipoUsuario, ['route' => ['admin.tipoUsuarios.update', $tipoUsuario], 'method' => 'put']) !!} --}}
+    <div class="col-xl-12 col-lg-12 col-sm-12  layout-spacing">
+        <div class="widget-content widget-content-area br-6">
 
-            <div class="form-group">
+            <div class="card">
+                <div class="card-body">
+                    {!! Form::open(['route' => 'admin.impuestos.store']) !!}
+                    {{-- @csrf{!! Form::model($tipoUsuario, ['route' => ['admin.tipoUsuarios.update', $tipoUsuario], 'method' => 'put']) !!} --}}
 
-                {!! Form::label('nombre', 'Nombre') !!}
-                {!! Form::text('nombre', null, ['class' => 'form-control']) !!}
-                @error('nombre')
-                    <br>
-                    <span class="text-danger">{{ $message }}</span>
-                    <br>
-                @enderror
+                    <div class="form-group">
 
-                {!! Form::label('mayorQue', 'MayorQue') !!}
-                {!! Form::number('mayorQue', null, ['class' => 'form-control']) !!}
-                @error('mayorQue')
-                    <br>
-                    <span class="text-danger">{{ $message }}</span>
-                    <br>
-                @enderror
+                        {!! Form::label('nombre', 'Nombre') !!}
+                        {!! Form::text('nombre', null, ['class' => 'form-control']) !!}
+                        @error('nombre')
+                            <br>
+                            <span class="text-danger">{{ $message }}</span>
+                            <br>
+                        @enderror
 
-                {!! Form::label('porcentaje', 'Porcentaje') !!}
-                {!! Form::number('porcentaje', null, ['class' => 'form-control']) !!}
-                @error('porcentaje')
-                    <br>
-                    <span class="text-danger">{{ $message }}</span>
-                    <br>
-                @enderror
+                        {!! Form::label('mayorQue', 'MayorQue') !!}
+                        {!! Form::number('mayorQue', null, ['class' => 'form-control']) !!}
+                        @error('mayorQue')
+                            <br>
+                            <span class="text-danger">{{ $message }}</span>
+                            <br>
+                        @enderror
+
+                        {!! Form::label('porcentaje', 'Porcentaje') !!}
+                        {!! Form::number('porcentaje', null, ['class' => 'form-control']) !!}
+                        @error('porcentaje')
+                            <br>
+                            <span class="text-danger">{{ $message }}</span>
+                            <br>
+                        @enderror
+
+                    </div>
+
+                    {!! Form::submit('Crear Impuesto', ['class' => 'btn btn-primary']) !!}
+
+                    {!! Form::close() !!}
+
+                </div>
 
             </div>
-
-            {!! Form::submit('Crear Impuesto', ['class' => 'btn btn-primary']) !!}
-
-            {!! Form::close() !!}
-
         </div>
-
     </div>
 
 @stop

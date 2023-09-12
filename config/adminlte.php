@@ -370,20 +370,20 @@ return [
 
                 [
                     'text' => 'Usuarios',
-                    'route'  => 'admin.users.index',
+                    'route'  => 'users',
                     'can' => 'admin.users.index',
                     'icon' => 'fas fa-fw fa-user',
                 ],
 
                 [
                     'text' => 'Asignacion Turno',
-                    'route'  => 'admin.asignacionTurnos.index',
+                    'route'  => 'asignacionTurno',
                     'can' => 'admin.asignacionTurnos.index',
                     'icon' => '	far fa-address-book',
                 ],
                 [
                     'text' => 'Asignacion Room',
-                    'route'  => 'admin.asignacionRooms.index',
+                    'route'  => 'asignacionRooms',
                     'can' => 'admin.asignacionRooms.index',
                     'icon' => ' fas fa-house-user',
                 ],
@@ -411,15 +411,15 @@ return [
                     'text'    => 'METAS',
                     'url'     => '#',
                     'can' => 'admin.configuraciones.metas',
-                    'submenu' => [
+                    'subsubmenu' => [
                         [
                             'text' => 'Metas Estudio',
-                            'route'     => 'admin.tipoMetas.index',
+                            'route'     => 'tipoMetas',
                             'can' => 'admin.tipoMetas',
                         ],
                         [
                             'text' => 'Metas Modelo',
-                            'route'     => 'admin.metaModelos.index',
+                            'route'     => 'metaModelos',
                             'can' => 'admin.metasModelos',
                         ],
 
@@ -428,47 +428,47 @@ return [
 
                 [
                     'text' => 'Empresa',
-                    'route'  => 'admin.empresa.index',
+                    'route'  => 'empresa',
                     'can' => 'admin.empresas',
                 ],
                 [
                     'text' => 'Impuestos',
-                    'route'  => 'admin.impuestos.index',
+                    'route'  => 'impuestos',
                     'can' => 'admin.impuestos',
                 ],
 
                 [
                     'text' => 'Tipo Usuarios',
-                    'route'  => 'admin.tipoUsuarios.index',
+                    'route'  => 'tipoUsuarios',
                     'can' => 'admin.tipoUsuarios',
                 ],
 
                 [
                     'text' => 'Tipo Turnos',
-                    'route'  => 'admin.tipoTurnos.index',
+                    'route'  => 'tipoTurnos',
                     'can' => 'admin.tipoTurnos',
                 ],
 
                 [
                     'text' => 'Tipo Rooms',
-                    'route'  => 'admin.tipoRooms.index',
+                    'route'  => 'tipoRooms',
                     'can' => 'admin.tipoRooms',
                 ],
                 [
                     'text' => 'Tipo Multas',
-                    'route'  => 'admin.tipoMultas.index',
+                    'route'  => 'tipoMetas',
                     'can' => 'admin.tipoMultas',
                 ],
                 [
                     'text' => 'Tipo Descuentos',
-                    'route'  => 'admin.tipoDescuentos.index',
+                    'route'  => 'tipoDescuentos',
                     'can' => 'admin.tipoDescuentos',
                 ],
 
 
                 [
                     'text' => 'Paginas',
-                    'route'  => 'admin.paginas.index',
+                    'route'  => 'paginas',
                     'can' => 'admin.paginas',
                 ],
 

@@ -33,7 +33,7 @@ class ImpuestoController extends Controller
         return view('admin.impuestos.comprobanteImpuesto', compact('pagos', 'impuestos', 'userLogueado'));
     }
 
-    /** 
+    /**
      * Show the form for creating a new resource.
      *
      * @return \Illuminate\Http\Response
@@ -51,7 +51,7 @@ class ImpuestoController extends Controller
      */
     public function store(Request $request)
     {
-        //VALiDACION FORMULARIO 
+        //VALiDACION FORMULARIO
         $request->validate([
             'nombre' => 'required',
             'porcentaje' => 'required',
@@ -116,8 +116,10 @@ class ImpuestoController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Impuesto $impuesto)
+    public function destroy(Impuesto $impuesto, Request $request)
     {
+
+        // dd($impuesto);
         $impuesto->delete();
         return redirect()->route('admin.impuestos.index')->with('info', 'delete');
     }

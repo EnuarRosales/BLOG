@@ -110,7 +110,7 @@ class UserController extends Controller
         $pdf = Pdf::loadView('admin.users.laboralPDF', compact('user', 'date', 'nombreEmpresa', 'nitEmpresa', 'gerenteEmpresa', 'fechaAntigua', 'cantidadDias', 'cantidadMes', 'cantidadAno', 'codigoQR', 'logoEmpresa'));
         return $pdf->stream();
 
-       
+
     }
 
     public function certificacionTiempoPDF(User $user)
@@ -122,7 +122,7 @@ class UserController extends Controller
             $nombreEmpresa = $empresa->name;
             $nitEmpresa = $empresa->nit;
             $gerenteEmpresa = $empresa->representative;
-        } 
+        }
         $fechaAntigua1 = Carbon::parse($user->fechaIngreso);
         $fechaAntigua = $fechaAntigua1->locale('es');
         $cantidadDias = $fechaAntigua->diffInDays($fechaReciente);
@@ -153,11 +153,11 @@ class UserController extends Controller
     {
 
         // return "entro";
-        
+
             $tipoUsuarios = TipoUsuario::orderBy('id', 'desc');
             $empresas = Empresa::orderBy('id', 'desc');
             return view('admin.users.create', compact('tipoUsuarios', 'empresas'));
-        
+
     }
 
     /**
@@ -204,7 +204,7 @@ class UserController extends Controller
 
     public function store(Request $request){
 
-        //VALiDACION FORMULARIO 
+        //VALiDACION FORMULARIO
         $request->validate([
             'fechaIngreso' => 'required',
             'name' => 'required',
@@ -235,10 +235,10 @@ class UserController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function edit(User $user)
-    {       
+    {
             $tipoUsuarios = TipoUsuario::orderBy('id', 'desc');
             $empresas = Empresa::orderBy('id', 'desc');
-            return view('admin.users.edit', compact('user', 'tipoUsuarios', 'empresas'));      
+            return view('admin.users.edit', compact('user', 'tipoUsuarios', 'empresas'));
     }
 
 
@@ -314,9 +314,9 @@ class UserController extends Controller
             'tipoUsuario_id' => 'required',
             'empresa_id' => 'required',
         ]);
-       
 
-        $user->update($request->all()); 
+
+        $user->update($request->all());
         return redirect()->route('admin.users.index', $user->id)->with('info', 'update'); //with mensaje de sesion
     }
 
@@ -351,6 +351,7 @@ class UserController extends Controller
      */
     public function destroy(User $user)
     {
+        // dd($user);
         try {
             DB::beginTransaction();
             $user->delete();

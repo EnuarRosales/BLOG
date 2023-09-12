@@ -12,7 +12,9 @@
 
 
 @section('content_header')
-    <h1>Listado de Estudios</h1>
+    <h2>Listado de Estudios</h2>
+
+
 @stop
 
 @section('styles')
@@ -129,11 +131,6 @@
             </div>
         </div>
     </div>
-@stop
-
-@section('styles')
-    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.13.4/css/jquery.dataTables.min.css" />
-    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/buttons/2.3.6/css/buttons.dataTables.min.css" />
 @stop
 
 @section('js')

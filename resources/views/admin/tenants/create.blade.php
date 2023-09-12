@@ -3,7 +3,7 @@
 {{-- @section('title', 'Dashboard') --}}
 
 @section('content_header')
-    <h1>Crear Inquilinos</h1>
+    <h2>Crear Inquilinos</h2>
 @stop
 
 @section('content')

@@ -1,10 +1,10 @@
 <tr
-    @if ($registroDescuento->saldo > 0) 
+    @if ($registroDescuento->saldo > 0)
     class="table-warning"
     @elseif($registroDescuento->saldo < 0)
-    class="table-danger"               
+    class="table-danger"
     @else
-    class="table-success"" @endif>
+    class="table-success" @endif>
     <td>{{ $registroDescuento->id }}</td>
     <td>{{ $registroDescuento->created_at }}</td>
     <td>{{ $registroDescuento->montoDescuento }}</td>
@@ -13,7 +13,7 @@
     <td>{{ $registroDescuento->tipoDescuento->nombre }}</td>
     <td>{{ $registroDescuento->user->name }}</td>
     @can('admin.registroDescuentos.total')
-        <td class="bg-light" width="10px">
+        <td class="" width="10px">
             <form action="{{ route('admin.abonos.abono', $registroDescuento) }}" method="POST">
                 @csrf
                 @method('PUT')

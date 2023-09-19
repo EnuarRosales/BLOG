@@ -1,50 +1,66 @@
-@extends('adminlte::page')
+@extends('template.index')
 
-@section('title', 'Dashboard')
+@section('tittle-tab')
+    Registro Multas-Crear
+@endsection
+
+@section('page-title')
+    <a href="{{ route('admin.asignacionMultas.index') }}"> Registro Multas</a>
+
+@endsection
 
 @section('content_header')
-    <h1>Asignar Multa</h1>
+    <h2>Asignar Multa</h2>
 @stop
 
 @section('content')
-    <div class="card">
-        <div class="card-body">
-            {!! Form::open(['route' => 'admin.asignacionMultas.store']) !!}
 
-            <div class="form-group">
-                {!! Form::label('user_id', 'Usuario') !!}
-                {!! Form::select('user_id', $users->pluck('name', 'id'), null, [
-                    'class' => 'form-control',
-                    'placeholder' => 'Seleccione Un Usuario',
-                ]) !!}
+    <div class="col-xl-12 col-lg-12 col-sm-12  layout-spacing">
+        <div class="widget-content widget-content-area br-6">
+            <div class="card">
+                <div class="card-header">
+                    @yield('content_header')
+                </div>
 
-                @error('user_id')
-                    <br>
-                    <span class="text-danger">{{ $message }}</span>
-                    <br>
-                @enderror
+                <div class="card-body">
+                    {!! Form::open(['route' => 'admin.asignacionMultas.store']) !!}
 
-                {!! Form::label('tipoMulta_id', 'Tipo Multa') !!}
-                {!! Form::select('tipoMulta_id', $tipoMultas->pluck('nombre', 'id'), null, [
-                    'class' => 'form-control',
-                    'placeholder' => 'Seleccione Un Tipo de Multa',
-                ]) !!}
+                    <div class="form-group">
+                        {!! Form::label('user_id', 'Usuario') !!}
+                        {!! Form::select('user_id', $users->pluck('name', 'id'), null, [
+                            'class' => 'form-control',
+                            'placeholder' => 'Seleccione Un Usuario',
+                        ]) !!}
 
-                @error('tipoMulta_id')
-                    <br>
-                    <span class="text-danger">{{ $message }}</span>
-                    <br>
-                @enderror
+                        @error('user_id')
+                            <br>
+                            <span class="text-danger">{{ $message }}</span>
+                            <br>
+                        @enderror
+
+                        {!! Form::label('tipoMulta_id', 'Tipo Multa') !!}
+                        {!! Form::select('tipoMulta_id', $tipoMultas->pluck('nombre', 'id'), null, [
+                            'class' => 'form-control',
+                            'placeholder' => 'Seleccione Un Tipo de Multa',
+                        ]) !!}
+
+                        @error('tipoMulta_id')
+                            <br>
+                            <span class="text-danger">{{ $message }}</span>
+                            <br>
+                        @enderror
 
 
+
+                    </div>
+
+                    {!! Form::submit('Asignar Multa', ['class' => 'btn btn-primary']) !!}
+                    {!! Form::close() !!}
+
+                </div>
 
             </div>
-
-            {!! Form::submit('Asignar Multa', ['class' => 'btn btn-primary']) !!}
-            {!! Form::close() !!}
-
         </div>
-
     </div>
 
 

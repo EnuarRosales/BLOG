@@ -1,17 +1,62 @@
-@extends('adminlte::page')
+@extends('template.index')
 
-@section('title', 'Dashboard')
+@section('tittle-tab')
+    Certificaciones-Laboral
+@endsection
+
+@section('page-title')
+    <a href="{{ route('admin.users.userCertificacion') }}"> Certificaciones-Laboral</a>
+
+@endsection
 
 @section('content_header')
-    <h1>Pagos</h1>
+    <h2 class="ml-3">Pagos</h2>
 @stop
 
+@section('styles')
+
+    <link rel="stylesheet" type="text/css" href="{{ asset('template/plugins/table/datatable/datatables.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ asset('template/plugins/table/datatable/custom_dt_html5.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ asset('template/plugins/table/datatable/dt-global_style.css') }}">
+
+@endsection
+
 @section('content')
-    <div class="card">
+
+    <div class="col-xl-12 col-lg-12 col-sm-12  layout-spacing">
+        <div class="widget-content widget-content-area br-6">
+            <div class="row g-2">
+                <div class="col">
+                    @yield('content_header')
+                </div>
+                <div class="col">
+                    <a class="btn btn-primary float-right" href="{{ route('admin.paginas.create') }}">Agregar Pagina</a>
+                </div>
+            </div>
+            <div class="table-responsive mb-4 mt-4">
+                <table id="html5-extension" class="table table-hover non-hover" style="width:100%">
+                    <div class="row">
+                        <div class="col-md-6 d-flex align-items-center ml-3">
+                            <label class="mb-0 mr-2">Mostrar:</label>
+                            <select id="records-per-page" class="form-control form-control-sm custom-width-20">
+                                <!-- Agregamos la clase form-control-sm -->
+                                <option value="7">7</option>
+                                <option value="10">10</option>
+                                <option value="20">20</option>
+                                <option value="50">50</option>
+                            </select>
+                            <span class="ml-2">registros por página</span>
+                            <!-- Agregamos un espacio después del select -->
+                        </div>
+                    </div>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    {{-- <div class="card">
         <div class="card-body">
-            {{-- @can('admin.asignacionTurnos.create') --}}
-            {{-- <a class="btn btn-primary" href="{{ route('admin.pagos.create') }}">Agregar pago</a> --}}
-            {{-- @endcan --}}
+
         </div>
         <table id="registroAsistencias" class="table table-striped table-bordered shadow-lg mt-4">
             <thead>
@@ -24,8 +69,7 @@
                     <th style="text-align:center">Multas</th>
                     <th style="text-align:center">Neto</th>
                     <th style="text-align:center">Comprobante</th>
-                    {{-- <th style="text-align:center">Editar</th>
-                    <th style="text-align:center">Eliminar</th> --}}
+
                 </tr>
             </thead>
 
@@ -43,25 +87,16 @@
             </tbody>
         </table>
 
-    </div>
+    </div> --}}
 
 @stop
 
-@section('css')
-    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.13.4/css/jquery.dataTables.min.css" />
-    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/buttons/2.3.6/css/buttons.dataTables.min.css" />
-@stop
+
 
 @section('js')
     <script>
         console.log('Hi!');
     </script>
-    <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
-    <script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
-    <script src="https://cdn.datatables.net/1.13.4/js/dataTables.bootstrap5.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-
-
 
     {{-- SWET ALERT --}}
     @if (session('info') == 'delete')
@@ -116,29 +151,5 @@
         })
     </script>
 
-
-    {{-- DATATATABLE --}}
-
-    <script>
-        $(document).ready(function() {
-            $('#registroAsistencias').DataTable({
-                dom: 'Blfrtip',
-
-                buttons: [
-                    'copy', 'csv', 'excel', 'pdf', 'print'
-                ]
-            });
-
-        });
-    </script>
-
-    <script type="text/javascript" src="https://code.jquery.com/jquery-3.5.1.js"></script>
-    <script type="text/javascript" src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
-    <script type="text/javascript" src="https://cdn.datatables.net/buttons/2.3.6/js/dataTables.buttons.min.js"></script>
-    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
-    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/pdfmake.min.js"></script>
-    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js"></script>
-    <script type="text/javascript" src="https://cdn.datatables.net/buttons/2.3.6/js/buttons.html5.min.js"></script>
-    <script type="text/javascript" src="https://cdn.datatables.net/buttons/2.3.6/js/buttons.print.min.js"></script>
 
 @stop

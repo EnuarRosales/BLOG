@@ -30,17 +30,76 @@ var App = function() {
             search: '.search-overlay'
         }
     };
-    
+
+    var categoryScroll = {
+        scrollCat: function() {
+            var sidebarWrapper = document.querySelectorAll('.sidebar-wrapper [aria-expanded="true"]')[0];
+            var sidebarWrapperTop = sidebarWrapper.offsetTop - 12;
+            setTimeout(function(){ $('.menu-categories').animate({ scrollTop: sidebarWrapperTop }, 500); }, 500);
+        }
+    }
+
     var toggleFunction = {
         sidebar: function($recentSubmenu) {
             $('.sidebarCollapse').on('click', function (sidebar) {
                 sidebar.preventDefault();
+                getSidebar = $('.sidebar-wrapper');
+                if ($recentSubmenu === true) {
+                    if ($('.collapse.submenu').hasClass('show')) {
+                        $('.submenu.show').addClass('mini-recent-submenu');
+                        getSidebar.find('.collapse.submenu').removeClass('show');
+                        getSidebar.find('.collapse.submenu').removeClass('show');
+                        $('.collapse.submenu').parents('li.menu').find('.dropdown-toggle').attr('aria-expanded', 'false');
+                    } else {
+                        if ($(Selector.mainContainer).hasClass('sidebar-closed')) {
+                            if ($('.collapse.submenu').hasClass('recent-submenu')) {
+                                getSidebar.find('.collapse.submenu.recent-submenu').addClass('show');
+                                $('.collapse.submenu.recent-submenu').parents('.menu').find('.dropdown-toggle').attr('aria-expanded', 'true');
+                                $('.submenu').removeClass('mini-recent-submenu');
+
+                            } else {
+                                $('li.active .submenu').addClass('recent-submenu');
+                                getSidebar.find('.collapse.submenu.recent-submenu').addClass('show');
+                                $('.collapse.submenu.recent-submenu').parents('.menu').find('.dropdown-toggle').attr('aria-expanded', 'true');
+                                $('.submenu').removeClass('mini-recent-submenu');
+                            }
+                        }
+                    }
+                }
                 $(Selector.mainContainer).toggleClass("sidebar-closed");
                 $(Selector.mainHeader).toggleClass('expand-header');
                 $(Selector.mainContainer).toggleClass("sbar-open");
                 $('.overlay').toggleClass('show');
                 $('html,body').toggleClass('sidebar-noneoverflow');
             });
+        },
+        onToggleSidebarSubmenu: function() {
+            $('.sidebar-wrapper').on('mouseenter mouseleave', function(event) {
+                event.preventDefault();
+                if ($('body').hasClass('alt-menu')) {
+                    if ($('.main-container').hasClass('sidebar-closed')) {
+                        if (event.type === 'mouseenter') {
+                            $('li .submenu').removeClass('show');
+                            $('li.active .submenu').addClass('recent-submenu');
+                            $('li.active').find('.collapse.submenu.recent-submenu').addClass('show');
+                            $('.collapse.submenu.recent-submenu').parents('.menu').find('.dropdown-toggle').attr('aria-expanded', 'true');
+                        } else if (event.type === 'mouseleave') {
+                            $('li').find('.collapse.submenu').removeClass('show');
+                            $('.collapse.submenu.recent-submenu').parents('.menu').find('.dropdown-toggle').attr('aria-expanded', 'false');
+                            $('.collapse.submenu').parents('.menu').find('.dropdown-toggle').attr('aria-expanded', 'false');
+                        }
+                    }
+                } else {
+                    if ($('.main-container').hasClass('sidebar-closed')) {
+                        $('.collapse.submenu.recent-submenu').parents('.menu').find('.dropdown-toggle').attr('aria-expanded', 'true');
+                        $(this).find('.submenu.recent-submenu').toggleClass('show');
+                    }
+
+                }
+            })
+        },
+        offToggleSidebarSubmenu: function () {
+            $('.sidebar-wrapper').off('mouseenter mouseleave');
         },
         overlay: function() {
             $('#dismiss, .overlay, cs-overlay').on('click', function () {
@@ -74,8 +133,7 @@ var App = function() {
                 wheelSpeed:.5,
                 swipeEasing:!0,
                 minScrollbarLength:40,
-                maxScrollbarLength:300,
-                suppressScrollX : true
+                maxScrollbarLength:300
             });
         },
         preventScrollBody: function() {
@@ -94,14 +152,6 @@ var App = function() {
                     $(this).scrollTop(scrollTo + $(this).scrollTop());
                 }
             });
-        },
-        functionalDropdown: function() {
-            var getDropdownElement = document.querySelectorAll('.more-dropdown .dropdown-item');
-            for (var i = 0; i < getDropdownElement.length; i++) {
-                getDropdownElement[i].addEventListener('click', function() {
-                    document.querySelectorAll('.more-dropdown .dropdown-toggle > span')[0].innerText = this.getAttribute('data-value');
-                })
-            }
         }
     }
 
@@ -109,50 +159,50 @@ var App = function() {
         onRefresh: function() {
             var windowWidth = window.innerWidth;
             if ( windowWidth <= MediaSize.md ) {
+                categoryScroll.scrollCat();
                 toggleFunction.sidebar();
             }
         },
-
-        // Note : -  _mobileResolution -> onResize | Uncomment it if need for onresize functions for MOBILE RESOLUTION i.e. below or equal to 991px |
-
-        /*
+        
         onResize: function() {
             $(window).on('resize', function(event) {
                 event.preventDefault();
                 var windowWidth = window.innerWidth;
                 if ( windowWidth <= MediaSize.md ) {
+                    toggleFunction.offToggleSidebarSubmenu();
                 }
             });
         }
-        */
+        
     }
 
     var _desktopResolution = {
         onRefresh: function() {
             var windowWidth = window.innerWidth;
             if ( windowWidth > MediaSize.md ) {
+                categoryScroll.scrollCat();
                 toggleFunction.sidebar(true);
+                toggleFunction.onToggleSidebarSubmenu();
             }
         },
-
-        // Note : -  _desktopResolution -> onResize | Uncomment it if need, for onresize functions for DESKTOP RESOLUTION i.e. above or equal to 991px |
-
-        /*
+        
         onResize: function() {
             $(window).on('resize', function(event) {
                 event.preventDefault();
                 var windowWidth = window.innerWidth;
                 if ( windowWidth > MediaSize.md ) {
+                    toggleFunction.onToggleSidebarSubmenu();
                 }
             });
         }
-        */
+        
     }
 
     function sidebarFunctionality() {
         function sidebarCloser() {
 
             if (window.innerWidth <= 991 ) {
+
 
                 if (!$('body').hasClass('alt-menu')) {
 
@@ -180,6 +230,7 @@ var App = function() {
                     $(".navbar").addClass("expand-header");
                     $('.overlay').addClass('show');
                     $('#container').addClass('sbar-open');
+                    $('.sidebar-wrapper [aria-expanded="true"]').parents('li.menu').find('.collapse').removeClass('show');
                 }
             }
 
@@ -214,24 +265,21 @@ var App = function() {
                 Desktop Resoltion fn
             */
             _desktopResolution.onRefresh();
-
-            // Note : -  _desktopResolution -> onResize | Uncomment it if need for onresize functions for MOBILE RESOLUTION i.e. above or equal to 991px |
-
-            // _desktopResolution.onResize();
+            _desktopResolution.onResize();
 
             /*
                 Mobile Resoltion fn
             */
-            _mobileResolution.onRefresh();
-
-            // Note : -  _mobileResolution -> onResize | Uncomment it if need for onresize functions for DESKTOP RESOLUTION i.e. below or equal to 991px |
-            
-            // _mobileResolution.onResize();
+            _mobileResolution.onRefresh();            
+            _mobileResolution.onResize();
 
             sidebarFunctionality();
+
+            /*
+                In Built Functionality fn
+            */
             inBuiltfunctionality.mainCatActivateScroll();
             inBuiltfunctionality.preventScrollBody();
-            inBuiltfunctionality.functionalDropdown();
         }
     }
 

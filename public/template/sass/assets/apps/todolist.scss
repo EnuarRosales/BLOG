@@ -31,7 +31,7 @@
     -moz-user-select: none;
     -ms-user-select: none;
     user-select: none;
-    background-color: $m-color_12;
+    background-color: $m-color_3;
     background-repeat: no-repeat;
     background-position: center center;
     background-size: 50% 50%;
@@ -50,7 +50,7 @@
   }
 
   span.new-control-indicator:after {
-    border: solid $m-color_14;
+    border: solid $m-color_6;
     top: 50%;
     left: 50%;
     margin-left: -2px;
@@ -66,7 +66,7 @@
 
   &.checkbox-primary > input:checked ~ span.new-control-indicator {
     background: transparent;
-    border: 2px solid $m-color_14;
+    border: 2px solid $m-color_6;
   }
 }
 
@@ -74,10 +74,10 @@
   position: relative;
   display: flex;
   border-radius: 6px;
-  background: $m-color_10;
-  -webkit-box-shadow: 0 6px 10px 0 rgba(0, 0, 0, 0.14), 0 1px 18px 0 rgba(0, 0, 0, 0.12), 0 3px 5px -1px rgba(0, 0, 0, 0.2);
-  -moz-box-shadow: 0 6px 10px 0 rgba(0, 0, 0, 0.14), 0 1px 18px 0 rgba(0, 0, 0, 0.12), 0 3px 5px -1px rgba(0, 0, 0, 0.2);
-  box-shadow: 0 6px 10px 0 rgba(0, 0, 0, 0.14), 0 1px 18px 0 rgba(0, 0, 0, 0.12), 0 3px 5px -1px rgba(0, 0, 0, 0.2);
+  background: $white;
+  -webkit-box-shadow: 0 4px 6px 0 rgba(85, 85, 85, 0.08), 0 1px 20px 0 rgba(0, 0, 0, 0.07), 0px 1px 11px 0px rgba(0, 0, 0, 0.07);
+  -moz-box-shadow: 0 4px 6px 0 rgba(85, 85, 85, 0.08), 0 1px 20px 0 rgba(0, 0, 0, 0.07), 0px 1px 11px 0px rgba(0, 0, 0, 0.07);
+  box-shadow: 0 4px 6px 0 rgba(85, 85, 85, 0.08), 0 1px 20px 0 rgba(0, 0, 0, 0.07), 0px 1px 11px 0px rgba(0, 0, 0, 0.07);
 }
 
 .mail-overlay {
@@ -100,11 +100,11 @@
   position: relative;
   padding: 20px 15px;
   max-width: 240px;
-  border-right: 1px solid $m-color_18;
+  border-right: 1px solid $m-color_3;
 
   svg.feather-clipboard {
-    color: $m-color_10;
-    fill: $m-color_13;
+    color: $primary;
+    fill: rgba(27, 85, 226, 0.2392156863);
     margin-bottom: 13px;
   }
 
@@ -113,7 +113,7 @@
     font-size: 18px;
     font-weight: 700;
     letter-spacing: 3px;
-    color: $m-color_6;
+    color: $m-color_9;
   }
 
   #addTask {
@@ -121,11 +121,10 @@
     font-size: 14px;
     padding: 9px 20px;
     border: none;
-    color: $m-color_18;
+    color: $white;
     bottom: 32px;
     left: 17%;
-    background-color: $m-color_14;
-    box-shadow: none;
+    background-color: $primary;
 
     svg {
       margin-right: 5px;
@@ -147,18 +146,20 @@
   .todoList-sidebar-scroll {
     position: relative;
     width: 100%;
-    height: calc(100vh - 346px);
+    height: calc(100vh - 318px);
   }
 
   .nav-pills {
     .nav-link.active {
       svg {
-        color: $m-color_18;
+        color: $primary;
+        fill: rgba(27, 85, 226, 0.2392156863);
       }
 
       background-color: transparent;
-      color: $m-color_18;
-      background: $m-color_14;
+      color: $primary;
+      color: $primary;
+      background: $m-color_2;
       border-top-right-radius: 30px;
       border-bottom-right-radius: 30px;
       padding: 10px 12px 10px 14px;
@@ -194,22 +195,17 @@
         padding: 0 !important;
         font-size: 15px;
         top: 11px;
-        color: $m-color_18 !important;
+        color: $primary !important;
       }
     }
 
     a.nav-link {
-      &.active:hover {
-        color: $m-color_10;
-
-        svg {
-          color: $m-color_10;
-        }
-      }
-
       &:hover {
+        color: $primary;
+
         svg {
-          fill: rgba(136, 142, 168, 0.2588235294);
+          color: $primary;
+          fill: rgba(27, 85, 226, 0.2392156863);
         }
       }
 
@@ -225,18 +221,15 @@
 
     .nav-link {
       &#all-list .badge {
-        color: $m-color_11;
-        border-color: $m-color_11;
+        color: $dark;
       }
 
       &#todo-task-done .badge {
         color: $info;
-        border-color: $info;
       }
 
       &#todo-task-important .badge {
-        color: $warning;
-        border-color: $warning;
+        color: $m-color_16;
       }
     }
   }
@@ -261,22 +254,20 @@
     input {
       border: none;
       padding: 12px 13px 12px 13px;
-      border-bottom: 1px solid $m-color_18;
+      border-bottom: 1px solid $m-color_3;
       background: transparent;
       border-radius: 0;
-      box-shadow: none;
-      color: $m-color_14;
-      box-shadow: 0 6px 10px 0 rgba(0, 0, 0, 0.14), 0 1px 18px 0 rgba(0, 0, 0, 0.12), 0 3px 5px -1px rgba(0, 0, 0, 0.2);
     }
   }
 
   .mail-menu {
+    background: $white;
     margin: 7px 13px 7px 13px;
     width: 25px;
     border-radius: 0;
     color: $m-color_9;
     align-self: center;
-    border-bottom: 1px solid $m-color_18;
+    border-bottom: 1px solid $m-color_3;
   }
 
   .todo-item-inner {
@@ -294,7 +285,7 @@
   margin: auto;
   width: 100%;
   overflow: auto;
-  height: calc(100vh - 224px);
+  height: calc(100vh - 148px);
 }
 
 .todo-inbox .todo-item {
@@ -304,7 +295,7 @@
   &:hover {}
 
   &:not(:last-child) {
-    border-bottom: 1px solid $m-color_18;
+    border-bottom: 1px solid $m-color_3;
   }
 
   &.todo-task-trash {
@@ -327,8 +318,8 @@
 
     .todo-heading {
       font-size: 18px;
-      font-weight: 600;
-      color: $m-color_4;
+      font-weight: 700;
+      color: $m-color_9;
       margin-bottom: 2px;
       -webkit-transition: all 0.35s ease;
       transition: all 0.35s ease;
@@ -482,7 +473,7 @@
     }
 
     .show .dropdown-toggle svg {
-      color: $m-color_4;
+      color: $m-color_12;
     }
   }
 
@@ -501,6 +492,7 @@
 
 .modal-content {
   border: none;
+  box-shadow: 0px 0px 15px 1px rgba(113, 106, 202, 0.2);
 
   svg.close {
     position: absolute;
@@ -509,10 +501,10 @@
     font-size: 12px;
     font-weight: 600;
     padding: 2px;
-    background: $m-color_12;
+    background: $white;
     border-radius: 5px;
     opacity: 1;
-    color: $m-color_14;
+    color: $primary;
     box-shadow: 0 6px 10px 0 rgba(0, 0, 0, 0.14), 0 1px 18px 0 rgba(0, 0, 0, 0.12), 0 3px 5px -1px rgba(0, 0, 0, 0.2);
     cursor: pointer;
     transition: .600s;
@@ -532,7 +524,10 @@
 }
 
 .compose-box {
+  background-color: $white;
   border-radius: 6px;
+
+  .compose-content {}
 }
 
 #todoShowListItem {
@@ -544,7 +539,7 @@
   .compose-content h5 {
     margin-bottom: 19px;
     padding-bottom: 19px;
-    border-bottom: 1px solid $m-color_18;
+    border-bottom: 1px solid $m-color_3;
   }
 }
 
@@ -552,7 +547,7 @@
   h5 {
     font-weight: 700;
     font-size: 18px;
-    color: $m-color_4;
+    color: $dark;
     text-align: center;
     margin-bottom: 35px;
   }
@@ -568,21 +563,17 @@
   }
 }
 
-#todoShowListItem .modal-footer {
-  border-top: 1px solid $m-color_18;
+#todoShowListItem .modal-footer .btn[data-dismiss="modal"] {
+  background-color: $white;
+  color: $primary;
+  font-weight: 700;
+  border: 1px solid #e8e8e8;
+  padding: 10px 25px;
 
-  .btn[data-dismiss="modal"] {
-    background-color: $m-color_12;
-    color: $m-color_4;
-    font-weight: 700;
-    border: 1px solid $m-color_12;
-    padding: 10px 25px;
-
-    svg {
-      margin-right: 8px;
-      width: 19px;
-      height: 19px;
-    }
+  svg {
+    margin-right: 8px;
+    width: 19px;
+    height: 19px;
   }
 }
 
@@ -591,7 +582,7 @@
     align-self: center;
     font-size: 19px;
     margin-right: 14px;
-    color: $m-color_14;
+    color: $primary;
     font-weight: 600;
   }
 
@@ -616,10 +607,10 @@
 
   .btn {
     &[data-dismiss="modal"] {
-      background-color: $m-color_12;
-      color: $m-color_4;
+      background-color: $white;
+      color: $primary;
       font-weight: 700;
-      border: 1px solid $m-color_12;
+      border: 1px solid #e8e8e8;
       padding: 10px 25px;
     }
 
@@ -632,10 +623,9 @@
     }
 
     &.edit-tsk {
-      background-color: $m-color_14;
+      background-color: $success;
       color: $white;
       font-weight: 600;
-      border: 1px solid $m-color_14;
       padding: 10px 25px;
     }
   }
@@ -670,7 +660,7 @@
 
   .todo-inbox {
     .search {
-      border-bottom: 1px solid $m-color_18;
+      border-bottom: 1px solid $m-color_3;
     }
 
     .mail-menu {
@@ -678,7 +668,7 @@
     }
 
     .search input {
-      border-right: 1px solid $m-color_18;
+      border-right: 1px solid $m-color_3;
       border-bottom: none;
     }
 
@@ -692,7 +682,7 @@
     z-index: 4;
     left: -100px;
     width: 0;
-    background: $m-color_10;
+    background: $white;
   }
 
   .todo-inbox {

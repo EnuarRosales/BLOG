@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use App\Models\Descuento;
 use Illuminate\Support\ServiceProvider;
 use View;
 
@@ -34,8 +35,8 @@ class AppServiceProvider extends ServiceProvider
     {
 
         $menu = config('adminlte.menu');
+        $registroDescuentos = Descuento::all();
 
-
-        View::share('menu', $menu);
+        View::share(['menu' => $menu, 'registroDescuentos' => $registroDescuentos]);
     }
 }

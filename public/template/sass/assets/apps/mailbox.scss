@@ -20,23 +20,23 @@
 }
 
 .g-dot-primary:before {
-  border: 2px solid $info;
-  background: rgba(33, 150, 243, 0.4705882353);
+  border: none;
+  background: $info;
 }
 
 .g-dot-warning:before {
-  border: 2px solid $warning;
-  background: rgba(226, 160, 63, 0.5098039216);
+  border: none;
+  background: $warning;
 }
 
 .g-dot-success:before {
-  border: 2px solid $m-color_14;
-  background: rgba(0, 150, 136, 0.3490196078);
+  border: none;
+  background: $success;
 }
 
 .g-dot-danger:before {
-  border: 2px solid $danger;
-  background: rgba(231, 81, 90, 0.4392156863);
+  border: none;
+  background: $danger;
 }
 
 .mail-content-container {
@@ -78,7 +78,7 @@
     -moz-user-select: none;
     -ms-user-select: none;
     user-select: none;
-    background-color: $m-color_9;
+    background-color: $m-color_4;
     background-repeat: no-repeat;
     background-position: center center;
     background-size: 50% 50%;
@@ -97,7 +97,7 @@
   }
 
   span.new-control-indicator:after {
-    border: solid $m-color_19;
+    border: solid $white;
     top: 50%;
     left: 50%;
     margin-left: -2px;
@@ -112,7 +112,7 @@
   }
 
   &.checkbox-primary > input:checked ~ span.new-control-indicator {
-    background: $m-color_14;
+    background: $dark;
   }
 }
 
@@ -120,10 +120,12 @@
   position: relative;
   display: flex;
   border-radius: 6px;
-  background-color: $m-color_10;
-  height: calc(100vh - 179px);
-  box-shadow: 5px 5px 14px #02030a, 
-              -5px -5px 14px #0a0d26;
+  background-color: $white;
+  -webkit-box-shadow: 0 4px 6px 0 rgba(85, 85, 85, 0.08), 0 1px 20px 0 rgba(0, 0, 0, 0.07), 0px 1px 11px 0px rgba(0, 0, 0, 0.07);
+  -moz-box-shadow: 0 4px 6px 0 rgba(85, 85, 85, 0.08), 0 1px 20px 0 rgba(0, 0, 0, 0.07), 0px 1px 11px 0px rgba(0, 0, 0, 0.07);
+  box-shadow: 0 4px 6px 0 rgba(85, 85, 85, 0.08), 0 1px 20px 0 rgba(0, 0, 0, 0.07), 0px 1px 11px 0px rgba(0, 0, 0, 0.07);
+  height: calc(100vh - 104px);
+
   .avatar-sm {
     width: 2.5rem;
     height: 2.5rem;
@@ -168,7 +170,7 @@
 .tab-title {
   padding: 33px 15px;
   max-width: 115px;
-  border-right: 1px solid $m-color_18;
+  border-right: 1px solid $m-color_3;
 
   .mail-btn-container {
     padding: 0 30px;
@@ -176,15 +178,16 @@
 
   #btn-compose-mail {
     transform: none;
-    background: $m-color_14;
+    background: $secondary;
     border: none !important;
     padding: 7px 9px;
     font-size: 14px;
     font-weight: 700;
     letter-spacing: 1px;
-    color: $m-color_18 !important;
+    color: #fff !important;
     width: 40px;
     margin: 0 auto;
+    box-shadow: 0px 5px 10px 0px rgba(92, 26, 195, 0.3803921569);
 
     &:hover {
       box-shadow: none;
@@ -205,7 +208,7 @@
   .nav-pills {
     .nav-link.active, .show > .nav-link {
       background-color: transparent;
-      color: $m-color_13;
+      color: $primary;
       font-weight: 600;
       fill: rgba(27, 85, 226, 0.2392156863);
     }
@@ -221,7 +224,7 @@
     margin: auto;
     width: 100%;
     overflow: auto;
-    height: calc(100vh - 283px);
+    height: calc(100vh - 216px);
 
     .ps__rail-y {
       right: -15px !important;
@@ -230,25 +233,25 @@
 
   .nav-pills {
     &:nth-child(1) .nav-item:first-child a.nav-link {
-      border-top: 1px solid $m-color_18;
+      border-top: 1px solid $m-color_3;
       padding-top: 24px;
     }
 
     a.nav-link {
       position: relative;
       font-weight: 600;
-      color: $m-color_6;
+      color: $m-color_9;
       padding: 14px 0px 14px 0px;
       cursor: pointer;
       font-size: 14px;
       display: block;
       text-align: center;
       border-radius: 0;
-      border-bottom: 1px solid $m-color_18;
+      border-bottom: 1px solid $m-color_3;
     }
 
     .nav-link.active svg, .show > .nav-link svg {
-      color: $m-color_13;
+      color: $primary;
     }
 
     a.nav-link {
@@ -267,15 +270,15 @@
       }
 
       .mail-badge {
-        background: $m-color_14;
+        background: $primary;
         border-radius: 50%;
         position: absolute;
         right: 8px;
         padding: 3px 0;
         height: 19px;
         width: 19px;
-        color: $m-color_18;
-        font-weight: 700;
+        color: $white;
+        font-weight: 500;
         font-size: 10px;
         top: 7px;
       }
@@ -287,7 +290,7 @@
   font-weight: 700;
   font-size: 15px;
   display: inline-block;
-  color: $m-color_14;
+  color: $m-color_19;
   letter-spacing: 1px;
   margin-top: 22px;
   margin-bottom: 13px;
@@ -295,11 +298,12 @@
   justify-content: center;
 
   svg {
-    color: $m-color_14;
+    color: $m-color_19;
     margin-right: 6px;
     align-self: center;
     width: 17px;
     height: 17px;
+    fill: $l-dark;
   }
 }
 
@@ -324,7 +328,7 @@
       }
 
       &.g-dot-success.active:before {
-        background: $m-color_14;
+        background: $success;
       }
 
       &.g-dot-danger.active:before {
@@ -333,14 +337,12 @@
 
       &[class*="g-dot-"]:before {
         position: absolute;
-        padding: 4px;
+        padding: 3px;
         content: '';
         border-radius: 50%;
-        top: 9px;
+        top: 11px;
         left: 18px;
-        transition: .600ms;
-
-        /*border: 2px solid $m-color_3;*/
+        border: 2px solid $m-color_3;
       }
     }
 
@@ -392,6 +394,7 @@
     color: $white;
     font-weight: 700;
     border-radius: 30px;
+    box-shadow: 0px 5px 15px 1px rgba(113, 106, 202, 0.2);
     padding: 4px 16px;
   }
 }
@@ -408,7 +411,7 @@
   overflow-y: hidden;
   max-width: 100%;
   width: 100%;
-  background: $m-color_19;
+  background: rgb(249, 249, 249);
 
   .mail-menu {
     margin: 12px 13px 12px 13px;
@@ -420,18 +423,19 @@
 
   .search {
     display: flex;
-    border-bottom: 1px solid $m-color_18;
-    background: $m-color_10;
-    border-top-right-radius: 6px;
+    border-bottom: 1px solid $m-color_3;
+    background: $m-color_2;
 
     input {
       border: none;
       padding: 12px 13px 12px 13px;
-      background-color: $m-color_10;
+      background-color: $white;
       border-radius: 0;
       border-top-right-radius: 6px;
-      box-shadow: none;
-      color: $m-color_3;
+
+      &:focus {
+        box-shadow: 0 0 5px 2px $m-color_1;
+      }
     }
   }
 
@@ -440,11 +444,11 @@
     justify-content: space-between;
     background: transparent;
     padding: 14px 25px;
-    border-bottom: 1px solid $m-color_10;
+    border-bottom: 1px solid $m-color_3;
 
     .new-control {
       font-weight: 600;
-      color: $m-color_3;
+      color: $dark;
     }
 
     .nav-link {
@@ -459,8 +463,10 @@
 
     .dropdown-menu.d-icon-menu {
       padding: 0;
-      border: 1px solid $m-color_12;
+      border: 1px solid $m-color_3;
       min-width: 6rem;
+      -webkit-box-shadow: 0px 0px 0px 1px rgba(136, 142, 168, 0.3137254902);
+      box-shadow: 0px 0px 4px 0px rgba(136, 142, 168, 0.3137254902);
       border-radius: 6px;
       top: 11px !important;
       left: 9px !important;
@@ -469,7 +475,7 @@
         font-size: 14px;
         font-weight: 600;
         padding: 10px 23px 10px 43px;
-        color: $m-color_6;
+        color: $dark;
         letter-spacing: 1px;
 
         &[class*="g-dot-"]:before {
@@ -502,6 +508,7 @@
       vertical-align: middle;
       width: 20px;
       height: 20px;
+      fill: $m-color_3;
     }
 
     .nav-link.label-group svg {
@@ -547,7 +554,7 @@
       margin: auto;
       width: 100%;
       overflow: auto;
-      height: calc(100vh - 284px);
+      height: calc(100vh - 210px);
     }
   }
 
@@ -556,18 +563,18 @@
       .f-body {
         .mail-title {
           font-weight: 700;
-          color: $m-color_4;
+          color: $m-color_12;
         }
 
         .user-email {
           font-weight: 700;
-          color: $m-color_14;
+          color: $m-color_10;
         }
       }
 
       .mail-content-excerpt {
         font-weight: 600;
-        color: $m-color_11;
+        color: $m-color_12;
       }
 
       .f-body .meta-time {
@@ -579,17 +586,16 @@
       padding: 11px 10px 11px 0;
       cursor: pointer;
       position: relative;
-      background: $m-color_10;
+      background: $white;
       -webkit-transition: all 0.35s ease;
       transition: all 0.35s ease;
       margin: 9px;
-      border: 1px solid $m-color_10;
+      border: 1px solid $m-color_3;
       border-radius: 6px;
 
       &:hover {
-        background: $m-color_12;
-
-        /*border: 1px solid $primary!important;*/
+        background: $m-color_2;
+        border: 1px solid $primary !important;
       }
 
       .mail-item-inner {
@@ -653,7 +659,7 @@
 
           .mail-title {
             font-size: 15px;
-            color: $m-color_4;
+            color: $m-color_9;
             margin-bottom: 2px;
             letter-spacing: 0px;
           }
@@ -715,11 +721,11 @@
 
       span {
         display: inline-block;
-        border: 1px solid $m-color_14;
+        border: 1px solid $m-color_4;
         padding: 1px 11px;
         border-radius: 30px;
-        color: $m-color_10;
-        background: $m-color_14;
+        color: $dark;
+        background: transparent;
         font-size: 12px;
         margin-right: 3px;
         font-weight: 700;
@@ -741,7 +747,7 @@
 */
 
 .content-box {
-  background-color: $m-color_10;
+  background-color: rgb(249, 249, 249);
   position: absolute;
   top: 0;
   height: 100%;
@@ -754,17 +760,14 @@
 
   .msg-close {
     padding: 13px;
-    background: $m-color_10;
-
-    /*-webkit-box-shadow: -8px 12px 18px 0px rgba(25, 30, 58, 0.56);*/
-    /*-moz-box-shadow: -8px 12px 18px 0px rgba(25, 30, 58, 0.56);*/
-    /*box-shadow: -4px 6px 20px 0px rgba(25, 30, 58, 0.56)*/
-    border-bottom: 1px solid $m-color_18;
+    background: $white;
+    -webkit-box-shadow: 0px 2px 4px rgba(126, 142, 177, 0.12);
+    box-shadow: 0px 2px 4px rgba(126, 142, 177, 0.12);
   }
 
   svg.close-message {
     font-size: 15px;
-    color: $m-color_4;
+    color: $dark;
     padding: 3px;
     align-self: center;
     cursor: pointer;
@@ -774,7 +777,7 @@
   .mail-title {
     font-size: 24px;
     font-weight: 600;
-    color: $m-color_13;
+    color: $primary;
     margin-bottom: 0;
     align-self: center;
   }
@@ -783,7 +786,7 @@
 .mailbox-inbox {
   .collapse {
     position: relative;
-    height: calc(100vh - 234px);
+    height: calc(100vh - 158px);
   }
 
   .mail-content-container {
@@ -799,15 +802,11 @@
         height: 50px;
         border-radius: 50%;
         margin-right: 8px;
-        border: 3px solid $m-color_10;
+        border: 3px solid $m-color_2;
       }
 
       .avatar {
         margin-right: 8px;
-      }
-
-      .f-body {
-        align-self: center;
       }
 
       .meta-title-tag .mail-usr-name {
@@ -843,17 +842,15 @@
       .meta-mail-time .meta-time {
         display: inline-block;
         font-weight: 700;
-        margin-bottom: 0;
       }
     }
 
     .mail-content-meta-date {
       font-size: 13px;
       font-weight: 600;
-      color: $m-color_3;
+      color: $dark;
       display: inline-block;
       font-weight: 700;
-      margin-bottom: 0;
     }
 
     .action-btns {
@@ -892,11 +889,11 @@
 
     p {
       font-size: 14px;
-      color: $m-color_4;
+      color: $dark;
 
       &.mail-content {
         padding-top: 45px;
-        border-top: 1px solid $m-color_18;
+        border-top: 1px solid $m-color_3;
         margin-top: 20px;
       }
     }
@@ -907,9 +904,9 @@
 
       .attachments-section-title {
         font-weight: 600;
-        color: $m-color_6;
+        color: $m-color_9;
         font-size: 16px;
-        border-bottom: 1px solid #191e3a;
+        border-bottom: 1px solid $m-color_3;
         padding-bottom: 9px;
         margin-bottom: 20px;
       }
@@ -927,23 +924,23 @@
       svg {
         font-size: 18px;
         margin-right: 13px;
-        color: $m-color_14;
+        color: $secondary;
         align-self: center;
       }
 
       .file-name {
-        color: $m-color_3;
+        color: $dark;
         font-size: 12px;
-        font-weight: 500;
+        font-weight: 700;
         margin-bottom: 0;
         word-break: break-word;
       }
 
       .file-size {
-        color: $m-color_3;
+        color: $dark;
         font-size: 11px;
         text-align: left;
-        font-weight: 600;
+        font-weight: 700;
         margin-bottom: 0;
       }
     }
@@ -955,12 +952,12 @@
 }
 
 .ql-toolbar.ql-snow {
-  border: 1px solid $m-color_18;
+  border: 1px solid $m-color_3;
   margin-top: 30px;
 }
 
 .ql-container.ql-snow {
-  border: 1px solid $m-color_18;
+  border: 1px solid $m-color_3;
 }
 
 .modal-backdrop {
@@ -969,6 +966,7 @@
 
 .modal-content {
   border: none;
+  box-shadow: 0px 0px 15px 1px rgba(113, 106, 202, 0.2);
 
   svg.close {
     position: absolute;
@@ -977,10 +975,10 @@
     font-size: 12px;
     font-weight: 600;
     padding: 2px;
-    background: $m-color_12;
+    background: $white;
     border-radius: 5px;
     opacity: 1;
-    color: $m-color_14;
+    color: $info;
     box-shadow: 0 6px 10px 0 rgba(0, 0, 0, 0.14), 0 1px 18px 0 rgba(0, 0, 0, 0.12), 0 3px 5px -1px rgba(0, 0, 0, 0.2);
     cursor: pointer;
     transition: .600s;
@@ -994,68 +992,53 @@
 }
 
 .compose-box {
-  background-color: transparent;
+  background-color: $white;
   border-radius: 6px;
 
-  .compose-content {
-    form {
-      .validation-text {
-        display: none;
-        color: $danger;
-        font-weight: 600;
-        text-align: left;
-        margin-top: 6px;
-        font-size: 12px;
-        letter-spacing: 1px;
-      }
+  .compose-content form {
+    .validation-text {
+      display: none;
+      color: $danger;
+      font-weight: 600;
+      text-align: left;
+      margin-top: 6px;
+      font-size: 12px;
+      letter-spacing: 1px;
+    }
 
-      .mail-form {
-        p {
-          font-weight: 700;
-          color: $m-color_6;
-          font-size: 16px;
-          margin-bottom: 0;
-          align-self: center;
-        }
-
-        select {
-          padding: 5px;
-          font-weight: 700;
-          color: $m-color_14;
-          margin-left: 10px;
-          border-radius: 6px;
-          background: $m-color_12;
-          border: 1px solid $dark;
-        }
-      }
-
-      .mail-to svg, .mail-cc svg, .mail-subject svg {
+    .mail-form {
+      p {
+        font-weight: 700;
+        color: $dark;
+        font-size: 16px;
+        margin-bottom: 0;
         align-self: center;
-        font-size: 19px;
-        margin-right: 14px;
-        color: $m-color_14;
-        font-weight: 600;
+      }
+
+      select {
+        padding: 5px;
+        font-weight: 700;
+        color: $primary;
+        margin-left: 10px;
+        border-radius: 6px;
+        border: 1px solid $m-color_5;
       }
     }
 
-    .form-control-file {
-      color: $m-color_4;
+    .mail-to svg, .mail-cc svg, .mail-subject svg {
+      align-self: center;
+      font-size: 19px;
+      margin-right: 14px;
+      color: $primary;
+      font-weight: 600;
+    }
+
+    #editor-container {
+      h1, p {
+        color: $dark;
+      }
     }
   }
-}
-
-.form-control-file {
-  &::-webkit-file-upload-button, &::-ms-file-upload-button, &.form-control-file-rounded::-webkit-file-upload-button {
-    background-color: $m-color_14;
-  }
-}
-
-.compose-box .compose-content form #editor-container h1 {
-  color: $dark;
-}
-
-.ql-editor.ql-blank::before {
-  color: $m-color_4;
 }
 
 #composeMailModal {
@@ -1066,10 +1049,10 @@
 
   .modal-footer {
     .btn[data-dismiss="modal"] {
-      background-color: $m-color_12;
-      color: $m-color_4;
+      background-color: $white;
+      color: $primary;
       font-weight: 700;
-      border: 1px solid $m-color_12;
+      border: 1px solid #e8e8e8;
       padding: 10px 25px;
 
       svg {
@@ -1095,7 +1078,7 @@
       background-color: $m-color_14;
       color: $white;
       font-weight: 600;
-      border: 1px solid $m-color_14;
+      border: 1px solid $m-color_3;
       padding: 10px 25px;
     }
   }
@@ -1166,7 +1149,7 @@
   }
 
   .mailbox-inbox .search input {
-    border-left: 1px solid $dark;
+    border-left: 1px solid $m-color_3;
   }
 
   .tab-title {
@@ -1174,7 +1157,7 @@
     z-index: 4;
     left: -147px;
     width: 0;
-    background: $m-color_10;
+    background: $white;
 
     &.mail-menu-show {
       left: 0;
@@ -1193,7 +1176,7 @@
     }
 
     .search {
-      background-color: $m-color_10;
+      background-color: $white;
       padding: 0;
     }
 
@@ -1240,7 +1223,6 @@
       margin: 0;
       padding: 20px 10px 20px 0;
       border: none;
-      border-radius: 0;
 
       .mail-item-inner {
         .f-head img {

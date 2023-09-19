@@ -6,100 +6,78 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, shrink-to-fit=no">
     <title> @yield('tittle-tab', 'Page - Multipurpose Bootstrap Dashboard Template') </title>
-    <link rel="icon" type="image/x-icon" href="{{ asset('template/assets/img/favicon.ico') }}" />
-    <link href="{{ asset('template/assets/css/loader.css') }}" rel="stylesheet" type="text/css" />
-    <script src="{{ asset('template/assets/js/loader.js') }}"></script>
 
+    <link rel="icon" type="image/x-icon" href="assets/img/favicon.ico" />
     <!-- BEGIN GLOBAL MANDATORY STYLES -->
     @include('template.head')
+    @yield('styles')
+
     <!-- END GLOBAL MANDATORY STYLES -->
 
     <!-- BEGIN PAGE LEVEL PLUGINS/CUSTOM STYLES -->
 
-    <style>
-        .layout-px-spacing {
-            min-height: calc(100vh - 166px) !important;
-        }
-    </style>
-
-    @yield('styles')
     <!-- END PAGE LEVEL PLUGINS/CUSTOM STYLES -->
 
 </head>
 
-<body>
-    <!-- BEGIN LOADER -->
-    @include('template.preloader')
-    <!--  END LOADER -->
+<body class="alt-menu sidebar-noneoverflow">
 
     <!--  BEGIN NAVBAR  -->
     @include('template.navbar')
-    <!--  END NAVBAR  -->
 
-    <!--  BEGIN NAVBAR  -->
-    <div class="sub-header-container">
-        <header class="header navbar navbar-expand-sm">
-            <a href="javascript:void(0);" class="sidebarCollapse" data-placement="bottom"><svg
-                    xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
-                    stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-                    class="feather feather-menu">
-                    <line x1="3" y1="12" x2="21" y2="12"></line>
-                    <line x1="3" y1="6" x2="21" y2="6"></line>
-                    <line x1="3" y1="18" x2="21" y2="18"></line>
-                </svg></a>
-
-            <ul class="navbar-nav flex-row">
-                <li>
-                    <div class="page-header">
-                        <div class="page-title">
-                            <h3>
-                                @yield('page-title', 'Blank Page')
-                            </h3>
-                        </div>
-                    </div>
-                </li>
-            </ul>
-        </header>
-    </div>
     <!--  END NAVBAR  -->
 
     <!--  BEGIN MAIN CONTAINER  -->
-    <div class="main-container" id="container">
+    <div class="main-container sidebar-closed sbar-open" id="container">
 
         <div class="overlay"></div>
+        <div class="cs-overlay"></div>
         <div class="search-overlay"></div>
 
         <!--  BEGIN SIDEBAR  -->
         <div class="sidebar-wrapper sidebar-theme">
+
+            <div id="dismiss" class="d-lg-none"><i class="flaticon-cancel-12"></i></div>
 
             @include('template.sidebar')
 
         </div>
         <!--  END SIDEBAR  -->
 
-        <!--  BEGIN CONTENT PART  -->
+        <!--  BEGIN CONTENT AREA  -->
         <div id="content" class="main-content">
             <div class="layout-px-spacing">
 
-                <div class="row layout-top-spacing">
+                <div class="page-header">
+                    <div class="page-title">
+                        @yield('content_header')
 
-                    @yield('content')
-
+                    </div>
                 </div>
 
+
+                <!-- CONTENT AREA -->
+
+
+                @yield('content')
+
+
+
+                <!-- CONTENT AREA -->
+
             </div>
-            @include('template.footer')
         </div>
-
-
-        <!--  END CONTENT PART  -->
-
+        <!--  END CONTENT AREA  -->
     </div>
     <!-- END MAIN CONTAINER -->
 
+    <!-- BEGIN GLOBAL MANDATORY SCRIPTS -->
     @include('template.scripts')
     @yield('js')
+    <!-- END GLOBAL MANDATORY SCRIPTS -->
+
     <!-- BEGIN PAGE LEVEL PLUGINS/CUSTOM SCRIPTS -->
+
     <!-- BEGIN PAGE LEVEL PLUGINS/CUSTOM SCRIPTS -->
 </body>
 

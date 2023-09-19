@@ -331,7 +331,7 @@ return [
 
                 [
                     'text' => 'Dominios',
-                    'route'  => 'admin/tenants',
+                    'route'  => 'admin.tenants.index',
                     'can' => 'admin.tenants.index',
                     'icon' => 'fas fa-fw fa-user',
 
@@ -364,26 +364,26 @@ return [
         [
             'text' => 'Personal',
             'route'  => 'admin.users.index',
-            'icon' => 'fas fa-fw fa-user',
+            'icon' => '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-users"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>',
             'can' => 'admin.users.index',
             'submenu' => [
 
                 [
                     'text' => 'Usuarios',
-                    'route'  => 'users',
+                    'route'  => 'admin.users.index',
                     'can' => 'admin.users.index',
                     'icon' => 'fas fa-fw fa-user',
                 ],
 
                 [
                     'text' => 'Asignacion Turno',
-                    'route'  => 'asignacionTurno',
+                    'route'  => 'admin.asignacionTurnos.index',
                     'can' => 'admin.asignacionTurnos.index',
                     'icon' => '	far fa-address-book',
                 ],
                 [
                     'text' => 'Asignacion Room',
-                    'route'  => 'asignacionRooms',
+                    'route'  => 'admin.asignacionRooms.index',
                     'can' => 'admin.asignacionRooms.index',
                     'icon' => ' fas fa-house-user',
                 ],
@@ -393,8 +393,8 @@ return [
 
         [
             'text' => 'Roles',
-            'route'  => 'roles',
-            'icon' => 'fas fa-fw fa-lock',
+            'route'  => 'admin.roles.index',
+            'icon' => '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-user-plus"><path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="8.5" cy="7" r="4"></circle><line x1="20" y1="8" x2="20" y2="14"></line><line x1="23" y1="11" x2="17" y2="11"></line></svg>',
             'can' => 'admin.roles.index'
 
         ],
@@ -402,7 +402,7 @@ return [
         //MULTINIVEL
         [
             'text'    => 'Configuracion',
-            'icon'    => 'fas fa-fw fa-share',
+            'icon'    => '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-settings"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg>',
             'can' => 'admin.configuraciones.menu',
             'submenu' => [
 
@@ -414,12 +414,12 @@ return [
                     'subsubmenu' => [
                         [
                             'text' => 'Metas Estudio',
-                            'route'     => 'tipoMetas',
+                            'route'     => 'admin.tipoMetas.index',
                             'can' => 'admin.tipoMetas',
                         ],
                         [
                             'text' => 'Metas Modelo',
-                            'route'     => 'metaModelos',
+                            'route'     => 'admin.metaModelos.index',
                             'can' => 'admin.metasModelos',
                         ],
 
@@ -428,47 +428,47 @@ return [
 
                 [
                     'text' => 'Empresa',
-                    'route'  => 'empresa',
+                    'route'  => 'admin.empresa.index',
                     'can' => 'admin.empresas',
                 ],
                 [
                     'text' => 'Impuestos',
-                    'route'  => 'impuestos',
+                    'route'  => 'admin.impuestos.index',
                     'can' => 'admin.impuestos',
                 ],
 
                 [
                     'text' => 'Tipo Usuarios',
-                    'route'  => 'tipoUsuarios',
+                    'route'  => 'admin.tipoUsuarios.index',
                     'can' => 'admin.tipoUsuarios',
                 ],
 
                 [
                     'text' => 'Tipo Turnos',
-                    'route'  => 'tipoTurnos',
+                    'route'  => 'admin.tipoTurnos.index',
                     'can' => 'admin.tipoTurnos',
                 ],
 
                 [
                     'text' => 'Tipo Rooms',
-                    'route'  => 'tipoRooms',
+                    'route'  => 'admin.tipoRooms.index',
                     'can' => 'admin.tipoRooms',
                 ],
                 [
                     'text' => 'Tipo Multas',
-                    'route'  => 'tipoMetas',
+                    'route'  => 'admin.tipoMultas.index',
                     'can' => 'admin.tipoMultas',
                 ],
                 [
                     'text' => 'Tipo Descuentos',
-                    'route'  => 'tipoDescuentos',
+                    'route'  => 'admin.tipoDescuentos.index',
                     'can' => 'admin.tipoDescuentos',
                 ],
 
 
                 [
                     'text' => 'Paginas',
-                    'route'  => 'paginas',
+                    'route'  => 'admin.paginas.index',
                     'can' => 'admin.paginas',
                 ],
 
@@ -512,7 +512,7 @@ return [
         [
             'text'    => 'Certificaciones',
             'url'     => '#',
-            'icon' => 'fas fa-fw fa-lock',
+            'icon' => '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-key"><path d="M21 2l-2 2m-7.61 7.61a5.5 5.5 0 1 1-7.778 7.778 5.5 5.5 0 0 1 7.777-7.777zm0 0L15.5 7.5m0 0l3 3L22 7l-3-3m-3.5 3.5L19 4"></path></svg>',
             'can' => 'admin.certificaciones',
             'submenu' => [
                 [
@@ -534,7 +534,7 @@ return [
                 [
                     'text' => 'Pago',
                     // 'url'  => 'user/1/comprobantePagoPDF',
-                    'route'=> 'admin.pagos.index',
+                    'route' => 'admin.pagos.index',
                     'can' => 'admin.certificacion.pago',
                 ],
 
@@ -557,23 +557,23 @@ return [
 
         ],
         [
-            'text'=>'Registro Produccion',
-            'icon_color'=>'cyan',
-            'route'=>'admin.registroProducidos.index',
-            'can' =>'admin.registroProduccion.index',
+            'text' => 'Registro Produccion',
+            'icon_color' => 'cyan',
+            'route' => 'admin.registroProducidos.index',
+            'can' => 'admin.registroProduccion.index',
         ],
 
         [
-            'text'=>'Registro Descuentos',
-            'icon_color'=>'blue',
-            'route'=>'admin.registroDescuentos.index',
-            'can'=>'admin.registroDescuentos.index',
+            'text' => 'Registro Descuentos',
+            'icon_color' => 'blue',
+            'route' => 'admin.registroDescuentos.index',
+            'can' => 'admin.registroDescuentos.index',
         ],
         [
             'text' => 'Reportes Paginas',
             'icon_color' => 'green',
-            'route'=> 'reportePaginas',
-            'can'=>'admin.reportePaginas.index',
+            'route' => 'admin.reportePaginas.index',
+            'can' => 'admin.reportePaginas.index',
         ],
     ],
 

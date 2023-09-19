@@ -20,17 +20,6 @@
                 <div class="card-body">
                     {!! Form::open(['route' => 'admin.reportePaginas.storeIndividual']) !!}
                     <div class="form-group">
-                        {{-- {!! Form::label('user_id', 'Usuario') !!}
-                {!! Form::select('user_id', $users->pluck('name', 'id'), null, [
-                    'class' => 'form-control',
-                    'placeholder' => 'Seleccione Un Usuario',
-                ]) !!}
-                @error('user_id')
-                    <br>
-                    <span class="text-danger">{{ $message }}</span>
-                    <br>
-                @enderror --}}
-
 
                         {!! Form::label('fecha', 'Fecha') !!}
                         {!! Form::date('fecha', now(), [

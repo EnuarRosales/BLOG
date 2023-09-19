@@ -10,7 +10,7 @@
 @endsection
 
 @section('content_header')
-    <h2>Lista de roles</h2>
+    <h2 class="ml-3">Lista de roles</h2>
 @stop
 
 @section('styles')
@@ -29,11 +29,27 @@
                     @yield('content_header')
                 </div>
                 <div class="col">
-                    <a class="btn btn-primary float-right" href="{{ route('admin.paginas.create') }}">Agregar Pagina</a>
+                    <a class="btn btn-primary float-right mr-4" href="{{ route('admin.roles.create') }}">Agregar Rol</a>
+
                 </div>
             </div>
             <div class="table-responsive mb-4 mt-4">
                 <table id="html5-extension" class="table table-hover non-hover" style="width:100%">
+                    <div class="row">
+                        <div class="col-md-6 d-flex align-items-center ml-3">
+                            <label class="mb-0 mr-2">Mostrar:</label>
+                            <select id="records-per-page" class="form-control form-control-sm custom-width-20">
+                                <!-- Agregamos la clase form-control-sm -->
+                                <option value="7">7</option>
+                                <option value="10">10</option>
+                                <option value="20">20</option>
+                                <option value="50">50</option>
+                            </select>
+                            <span class="ml-2">registros por página</span>
+                            <!-- Agregamos un espacio después del select -->
+                        </div>
+
+                    </div>
                     <thead>
                         <tr>
                             <th>ID</th>
@@ -54,16 +70,28 @@
 
                                 @can('admin.users.edit')
                                     <td width="10px">
-                                        <a class="btn btn-secondary btn-sm"
-                                            href="{{ route('admin.roles.edit', $rol) }}">Editar</a>
+                                        <a href="{{ route('admin.roles.edit', $rol) }}" class="ml-4 rounded bs-tooltip"
+                                            data-placement="top" title="Editar">
+                                            <svg class="mr-4" xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                                viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                                stroke-linecap="round" stroke-linejoin="round" class="feather feather-edit-3">
+                                                <path d="M12 20h9"></path>
+                                                <path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"></path>
+                                            </svg>
+                                        </a>
                                     </td>
                                     <td width="10px">
-                                        <form class="formulario-eliminar" action="{{ route('admin.roles.destroy', $rol) }}"
-                                            method="POST">
-                                            @csrf
-                                            @method('delete')
-                                            <button type="submit" class="btn btn-dark btn-sm">Eliminar</button>
-                                        </form>
+                                        <a href="javascript:void(0);" class="ml-2 eliminar-registro rounded bs-tooltip"
+                                            data-placement="top" title="Eliminar" data-rol-id="{{ $rol->id }}">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                                viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                                stroke-linecap="round" stroke-linejoin="round"
+                                                class="feather feather-x-circle table-cancel">
+                                                <circle cx="12" cy="12" r="10"></circle>
+                                                <line x1="15" y1="9" x2="9" y2="15"></line>
+                                                <line x1="9" y1="9" x2="15" y2="15"></line>
+                                            </svg>
+                                        </a>
                                     </td>
                                 @endcan
 
@@ -87,25 +115,11 @@
         </div>
     </div>
 
-    {{-- <div class="card">
-        <div class="card-body">
-            <a class="btn btn-primary" href="{{ route('admin.roles.create') }}">Agregar Rol</a>
-        </div>
-        <table id="roles" class="table table-striped table-bordered shadow-lg mt-4">
 
-
-
-
-        </table>
-
-    </div> --}}
 
 @stop
 
-@section('css')
-    <link rel="stylesheet" href="/css/admin_custom.css">
-    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.4/css/dataTables.bootstrap5.min.css" rel="styleshet">
-@stop
+
 
 @section('js')
     <script src="{{ asset('template/plugins/table/datatable/datatables.js') }}"></script>
@@ -114,8 +128,9 @@
     <script src="{{ asset('template/plugins/table/datatable/button-ext/jszip.min.js') }}"></script>
     <script src="{{ asset('template/plugins/table/datatable/button-ext/buttons.html5.min.js') }}"></script>
     <script src="{{ asset('template/plugins/table/datatable/button-ext/buttons.print.min.js') }}"></script>
+
     <script>
-        $('#html5-extension').DataTable({
+        var table = $('#html5-extension').DataTable({
             dom: '<"row"<"col-md-12"<"row"<"col-md-6"B><"col-md-6"f> > ><"col-md-12"rt> <"col-md-12"<"row"<"col-md-5"i><"col-md-7"p>>> >',
             buttons: {
                 buttons: [{
@@ -144,20 +159,82 @@
                 "sInfo": "Página _PAGE_ de _PAGES_",
                 "sSearch": '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-search"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>',
                 "sSearchPlaceholder": "Buscar...",
-                "sLengthMenu": "Results :  _MENU_",
+                "sLengthMenu": "Mostrar _MENU_ resultados por página",
             },
             "stripeClasses": [],
             "lengthMenu": [7, 10, 20, 50],
             "pageLength": 7
         });
+
+        // Vincular eventos de clic para eliminar
+        function bindDeleteEvents() {
+            document.querySelectorAll('.eliminar-registro').forEach(botonEliminar => {
+                botonEliminar.addEventListener('click', function(e) {
+                    e.preventDefault();
+
+                    const rolId = this.getAttribute('data-rol-id');
+
+
+                    Swal.fire({
+                        title: '¿Estás seguro?',
+                        text: '¡Este registro se eliminará definitivamente!',
+                        type: 'warning',
+                        showCancelButton: true,
+                        confirmButtonColor: '#3085d6',
+                        cancelButtonColor: '#d33',
+                        confirmButtonText: '¡Sí, eliminar!',
+                        cancelButtonText: '¡Cancelar!',
+                        preConfirm: () => {
+                            // Crear un formulario dinámicamente
+                            const formulario = document.createElement('form');
+                            formulario.action =
+                                `roles/${rolId}`; // Ruta de eliminación
+                            formulario.method = 'POST'; // Método POST
+                            formulario.style.display = 'none'; // Ocultar el formulario
+
+                            // Agregar el token CSRF al formulario
+                            const tokenField = document.createElement('input');
+                            tokenField.type = 'hidden';
+                            tokenField.name = '_token';
+                            tokenField.value = '{{ csrf_token() }}';
+                            formulario.appendChild(tokenField);
+
+                            // Agregar un campo oculto para indicar que es una solicitud de eliminación
+                            const methodField = document.createElement('input');
+                            methodField.type = 'hidden';
+                            methodField.name = '_method';
+                            methodField.value = 'DELETE';
+                            formulario.appendChild(methodField);
+
+                            // Adjuntar el formulario al documento y enviarlo
+                            document.body.appendChild(formulario);
+                            formulario.submit();
+
+                            return true;
+                        },
+                    });
+                });
+            });
+        }
+
+        // Volver a vincular eventos de clic después de cada redibujo
+        table.on('draw.dt', function() {
+            bindDeleteEvents();
+        });
+
+        // Detectar cambios en el select
+        $('#records-per-page').change(function() {
+            var newLength = $(this).val();
+            table.page.len(newLength).draw();
+        });
+
+        // Vincular eventos de clic para eliminar inicialmente
+        bindDeleteEvents();
     </script>
     <script>
         console.log('Hi!');
     </script>
-    <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
-    <script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
-    <script src="https://cdn.datatables.net/1.13.4/js/dataTables.bootstrap5.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
 
 
 
@@ -174,7 +251,7 @@
         <script>
             Swal.fire({
                 position: 'top-end',
-                icon: 'success',
+                type: 'success',
                 title: 'Rol creado correctamente',
                 showConfirmButton: false,
                 timer: 2000
@@ -184,7 +261,7 @@
         <script>
             Swal.fire({
                 position: 'top-end',
-                icon: 'success',
+                type: 'success',
                 title: 'Rol actualizado correctamente',
                 showConfirmButton: false,
                 timer: 2000
@@ -194,7 +271,7 @@
         <script>
             Swal.fire({
                 position: 'top-end',
-                icon: 'success',
+                type: 'success',
                 title: 'Asignacion de rol exitosa',
                 showConfirmButton: false,
                 timer: 2000
@@ -202,35 +279,5 @@
         </script>
     @endif
 
-    <script>
-        $('.formulario-eliminar').submit(function(e) {
-            e.preventDefault();
-
-            Swal.fire({
-                title: '¿Estas Seguro?',
-                text: "¡Este registro se eliminara definitivamente!",
-                icon: 'warning',
-                showCancelButton: true,
-                confirmButtonColor: '#3085d6',
-                cancelButtonColor: '#d33',
-                confirmButtonText: '¡Si, eliminar!',
-                cancelButtonText: '¡Cancelar!',
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    this.submit();
-                }
-            })
-
-        })
-    </script>
-
-
-    {{-- DATATATABLE --}}
-
-    <script>
-        $(document).ready(function() {
-            $('#roles').DataTable(); //
-        });
-    </script>
 
 @stop

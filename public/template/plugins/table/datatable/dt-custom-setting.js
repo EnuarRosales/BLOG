@@ -31,6 +31,6 @@ var DTcustomsetting = {
     	"Showing page _PAGE_ of _PAGES_"
     }
 
-
-
+    
+    
 };

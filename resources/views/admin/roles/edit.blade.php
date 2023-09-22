@@ -10,21 +10,21 @@
 @endsection
 
 @section('content_header')
-    <h2>Editar roles</h2>
+    <h2 class="ml-3">Editar roles</h2>
 @stop
 
 @section('content')
     <div class="col-xl-12 col-lg-12 col-sm-12  layout-spacing">
         <div class="widget-content widget-content-area br-6">
-            <div class="card">
-                <div class="card-body">
+            {{-- <div class="card">
+                <div class="card-body"> --}}
                     {!! Form::model($role, ['route' => ['admin.roles.update', $role], 'method' => 'put']) !!}
                     @include('admin.roles.partials.form')
 
                     {!! Form::submit('Editar rol', ['class' => 'btn btn-primary']) !!}
                     {!! Form::close() !!}
-                </div>
-            </div>
+                {{-- </div>
+            </div> --}}
         </div>
     </div>
 

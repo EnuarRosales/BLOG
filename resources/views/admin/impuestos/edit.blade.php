@@ -10,7 +10,7 @@
 @endsection
 
 @section('content_header')
-    <h1>Editar Impuesto</h1>
+    <h2 class="ml-3">Editar Impuesto</h2>
 @endsection
 
 @section('styles')
@@ -22,8 +22,6 @@
     <div class="col-xl-12 col-lg-12 col-sm-12  layout-spacing">
         <div class="widget-content widget-content-area br-6">
 
-            <div class="card">
-                <div class="card-body">
                     {!! Form::model($impuesto, ['route' => ['admin.impuestos.update', $impuesto], 'method' => 'put']) !!}
                     <div class="form-group">
 
@@ -57,9 +55,6 @@
 
                     {!! Form::close() !!}
 
-                </div>
-
-            </div>
         </div>
     </div>
 

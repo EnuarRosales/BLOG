@@ -545,33 +545,33 @@ return [
         ['header' => 'CONTROL'],
         [
             'text'       => 'Registro Multas',
-            'icon_color' => 'red',
+            'icon' => '<svg style="color: red; fill:red;" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="transparent" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-octagon"><polygon points="7.86 2 16.14 2 22 7.86 22 16.14 16.14 22 7.86 22 2 16.14 2 7.86 7.86 2"></polygon></svg>',
             'route'        => 'admin.asignacionMultas.index',
             'can' =>           'admin.registroMultas.index'
         ],
         [
             'text'       => 'Registro Asistencias',
-            'icon_color' => 'yellow',
+            'icon' => '<svg style="color: #ff7b1b; ; fill:#ff7b1b;" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-octagon"><polygon points="7.86 2 16.14 2 22 7.86 22 16.14 16.14 22 7.86 22 2 16.14 2 7.86 7.86 2"></polygon></svg>',
             'route'        => 'admin.registroAsistencias.index',
             'can' =>           'admin.registroAsistencias.index',
 
         ],
         [
             'text' => 'Registro Produccion',
-            'icon_color' => 'cyan',
+            'icon' => '<svg style="color: #a700f3; fill:#a700f3;" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-octagon"><polygon points="7.86 2 16.14 2 22 7.86 22 16.14 16.14 22 7.86 22 2 16.14 2 7.86 7.86 2"></polygon></svg>',
             'route' => 'admin.registroProducidos.index',
             'can' => 'admin.registroProduccion.index',
         ],
 
         [
             'text' => 'Registro Descuentos',
-            'icon_color' => 'blue',
+            'icon' => '<svg style="color: blue; fill:blue;" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-octagon"><polygon points="7.86 2 16.14 2 22 7.86 22 16.14 16.14 22 7.86 22 2 16.14 2 7.86 7.86 2"></polygon></svg>',
             'route' => 'admin.registroDescuentos.index',
             'can' => 'admin.registroDescuentos.index',
         ],
         [
             'text' => 'Reportes Paginas',
-            'icon_color' => 'green',
+            'icon' => '<svg style="color: green; fill:green;" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-octagon"><polygon points="7.86 2 16.14 2 22 7.86 22 16.14 16.14 22 7.86 22 2 16.14 2 7.86 7.86 2"></polygon></svg>',
             'route' => 'admin.reportePaginas.index',
             'can' => 'admin.reportePaginas.index',
         ],

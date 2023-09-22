@@ -10,7 +10,7 @@
 @endsection
 
 @section('content_header')
-    <h2>Editar tipo multas</h2>
+    <h2 class="ml-3">Editar tipo multas</h2>
 @stop
 
 @section('content')
@@ -22,15 +22,7 @@
                     <strong>{{ session('info') }}</strong>
                 </div>
             @endif
-            <div class="card">
-                <div class="card-header">
-                    <div class="row g-2">
-                        <div class="col">
-                            @yield('content_header')
-                        </div>
-                    </div>
-                </div>
-                <div class="card-body">
+
                     {!! Form::model($tipoMulta, ['route' => ['admin.tipoMultas.update', $tipoMulta], 'method' => 'put']) !!}
 
                     <div class="form-group">
@@ -54,8 +46,7 @@
                     </div>
                     {!! Form::submit('Actualizar Tipo Multa', ['class' => 'btn btn-primary']) !!}
                     {!! Form::close() !!}
-                </div>
-            </div>
+
         </div>
     </div>
 

@@ -10,19 +10,19 @@
 @endsection
 
 @section('content_header')
-    <h2>Editar asignacion multa</h2>
+    <h2 class="ml-3">Editar asignacion multa</h2>
 @stop
 
 @section('content')
 
     <div class="col-xl-12 col-lg-12 col-sm-12  layout-spacing">
         <div class="widget-content widget-content-area br-6">
-            <div class="card">
+            {{-- <div class="card">
                 <div class="card-header">
                     @yield('content_header')
-                </div>
+                </div> --}}
 
-                <div class="card-body">
+                {{-- <div class="card-body"> --}}
                     {!! Form::model($asignacionMulta, [
                         'route' => ['admin.asignacionMultas.update', $asignacionMulta],
                         'method' => 'put',
@@ -55,8 +55,8 @@
                     </div>
                     {!! Form::submit('Actualizar Asignacion Multa', ['class' => 'btn btn-primary']) !!}
                     {!! Form::close() !!}
-                </div>
-            </div>
+                {{-- </div> --}}
+            {{-- </div> --}}
         </div>
     </div>
 

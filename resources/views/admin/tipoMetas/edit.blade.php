@@ -10,7 +10,7 @@
 @endsection
 
 @section('content_header')
-    <h2>Editar tipo metas</h2>
+    <h2 class="ml-3">Editar tipo metas</h2>
 @stop
 
 @section('content')
@@ -22,8 +22,8 @@
                     <strong>{{ session('info') }}</strong>
                 </div>
             @endif
-            <div class="card">
-                <div class="card-body">
+            {{-- <div class="card">
+                <div class="card-body"> --}}
                     {!! Form::model($tipoMeta, ['route' => ['admin.tipoMetas.update', $tipoMeta], 'method' => 'put']) !!}
 
                     <div class="form-group">
@@ -59,8 +59,8 @@
                     </div>
                     {!! Form::submit('Actualizar Tipo Meta', ['class' => 'btn btn-primary']) !!}
                     {!! Form::close() !!}
-                </div>
-            </div>
+                {{-- </div>
+            </div> --}}
         </div>
     </div>
 

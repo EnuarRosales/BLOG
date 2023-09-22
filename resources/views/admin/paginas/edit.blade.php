@@ -10,14 +10,13 @@
 @endsection
 
 @section('content_header')
-    <h2>Editar paginas</h2>
+    <h2 class="ml-3">Editar paginas</h2>
 @stop
 
 @section('content')
     <div class="col-xl-12 col-lg-12 col-sm-12  layout-spacing">
         <div class="widget-content widget-content-area br-6">
-            <div class="card">
-                <div class="card-body">
+
                     {!! Form::model($pagina, ['route' => ['admin.paginas.update', $pagina], 'method' => 'put']) !!}
 
                     <div class="form-group">
@@ -54,8 +53,7 @@
                     </div>
                     {!! Form::submit('Actualizar Pagina', ['class' => 'btn btn-primary']) !!}
                     {!! Form::close() !!}
-                </div>
-            </div>
+
         </div>
     </div>
 @stop

@@ -10,23 +10,14 @@
 @endsection
 
 @section('content_header')
-    <h2>Crear tipo multas</h2>
+    <h2 class="ml-3">Crear tipo multas</h2>
 @stop
 
 @section('content')
 
     <div class="col-xl-12 col-lg-12 col-sm-12  layout-spacing">
         <div class="widget-content widget-content-area br-6">
-            <div class="card">
-                <div class="card-header">
-                    <div class="row g-2">
-                        <div class="col">
-                            @yield('content_header')
-                        </div>
-                    </div>
-                </div>
 
-                <div class="card-body">
                     {!! Form::open(['route' => 'admin.tipoMultas.store']) !!}
                     {{-- @csrf{!! Form::model($tipoUsuario, ['route' => ['admin.tipoUsuarios.update', $tipoUsuario], 'method' => 'put']) !!} --}}
 
@@ -57,9 +48,7 @@
 
                     {!! Form::close() !!}
 
-                </div>
 
-            </div>
         </div>
     </div>
 

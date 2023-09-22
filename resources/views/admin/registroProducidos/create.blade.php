@@ -10,17 +10,17 @@
 @endsection
 
 @section('content_header')
-    <h2>Registrar Producido</h2>
+    <h2 class="ml-3">Registrar Producido</h2>
 @stop
 
 @section('content')
     <div class="col-xl-12 col-lg-12 col-sm-12  layout-spacing">
         <div class="widget-content widget-content-area br-6">
-            <div class="card">
+            {{-- <div class="card">
                 <div class="card-header">
                     @yield('content_header')
                 </div>
-                <div class="card-body">
+                <div class="card-body"> --}}
                     {!! Form::open(['route' => 'admin.registroProducidos.store']) !!}
                     <div class="form-group">
                         {{-- {!! Form::label('user_id', 'Usuario') !!}
@@ -82,9 +82,9 @@
                     {!! Form::submit('Registrar Producido', ['class' => 'btn btn-primary']) !!}
                     {!! Form::close() !!}
 
-                </div>
+                {{-- </div>
 
-            </div>
+            </div> --}}
         </div>
     </div>
 

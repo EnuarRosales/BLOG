@@ -3,14 +3,14 @@
 @section('title', 'Dashboard')
 
 @section('content_header')
-    <h1>Crear Inquilinos</h1>
+    <h2 class="ml-3">Crear Inquilinos</h2>
 @stop
 
 @section('content')
     <div class="col-xl-12 col-lg-12 col-sm-12  layout-spacing">
         <div class="widget-content widget-content-area br-6">
-            <div class="card">
-                <div class="card-body">
+            {{-- <div class="card">
+                <div class="card-body"> --}}
                     {!! Form::model($tenant, ['route' => ['admin.tenants.update', $tenant], 'method' => 'put']) !!}
                     {{-- @csrf{!! Form::model($tipoUsuario, ['route' => ['admin.tipoUsuarios.update', $tipoUsuario], 'method' => 'put']) !!} --}}
 
@@ -31,9 +31,9 @@
 
                     {!! Form::close() !!}
 
-                </div>
+                {{-- </div>
 
-            </div>
+            </div> --}}
         </div>
     </div>
 

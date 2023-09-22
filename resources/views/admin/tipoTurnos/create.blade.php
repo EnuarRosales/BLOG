@@ -10,7 +10,7 @@
 @endsection
 
 @section('content_header')
-    <h2>Crear tipo turno</h2>
+    <h2 class="ml-3">Crear tipo turno</h2>
 @stop
 
 @section('content')
@@ -18,8 +18,6 @@
     <div class="col-xl-12 col-lg-12 col-sm-12  layout-spacing">
         <div class="widget-content widget-content-area br-6">
 
-            <div class="card">
-                <div class="card-body">
                     {!! Form::open(['route' => 'admin.tipoTurnos.store']) !!}
                     {{-- @csrf{!! Form::model($tipoUsuario, ['route' => ['admin.tipoUsuarios.update', $tipoUsuario], 'method' => 'put']) !!} --}}
 
@@ -59,9 +57,6 @@
                     {!! Form::submit('Crear Turno', ['class' => 'btn btn-primary']) !!}
                     {!! Form::close() !!}
 
-                </div>
-
-            </div>
         </div>
     </div>
 

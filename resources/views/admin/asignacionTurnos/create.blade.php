@@ -9,14 +9,14 @@
 @endsection
 
 @section('content_header')
-    <h2>Asignar Turno</h2>
+    <h2 class="ml-3">Asignar Turno</h2>
 @stop
 
 @section('content')
     <div class="col-xl-12 col-lg-12 col-sm-12  layout-spacing">
         <div class="widget-content widget-content-area br-6">
-            <div class="card">
-                <div class="card-body">
+            {{-- <div class="card">
+                <div class="card-body"> --}}
                     {!! Form::open(['route' => 'admin.asignacionTurnos.store']) !!}
 
                     <div class="form-group">
@@ -51,9 +51,9 @@
                     {!! Form::submit('Asignar Turno', ['class' => 'btn btn-primary']) !!}
                     {!! Form::close() !!}
 
-                </div>
+                {{-- </div>
 
-            </div>
+            </div> --}}
         </div>
     </div>
 

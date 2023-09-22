@@ -10,7 +10,7 @@
 @endsection
 
 @section('content_header')
-    <h1>Editar asistencia</h1>
+    <h2 class="ml-3">Editar asistencia</h2>
 @stop
 
 @section('content')
@@ -21,11 +21,11 @@
     @endif
     <div class="col-xl-12 col-lg-12 col-sm-12  layout-spacing">
         <div class="widget-content widget-content-area br-6">
-            <div class="card">
+            {{-- <div class="card">
                 <div class="card-header">
                     @yield('content_header')
                 </div>
-                <div class="card-body">
+                <div class="card-body"> --}}
                     {!! Form::model($registroAsistencia, [
                         'route' => ['admin.registroAsistencias.update', $registroAsistencia],
                         'method' => 'put',
@@ -82,8 +82,8 @@
                     </div>
                     {!! Form::submit('Actualizar Asistencia', ['class' => 'btn btn-primary']) !!}
                     {!! Form::close() !!}
-                </div>
-            </div>
+                {{-- </div>
+            </div> --}}
         </div>
     </div>
 @stop

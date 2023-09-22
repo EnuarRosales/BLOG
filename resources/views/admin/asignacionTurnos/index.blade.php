@@ -25,9 +25,6 @@
         <div class="widget-content widget-content-area br-6">
             <div class="row g-2">
                 <div class="col">
-                    @yield('content_header')
-                </div>
-                <div class="col">
                     @can('admin.asignacionTurnos.create')
                         <a class="btn btn-primary float-right mr-4" href="{{ route('admin.asignacionTurnos.create') }}">Agregar
                             Asignacion

@@ -10,14 +10,14 @@
 @endsection
 
 @section('content_header')
-    <h2>Empresa</h2>
+    <h2 class="ml-3">Empresa</h2>
 @stop
 
 @section('content')
     <div class="col-xl-12 col-lg-12 col-sm-12  layout-spacing">
         <div class="widget-content widget-content-area br-6">
-            <div class="card">
-                <div class="card-body">
+            {{-- <div class="card">
+                <div class="card-body"> --}}
                     {!! Form::open(['route' => ['admin.empresa.store'], 'files' => true]) !!}
                     <div class="row">
                         <div class="col-md-6">
@@ -118,12 +118,12 @@
                             </div>
                         </div>
                     </div>
-                </div>
-                <div class="card-footer">
+                {{-- </div>
+                <div class="card-footer"> --}}
                     <button class="btn btn-primary"><i class='fa fa-save'></i> Guardar</button>
-                </div>
+                {{-- </div> --}}
                 {!! Form::close() !!}
-            </div>
+            {{-- </div> --}}
         </div>
     </div>
 @stop

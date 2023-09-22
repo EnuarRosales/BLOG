@@ -5,11 +5,11 @@
 @endsection
 
 @section('page-title')
-    <a href="{{route('admin.users.index')}}">Personal-Usuarios</a>
+    <a href="{{ route('admin.users.index') }}">Personal-Usuarios</a>
 @endsection
 
 @section('content_header')
-    <h2>Editar Usuario</h2>
+    <h2 class="ml-3">Editar Usuario</h2>
 @stop
 
 @section('styles')
@@ -25,8 +25,8 @@
                     <strong>{{ session('info') }}</strong>
                 </div>
             @endif
-            <div class="card">
-                <div class="card-body">
+            {{-- <div class="card">
+                <div class="card-body"> --}}
                     {!! Form::model($user, ['route' => ['admin.users.update', $user], 'method' => 'put']) !!}
                     <div class="form-group">
 
@@ -113,7 +113,22 @@
                             <br>
                         @enderror
 
-                        <div class="mt-2">
+
+                        <div class="n-chk mt-3">
+                            <label class="new-control new-radio new-radio-text radio-primary">
+                                <input type="radio" class="new-control-input" name="active" id="active_yes"
+                                    value="1" {{ old('active', $user->active) ? 'checked' : '' }}>
+                                <span class="new-control-indicator"></span><span class="new-radio-content">Activo</span>
+                            </label>
+
+                            <label class="new-control new-radio new-radio-text radio-danger">
+                                <input type="radio" class="new-control-input" name="active" id="active_no" value="0"
+                                    {{ old('active', $user->active) ? '' : 'checked' }}>
+                                <span class="new-control-indicator"></span><span class="new-radio-content">Inactivo</span>
+                            </label>
+                        </div>
+
+                        {{-- <div class="mt-2">
                             <div class="form-check form-check-inline radio radio-success custom-radio">
                                 <input type="radio" name="active" id="active_yes" value="1"
                                     {{ old('active', $user->active) ? 'checked' : '' }}>
@@ -128,14 +143,14 @@
                                     Inactivo
                                 </label>
                             </div>
-                        </div>
+                        </div> --}}
 
                     </div>
                     {!! Form::submit('Actualizar Usuario', ['class' => 'btn btn-primary']) !!}
-                    <a class="btn btn-secondary btn " href="{{ route('admin.users.rol', $user) }}">Asignar Rol</a>
+                    <a class="btn btn-info" href="{{ route('admin.users.rol', $user) }}">Asignar Rol</a>
                     {!! Form::close() !!}
-                </div>
-            </div>
+                {{-- </div>
+            </div> --}}
         </div>
     </div>
 @stop

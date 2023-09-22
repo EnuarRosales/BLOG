@@ -9,6 +9,10 @@
                 <line x1="3" y1="18" x2="21" y2="18"></line>
             </svg></a>
 
+        <div class="ml-4 mt-2">
+            <h5>@yield('page-title')</h5>
+        </div>
+
         <ul class="navbar-item flex-row ml-auto">
 
             <li class="nav-item dropdown user-profile-dropdown  order-lg-0 order-1">
@@ -26,14 +30,15 @@
                     aria-labelledby="userProfileDropdown">
                     <div class="user-profile-section">
                         <div class="media mx-auto">
-                            <img src="assets/img/90x90.jpg" class="img-fluid mr-2" alt="avatar">
+                            <img src="{{asset('template/assets/img/90x90.jpg')}}" class="img-fluid mr-2" alt="avatar">
                             <div class="media-body">
-                                <h5>Alan Green</h5>
-                                <p>Web Developer</p>
+                                <h5>{{Auth::user()->name}}</h5>
+                                <p>{{ Auth::user()->roles[0]['name'] }}</p>
+
                             </div>
                         </div>
                     </div>
-                    <div class="dropdown-item">
+                    {{-- <div class="dropdown-item">
                         <a href="user_profile.html">
                             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
                                 fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
@@ -65,7 +70,7 @@
                                 <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
                             </svg> <span>Lock Screen</span>
                         </a>
-                    </div>
+                    </div> --}}
                     <div class="dropdown-item">
                         <form action="{{ route('logout') }}" method="post">
                             @csrf

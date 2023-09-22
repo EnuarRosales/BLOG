@@ -25,9 +25,7 @@
     <div class="col-xl-12 col-lg-12 col-sm-12  layout-spacing">
         <div class="widget-content widget-content-area br-6">
             <div class="row g-2">
-                <div class="col">
-                    @yield('content_header')
-                </div>
+
                 <div class="col">
                     {{-- <a class="btn btn-success float-right" href="{{ route('admin.empresa.create') }}">Agregar Empresa</a> --}}
                     <a class="btn btn-primary float-right mr-4" href="{{ route('admin.impuestos.create') }}">Agregar
@@ -76,8 +74,12 @@
 
                                     <td>
                                         <div class="form-check">
-                                            <input class="form-check-input" type="radio" name="pruba" id="radio1">
-                                            <label class="form-check-label" for="radio1">{{ $impuesto->estado }}</label>
+                                            <label class="new-control new-radio radio-success">
+                                                <input type="radio" class="new-control-input" name="pruba" id="radio1">
+                                                <span class="new-control-indicator"></span>{{ $impuesto->estado }}
+                                            </label>
+                                            {{-- <input class="form-check-input" type="radio"
+                                            <label class="form-check-label" for="radio1"></label> --}}
                                         </div>
 
                                     </td>
@@ -191,7 +193,7 @@
                             // Crear un formulario dinámicamente
                             const formulario = document.createElement('form');
                             formulario.action =
-                            `impuestos/${registroId}`; // Ruta de eliminación
+                                `impuestos/${registroId}`; // Ruta de eliminación
                             formulario.method = 'POST'; // Método POST
                             formulario.style.display = 'none'; // Ocultar el formulario
 

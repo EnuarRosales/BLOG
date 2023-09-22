@@ -13,9 +13,9 @@
 
 @foreach ($permissions as $permission)
     <div>
-        <label>
-            {!! Form::checkbox('permissions[]', $permission->id, null, ['class' => 'mr-1']) !!}
-            {{ $permission->description }}
+        <label class="new-control new-checkbox checkbox-primary">
+            {!! Form::checkbox('permissions[]', $permission->id, null, ['class' => 'new-control-input']) !!}
+            <span class="new-control-indicator"></span>{{ $permission->description }}
         </label>
     </div>
 @endforeach

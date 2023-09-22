@@ -30,9 +30,6 @@
             @endif
             <div class="row g-2">
                 <div class="col">
-                    @yield('content_header')
-                </div>
-                <div class="col">
                     <a class="btn btn-primary float-right mr-4" href="{{ route('admin.empresa.create') }}">Agregar
                         Empresa</a>
                     {{-- <a class="" href="{{ route('admin.tenants.create') }}">Agregar Inquilino</a> --}}

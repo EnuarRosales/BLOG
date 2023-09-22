@@ -9,7 +9,7 @@
 @endsection
 
 @section('content_header')
-    <h2>Editar Tipo Usuario</h2>
+    <h2 class="ml-3">Editar Tipo Usuario</h2>
 @stop
 @section('content')
 
@@ -20,8 +20,7 @@
                     <strong>{{ session('info') }}</strong>
                 </div>
             @endif
-            <div class="card">
-                <div class="card-body">
+
                     {!! Form::model($tipoUsuario, ['route' => ['admin.tipoUsuarios.update', $tipoUsuario], 'method' => 'put']) !!}
 
                     <div class="form-group">
@@ -54,8 +53,7 @@
                     </div>
                     {!! Form::submit('Actualizar Categoria', ['class' => 'btn btn-primary']) !!}
                     {!! Form::close() !!}
-                </div>
-            </div>
+
         </div>
     </div>
 @stop

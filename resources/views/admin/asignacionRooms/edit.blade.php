@@ -9,7 +9,7 @@
 @endsection
 
 @section('content_header')
-    <h1>Editar asignacion rooms</h1>
+    <h2 class="ml-3">Editar asignacion rooms</h2>
 @stop
 
 @section('content')
@@ -20,8 +20,8 @@
                     <strong>{{ session('info') }}</strong>
                 </div>
             @endif
-            <div class="card">
-                <div class="card-body">
+            {{-- <div class="card">
+                <div class="card-body"> --}}
                     {!! Form::model($asignacionRoom, [
                         'route' => ['admin.asignacionRooms.update', $asignacionRoom],
                         'method' => 'put',
@@ -54,8 +54,8 @@
                     </div>
                     {!! Form::submit('Actualizar Asignacion Room', ['class' => 'btn btn-primary']) !!}
                     {!! Form::close() !!}
-                </div>
-            </div>
+                {{-- </div>
+            </div> --}}
         </div>
     </div>
 

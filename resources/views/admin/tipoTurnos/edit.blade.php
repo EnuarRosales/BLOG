@@ -10,7 +10,7 @@
 @endsection
 
 @section('content_header')
-    <h2>Editar tipo turno</h2>
+    <h2 class="ml-3">Editar tipo turno</h2>
 @stop
 
 @section('content')
@@ -22,8 +22,7 @@
                     <strong>{{ session('info') }}</strong>
                 </div>
             @endif
-            <div class="card">
-                <div class="card-body">
+
                     {!! Form::model($tipoTurno, ['route' => ['admin.tipoTurnos.update', $tipoTurno], 'method' => 'put']) !!}
 
                     <div class="form-group">
@@ -59,8 +58,7 @@
                     </div>
                     {!! Form::submit('Actualizar Tipo Turno', ['class' => 'btn btn-primary']) !!}
                     {!! Form::close() !!}
-                </div>
-            </div>
+
         </div>
     </div>
 

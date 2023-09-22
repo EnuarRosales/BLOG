@@ -9,7 +9,7 @@
                 App.init();
             });
         </script>
-
+    <script src="{{ asset('template/plugins/highlight/highlight.pack.js') }}"></script>
         <script src="{{ asset('template/assets/js/app.js') }}"></script>
 
         <script src="{{ asset('template/assets/js/custom.js') }}"></script>

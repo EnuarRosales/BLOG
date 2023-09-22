@@ -189,7 +189,7 @@ code {
   max-width: 58.333333%;
   margin-left: 80px; }
 
-/* 
+/*
 =====================
     Navigation Bar
 =====================
@@ -741,7 +741,7 @@ code {
 .navbar .navbar-item .nav-item.cs-toggle .nav-link span {
   color: #888ea8; }
 
-/* 
+/*
 ===============
     Sidebar
 ===============
@@ -905,7 +905,7 @@ code {
   justify-content: space-between;
   cursor: pointer;
   font-size: 13px;
-  color: #888ea8;
+  color: #212529;
   padding: 9px 20px;
   font-weight: 600;
   transition: .600s; }
@@ -1092,7 +1092,7 @@ code {
   -webkit-animation-name: e-fadeInUp;
   animation-name: e-fadeInUp; }
 
-/*  
+/*
     ======================
         MEDIA QUERIES
     ======================

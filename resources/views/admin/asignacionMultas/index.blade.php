@@ -10,7 +10,7 @@
 @endsection
 
 @section('content_header')
-    <h2>Lista multas</h2>
+    <h2 class="ml-3">Lista multas</h2>
 @stop
 
 @section('styles')
@@ -25,9 +25,9 @@
     <div class="col-xl-12 col-lg-12 col-sm-12  layout-spacing">
         <div class="widget-content widget-content-area br-6">
             <div class="row g-2">
-                <div class="col">
+                {{-- <div class="col">
                     @yield('content_header')
-                </div>
+                </div> --}}
                 <div class="col">
                     @can('admin.registroMultas.create')
                         <a class="btn btn-primary float-right mr-4" href="{{ route('admin.asignacionMultas.create') }}">Agregar

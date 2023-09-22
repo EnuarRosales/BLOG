@@ -26,12 +26,9 @@
     <div class="col-xl-12 col-lg-12 col-sm-12  layout-spacing">
         <div class="widget-content widget-content-area br-6">
             <div class="row g-2">
-                <div class="col">
-                    @yield('content_header')
-                </div>
-                <div class="col">
+                {{-- <div class="col">
                     <a class="btn btn-primary float-right" href="{{ route('admin.paginas.create') }}">Agregar Pagina</a>
-                </div>
+                </div> --}}
             </div>
             <div class="table-responsive mb-4 mt-4">
                 <table id="html5-extension" class="table table-hover non-hover" style="width:100%">

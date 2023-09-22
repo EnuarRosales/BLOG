@@ -10,14 +10,14 @@
 @endsection
 
 @section('content_header')
-    <h2>Crear Rol</h2>
+    <h2 class="ml-3">Crear Rol</h2>
 @stop
 
 @section('content')
     <div class="col-xl-12 col-lg-12 col-sm-12  layout-spacing">
         <div class="widget-content widget-content-area br-6">
-            <div class="card">
-                <div class="card-body">
+            {{-- <div class="card">
+                <div class="card-body"> --}}
 
                     {!! Form::open(['route' => 'admin.roles.store']) !!}
                     {{-- reutilizacdiond de codigo gracias al partial ya que se va a usar en varias partes --}}
@@ -28,9 +28,9 @@
 
                     {!! Form::close() !!}
 
-                </div>
+                {{-- </div>
 
-            </div>
+            </div> --}}
         </div>
     </div>
 @stop

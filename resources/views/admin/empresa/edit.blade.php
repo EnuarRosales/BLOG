@@ -10,15 +10,15 @@
 @endsection
 
 @section('content_header')
-    <h1>Empresa</h1>
+    <h2 class="ml-3">Empresa</h2>
 @stop
 
 @section('content')
 
     <div class="col-xl-12 col-lg-12 col-sm-12  layout-spacing">
         <div class="widget-content widget-content-area br-6">
-            <div class="card">
-                <div class="card-body">
+            {{-- <div class="card">
+                <div class="card-body"> --}}
                     {!! Form::model($empresa, ['route' => ['admin.empresa.update', $empresa], 'method' => 'put', 'files' => true]) !!}
                     <div class="row">
                         <div class="col-md-6">
@@ -123,12 +123,12 @@
                             </div>
                         </div>
                     </div>
-                </div>
-                <div class="card-footer">
+                {{-- </div> --}}
+                {{-- <div class="card-footer"> --}}
                     <button class="btn btn-primary"><i class='fa fa-save'></i> Actualizar</button>
-                </div>
+                {{-- </div> --}}
                 {!! Form::close() !!}
-            </div>
+            {{-- </div> --}}
         </div>
     </div>
 @stop

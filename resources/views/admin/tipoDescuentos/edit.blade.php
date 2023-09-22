@@ -10,7 +10,7 @@
 @endsection
 
 @section('content_header')
-    <h1>Editar tipo descuentos</h1>
+    <h2 class="ml-3">Editar tipo descuentos</h2>
 @stop
 
 @section('content')
@@ -21,8 +21,7 @@
                     <strong>{{ session('info') }}</strong>
                 </div>
             @endif
-            <div class="card">
-                <div class="card-body">
+
                     {!! Form::model($tipoDescuento, ['route' => ['admin.tipoDescuentos.update', $tipoDescuento], 'method' => 'put']) !!}
 
                     <div class="form-group">
@@ -37,8 +36,7 @@
                     </div>
                     {!! Form::submit('Actualizar Tipo Descuento', ['class' => 'btn btn-primary']) !!}
                     {!! Form::close() !!}
-                </div>
-            </div>
+
         </div>
     </div>
 @stop

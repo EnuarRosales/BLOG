@@ -26,9 +26,6 @@
         <div class="widget-content widget-content-area br-6">
             <div class="row g-2">
                 <div class="col">
-                    @yield('content_header')
-                </div>
-                <div class="col">
                     <a class="btn btn-primary float-right mr-4" href="{{ route('admin.tipoTurnos.create') }}">Agregar tipo
                         turno</a>
                 </div>

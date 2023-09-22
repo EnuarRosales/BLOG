@@ -10,15 +10,14 @@
 @endsection
 
 @section('content_header')
-    <h2>Editar Meta Modelo</h2>
+    <h2 class="ml-3">Editar Meta Modelo</h2>
 @stop
 
 @section('content')
     <div class="col-xl-12 col-lg-12 col-sm-12  layout-spacing">
         <div class="widget-content widget-content-area br-6">
 
-            <div class="card">
-                <div class="card-body">
+
                     {!! Form::model($metaModelo, ['route' => ['admin.metaModelos.update', $metaModelo], 'method' => 'put']) !!}
                     <div class="form-group">
                         {!! Form::label('mayorQue', 'MayorQue') !!}
@@ -43,9 +42,7 @@
 
                     {!! Form::close() !!}
 
-                </div>
 
-            </div>
         </div>
     </div>
 

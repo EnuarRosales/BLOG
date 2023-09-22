@@ -10,7 +10,7 @@
 @endsection
 
 @section('content_header')
-    <h2>Resumen produccion</h2>
+    <h2 class="ml-3">Resumen produccion</h2>
 
 @stop
 @section('styles')
@@ -28,7 +28,7 @@
 
     <div class="col-xl-12 col-lg-12 col-sm-12  layout-spacing">
         <div class="widget-content widget-content-area br-6">
-            <div class="card">
+            {{-- <div class="card">
                 <div class="card-body">
                     <div class="row">
                         <div class="col">
@@ -38,7 +38,7 @@
                     </div>
 
                 </div>
-            </div>
+            </div> --}}
 
             <div class="table-responsive mb-4 mt-4">
 
@@ -59,14 +59,16 @@
                     </thead>
                     <tbody>
                         @foreach ($fechas as $fecha)
-                            <tr
-                                @if ($fecha->suma - $fecha->meta->valor / $fecha->meta->dias > 0) class="table-success"
-                        @else @endif>
+                            <tr>
                                 <td>{{ $fecha->fecha }}</td>
                                 <td>{{ $fecha->meta->nombre }}</td>
-                                <td>{{ "$ " }}{{ round($fecha->meta->valor / $fecha->meta->dias, 2) }}</td>
+                                <td>
+                                    {{ "$ " }}{{ round($fecha->meta->valor / $fecha->meta->dias, 2) }}</td>
                                 <td>{{ "$ " }}{{ round($fecha->suma, 2) }}</td>
-                                <td>{{ "$ " }}{{ round($fecha->suma - $fecha->meta->valor / $fecha->meta->dias, 2) }}
+                                <td  @if ($fecha->suma - $fecha->meta->valor / $fecha->meta->dias > 0) class="badge badge-success mt-2"
+                            @else
+                            class="badge badge-danger mt-2"
+                            @endif>{{ "$ " }}{{ round($fecha->suma - $fecha->meta->valor / $fecha->meta->dias, 2) }}
                                 </td>
                                 <td>
                                     @if ($fecha->suma - $fecha->meta->valor / $fecha->meta->dias > 0)
@@ -102,10 +104,10 @@
 
                                 </td>
                                 <td
-                                    @if ($saldo > 0) class="bg-success"
+                                    @if ($saldo > 0) class="badge badge-success mt-2"
 
                             @else
-                            class="bg-danger" @endif>
+                            class="badge badge-danger mt-3" @endif>
                                     {{ "$ " }}{{ round($saldo, 2) }}
 
                                 </td>

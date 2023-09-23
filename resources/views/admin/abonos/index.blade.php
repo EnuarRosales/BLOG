@@ -47,59 +47,28 @@
                     <table id="html5-extension" class="table table-hover non-hover" style="width:100%">
                         <thead>
                             <tr>
-                                <th>ID</th>
+                                <th>Valor</th>
+                                <th>Descripcion</th>
                                 <th>Fecha</th>
-                                <th>Monto a Descuentar</th>
-                                <th>Monto Descontado</th>
-                                <th>Saldo</th>
-                                <th>Tipo Descuento</th>
-                                <th>Usuario</th>
-                                @can('admin.registroDescuentos.total')
-                                    <th>Descontar</th>
-                                @endcan
-                                @can('admin.registroDescuentos.parcial')
-                                    <th>Descontar</th>
-                                @endcan
-                                @can('admin.registroDescuentos.edit')
-                                    <th>Editar</th>
-                                @endcan
-                                @can('admin.registroDescuentos.destroy')
-                                    <th>Eliminar</th>
-                                @endcan
+
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach ($registroDescuentos as $registroDescuento)
-                                @if (auth()->user()->hasRole('Administrador'))
-                                    @include('admin.registroDescuentos.partials.table')
-                                @elseif (auth()->user()->hasRole('Monitor'))
-                                    @include('admin.registroDescuentos.partials.table')
-                                @elseif($registroDescuento->user->id == $userLogueado)
-                                    @include('admin.registroDescuentos.partials.table')
-                                @endif
+                            @foreach ($abonos as $abono)
+                                <tr>
+                                    <td>{{ $abono->valor }}</td>
+                                    <td>{{ $abono->descripcion }}</td>
+                                    <td>{{ $abono->created_at }}</td>
+
+                                </tr>
                             @endforeach
                         </tbody>
                         <tfoot>
                             <tr>
-                                <th>ID</th>
+                                <th>Valor</th>
+                                <th>Descripcion</th>
                                 <th>Fecha</th>
-                                <th>Monto a Descuentar</th>
-                                <th>Monto Descontado</th>
-                                <th>Saldo</th>
-                                <th>Tipo Descuento</th>
-                                <th>Usuario</th>
-                                @can('admin.registroDescuentos.total')
-                                    <th>Descontar</th>
-                                @endcan
-                                @can('admin.registroDescuentos.parcial')
-                                    <th>Descontar</th>
-                                @endcan
-                                @can('admin.registroDescuentos.edit')
-                                    <th>Editar</th>
-                                @endcan
-                                @can('admin.registroDescuentos.destroy')
-                                    <th>Eliminar</th>
-                                @endcan
+
                             </tr>
                         </tfoot>
 
@@ -136,14 +105,7 @@
 
 
                         <tbody>
-                            @foreach ($abonos as $abono)
-                                <tr>
-                                    <td>{{ $abono->valor }}</td>
-                                    <td>{{ $abono->descripcion }}</td>
-                                    <td>{{ $abono->created_at }}</td>
 
-                                </tr>
-                            @endforeach
                         </tbody>
                     </table>
                 </div>

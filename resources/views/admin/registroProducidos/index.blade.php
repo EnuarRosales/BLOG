@@ -39,6 +39,8 @@
                 <div class="col">
 
 
+
+
                     @can('admin.registroProduccion.create')
                         <a class="btn btn-primary float-right mr-3"
                             href="{{ route('admin.registroProducidos.create') }}">Agregar

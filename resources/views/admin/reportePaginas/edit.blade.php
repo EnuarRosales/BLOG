@@ -1,14 +1,21 @@
-@extends('adminlte::page')
+@extends('template.index')
 
-@section('title', 'Dashboard')
+@section('tittle-tab')
+    Reporte de paginas
+@endsection
+
+@section('page-title')
+    <a href="{{ route('admin.reportePaginas.index') }}">Reporte de paginas</a>
+
+@endsection
 
 @section('content_header')
-    <h1>Editar Reporte</h1>
+    <h2 class="ml-3">Editar Reporte</h2>
 @stop
 
 @section('content')
-    <div class="card">
-        <div class="card-body">            
+    <div class="col-xl-12 col-lg-12 col-sm-12  layout-spacing">
+        <div class="widget-content widget-content-area br-6">
             {!! Form::model($reportePagina, ['route' => ['admin.reportePaginas.update', $reportePagina],'method' => 'put',]) !!}
             <div class="form-group">
                 {!! Form::label('fecha', 'Fecha') !!}
@@ -19,7 +26,7 @@
                     <br>
                     <span class="text-danger">{{ $message }}</span>
                     <br>
-                @enderror               
+                @enderror
 
                 {!! Form::label('user_id', 'Modelo') !!}
                 {!! Form::select('user_id', $users->pluck('name', 'id'), null, [
@@ -30,7 +37,7 @@
                     <br>
                     <span class="text-danger">{{$message}}</span>
                     <br>
-                @enderror    
+                @enderror
                 {!! Form::label('pagina_id', 'Pagina') !!}
                 {!! Form::select('pagina_id', $paginas->pluck('nombre', 'id'), null, [
                     'class' => 'form-control',
@@ -48,7 +55,7 @@
                     <br>
                     <span class="text-danger">{{ $message }}</span>
                     <br>
-                @enderror     
+                @enderror
 
                 {!! Form::label('TRM', 'TRM') !!}
                 {!! Form::number('TRM', null, ['class' => 'form-control', ]) !!}
@@ -56,7 +63,7 @@
                     <br>
                     <span class="text-danger">{{ $message }}</span>
                     <br>
-                @enderror 
+                @enderror
 
 
             </div>

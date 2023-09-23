@@ -10,7 +10,7 @@
 @endsection
 
 @section('content_header')
-    <h2>Listado de Reportes Paginas </h2>
+    <h2 class="ml-3">Listado de Reportes Paginas </h2>
 @stop
 
 @section('styles')
@@ -31,11 +31,8 @@
         <div class="widget-content widget-content-area br-6">
             <div class="row">
                 <div class="col">
-                    @yield('content_header')
-                </div>
-                <div class="col">
                     <a class="btn btn-primary float-right mr-4" href="{{ route('admin.reportePaginas.index') }}">Volver</a>
-                    <a class="btn btn-success float-right mr-2" href="{{ route('admin.pagos.enviarPago') }}">Enviar Pagos</a>
+                    <a class="btn btn-info float-right mr-2" href="{{ route('admin.pagos.enviarPago') }}">Enviar Pagos</a>
                     {{-- <a class="btn btn-dark float-right mr-4" href="{{ route('admin.reportePaginas.index') }}">Volver</a> --}}
 
 
@@ -207,10 +204,6 @@
 
 @stop
 
-@section('css')
-<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.13.4/css/jquery.dataTables.min.css" />
-<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/buttons/2.3.6/css/buttons.dataTables.min.css" />
-@stop
 
 @section('js')
 <script src="{{ asset('template/plugins/table/datatable/datatables.js') }}"></script>
@@ -259,10 +252,7 @@
 <script>
     console.log('Hi!');
 </script>
-<script src="https://code.jquery.com/jquery-3.5.1.js"></script>
-<script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
-<script src="https://cdn.datatables.net/1.13.4/js/dataTables.bootstrap5.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
 
 
 
@@ -280,7 +270,7 @@
 <script>
     Swal.fire({
         position: 'top-end',
-        icon: 'success',
+        type: 'success',
         title: 'Descuento registrado correctamente',
         showConfirmButton: false,
         timer: 2000
@@ -290,7 +280,7 @@
 <script>
     Swal.fire({
         position: 'top-end',
-        icon: 'success',
+        type: 'success',
         title: 'Pagos enviados exitosamente',
         showConfirmButton: false,
         timer: 2000
@@ -300,7 +290,7 @@
 <script>
     Swal.fire({
         position: 'top-end',
-        icon: 'warning',
+        type: 'warning',
         title: 'No hay saldo que descontar',
         showConfirmButton: false,
         timer: 2000
@@ -310,7 +300,7 @@
 <script>
     Swal.fire({
         position: 'top-end',
-        icon: 'success',
+        type: 'success',
         title: 'Descuento correctamente',
         showConfirmButton: false,
         timer: 2000
@@ -325,7 +315,7 @@
         Swal.fire({
             title: '¿Estas Seguro?',
             text: "¡Este registro se eliminara definitivamente!",
-            icon: 'warning',
+            type: 'warning',
             showCancelButton: true,
             confirmButtonColor: '#3085d6',
             cancelButtonColor: '#d33',

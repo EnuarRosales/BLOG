@@ -10,7 +10,7 @@
 @endsection
 
 @section('content_header')
-    <h2>Listado de Descuentos </h2>
+    <h2 class="ml-3">Listado de Descuentos </h2>
 @stop
 
 @section('styles')
@@ -29,23 +29,20 @@
 
     <div class="col-xl-12 col-lg-12 col-sm-12  layout-spacing">
         <div class="widget-content widget-content-area br-6">
-            <div class="card">
-                <div class="card-body">
-                    <div class="row">
-                        <div class="col">
-                            @yield('content_header')
-                        </div>
-                        <div class="col">
-                            @can('admin.registroDescuentos.create')
-                                <a class="btn btn-primary float-right mr-3"
-                                    href="{{ route('admin.registroDescuentos.create') }}">Agregar
-                                    Descuento</a>
-                            @endcan
-                        </div>
-                    </div>
 
+            <div class="row">
+
+                <div class="col">
+                    @can('admin.registroDescuentos.create')
+                        <a class="btn btn-primary float-right mr-4"
+                            href="{{ route('admin.registroDescuentos.create') }}">Agregar
+                            Descuento</a>
+                    @endcan
                 </div>
             </div>
+
+
+
 
             <div class="table-responsive mb-4 mt-4">
 

@@ -9500,7 +9500,8 @@ a.text-dark:hover {
 }
 /*# sourceMappingURL=bootstrap.min.css.map */
 .custom-width-20 {
-    width: 4.5rem !important;
+    width: fit-content;
+    color: #b4b5c4 !important;
 }
 
 tbody tr {

@@ -25,9 +25,18 @@
     <div class="col-xl-12 col-lg-12 col-sm-12  layout-spacing">
         <div class="widget-content widget-content-area br-6">
             <div class="row g-2">
-                {{-- <div class="col">
-                    @yield('content_header')
-                </div> --}}
+                <div class="col">
+                    <div style="display: flex;">
+                        <label class="mt-2 ml-3 mr-1">Registros :</label>
+                        <select id="records-per-page" class="form-control custom-width-20">
+                            <!-- Agregamos la clase form-control-sm -->
+                            <option value="7">7</option>
+                            <option value="10">10</option>
+                            <option value="20">20</option>
+                            <option value="50">50</option>
+                        </select>
+                    </div>
+                </div>
                 <div class="col">
                     @can('admin.registroMultas.create')
                         <a class="btn btn-primary float-right mr-4" href="{{ route('admin.asignacionMultas.create') }}">Agregar
@@ -97,7 +106,7 @@
     <script src="{{ asset('template/plugins/table/datatable/button-ext/buttons.html5.min.js') }}"></script>
     <script src="{{ asset('template/plugins/table/datatable/button-ext/buttons.print.min.js') }}"></script>
     <script>
-        $('#html5-extension').DataTable({
+        var table = $('#html5-extension').DataTable({
             dom: '<"row"<"col-md-12"<"row"<"col-md-6"B><"col-md-6"f> > ><"col-md-12"rt> <"col-md-12"<"row"<"col-md-5"i><"col-md-7"p>>> >',
             buttons: {
                 buttons: [{
@@ -126,12 +135,78 @@
                 "sInfo": "Página _PAGE_ de _PAGES_",
                 "sSearch": '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-search"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>',
                 "sSearchPlaceholder": "Buscar...",
-                "sLengthMenu": "Results :  _MENU_",
+                "sLengthMenu": "Mostrar _MENU_ resultados por página",
             },
             "stripeClasses": [],
             "lengthMenu": [7, 10, 20, 50],
             "pageLength": 7
         });
+
+        // Vincular eventos de clic para eliminar
+        function bindDeleteEvents() {
+            document.querySelectorAll('.eliminar-registro').forEach(botonEliminar => {
+                botonEliminar.addEventListener('click', function(e) {
+                    e.preventDefault();
+
+                    const asignacionMultaId = this.getAttribute('data-asignacionMulta-id');
+
+
+
+                    Swal.fire({
+                        title: '¿Estás seguro?',
+                        text: '¡Este registro se eliminará definitivamente!',
+                        type: 'warning',
+                        showCancelButton: true,
+                        confirmButtonColor: '#3085d6',
+                        cancelButtonColor: '#d33',
+                        confirmButtonText: '¡Sí, eliminar!',
+                        cancelButtonText: '¡Cancelar!',
+                        preConfirm: () => {
+                            // Crear un formulario dinámicamente
+                            const formulario = document.createElement('form');
+                            formulario.action =
+                                `asignacionMultas/${asignacionMultaId}`; // Ruta de eliminación
+                            formulario.method = 'POST'; // Método POST
+                            formulario.style.display = 'none'; // Ocultar el formulario
+
+                            // Agregar el token CSRF al formulario
+                            const tokenField = document.createElement('input');
+                            tokenField.type = 'hidden';
+                            tokenField.name = '_token';
+                            tokenField.value = '{{ csrf_token() }}';
+                            formulario.appendChild(tokenField);
+
+                            // Agregar un campo oculto para indicar que es una solicitud de eliminación
+                            const methodField = document.createElement('input');
+                            methodField.type = 'hidden';
+                            methodField.name = '_method';
+                            methodField.value = 'DELETE';
+                            formulario.appendChild(methodField);
+
+                            // Adjuntar el formulario al documento y enviarlo
+                            document.body.appendChild(formulario);
+                            formulario.submit();
+
+                            return true;
+                        },
+                    });
+                });
+            });
+        }
+
+        // Volver a vincular eventos de clic después de cada redibujo
+        table.on('draw.dt', function() {
+            bindDeleteEvents();
+        });
+
+        // Detectar cambios en el select
+        $('#records-per-page').change(function() {
+            var newLength = $(this).val();
+            table.page.len(newLength).draw();
+        });
+
+        // Vincular eventos de clic para eliminar inicialmente
+        bindDeleteEvents();
     </script>
     <script>
         console.log('Hi!');
@@ -169,78 +244,5 @@
         </script>
     @endif
 
-    <script>
-        document.querySelectorAll('.eliminar-registro').forEach(botonEliminar => {
-            botonEliminar.addEventListener('click', function(e) {
-                e.preventDefault();
-
-                const asignacionMultaId = this.getAttribute('data-asignacionMulta-id');
-
-                Swal.fire({
-                    title: '¿Estás seguro?',
-                    text: '¡Este registro se eliminará definitivamente!',
-                    type: 'warning',
-                    showCancelButton: true,
-                    confirmButtonColor: '#3085d6',
-                    cancelButtonColor: '#d33',
-                    confirmButtonText: '¡Sí, eliminar!',
-                    cancelButtonText: '¡Cancelar!',
-                    preConfirm: () => {
-                        // Crear un formulario dinámicamente
-                        const formulario = document.createElement('form');
-                        formulario.action =
-                        `asignacionMultas/${asignacionMultaId}`; // Ruta de eliminación
-                        formulario.method = 'POST'; // Método POST
-                        formulario.style.display = 'none'; // Ocultar el formulario
-
-                        // Agregar el token CSRF al formulario
-                        const tokenField = document.createElement('input');
-                        tokenField.type = 'hidden';
-                        tokenField.name = '_token';
-                        tokenField.value = '{{ csrf_token() }}';
-                        formulario.appendChild(tokenField);
-
-                        // Agregar un campo oculto para indicar que es una solicitud de eliminación
-                        const methodField = document.createElement('input');
-                        methodField.type = 'hidden';
-                        methodField.name = '_method';
-                        methodField.value = 'DELETE';
-                        formulario.appendChild(methodField);
-
-                        // Adjuntar el formulario al documento y enviarlo
-                        document.body.appendChild(formulario);
-                        formulario.submit();
-
-                        return true;
-                    },
-                });
-            });
-        });
-    </script>
-
-
-
-    {{-- DATATATABLE --}}
-    <script>
-        $(document).ready(function() {
-            $('#asignacionMultas').DataTable({
-                dom: 'Blfrtip',
-
-                buttons: [
-                    'copy', 'csv', 'excel', 'pdf', 'print'
-                ]
-            });
-
-        });
-    </script>
-
-    <script type="text/javascript" src="https://code.jquery.com/jquery-3.5.1.js"></script>
-    <script type="text/javascript" src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
-    <script type="text/javascript" src="https://cdn.datatables.net/buttons/2.3.6/js/dataTables.buttons.min.js"></script>
-    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
-    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/pdfmake.min.js"></script>
-    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js"></script>
-    <script type="text/javascript" src="https://cdn.datatables.net/buttons/2.3.6/js/buttons.html5.min.js"></script>
-    <script type="text/javascript" src="https://cdn.datatables.net/buttons/2.3.6/js/buttons.print.min.js"></script>
 
 @stop

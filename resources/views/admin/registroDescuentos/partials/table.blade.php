@@ -12,25 +12,30 @@
         {{ $registroDescuento->saldo }}</td>
     <td>{{ $registroDescuento->tipoDescuento->nombre }}</td>
     <td>{{ $registroDescuento->user->name }}</td>
-    @can('admin.registroDescuentos.total')
+    @can(['admin.registroDescuentos.total', 'admin.registroDescuentos.parcial'])
         <td class="" width="10px">
-            <form action="{{ route('admin.abonos.abono', $registroDescuento) }}" method="POST">
-                @csrf
-                @method('PUT')
-                <button type="submit" class="btn btn-dark btn-sm">Total</button>
-            </form>
+            <div style="display: flex;">
+
+                <form action="{{ route('admin.abonos.abono', $registroDescuento) }}" method="POST">
+                    @csrf
+                    @method('PUT')
+                    <button type="submit" class="btn btn-success btn-sm">Total</button>
+                </form>
+
+                <a class="btn btn-info btn-sm"
+                    href="{{ route('admin.abonos.abonoParcial', $registroDescuento) }}">Parcial</a>
+            </div>
         </td>
     @endcan
 
-    @can('admin.registroDescuentos.parcial')
+    {{-- @can('admin.registroDescuentos.parcial')
         <td width="10px">
-            <a class="btn btn-secondary btn-sm"
-                href="{{ route('admin.abonos.abonoParcial', $registroDescuento) }}">Parcial</a>
+
         </td>
-    @endcan
+    @endcan --}}
 
     @can('admin.registroDescuentos.edit')
-        <td  width="10px">
+        <td width="10px">
             <a href="{{ route('admin.registroDescuentos.edit', $registroDescuento) }}" class="ml-4 rounded bs-tooltip"
                 data-placement="top" title="Editar">
                 <svg class="mr-4" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
@@ -44,13 +49,17 @@
     @endcan
 
     @can('admin.registroDescuentos.destroy')
-        <td class="bg-light" width="10px">
-            <form class="formulario-eliminar" action="{{ route('admin.registroDescuentos.destroy', $registroDescuento) }}"
-                method="POST">
-                @csrf
-                @method('delete')
-                <button type="submit" class="btn btn-dark btn-sm">Eliminar</button>
-            </form>
+        <td width="10px">
+            <a href="javascript:void(0);" class="ml-2 eliminar-registro rounded bs-tooltip" data-placement="top"
+                title="Eliminar" data-registroDescuento-id="{{ $registroDescuento->id }}">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                    stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                    class="feather feather-x-circle table-cancel">
+                    <circle cx="12" cy="12" r="10"></circle>
+                    <line x1="15" y1="9" x2="9" y2="15"></line>
+                    <line x1="9" y1="9" x2="15" y2="15"></line>
+                </svg>
+            </a>
         </td>
     @endcan
 </tr>

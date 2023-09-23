@@ -580,9 +580,6 @@ progress {
   vertical-align: baseline;
 }
 
-.custom-width-20{
-    width: 4.5rem !important;
-}
 [hidden] {
   display: none !important;
 }

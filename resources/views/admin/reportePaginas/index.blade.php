@@ -29,19 +29,18 @@
             <div class="row">
                 <div class="col ">
                     <div style="display: flex;">
-                        <label class="mt-2">Mostrar:</label>
-                        <select id="records-per-page" class="form-control form-control-sm custom-width-20">
+                        <label class="mt-2 ml-3 mr-1">Registros :</label>
+                        <select id="records-per-page" class="form-control custom-width-20">
                             <!-- Agregamos la clase form-control-sm -->
                             <option value="7">7</option>
                             <option value="10">10</option>
                             <option value="20">20</option>
                             <option value="50">50</option>
                         </select>
-                        <span class="ml-2 mt-2">registros por página</span>
                     </div>
                     <div class="mq-960">
 
-                        <a class="btn btn-info float-right"
+                        <a class="btn btn-info float-right mr-3"
                             href="{{ route('admin.reportePaginas.verificadoMasivo') }}">Verificado
                             Masivo</a>
 
@@ -113,13 +112,16 @@
                                     <td>{{ number_format($reportePagina->netoPesos, 2, '.', ',') }}</td>
                                     <td id={{ $reportePagina->verificado }}>
 
-                                        <div class="n-chk">
-                                            <label class="new-control new-checkbox new-checkbox-rounded checkbox-primary">
-                                                <input type="checkbox" {{ $reportePagina->verificado ? 'checked' : '' }}
-                                                    class="new-control-input">
-                                                <span class="new-control-indicator"></span> Estatus
-                                            </label>
-                                        </div>
+
+                                        <label class="switch s-icons s-outline s-outline-success mr-2">
+                                            <input type="checkbox" {{ $reportePagina->verificado ? 'checked' : '' }}>
+                                            <span class="slider round"></span>
+                                        </label>
+                                        {{-- <label class="new-control new-checkbox new-checkbox-rounded checkbox-primary">
+                                            <input type="checkbox"
+                                                class="new-control-input">
+                                            <span class="new-control-indicator"></span> Estatus
+                                        </label> --}}
                                         {{-- <input type="checkbox" class="new-control-input"
 
                                         data-id="{{ $reportePagina->id }}">

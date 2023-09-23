@@ -28,17 +28,23 @@
 
     <div class="col-xl-12 col-lg-12 col-sm-12  layout-spacing">
         <div class="widget-content widget-content-area br-6">
-            {{-- <div class="card">
-                <div class="card-body">
-                    <div class="row">
-                        <div class="col">
-                            @yield('content_header')
-                        </div>
 
+            <div class="row">
+                <div class="col">
+                    <div style="display: flex;">
+                        <label class="mt-2 ml-3 mr-1">Registros :</label>
+                        <select id="records-per-page" class="form-control custom-width-20">
+                            <!-- Agregamos la clase form-control-sm -->
+                            <option value="7">7</option>
+                            <option value="10">10</option>
+                            <option value="20">20</option>
+                            <option value="50">50</option>
+                        </select>
                     </div>
-
                 </div>
-            </div> --}}
+
+            </div>
+
 
             <div class="table-responsive mb-4 mt-4">
 
@@ -65,10 +71,11 @@
                                 <td>
                                     {{ "$ " }}{{ round($fecha->meta->valor / $fecha->meta->dias, 2) }}</td>
                                 <td>{{ "$ " }}{{ round($fecha->suma, 2) }}</td>
-                                <td  @if ($fecha->suma - $fecha->meta->valor / $fecha->meta->dias > 0) class="badge badge-success mt-2"
+                                <td
+                                    @if ($fecha->suma - $fecha->meta->valor / $fecha->meta->dias > 0) class="badge badge-success mt-2"
                             @else
-                            class="badge badge-danger mt-2"
-                            @endif>{{ "$ " }}{{ round($fecha->suma - $fecha->meta->valor / $fecha->meta->dias, 2) }}
+                            class="badge badge-danger mt-2" @endif>
+                                    {{ "$ " }}{{ round($fecha->suma - $fecha->meta->valor / $fecha->meta->dias, 2) }}
                                 </td>
                                 <td>
                                     @if ($fecha->suma - $fecha->meta->valor / $fecha->meta->dias > 0)
@@ -193,6 +200,12 @@
             "stripeClasses": [],
             "lengthMenu": [7, 10, 20, 50],
             "pageLength": 7
+        });
+
+        // Detectar cambios en el select
+        $('#records-per-page').change(function() {
+            var newLength = $(this).val();
+            table.page.len(newLength).draw();
         });
     </script>
     <script src="{{ asset('assets/libs/switchery/switchery.min.js') }}"></script>

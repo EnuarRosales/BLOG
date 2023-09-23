@@ -1,6 +1,6 @@
 {{-- <div class="form-group">
 
-    {!! Form::label('name', 'Nombre') !!}    
+    {!! Form::label('name', 'Nombre') !!}
     {!! Form::text('name', null, ['class' => 'form-control', 'placeholder' => 'Favor ingrese el nombre']) !!}
     @error('name')
         <br>
@@ -9,9 +9,9 @@
     @enderror
 </div> --}}
 
-
+{{--
 <div class="card">
-    <div class="card-body">
+    <div class="card-body"> --}}
         {!! Form::open(['route' => 'admin.abonos.store']) !!}
 
         <div class="form-group">
@@ -28,9 +28,9 @@
                 <br>
             @enderror
 
-            {!! Form::label('valor', 'Valor') !!}            
+            {!! Form::label('valor', 'Valor') !!}
             {!! Form::number('valor', null, [
-                'class' => 'form-control', 'placeholder' => 'Favor ingrese un valor'                
+                'class' => 'form-control', 'placeholder' => 'Favor ingrese un valor'
             ]) !!}
 
             @error('valor')
@@ -53,7 +53,7 @@
 
             {{-- {!! Form::label('montoDescuento', 'Monto Descuento') !!}
             {!! Form::number('montoDescuento',null, [
-                'class' => 'form-control',                    
+                'class' => 'form-control',
             ]) !!}
             @error('montoDescuento')
                 <br>
@@ -75,5 +75,5 @@
         </div>
         {!! Form::submit('Realizar abono', ['class' => 'btn btn-primary']) !!}
         {!! Form::close() !!}
-    </div>
-</div>
+    {{-- </div>
+</div> --}}

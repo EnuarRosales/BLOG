@@ -976,12 +976,12 @@ code {
   justify-content: space-between;
   padding: 10px 12px 10px 48px;
   padding-left: 24px;
-  margin-left: 40px;
+  margin-left: 28px;
   font-size: 13px;
   font-weight: 600;
   color: #515365; }
 
-#sidebar ul.menu-categories li.menu ul.submenu > li a:before {
+/* #sidebar ul.menu-categories li.menu ul.submenu > li a:before {
   content: '';
   background-color: #d3d3d3;
   position: absolute;
@@ -989,7 +989,7 @@ code {
   width: 3px;
   top: 17.5px;
   left: 13px;
-  border-radius: 50%; }
+  border-radius: 50%; } */
 
 #sidebar ul.menu-categories ul.submenu > li.active a {
   color: #1b55e2;
@@ -1025,8 +1025,8 @@ code {
   position: relative;
   padding: 10px 12px 10px 48px;
   padding-left: 13px;
-  margin-left: 72px;
-  font-size: 11px;
+  margin-left: 49px;
+  font-size: 12px;
   color: #515365; }
 
 #sidebar ul.menu-categories ul.submenu > li ul.sub-submenu > li.active a {

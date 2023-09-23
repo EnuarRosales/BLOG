@@ -28,28 +28,34 @@
 
     <div class="col-xl-12 col-lg-12 col-sm-12  layout-spacing">
         <div class="widget-content widget-content-area br-6">
-            {{-- <div class="card"> --}}
-            {{-- <div class="card-body">
-                    <div class="row">
-                        <div class="col">
-                            @yield('content_header')
-                        </div> --}}
+
             <div class="row">
 
                 <div class="col">
 
+                    <div style="display: flex;">
+                        <label class="mt-2 ml-3 mr-1">Registros :</label>
+                        <select id="records-per-page" class="form-control custom-width-20">
+                            <!-- Agregamos la clase form-control-sm -->
+                            <option value="7">7</option>
+                            <option value="10">10</option>
+                            <option value="20">20</option>
+                            <option value="50">50</option>
+                        </select>
+                    </div>
+                    <div class="mq-960">
 
 
-
-                    @can('admin.registroProduccion.create')
-                        <a class="btn btn-primary float-right mr-3"
-                            href="{{ route('admin.registroProducidos.create') }}">Agregar
-                            Producido</a>
-                    @endcan
-                    @can('admin.registroProduccion.resumen')
-                        <a class="btn btn-info float-right"
-                            href="{{ route('admin.registroProducidoss.reporte_dia') }}">Resumen</a>
-                    @endcan
+                        @can('admin.registroProduccion.create')
+                            <a class="btn btn-primary float-right mr-3"
+                                href="{{ route('admin.registroProducidos.create') }}">Agregar
+                                Producido</a>
+                        @endcan
+                        @can('admin.registroProduccion.resumen')
+                            <a class="btn btn-info float-right"
+                                href="{{ route('admin.registroProducidoss.reporte_dia') }}">Resumen</a>
+                        @endcan
+                    </div>
                 </div>
             </div>
 

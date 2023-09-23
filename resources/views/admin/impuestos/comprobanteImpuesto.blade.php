@@ -26,29 +26,21 @@
     <div class="col-xl-12 col-lg-12 col-sm-12  layout-spacing">
         <div class="widget-content widget-content-area br-6">
             <div class="row g-2">
-                {{-- <div class="col">
-                    @yield('content_header')
+                <div class="col">
+                    <div style="display: flex;">
+                        <label class="mt-2 ml-3 mr-1">Registros :</label>
+                        <select id="records-per-page" class="form-control custom-width-20">
+                            <!-- Agregamos la clase form-control-sm -->
+                            <option value="7">7</option>
+                            <option value="10">10</option>
+                            <option value="20">20</option>
+                            <option value="50">50</option>
+                        </select>
+                    </div>
                 </div>
-                <div class="col"> --}}
-                    {{-- <a class="btn btn-primary float-right" href="{{ route('admin.paginas.create') }}">Agregar Pagina</a> --}}
-                {{-- </div> --}}
             </div>
             <div class="table-responsive mb-4 mt-4">
                 <table id="html5-extension" class="table table-hover non-hover" style="width:100%">
-                    <div class="row">
-                        <div class="col-md-6 d-flex align-items-center ml-3">
-                            <label class="mb-0 mr-2">Mostrar:</label>
-                            <select id="records-per-page" class="form-control form-control-sm custom-width-20">
-                                <!-- Agregamos la clase form-control-sm -->
-                                <option value="7">7</option>
-                                <option value="10">10</option>
-                                <option value="20">20</option>
-                                <option value="50">50</option>
-                            </select>
-                            <span class="ml-2">registros por página</span>
-                            <!-- Agregamos un espacio después del select -->
-                        </div>
-                    </div>
                     <thead>
                         <tr>
                             <th style="text-align:center">Fecha</th>

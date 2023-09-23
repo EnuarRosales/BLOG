@@ -24,7 +24,7 @@
                     @include('admin.roles.partials.form')
 
 
-                    {!! Form::submit('Crear Usuario', ['class' => 'btn btn-primary']) !!}
+                    {!! Form::submit('Crear Usuario', ['class' => 'btn btn-primary btn-block mb-4 mr-2']) !!}
 
                     {!! Form::close() !!}
 

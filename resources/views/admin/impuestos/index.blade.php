@@ -27,30 +27,29 @@
             <div class="row g-2">
 
                 <div class="col">
-                    {{-- <a class="btn btn-success float-right" href="{{ route('admin.empresa.create') }}">Agregar Empresa</a> --}}
-                    <a class="btn btn-primary float-right mr-4" href="{{ route('admin.impuestos.create') }}">Agregar
-                        Impuesto</a>
+                    <div style="display: flex;">
+                        <label class="mt-2 ml-3 mr-1">Registros :</label>
+                        <select id="records-per-page" class="form-control custom-width-20">
+                            <!-- Agregamos la clase form-control-sm -->
+                            <option value="7">7</option>
+                            <option value="10">10</option>
+                            <option value="20">20</option>
+                            <option value="50">50</option>
+                        </select>
+                        <span class="ml-2 mt-2"></span>
+                    </div>
+                    <div class="mq-960">
+                        {{-- <a class="btn btn-success float-right" href="{{ route('admin.empresa.create') }}">Agregar Empresa</a> --}}
+                        <a class="btn btn-primary float-right mr-4" href="{{ route('admin.impuestos.create') }}">Agregar
+                            Impuesto</a>
 
-                    {{-- <a class="" href="{{ route('admin.tenants.create') }}">Agregar Inquilino</a> --}}
+                        {{-- <a class="" href="{{ route('admin.tenants.create') }}">Agregar Inquilino</a> --}}
+                    </div>
                 </div>
             </div>
             @if ($impuestos->count())
                 <div class="table-responsive mb-4 mt-4">
                     <table id="html5-extension" class="table table-hover non-hover" style="width:100%">
-                        <div class="row">
-                            <div class="col-md-6 d-flex align-items-center ml-3">
-                                <label class="mb-0 mr-2">Mostrar:</label>
-                                <select id="records-per-page" class="form-control form-control-sm custom-width-20">
-                                    <!-- Agregamos la clase form-control-sm -->
-                                    <option value="7">7</option>
-                                    <option value="10">10</option>
-                                    <option value="20">20</option>
-                                    <option value="50">50</option>
-                                </select>
-                                <span class="ml-2">registros por página</span>
-                                <!-- Agregamos un espacio después del select -->
-                            </div>
-                        </div>
                         <thead>
                             <tr>
                                 <th>ID</th>
@@ -75,7 +74,8 @@
                                     <td>
                                         <div class="form-check">
                                             <label class="new-control new-radio radio-success">
-                                                <input type="radio" class="new-control-input" name="pruba" id="radio1">
+                                                <input type="radio" class="new-control-input" name="pruba"
+                                                    id="radio1">
                                                 <span class="new-control-indicator"></span>{{ $impuesto->estado }}
                                             </label>
                                             {{-- <input class="form-check-input" type="radio"

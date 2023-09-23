@@ -37,21 +37,21 @@ class DescontadoController extends Controller
      */
     public function store(Request $request, Descuento $abonado)
     {
-        //VALiDACION FORMULARIO 
+        //VALiDACION FORMULARIO
         $request->validate([
             'valor' => 'required',
             'descripcion' => 'required',
 
         ]);
-        // echo $request->descuento_id;              
+        // echo $request->descuento_id;
 
 
         $descuentos = Descuento::find($request->descuento_id);
-        $registroDescuento = Descontado::create($request->all()); 
+        $registroDescuento = Descontado::create($request->all());
 
         $diferenciaSaldo = $descuentos->montoDescuento - $descuentos->montoDescontado;
 
-       
+
 
         $abonos = DB::table('descontados')
             ->where('descuento_id', '=', $request->descuento_id)
@@ -66,16 +66,16 @@ class DescontadoController extends Controller
         // echo $descuentos->montoDescontado;
 
 
-        
 
-        
+
+
 
 
 
 
 
         // $abono = Descuento::create([
-        //     'montoDescontado' => $abonado->saldo,            
+        //     'montoDescontado' => $abonado->saldo,
         // ]);
         // $abono->save();
 
@@ -84,7 +84,7 @@ class DescontadoController extends Controller
         //     ->where('id', '=', $request->descuento_id)
         //     ->select('valor')
         //     ->get()
-        //     ->sum('valor'); 
+        //     ->sum('valor');
         // $abonado->montoDescontado = $abonos;
         // $abonado->save();
         // echo $$descuentos->saldo;
@@ -158,12 +158,12 @@ class DescontadoController extends Controller
 
 
 
-    //ESTE METODO NOS PERMITE REALIZAR UN ABONO TOTAL ES DECIR DESCUENTA  TODO LO QUE SE ESTE DEBIENDO 
+    //ESTE METODO NOS PERMITE REALIZAR UN ABONO TOTAL ES DECIR DESCUENTA  TODO LO QUE SE ESTE DEBIENDO
     //ES DE TIPO PUT Y NECESITA UN OBJETO DE TIPO Descuento para poder funcionar,  EL CUAL SE ENVIA DESDE LA RUTA registroDescuentos.index
-    //CON LA INFORMACION RECIBIDA DESDE LA VISTA  QUE EN ESTE CASO ES UN OBJETO DE TIPO Descuento hacemos lo siguiente 
+    //CON LA INFORMACION RECIBIDA DESDE LA VISTA  QUE EN ESTE CASO ES UN OBJETO DE TIPO Descuento hacemos lo siguiente
     /*1. verificamos si el saldo es mayor  a 0, si se cumple esta condicion crearme un registro en la tabla Descontado que  es lo mismo a abono
        donde se toma informacion valiosa que nos envia la vista como lo es el saldo y el id del credito
-       
+
        */
     public function abono(Request $request, Descuento $abonado)
     {
@@ -181,7 +181,7 @@ class DescontadoController extends Controller
             echo "No hay que descontar";
             return redirect()->route('admin.registroDescuentos.index', $abonado->id)->with('info', 'valorCero');
         }
-        /*EN ESTA SEGUNDA PARTE DEL METODO, APROVECHANDO LA INFORMACION ENVIADA POR LA VISTA 
+        /*EN ESTA SEGUNDA PARTE DEL METODO, APROVECHANDO LA INFORMACION ENVIADA POR LA VISTA
         LO QUE SE REALIZA ES UN LLAMADO A LA TABLA descontados y se filtra descuento_id que tiene que ser igual $abonado->id
         que es id del credito ojo que aca nos suma todos los abonos que se le haya realizado a ese credito y se lo asignamos
         al atributo montoDescontado  DE LA TABLA Descuentos  */
@@ -200,10 +200,10 @@ class DescontadoController extends Controller
 
 
 
-    //ESTE METODO  SE MANDA A LLAMAR EN EL INDEX DE REGISTRO DESCUENTO Y LO QUE HACE ES LO SIGUIENTE 
-    //1. ES DE TIPO GET  RECIBE UN OBETO DEL TIPO DESCUENTO 
+    //ESTE METODO  SE MANDA A LLAMAR EN EL INDEX DE REGISTRO DESCUENTO Y LO QUE HACE ES LO SIGUIENTE
+    //1. ES DE TIPO GET  RECIBE UN OBETO DEL TIPO DESCUENTO
     /*2. LLAMA A LA BASE DE DATOS DE DATOS  DESCONTADOS QUE EN ESTE CASO ES LO MISMO QUE DECIR ABONOS
-    Y FILTRA EL descuento_id DONDE SEA IGUAL AL $abonoParcial->id ESTA ULTIMA VARIBLE ES EL REGISTRO QUE TRAEMOS EN 
+    Y FILTRA EL descuento_id DONDE SEA IGUAL AL $abonoParcial->id ESTA ULTIMA VARIBLE ES EL REGISTRO QUE TRAEMOS EN
     REQUEST */
     //3. RETORNA UNA VISTA Y ENVIA LA VARIABLE ANTES CONSUTADA CON EL FIN QUE TRAIGA SOLO LOS ABONOS QUE SE LE HA REALZADO A MENCIOANADO CREDITO
     public function abonoParcial(Request $request, Descuento $abonoParcial)
@@ -212,7 +212,7 @@ class DescontadoController extends Controller
             ->where('descuento_id', '=', $abonoParcial->id)
             ->get();
 
-        echo $abonoParcial->id;
+        // echo $abonoParcial->id;
         return view('admin.abonos.index', compact('abonos', 'abonoParcial'));
     }
 }

@@ -403,7 +403,9 @@ select.form-control.form-custom {
 .dropdown-toggle svg.feather[class*="feather-chevron-"] {
   width: 15px;
   height: 15px;
-  vertical-align: middle; }
+  vertical-align: middle;
+  margin-right: 0.46rem;
+}
 
 .btn {
   padding: 0.4375rem 1.25rem;

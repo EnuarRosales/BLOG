@@ -70,26 +70,31 @@
     <div class="col-xl-12 col-lg-12 col-sm-12  layout-spacing">
         <div class="widget-content widget-content-area br-6">
             <div class="row g-2">
+
                 <div class="col">
+                    <div style="display: flex;">
+                        <label class="mt-2 ml-3 mr-1">Registros :</label>
+                        <select id="records-per-page" class="form-control custom-width-20">
+                            <!-- Agregamos la clase form-control-sm -->
+                            <option value="7">7</option>
+                            <option value="10">10</option>
+                            <option value="20">20</option>
+                            <option value="50">50</option>
+                        </select>
+                        <span class="ml-2 mt-2"></span>
+                    </div>
+                    <div class="mq-960">
                     <a class="btn btn-primary float-right mr-4" href="{{ route('admin.users.create') }}">Agregar Usuario</a>
+
+                    </div>
+
                 </div>
             </div>
             <div class="table-responsive mb-4 mt-4">
                 <table id="html5-extension" class="table table-hover non-hover" style="width:100%">
                     <div class="row">
 
-                        <div class="col-md-6 d-flex align-items-center ml-3">
-                            <label class="mb-0 mr-2">Mostrar:</label>
-                            <select id="records-per-page" class="form-control form-control-sm" style="width: fit-content;">
-                                <!-- Agregamos la clase form-control-sm -->
-                                <option value="7">7</option>
-                                <option value="10">10</option>
-                                <option value="20">20</option>
-                                <option value="50">50</option>
-                            </select>
-                            <span class="ml-2">registros por página</span>
-                            <!-- Agregamos un espacio después del select -->
-                        </div>
+
 
                     </div>
                     <thead>
@@ -185,7 +190,7 @@
 
 
 @section('js')
-        {{-- <script src="{{ asset('template/plugins/table/datatable/datatables.js') }}"></script> --}}
+    {{-- <script src="{{ asset('template/plugins/table/datatable/datatables.js') }}"></script> --}}
 
     <script src="{{ asset('template/plugins/table/datatable/datatables.js') }}"></script>
     <!-- NOTE TO Use Copy CSV Excel PDF Print Options You Must Include These Files  -->

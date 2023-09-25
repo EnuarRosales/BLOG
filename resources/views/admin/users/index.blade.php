@@ -23,50 +23,7 @@
 @endsection
 
 @section('content')
-    {{-- <div class="row" id="cancel-row">
 
-        <div class="col-xl-12 col-lg-12 col-sm-12  layout-spacing">
-            <div class="widget-content widget-content-area br-6">
-                <div class="table-responsive mb-4 mt-4">
-                    <table id="html5-extension" class="table table-hover non-hover" style="width:100%">
-                        <thead>
-                            <tr>
-                                <th>Name</th>
-                                <th>Position</th>
-                                <th>Office</th>
-                                <th>Age</th>
-                                <th>Start date</th>
-                                <th>Salary</th>
-
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td>Tiger Nixon</td>
-                                <td>System Architect</td>
-                                <td>Edinburgh</td>
-                                <td>61</td>
-                                <td>2011/04/25</td>
-                                <td>$320,800</td>
-
-                            </tr>
-                            <tr>
-                                <td>Garrett Winters</td>
-                                <td>Accountant</td>
-                                <td>Tokyo</td>
-                                <td>63</td>
-                                <td>2011/07/25</td>
-                                <td>$170,750</td>
-
-                            </tr>
-
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-        </div>
-
-    </div> --}}
     <div class="col-xl-12 col-lg-12 col-sm-12  layout-spacing">
         <div class="widget-content widget-content-area br-6">
             <div class="row g-2">
@@ -84,105 +41,14 @@
                         <span class="ml-2 mt-2"></span>
                     </div>
                     <div class="mq-960">
-                    <a class="btn btn-primary float-right mr-4" href="{{ route('admin.users.create') }}">Agregar Usuario</a>
+                        <a class="btn btn-primary float-right mr-4" href="{{ route('admin.users.create') }}">Agregar
+                            Usuario</a>
 
                     </div>
 
                 </div>
             </div>
-            <div class="table-responsive mb-4 mt-4">
-                <table id="html5-extension" class="table table-hover non-hover" style="width:100%">
-                    <div class="row">
-
-
-
-                    </div>
-                    <thead>
-
-                        <tr>
-                            <th>ID</th>
-                            <th>Fecha ingreso</th>
-                            <th>Nombre</th>
-                            <th>Cedula</th>
-                            <th>Celular</th>
-                            <th>Direccion</th>
-                            <th>Email</th>
-                            <th>Tipo Usuario</th>
-                            @can('admin.users.edit')
-                                <th>Editar</th>
-                            @endcan
-                            @can('admin.users.destroy')
-                                <th>Eliminar</th>
-                            @endcan
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @foreach ($users as $usuario)
-                            <tr>
-                                <td>{{ $usuario->id }}</td>
-                                <td>{{ $usuario->fechaIngreso }}</td>
-                                <td>{{ $usuario->name }}</td>
-                                <td>{{ $usuario->cedula }}</td>
-                                <td>{{ $usuario->celular }}</td>
-                                <td>{{ $usuario->direccion }}</td>
-                                <td>{{ $usuario->email }}</td>
-                                <td>{{ $usuario->tipoUsuario->nombre }}</td>
-
-                                @can('admin.users.edit')
-                                    <td width="10px">
-                                        <a href="{{ route('admin.users.edit', $usuario) }}" class=" bs-tooltip"
-                                            data-placement="top" title="Editar">
-                                            <svg class="rounded mr-5" xmlns="http://www.w3.org/2000/svg" width="24"
-                                                height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                                                stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-                                                class="feather feather-edit-3">
-                                                <path d="M12 20h9"></path>
-                                                <path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"></path>
-                                            </svg>
-                                        </a>
-                                    </td>
-                                @endcan
-                                @can('admin.users.destroy')
-                                    <td width="10px">
-                                        <a href="javascript:void(0);" class="ml-2 eliminar-registro rounded bs-tooltip"
-                                            data-placement="top" title="Eliminar" data-usuario-id="{{ $usuario->id }}">
-                                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
-                                                viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-                                                stroke-linecap="round" stroke-linejoin="round"
-                                                class="feather feather-x-circle table-cancel">
-                                                <circle cx="12" cy="12" r="10"></circle>
-                                                <line x1="15" y1="9" x2="9" y2="15"></line>
-                                                <line x1="9" y1="9" x2="15" y2="15"></line>
-                                            </svg>
-                                        </a>
-
-                                    </td>
-                                @endcan
-                            </tr>
-                        @endforeach
-                    </tbody>
-                    <tfoot>
-                        <tr>
-                        <tr>
-                            <th>ID</th>
-                            <th>Fecha ingreso</th>
-                            <th>Nombre</th>
-                            <th>Cedula</th>
-                            <th>Celular</th>
-                            <th>Direccion</th>
-                            <th>Email</th>
-                            <th>Tipo Usuario</th>
-                            @can('admin.users.edit')
-                                <th>Editar</th>
-                            @endcan
-                            @can('admin.users.destroy')
-                                <th>Eliminar</th>
-                            @endcan
-                        </tr>
-                    </tfoot>
-                </table>
-
-            </div>
+            <livewire:admin.users.user-table />
         </div>
     </div>
 
@@ -312,6 +178,7 @@
         </script>
     @elseif(session('info') == 'store')
         <script>
+
             Swal.fire({
                 position: 'top-end',
                 type: 'success',

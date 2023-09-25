@@ -10,7 +10,7 @@
 @endsection
 
 @section('content_header')
-    <h2>Editar Descuento</h2>
+    <h2 class="ml-3">Editar Descuento</h2>
 @stop
 
 @section('content')
@@ -21,11 +21,11 @@
                     <strong>{{ session('info') }}</strong>
                 </div>
             @endif
-            <div class="card">
+            {{-- <div class="card">
                 <div class="card-header">
                     @yield('content_header')
                 </div>
-                <div class="card-body">
+                <div class="card-body"> --}}
                     {!! Form::model($registroDescuento, [
                         'route' => ['admin.registroDescuentos.update', $registroDescuento],
                         'method' => 'put',
@@ -79,8 +79,8 @@
                     </div>
                     {!! Form::submit('Actualizar Descuento', ['class' => 'btn btn-primary']) !!}
                     {!! Form::close() !!}
-                </div>
-            </div>
+                {{-- </div>
+            </div> --}}
         </div>
     </div>
 @stop

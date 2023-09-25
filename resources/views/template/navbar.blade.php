@@ -30,7 +30,7 @@
                     aria-labelledby="userProfileDropdown">
                     <div class="user-profile-section">
                         <div class="media mx-auto">
-                            <img src="{{asset('template/assets/img/90x90.jpg')}}" class="img-fluid mr-2" alt="avatar">
+                            <img src="{{asset('template/assets/img/loco.jpg')}}" class="img-fluid mr-2" alt="avatar">
                             <div class="media-body">
                                 <h5>{{Auth::user()->name}}</h5>
                                 <p>{{ Auth::user()->roles[0]['name'] }}</p>

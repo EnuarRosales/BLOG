@@ -41,11 +41,15 @@
                         </select>
                         <span class="ml-2 mt-2"></span>
                     </div>
-                    <div class="mq-960">
-                        <a class="btn btn-primary float-right mr-4" href="{{ route('admin.empresa.create') }}">Agregar
-                            Empresa</a>
-                        {{-- <a class="" href="{{ route('admin.tenants.create') }}">Agregar Inquilino</a> --}}
-                    </div>
+                    @if ($empresas->isNotEmpty())
+                    @else
+                        <div class="mq-960">
+                            <a class="btn btn-primary float-right mr-4" href="{{ route('admin.empresa.create') }}">Agregar
+                                Empresa</a>
+                            {{-- <a class="" href="{{ route('admin.tenants.create') }}">Agregar Inquilino</a> --}}
+                        </div>
+                    @endif
+
                 </div>
             </div>
             <div class="table-responsive mb-4 mt-4">

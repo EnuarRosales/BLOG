@@ -35,8 +35,8 @@ class AppServiceProvider extends ServiceProvider
     {
 
         $menu = config('adminlte.menu');
-        $registroDescuentos = Descuento::all();
+        //$registroDescuentos = Descuento::all();
 
-        View::share(['menu' => $menu, 'registroDescuentos' => $registroDescuentos]);
+    View::share(['menu' => $menu/*, 'registroDescuentos' => $registroDescuentos*/]);
     }
 }

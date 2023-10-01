@@ -30,7 +30,8 @@ use App\Http\Controllers\Admin\TipoRoomController;
 use App\Http\Controllers\Admin\TipoTurnoController;
 use App\Http\Controllers\Admin\TipoUsuarioController;
 use App\Http\Controllers\Admin\UserController;
-
+use App\Http\Livewire\Admin\Posts\Index;
+use App\Http\Livewire\Admin\Posts\Create;
 
 
 /*
@@ -66,7 +67,7 @@ Route::middleware([
     Route::put('abonos/{abonado}', [DescontadoController::class, 'abono'])->middleware(['auth', 'verified'])->name('admin.abonos.abono');
     Route::resource('abonosResources', DescontadoController::class)->middleware(['auth', 'verified'])->names('admin.abonosResources');
 
-    //ROUTES --PagoController-- Corresponden a las rutas que administran las tablas de los pagos 
+    //ROUTES --PagoController-- Corresponden a las rutas que administran las tablas de los pagos
     Route::get('comprobantePagoPDF/{pago}', [PagoController::class, 'comprobantePagoPDF'])->middleware(['auth', 'verified'])->name('admin.pagos.comprobantePagoPDF');
     Route::get('enviarPago', [PagoController::class, 'enviarPago'])->middleware(['auth', 'verified'])->name('admin.pagos.enviarPago');
     Route::resource('pagosss', PagoController::class)->middleware(['auth', 'verified'])->names('admin.pagos');
@@ -123,13 +124,16 @@ Route::middleware([
 
 
     Route::get('cargarExcel', [ReportePaginaController::class, 'cargarExcel'])->middleware(['auth', 'verified'])->name('admin.reportePaginas.cargarExcel');
-   
+
     Route::resource('empresa', EmpresaController::class)->middleware(['auth', 'verified'])->middleware(['auth', 'verified'])->names('admin.empresa');
 
     Route::resource('impuestos', ImpuestoController::class)->middleware(['auth', 'verified'])->names('admin.impuestos');
     Route::get('comprobanteImpuestoss', [ImpuestoController::class, 'comprobanteImpuesto'])->middleware(['auth', 'verified'])->name('admin.impuestos.comprobanteImpuestoss');
     Route::get('comprobanteImpuestoPDF/{pago}', [ImpuestoController::class, 'comprobanteImpuestoPDF'])->middleware(['auth', 'verified'])->name('admin.impuestos.comprobanteImpuestoPDF');
-    
+
+    Route::get('posts', Index::class)->middleware(['auth', 'verified'])->name('admin.posts.index');
+    Route::get('posts/create', Create::class)->middleware(['auth', 'verified'])->name('admin.posts.create');
+
     require __DIR__ . '/auth.php';
-   
+
 });

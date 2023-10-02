@@ -7,11 +7,13 @@ use App\Models\Post;
 
 class Index extends Component
 {
+
+    protected $listeners = ['actualiza' => 'render'];
     public function render()
     {
 
         $posts = Post::all();
-        dd($posts);
+        //dd($posts);
 
         return view('livewire.admin.posts.index', compact('posts'))->extends('template.index')->section('content');
     }

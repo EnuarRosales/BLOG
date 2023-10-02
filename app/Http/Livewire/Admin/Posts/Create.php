@@ -17,6 +17,8 @@ class Create extends Component
             'titulo' => $this->titulo,
             'contenido' => $this->contenido
         ]);
+
+        $this->emit('actualiza');
         return redirect()->route('admin.posts.index');
 
     }

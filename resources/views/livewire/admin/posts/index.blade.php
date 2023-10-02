@@ -15,7 +15,7 @@
                             <th scope="col">Acciones</th>
                           </tr>
                         </thead>
-                        <tbody>
+                        <tbody wire:poll>
                             @foreach ($posts as $post )
                             <tr>
                                 <th scope="row">{{ $post->id }}</th>

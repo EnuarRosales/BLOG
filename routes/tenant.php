@@ -30,6 +30,7 @@ use App\Http\Controllers\Admin\TipoRoomController;
 use App\Http\Controllers\Admin\TipoTurnoController;
 use App\Http\Controllers\Admin\TipoUsuarioController;
 use App\Http\Controllers\Admin\UserController;
+use App\Http\Controllers\PostController;
 use App\Http\Livewire\Admin\Posts\Index;
 use App\Http\Livewire\Admin\Posts\Create;
 
@@ -131,8 +132,10 @@ Route::middleware([
     Route::get('comprobanteImpuestoss', [ImpuestoController::class, 'comprobanteImpuesto'])->middleware(['auth', 'verified'])->name('admin.impuestos.comprobanteImpuestoss');
     Route::get('comprobanteImpuestoPDF/{pago}', [ImpuestoController::class, 'comprobanteImpuestoPDF'])->middleware(['auth', 'verified'])->name('admin.impuestos.comprobanteImpuestoPDF');
 
-    Route::get('posts', Index::class)->middleware(['auth', 'verified'])->name('admin.posts.index');
-    Route::get('posts/create', Create::class)->middleware(['auth', 'verified'])->name('admin.posts.create');
+    Route::resource('posts', PostController::class)->middleware(['auth', 'verified'])->names('posts');
+
+    // Route::get('posts', Index::class)->middleware(['auth', 'verified'])->name('admin.posts.index');
+    // Route::get('posts/create', Create::class)->middleware(['auth', 'verified'])->name('admin.posts.create');
 
     require __DIR__ . '/auth.php';
 

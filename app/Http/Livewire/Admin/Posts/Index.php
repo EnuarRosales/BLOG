@@ -8,7 +8,8 @@ use App\Models\Post;
 class Index extends Component
 {
 
-    protected $listeners = ['actualiza' => 'render'];
+    protected $listeners = ['postCreated' => 'render'];
+
     public function render()
     {
 

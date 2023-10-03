@@ -13,18 +13,29 @@ class Create extends Component
 
     public function save()
     {
-        Post::create([
-            'titulo' => $this->titulo,
-            'contenido' => $this->contenido
+        $this->validate([
+            'titulo' => 'required',
+            'contenido' => 'required',
         ]);
 
-        $this->emit('actualiza');
-        return redirect()->route('admin.posts.index');
+        Post::create([
+            'titulo' => $this->titulo,
+            'contenido' => $this->contenido,
+        ]);
 
-    }
+
+        $this->emit('redibujarTabla');
+        $this->emit('scriptRecargado');
+        // Limpiar los campos después de guardar
+        $this->titulo = '';
+        $this->contenido = '';
+
+        // Cerrar el modal después de guardar
+        $this->dispatchBrowserEvent('close-modal');
+    }   
 
     public function render()
     {
-        return view('livewire.admin.posts.create')->extends('template.index')->section('content');
+        return view('livewire.admin.posts.create');
     }
 }

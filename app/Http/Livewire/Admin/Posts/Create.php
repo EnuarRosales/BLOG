@@ -23,15 +23,19 @@ class Create extends Component
             'contenido' => $this->contenido,
         ]);
 
+        
+        $this->dispatchBrowserEvent('close-modal');
 
-        $this->emit('redibujarTabla');
-        $this->emit('scriptRecargado');
+
+        $this->emit('postCreated');
+
+
+
         // Limpiar los campos después de guardar
         $this->titulo = '';
         $this->contenido = '';
 
         // Cerrar el modal después de guardar
-        $this->dispatchBrowserEvent('close-modal');
     }   
 
     public function render()

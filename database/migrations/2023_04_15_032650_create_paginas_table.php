@@ -7,7 +7,7 @@ use Illuminate\Support\Facades\Schema;
 class CreatePaginasTable extends Migration
 {
     /**
-     * Run the migrations. 
+     * Run the migrations.
      *
      * @return void
      */
@@ -17,8 +17,9 @@ class CreatePaginasTable extends Migration
             $table->id();
             $table->string('nombre',45);
             $table->string('moneda',8);
-            $table->float('valor',4,2);          
+            $table->float('valor',4,2);
             $table->timestamps();
+            $table->softDeletes(); // Agregar esta línea para habilitar eliminación suave
         });
     }
 

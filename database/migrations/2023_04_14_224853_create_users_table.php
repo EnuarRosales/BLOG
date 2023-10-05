@@ -24,13 +24,13 @@ class CreateUsersTable extends Migration
             $table->timestamp('email_verified_at')->nullable();
             $table->boolean('active')->default(true)->nullable();
 
-            $table->unsignedBigInteger('tipoUsuario_id')->nullable(); //campo para relacion 
-            $table->unsignedBigInteger('empresa_id')->nullable(); //campo para relacion 
+            $table->unsignedBigInteger('tipoUsuario_id')->nullable(); //campo para relacion
+            $table->unsignedBigInteger('empresa_id')->nullable(); //campo para relacion
             $table->foreign('tipoUsuario_id')->nullable()
                 ->references('id')->on('tipo_usuarios') //tabla
                 ->onDelete('cascade');
 
-            
+
             $table->foreign('empresa_id')->nullable()
                 ->references('id')->on('empresas') //tabla
                 ->onDelete('cascade');
@@ -39,6 +39,7 @@ class CreateUsersTable extends Migration
             $table->timestamps();
             $table->string('password')->nullable();
             $table->rememberToken();
+            $table->softDeletes(); // Agregar esta línea para habilitar eliminación suave
         });
     }
 

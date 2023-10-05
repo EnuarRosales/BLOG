@@ -23,6 +23,7 @@ return new class extends Migration
 
             $table->unsignedBigInteger('descuento_id');//campo para relacion
             $table->timestamps();
+            $table->softDeletes(); // Agregar esta línea para habilitar eliminación suave
 
             $table->foreign('descuento_id')
                     ->references('id')->on('descuentos')//tabla

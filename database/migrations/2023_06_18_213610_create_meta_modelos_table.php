@@ -17,8 +17,9 @@ return new class extends Migration
             $table->id();
             $table->float('mayorQue', 12, 2);
             $table->float('porcentaje', 12, 2);
-                  
+
             $table->timestamps();
+            $table->softDeletes(); // Agregar esta línea para habilitar eliminación suave
         });
     }
 

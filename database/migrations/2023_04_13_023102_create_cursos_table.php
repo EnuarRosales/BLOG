@@ -17,8 +17,9 @@ class CreateCursosTable extends Migration
             $table->id();
             $table->string('name');
             $table->text('descripcion');
-            $table->string('categoria');      
+            $table->string('categoria');
             $table->timestamps();
+            $table->softDeletes(); // Agregar esta línea para habilitar eliminación suave
         });
     }
 

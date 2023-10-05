@@ -24,8 +24,9 @@ return new class extends Migration
             $table->integer('capacity_models')->nullable();
             $table->string('logo')->nullable();
 
-           
+
             $table->timestamps();
+            $table->softDeletes(); // Agregar esta línea para habilitar eliminación suave
         });
     }
 

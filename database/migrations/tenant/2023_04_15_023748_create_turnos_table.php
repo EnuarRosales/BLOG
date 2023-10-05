@@ -16,11 +16,12 @@ class CreateTurnosTable extends Migration
         Schema::create('turnos', function (Blueprint $table) {
             $table->id();
             $table->time('horaIngreso');
-            $table->time('horaTermino');                       
+            $table->time('horaTermino');
             $table->string('nombre',45);
-            $table->timestamps(); 
+            $table->timestamps();
+            $table->softDeletes(); // Agregar esta línea para habilitar eliminación suave
         });
-    } 
+    }
 
     /**
      * Reverse the migrations.
@@ -31,5 +32,5 @@ class CreateTurnosTable extends Migration
     {
         Schema::dropIfExists('turnos');
     }
-    
+
 }

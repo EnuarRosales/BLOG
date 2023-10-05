@@ -40,6 +40,7 @@ return new class extends Migration
                 ->onDelete('cascade');
 
             $table->timestamps();
+            $table->softDeletes(); // Agregar esta línea para habilitar eliminación suave
         });
     }
 

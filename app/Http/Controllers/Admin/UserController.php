@@ -109,8 +109,6 @@ class UserController extends Controller
 
         $pdf = Pdf::loadView('admin.users.laboralPDF', compact('user', 'date', 'nombreEmpresa', 'nitEmpresa', 'gerenteEmpresa', 'fechaAntigua', 'cantidadDias', 'cantidadMes', 'cantidadAno', 'codigoQR', 'logoEmpresa'));
         return $pdf->stream();
-
-
     }
 
     public function certificacionTiempoPDF(User $user)
@@ -154,10 +152,9 @@ class UserController extends Controller
 
         // return "entro";
 
-            $tipoUsuarios = TipoUsuario::orderBy('id', 'desc');
-            $empresas = Empresa::orderBy('id', 'desc');
-            return view('admin.users.create', compact('tipoUsuarios', 'empresas'));
-
+        $tipoUsuarios = TipoUsuario::orderBy('id', 'desc');
+        $empresas = Empresa::orderBy('id', 'desc');
+        return view('admin.users.create', compact('tipoUsuarios', 'empresas'));
     }
 
     /**
@@ -202,7 +199,8 @@ class UserController extends Controller
 
 
 
-    public function store(Request $request){
+    public function store(Request $request)
+    {
 
         //VALiDACION FORMULARIO
         $request->validate([
@@ -218,7 +216,6 @@ class UserController extends Controller
 
         $user = User::create($request->all());
         return redirect()->route('admin.users.index', $user->id)->with('info', 'store');
-
     }
 
 
@@ -236,12 +233,12 @@ class UserController extends Controller
      */
     public function edit(User $user)
     {
-            $tipoUsuarios = TipoUsuario::orderBy('id', 'desc');
-            $empresas = Empresa::orderBy('id', 'desc');
-            return view('admin.users.edit', compact('user', 'tipoUsuarios', 'empresas'));
+        $tipoUsuarios = TipoUsuario::orderBy('id', 'desc');
+        $empresas = Empresa::orderBy('id', 'desc');
+        return view('admin.users.edit', compact('user', 'tipoUsuarios', 'empresas'));
     }
 
-
+    
     public function rol(User $user)
     {
         try {

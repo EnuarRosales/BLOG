@@ -48,20 +48,12 @@ window.Echo = new Echo({
 });*/
 
 import Echo from 'laravel-echo';
-import Pusher from 'pusher-js';
+// import Pusher from 'pusher-js';
 
 window.Echo = new Echo({
-    broadcaster: 'pusher',
-    key: '12321234234avs',
-    cluster: 'mt1',
-    wsHost: 'localhost',
-    wsPort: 6001,
-    wssPort: 6001,
-    forceTLS: false,
-    encrypted: false,
-    disableStats: true,
-    enabledTransports: ['ws'],
-    //enabledTransports: ['ws', 'wss],
+    broadcaster: 'socket.io',
+    host: `${window.location.hostname}:${window.laravelEchoPort}`,
+    transports: ['websocket'],
 });
 
 window.Pusher = Pusher;

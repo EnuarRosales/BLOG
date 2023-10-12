@@ -170,16 +170,28 @@
             dom: '<"row"<"col-md-12"<"row"<"col-md-6"B><"col-md-6"f> > ><"col-md-12"rt> <"col-md-12"<"row"<"col-md-5"i><"col-md-7"p>>> >',
             buttons: {
                 buttons: [{
-                        extend: 'copy',
-                        className: 'btn'
-                    },
-                    {
-                        extend: 'csv',
-                        className: 'btn'
-                    },
-                    {
                         extend: 'excel',
-                        className: 'btn'
+                        className: 'btn',
+
+                        exportOptions: {
+                            columns: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9], // Incluye las columnas necesarias
+                            format: {
+                                body: function(data, rowIdx, colIdx, node) {
+                                    // Formatea las columnas 2, 3 y 4 para eliminar el signo de dólar y convertirlas en números
+                                    if (colIdx === 2 || colIdx === 3 || colIdx === 4 || colIdx === 7 ||
+                                        colIdx === 8 || colIdx === 9) {
+                                        return data.replace('$', '') *
+                                            1; // Elimina el signo de dólar y convierte a número
+                                    } else {
+                                        return data; // Mantén el formato original para otras columnas
+                                    }
+                                }
+                            }
+                        },
+                        customize: function(xlsx) {
+                            var sheet = xlsx.xl.worksheets['sheet1.xml'];
+                            // Personaliza el archivo Excel aquí si es necesario
+                        },
                     },
                     {
                         extend: 'print',
@@ -199,7 +211,9 @@
             },
             "stripeClasses": [],
             "lengthMenu": [7, 10, 20, 50],
-            "pageLength": 7
+            "pageLength": 7,
+            paging: true, // Habilita la paginación
+            info: true, // Habilita la información de registros
         });
 
         // Detectar cambios en el select

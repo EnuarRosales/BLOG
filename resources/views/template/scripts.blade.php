@@ -33,7 +33,8 @@
                 setInterval(updateTable, 5000);*/
             });
         </script>
-        <script src="{{ asset('template/plugins/highlight/highlight.pack.js') }}"></script>
+        {{-- error de script valdar q hace --}}
+        {{-- <script src="{{ asset('template/plugins/highlight/highlight.pack.js') }}"></script> --}}
         <script src="{{ asset('template/assets/js/app.js') }}"></script>
 
         <script src="{{ asset('template/assets/js/custom.js') }}"></script>

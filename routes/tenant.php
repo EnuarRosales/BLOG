@@ -67,7 +67,7 @@ Route::middleware([
     //!! Route::get('abonos/{abonoParcial}', [DescontadoController::class, 'abonoParcial'])->middleware(['auth', 'verified'])->name('admin.abonos.abonoParcial');
     Route::get('abonos/abonoParcial/datatable', [DescontadoController::class, 'datatable'])->middleware(['auth', 'verified'])->name('admin.abonos.abonoParcial.datatable');
     Route::post('abonos', [DescontadoController::class, 'store'])->middleware(['auth', 'verified'])->name('admin.abonos.store');
-    //!! Route::put('abonos/{abonado}', [DescontadoController::class, 'abono'])->middleware(['auth', 'verified'])->name('admin.abonos.abono');
+    Route::put('abonos/{abonado}', [DescontadoController::class, 'abono'])->middleware(['auth', 'verified'])->name('admin.abonos.abono');
     Route::resource('abonosResources', DescontadoController::class)->middleware(['auth', 'verified'])->names('admin.abonosResources');
 
     //ROUTES --PagoController-- Corresponden a las rutas que administran las tablas de los pagos

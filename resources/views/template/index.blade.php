@@ -70,6 +70,7 @@
         <!--  END CONTENT AREA  -->
     </div>
     <!-- END MAIN CONTAINER -->
+    @vite(['resources/js/bootstrap.js','resources/js/app.js'])
 
     <!-- BEGIN GLOBAL MANDATORY SCRIPTS -->
     @include('template.scripts')
@@ -79,6 +80,7 @@
     <!-- BEGIN PAGE LEVEL PLUGINS/CUSTOM SCRIPTS -->
 
     <!-- BEGIN PAGE LEVEL PLUGINS/CUSTOM SCRIPTS -->
+    
 </body>
 
 </html>

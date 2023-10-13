@@ -2,6 +2,7 @@
 
 namespace App\Events;
 
+use App\Models\User;
 use Illuminate\Broadcasting\Channel;
 use Illuminate\Broadcasting\InteractsWithSockets;
 use Illuminate\Broadcasting\PresenceChannel;
@@ -10,7 +11,7 @@ use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
 
-class ReloadTable implements ShouldBroadcast
+class PrivateEvent implements ShouldBroadcast
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
@@ -19,9 +20,12 @@ class ReloadTable implements ShouldBroadcast
      *
      * @return void
      */
-    public function __construct()
+
+    private $user;
+
+    public function __construct(User $user)
     {
-        //
+        $this->user = $user;
     }
 
     /**
@@ -31,8 +35,7 @@ class ReloadTable implements ShouldBroadcast
      */
     public function broadcastOn()
     {
-        return new Channel('reload-table');
-        // return new PrivateChannel('channel-name');
+        return new PrivateChannel('private-event'. $this->user->id);
     }
 
     public function broadcastAs(){
@@ -40,6 +43,6 @@ class ReloadTable implements ShouldBroadcast
     }
 
     public function broadcastWith(){
-        return ['message' => 'esta notificacion es para eventos publicos'];
+        return ['message' => 'esta notificacion es para eventos privados'];
     }
 }

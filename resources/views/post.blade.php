@@ -14,7 +14,7 @@
 @stop
 
 @section('styles')
-
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     <link rel="stylesheet" type="text/css" href="{{ asset('template/plugins/table/datatable/datatables.css') }}">
     <link rel="stylesheet" type="text/css" href="{{ asset('template/plugins/table/datatable/custom_dt_html5.css') }}">
     <link rel="stylesheet" type="text/css" href="{{ asset('template/plugins/table/datatable/dt-global_style.css') }}">
@@ -25,6 +25,7 @@
     <div class="col-xl-12 col-lg-12 col-sm-12  layout-spacing">
         <div class="widget-content widget-content-area br-6">
             <div class="row g-2">
+                <div id="notificacion"></div>
 
                 <div class="col">
                     <div style="display: flex;">
@@ -46,7 +47,7 @@
             </div>
 
             <livewire:admin.posts.table>
-
+                <div id="chat-notification"> </div>
         </div>
     </div>
 
@@ -57,6 +58,29 @@
 
 
 @section('js')
+
+    <script>
+        window.laravelEchoPort = '{{ env('LARAVEL_ECHO_PORT') }}';
+    </script>
+    <script src="//{{ request()->getHost() }}:{{ env('LARAVEL_ECHO_PORT') }}/socket.io/socket.io.js"></script>
+
+    <script>
+        $(document).ready(function() {
+            const userId = '{{ auth()->id() }}';
+            window.Echo.channel('reload-table')
+                .listen('.message-event', (data) => {
+                    $("#chat-notification").append('<div class="alert alert-warning">' + data.message +
+                        '</div>');
+                });
+
+            window.Echo.private('private-event.' + userId)
+                .listen('.message-event', (data) => {
+                    $("#chat-notification").append('<div class="alert alert-danger">' + data.message +
+                    '</div>');
+                });
+
+        });
+    </script>
 
     <script>
         window.addEventListener('close-modal', function() {
@@ -75,11 +99,22 @@
             $('#html5-extension').DataTable({
                 dom: '<"row"<"col-md-12"<"row"<"col-md-6"B><"col-md-6"f> > ><"col-md-12"rt> <"col-md-12"<"row"<"col-md-5"i><"col-md-7"p>>> >',
                 buttons: {
-                    buttons: [
-                        { extend: 'copy', className: 'btn' },
-                        { extend: 'csv', className: 'btn' },
-                        { extend: 'excel', className: 'btn' },
-                        { extend: 'print', className: 'btn' }
+                    buttons: [{
+                            extend: 'copy',
+                            className: 'btn'
+                        },
+                        {
+                            extend: 'csv',
+                            className: 'btn'
+                        },
+                        {
+                            extend: 'excel',
+                            className: 'btn'
+                        },
+                        {
+                            extend: 'print',
+                            className: 'btn'
+                        }
                     ]
                 },
                 "oLanguage": {
@@ -97,26 +132,26 @@
                 "pageLength": 7
             });
         }
-    
+
         // Llama a la función para inicializar DataTables al cargar la página
         $(document).ready(function() {
             initDataTable();
         });
-    
+
         // Llama a la función para reinicializar DataTables al escuchar el evento Livewire
         Livewire.on('postCreated', function() {
             // Destruir la instancia anterior de DataTable si existe
             if ($.fn.DataTable.isDataTable('#html5-extension')) {
                 $('#html5-extension').DataTable().destroy();
             }
-    
+
             // Inicializar DataTables y scripts nuevamente después de un breve retraso para asegurar que la destrucción haya tenido lugar
             setTimeout(function() {
                 initDataTable();
             }, 100);
         });
     </script>
-    
+
 
 
     <script>

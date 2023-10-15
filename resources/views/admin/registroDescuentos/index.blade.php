@@ -14,7 +14,7 @@
 @stop
 
 @section('styles')
-{{-- token para guardar registros --}}
+    {{-- token para guardar registros --}}
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
     <link rel="stylesheet" type="text/css" href="{{ asset('template/plugins/table/datatable/datatables.css') }}">
@@ -509,7 +509,6 @@
             var descuentoId = $('#descuento_id').val();
             var valor = $('#valor').val();
             var descripcion = $('#descripcion').val();
-            console.log('buton');
 
             // Realiza una solicitud AJAX
             $.ajax({
@@ -525,6 +524,47 @@
                 },
                 success: function(response) {
                     console.log(response);
+
+                    // Obtiene el valor de montoDescontado del JSON
+                    var nuevoMontoDescontado = response.descuentos.montoDescontado;
+                    // Obtiene el valor de saldo del JSON
+                    var saldo = response.descuentos.saldo;
+                    // Obtiene la tabla de DataTables
+                    var table = $('#html5-extension').DataTable();
+                    // Identifica la fila que deseas actualizar
+                    var filaId = response.descuentos.id;
+                    // Busca la fila en la tabla por su atributo data-id
+                    var fila = table.row('[data-id="' + filaId + '"]');
+
+                    if (fila.any()) {
+                        // Obtiene el número de página actual
+                        var currentPage = table.page();
+                        // Obtiene la celda en la columna "Monto Descontado" (índice 3)
+                        var cellMontoDescontado = table.cell(fila, 3);
+                        // Obtiene la celda en la columna "Saldo" (índice 4)
+                        var cellSaldo = table.cell(fila, 4);
+                        // Actualiza el valor de la celda de Monto Descontado con el nuevo monto descontado
+                        cellMontoDescontado.data(nuevoMontoDescontado);
+                        // Actualiza el valor de la celda de Saldo con el nuevo saldo y el atributo "data-id"
+                        var classToAdd = "badge badge-success mt-2 saldo-value";
+                        if (saldo > 0) {
+                            classToAdd = "badge badge-warning mt-2 saldo-value";
+                        } else if (saldo < 0) {
+                            classToAdd = "badge badge-danger mt-2 saldo-value";
+                        }
+
+                        cellSaldo.data('<span class="' + classToAdd + '" data-id="' + filaId + '">$' +
+                            saldo + '</span');
+                        // Vuelve a dibujar la fila
+                        // El valor "false" evita que DataTables vuelva a la primera página
+                        fila.invalidate().draw(false);
+
+                        // Restaura el número de página
+                        // El valor "false" evita que DataTables vuelva a la primera página
+                        table.page(currentPage).draw(false);
+                    } else {
+                        console.log('La fila no se encontró en DataTables.');
+                    }
 
 
 

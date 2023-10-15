@@ -39,28 +39,38 @@ class DescontadoController extends Controller
      */
     public function store(Request $request, Descuento $abonado)
     {
+
         // parametro para tomar texto de error
         $error = 0;
+        $descuentos = 0;
         //validacion de errores
         if ($request->valor === null) {
-            return response()->json(['success' => false, 'error' => 'El campo valor no puede estar vacio']);
+            return response()->json(['success' => false, 'error' => 'El campo valor no puede estar vacio', 'descuentos' => $descuentos]);
         } elseif ($request->descripcion === null) {
-            return response()->json(['success' => false, 'error' => 'El campo descripcion no puede estar vacio']);
+            return response()->json(['success' => false, 'error' => 'El campo descripcion no puede estar vacio', 'descuentos' => $descuentos]);
         }
+
         //obtenemos los descuentos
         $descuentos = Descuento::find($request->descuento_id);
+        // dd($descuentos);
+        if ($descuentos->saldo < $request->valor) {
+            $descuentos->montoDescontado = 0;
+            return response()->json(['success' => false, 'error' => 'El valor del abono no puede ser mayor a la deuda: $' . $descuentos->saldo, 'descuentos' => $descuentos]);
+        }
+        // dd($descuentos);
         //ser guarda un descuento nuevo con todos los campos obtenidos request
         $registroDescuento = Descontado::create($request->all());
-        $diferenciaSaldo = $descuentos->montoDescuento - $descuentos->montoDescontado;
+        // $diferenciaSaldo = $descuentos->montoDescuento - $descuentos->montoDescontado;
         $abonos = Descontado::where('descuento_id', '=', $request->descuento_id)
             ->select('valor')
             ->get()
             ->sum('valor');
         $descuentos->montoDescontado = $abonos;
+        $descuentos->saldo = $descuentos->montoDescuento - $abonos;
         $descuentos->save();
 
-               //retornamos Json
-        return response()->json(['success' => true, 'error' => $error]);
+        //retornamos Json
+        return response()->json(['success' => true, 'error' => $error, 'descuentos' => $descuentos]);
     }
 
     /**
@@ -250,6 +260,6 @@ class DescontadoController extends Controller
 
     //     // echo $abonoParcial->id;
     //     return view('admin.abonos.index', compact('abonos', 'abonoParcial'));
-        // return response()->json(['success' => true,'abonos' => $abonos,]);
+    // return response()->json(['success' => true,'abonos' => $abonos,]);
     // }
 }

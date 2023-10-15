@@ -37,7 +37,7 @@ class DescontadoController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request, Descuento $abonado)
+    public function store(Request $request)
     {
 
         // parametro para tomar texto de error

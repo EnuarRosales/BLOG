@@ -211,7 +211,20 @@ class RegistroDescuentoController extends Controller
      */
     public function destroy(Descuento $registroDescuento)
     {
+
         $registroDescuento->delete();
         return redirect()->route('admin.registroDescuentos.index')->with('info', 'delete');
+    }
+
+    public function eliminar(Request $request)
+    {
+        $Descuento = Descuento::find($request->input('id'));
+
+        if ($Descuento) {
+            $Descuento->delete();
+            return response()->json(['success' => true]);
+        }
+
+        return response()->json(['success' => false, 'message' => 'No se encontró el registro.']);
     }
 }

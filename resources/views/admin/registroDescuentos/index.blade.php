@@ -100,6 +100,8 @@
                     </tfoot>
 
                 </table>
+
+
             </div>
         </div>
     </div>
@@ -334,7 +336,6 @@
                             'content')
                     },
                     success: function(response) {
-                        console.log('Solicitud AJAX exitosa');
                         if (response.success) {
                             // Obtiene el valor de montoDescontado del JSON
                             var nuevoMontoDescontado = response.abonado.montoDescontado;
@@ -379,7 +380,6 @@
             $('#html5-extension').on('click', '.parcial-button', function() {
                 // Obtiene el ID del botón "Total" haciendo referencia al atributo "data-id"
                 var rowId = $(this).data('id');
-                console.log(rowId);
 
                 // Abre el modal
                 $('#abonoModal').modal('show');
@@ -495,6 +495,48 @@
                 });
             });
 
+            $('#html5-extension').on('click', '.feather-x-circle', function() {
+                var button = $(this); // El botón que se hizo clic
+                var row = button.closest('tr'); // La fila que contiene el botón
+                var table = $('#html5-extension').DataTable();
+
+                Swal.fire({
+                    title: "¿Estás seguro?",
+                    text: "Esta acción no se puede deshacer.",
+                    icon: "warning",
+                    showCancelButton: true,
+                    confirmButtonColor: "#d33",
+                    cancelButtonColor: "#3085d6",
+                    confirmButtonText: "Sí, eliminar",
+                    cancelButtonText: "Cancelar"
+                }).then((result) => {
+                    if (result.value) {
+                        $.ajax({
+                            url: `{{ route('admin.registroDescuentos.eliminar') }}`,
+                            type: 'POST',
+                            data: {
+                                id: row.data(
+                                'id'), // Puedes usar data-* para almacenar el ID de la fila
+                                _token: "{{ csrf_token() }}"
+                            },
+                            success: function(response) {
+                                if (response.success) {
+                                    location.reload();
+                                    // table.ajax.reload(null, false);
+                                }
+                            }
+                        });
+                    }
+                });
+            });
+
+
+
+
+
+
+
+
         });
 
         // Agrega un controlador de eventos al botón para cerrar el modal.
@@ -523,8 +565,6 @@
                     // Agrega otros datos si es necesario
                 },
                 success: function(response) {
-                    console.log(response);
-
                     // Obtiene el valor de montoDescontado del JSON
                     var nuevoMontoDescontado = response.descuentos.montoDescontado;
                     // Obtiene el valor de saldo del JSON
@@ -604,6 +644,29 @@
                 error: function(error) {
                     // Maneja los errores si la solicitud falla
                     console.error(error);
+                }
+            });
+        });
+
+
+
+        // Agrega un evento click a los botones de eliminación
+        $('.feather-x-circle').click(function() {
+
+
+            Swal.fire({
+                title: "¿Estás seguro?",
+                text: "Esta acción no se puede deshacer.",
+                icon: "warning",
+                showCancelButton: true,
+                confirmButtonColor: "#d33",
+                cancelButtonColor: "#3085d6",
+                confirmButtonText: "Sí, eliminar",
+                cancelButtonText: "Cancelar"
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    // Envía el formulario de eliminación
+                    $('#delete-form-' + rowId).submit();
                 }
             });
         });

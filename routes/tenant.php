@@ -86,6 +86,7 @@ Route::middleware([
 
 
     Route::resource('registroDescuentos', RegistroDescuentoController::class)->middleware(['auth', 'verified'])->names('admin.registroDescuentos');
+    Route::post('admin/registroDescuentos/eliminar', [RegistroDescuentoController::class,'eliminar'])->name('admin.registroDescuentos.eliminar');
     Route::get('registroDescuentos/datatable', [RegistroDescuentoController::class, 'datatable'])->middleware(['auth', 'verified'])->name('admin.registroDescuentos.datatable');
     Route::resource('tipoUsuarios', TipoUsuarioController::class)->middleware(['auth', 'verified'])->names('admin.tipoUsuarios');
     Route::resource('users', UserController::class)->middleware(['auth', 'verified'])->names('admin.users');

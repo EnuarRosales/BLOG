@@ -102,24 +102,24 @@ class RegistroDescuentoController extends Controller
                 }
                 return $pago;
             })
-            ->addColumn('saldo', function ($row) use ($permission) {
-                $saldo = $row->saldo;
+            // ->addColumn('saldo', function ($row) use ($permission) {
+            //     $saldo = $row->saldo;
 
-                // Aplicar la misma lógica que la condición en render
-                $badgeClass = '';
-                if ($saldo > 0) {
-                    $badgeClass = 'badge badge-warning mt-2';
-                } elseif ($saldo < 0) {
-                    $badgeClass = 'badge badge-danger mt-2';
-                } else {
-                    $badgeClass = 'badge badge-success mt-2';
-                }
+            //     // Aplicar la misma lógica que la condición en render
+            //     $badgeClass = '';
+            //     if ($saldo > 0) {
+            //         $badgeClass = 'badge badge-warning mt-2';
+            //     } elseif ($saldo < 0) {
+            //         $badgeClass = 'badge badge-danger mt-2';
+            //     } else {
+            //         $badgeClass = 'badge badge-success mt-2';
+            //     }
 
-                // Muestra el valor con la clase CSS apropiada y el atributo data-id
-                $saldo = '<span class="' . $badgeClass . ' saldo-value" data-id="' . $row->id . '">$' . $saldo . '</span>';
+            //     // Muestra el valor con la clase CSS apropiada y el atributo data-id
+            //     $saldo = '<span class="' . $badgeClass . ' saldo-value" data-id="' . $row->id . '">' . $saldo . '</span>';
 
-                return $saldo;
-            })
+            //     return $saldo;
+            // })
             ->rawColumns(['acciones', 'pago', 'saldo'])
             ->make(true);
     }

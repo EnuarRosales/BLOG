@@ -201,19 +201,24 @@
                 buttons: [{
                         extend: 'excel',
                         className: 'btn',
-                        // text: 'Exportar a Excel',
-                        // title: 'Mi archivo Excel',
                         exportOptions: {
                             columns: [0, 1, 2, 3, 4, 5, 6], // Incluye las columnas necesarias
-                            format: {
+                            modifier: {
                                 body: function(data, rowIdx, colIdx, node) {
-                                    // Formatea las columnas 2, 3 y 4 para eliminar el signo de dólar y convertirlas en números
                                     if (colIdx === 2 || colIdx === 3 || colIdx === 4) {
-                                        return data.replace('$', '') *
-                                            1; // Elimina el signo de dólar y convierte a número
-                                    } else {
-                                        return data; // Mantén el formato original para otras columnas
+                                        // Reemplaza los valores nulos por 0
+                                        data = data ? data : 0;
+                                        // Convierte los valores a números
+                                        data = parseFloat(data);
+
+                                        // Formatea los valores negativos
+                                        if (data < 0) {
+                                            return '(' + Math.abs(data) + ')';
+                                        } else {
+                                            return data.toFixed(0); // Redondea a cero decimales
+                                        }
                                     }
+                                    return data;
                                 }
                             }
                         },
@@ -246,7 +251,11 @@
                     name: 'montoDescuento',
                     render: function(data, type, row) {
                         if (type === 'display' || type === 'filter') {
-                            return '$' + data; // Agrega el símbolo "$" antes del número
+                            // Formatea el número con separadores de miles y sin decimales
+                            return '$' + new Intl.NumberFormat('en-US', {
+                                style: 'decimal',
+                                maximumFractionDigits: 0
+                            }).format(data);
                         }
                         return data;
                     }
@@ -256,7 +265,11 @@
                     name: 'formattedMontoDescontado',
                     render: function(data, type, row) {
                         if (type === 'display' || type === 'filter') {
-                            return '$' + data; // Agrega el símbolo "$" antes del número
+                            // Formatea el número con separadores de miles y sin decimales
+                            return '$' + new Intl.NumberFormat('en-US', {
+                                style: 'decimal',
+                                maximumFractionDigits: 0
+                            }).format(data);
                         }
                         return data;
                     }
@@ -264,6 +277,30 @@
                 {
                     data: 'saldo',
                     name: 'saldo',
+                    render: function(data, type, row) {
+                        if (type === 'display' || type === 'filter') {
+                            // Formatea el número con separadores de miles y sin decimales
+                            var formattedData = '$' + new Intl.NumberFormat('en-US', {
+                                style: 'decimal',
+                                maximumFractionDigits: 0
+                            }).format(data);
+
+                            // Aplica la lógica para determinar la clase CSS apropiada
+                            var badgeClass = '';
+                            if (data > 0) {
+                                badgeClass = 'badge badge-warning mt-2';
+                            } else if (data < 0) {
+                                badgeClass = 'badge badge-danger mt-2';
+                            } else {
+                                badgeClass = 'badge badge-success mt-2';
+                            }
+
+                            // Crea un elemento HTML con la clase CSS apropiada y el atributo data-id
+                            return '<span class="' + badgeClass + ' saldo-value" data-id="' + row.id +
+                                '">' + formattedData + '</span>';
+                        }
+                        return data;
+                    }
                 },
                 {
                     data: 'descuento_name',
@@ -315,7 +352,11 @@
                     // Agrega el atributo data-id a la fila
                     $(this.node()).attr('data-id', id);
                 });
-            }
+            },
+            order: [
+                [1, 'desc'] // 1 es el índice de la columna que contiene las fechas
+            ],
+            pageLength: 7, // Establece la cantidad de registros por página por defecto
         });
 
         var table2 = $('#decuentoDatatableModal').DataTable({});
@@ -499,16 +540,17 @@
                 var button = $(this); // El botón que se hizo clic
                 var row = button.closest('tr'); // La fila que contiene el botón
                 var table = $('#html5-extension').DataTable();
+                var currentPage = table.page(); // Guardar la página actual
 
                 Swal.fire({
-                    title: "¿Estás seguro?",
-                    text: "Esta acción no se puede deshacer.",
-                    icon: "warning",
+                    title: '¿Estás seguro?',
+                    text: '¡Este registro se eliminará definitivamente!',
+                    type: 'warning',
                     showCancelButton: true,
-                    confirmButtonColor: "#d33",
-                    cancelButtonColor: "#3085d6",
-                    confirmButtonText: "Sí, eliminar",
-                    cancelButtonText: "Cancelar"
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: '¡Sí, eliminar!',
+                    cancelButtonText: '¡Cancelar!',
                 }).then((result) => {
                     if (result.value) {
                         $.ajax({
@@ -516,13 +558,39 @@
                             type: 'POST',
                             data: {
                                 id: row.data(
-                                'id'), // Puedes usar data-* para almacenar el ID de la fila
+                                    'id'
+                                ), // Puedes usar data-* para almacenar el ID de la fila
                                 _token: "{{ csrf_token() }}"
                             },
                             success: function(response) {
                                 if (response.success) {
-                                    location.reload();
-                                    // table.ajax.reload(null, false);
+
+                                    // Swal.fire({
+                                    //     title: '¡Eliminado!',
+                                    //     text: 'El registro se eliminó con éxito',
+                                    //     icon: 'success',
+                                    //     // timer: 3000, // Establece el tiempo en milisegundos (2 segundos en este ejemplo)
+                                    //     // showConfirmButton: true, // Oculta el botón de confirmación
+                                    // });
+                                    // setTimeout(function() {
+                                    //     location
+                                    // .reload(); // Recarga la página después de 2 segundos
+                                    // }, 5000); // 2000 milisegundos (2 segundos)
+                                    Swal.fire(
+                                        '¡Eliminado!',
+                                        'El registro se elimino con exito',
+                                        'success'
+                                    );
+
+                                    setTimeout(function() {
+                                        Swal.close();
+                                    }, 2000);
+                                    setTimeout(function() {
+                                        // Elimina la fila sin recargar la tabla
+                                        var rowIndex = table.row(row).index();
+                                        table.row(rowIndex).remove().draw();
+                                        table.page(currentPage).draw('page');
+                                    }, 2000);
                                 }
                             }
                         });
@@ -666,6 +734,8 @@
             }).then((result) => {
                 if (result.isConfirmed) {
                     // Envía el formulario de eliminación
+
+
                     $('#delete-form-' + rowId).submit();
                 }
             });

@@ -378,6 +378,7 @@
                     },
                     success: function(response) {
                         if (response.success) {
+                            console.log(response);
                             // Obtiene el valor de montoDescontado del JSON
                             var nuevoMontoDescontado = response.abonado.montoDescontado;
                             // Obtiene el valor de saldo del JSON
@@ -390,6 +391,7 @@
                             var fila = table.row('[data-id="' + filaId + '"]');
 
                             if (fila.any()) {
+                                console.log(saldo);
                                 // Obtiene el número de página actual
                                 var currentPage = table.page();
                                 // Obtiene la celda en la columna "Monto Descontado" (índice 3)
@@ -399,9 +401,11 @@
                                 // Actualiza el valor de la celda de Monto Descontado con el nuevo monto descontado
                                 cellMontoDescontado.data(nuevoMontoDescontado);
                                 // Actualiza el valor de la celda de Saldo con el nuevo saldo y el atributo "data-id"
-                                cellSaldo.data(
-                                    '<span class="badge badge-success mt-2 saldo-value" data-id="' +
-                                    rowId + '">$' + saldo + '</span');
+                                // cellSaldo.data(
+                                //     '<span class="badge badge-success mt-2 saldo-value" data-id="' +
+                                //     rowId + '">$' + saldo + '</span');
+                                cellSaldo.data(saldo);
+
                                 // Vuelve a dibujar la fila
                                 // El valor "false" evita que DataTables vuelva a la primera página
                                 fila.invalidate().draw(false);
@@ -661,8 +665,11 @@
                             classToAdd = "badge badge-danger mt-2 saldo-value";
                         }
 
-                        cellSaldo.data('<span class="' + classToAdd + '" data-id="' + filaId + '">$' +
-                            saldo + '</span');
+                        // cellSaldo.data('<span class="' + classToAdd + '" data-id="' + filaId + '">$' +
+                        //     saldo + '</span');
+
+                        cellSaldo.data(saldo);
+
                         // Vuelve a dibujar la fila
                         // El valor "false" evita que DataTables vuelva a la primera página
                         fila.invalidate().draw(false);

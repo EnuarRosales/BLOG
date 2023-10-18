@@ -245,6 +245,7 @@
             $('.impuesto-radio').on('change', function() {
                 // obtener impuesto ID
                 var impuestoId = $(this).val();
+                var radio = 'radio';
                 // nuevo estado
                 var nuevoEstado = $(this).data('estado') === 1 ? 0 : 1;
                 $.ajax({
@@ -252,7 +253,8 @@
                     url: "{{ route('admin.impuestos.update', ':id') }}".replace(':id', impuestoId),
                     data: {
                         estado: nuevoEstado,
-                        _token: "{{ csrf_token() }}"
+                        _token: "{{ csrf_token() }}",
+                        radio: radio,
                     },
                     success: function(response) {
                         location.reload();

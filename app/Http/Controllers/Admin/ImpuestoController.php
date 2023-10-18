@@ -95,17 +95,30 @@ class ImpuestoController extends Controller
      */
     public function update(Request $request, Impuesto $impuesto)
     {
-        // obtnemos todos los impuestos
-        $zero = Impuesto::all();
-        // recorremos la coleccion
-        foreach ($zero as $item) {
-            // volvemos a todo inactivos
-            $item->estado = 0;
-            $item->update();
+        // dd($request->has('radio'));
+        if ($request->has('radio')) {
+            // obtnemos todos los impuestos
+            $zero = Impuesto::all();
+            // recorremos la coleccion
+            foreach ($zero as $item) {
+                // volvemos a todo inactivos
+                $item->estado = 0;
+                $item->update();
+            }
+            // volvemos activo el seleccionado en la pantalla
+            $impuesto->update($request->all());
+            return response()->json(['success' => true]);
         }
-        // volvemos activo el seleccionado en la pantalla
+
+        //VALLIDACION DE FORMULARIOS
+        $request->validate([
+            'nombre' => 'required',
+            'porcentaje' => 'required',
+            'mayorQue' => 'required',
+        ]);
+        //ASINACION MASIVA DE VARIABLES A LOS CAMPOS
         $impuesto->update($request->all());
-        return response()->json(['success' => true]);
+        return redirect()->route('admin.impuestos.index', $impuesto->id)->with('info', 'update'); //with mensaje de sesion
     }
 
     /**

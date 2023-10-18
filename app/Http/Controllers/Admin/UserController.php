@@ -14,6 +14,8 @@ use Illuminate\Support\Facades\Log;
 use Spatie\Permission\Models\Role;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Carbon\Carbon;
+use Exception;
+use PhpParser\Node\Stmt\TryCatch;
 use SimpleSoftwareIO\QrCode\Facades\QrCode;
 
 class UserController extends Controller
@@ -95,19 +97,40 @@ class UserController extends Controller
         $cantidadAno = $fechaAntigua->diff($fechaReciente);
         $ano = $cantidadAno->m;
 
-        $codigoQR = QrCode::size(80)->generate(
-            "CERTIFICACION LABORAL" . "\n" .
-                "NOMBRE: " . $user->name . "\n" .
-                "LABORANDO: " . "\n" .
-                "EMPRESA: " . $empresa->name . "\n" .
-                "DESDE: " . $user->fechaIngreso . "\n" .
-                "HASTA: " . $fechaReciente . "\n"
+        // $codigoQR = QrCode::size(80)->generate(
+        //     "CERTIFICACION LABORAL" . "\n" .
+        //         "NOMBRE: " . $user->name . "\n" .
+        //         "LABORANDO: " . "\n" .
+        //         "EMPRESA: " . $empresa->name . "\n" .
+        //         "DESDE: " . $user->fechaIngreso . "\n" .
+        //         "HASTA: " . $fechaReciente . "\n"
 
-        );
+        // );
+
+        try {
+            $codigoQR = QrCode::size(80)->generate(
+                "CERTIFICACION LABORAL" . "\n" .
+                    "NOMBRE: " . $user->name . "\n" .
+                    "LABORANDO: " . "\n" .
+                    "EMPRESA: " . $empresa->name . "\n" .
+                    "DESDE: " . $user->fechaIngreso . "\n" .
+                    "HASTA: " . $fechaReciente . "\n"
+            );
+        } catch (\Exception $e) {
+            $errorMessage = $e->getMessage();
+            $message = substr($errorMessage, strpos($errorMessage, '$') + 1);
+            return back()->with('mensaje', "Falta Informacion sobre: " . $message);
+        }
+
+
 
         // printf('%d años, %d meses, %d días, %d horas, %d minutos', $cantidadAno->y, $cantidadAno->m, $cantidadAno->d, $cantidadAno->h, $cantidadAno->i);
 
-        $pdf = Pdf::loadView('admin.users.laboralPDF', compact('user', 'date', 'nombreEmpresa', 'nitEmpresa', 'gerenteEmpresa', 'fechaAntigua', 'cantidadDias', 'cantidadMes', 'cantidadAno', 'codigoQR', 'logoEmpresa'));
+        // try {
+        $pdf = PDF::loadView('admin.users.laboralPDF', compact('user', 'date', 'nombreEmpresa', 'nitEmpresa', 'gerenteEmpresa', 'fechaAntigua', 'cantidadDias', 'cantidadMes', 'cantidadAno', 'codigoQR', 'logoEmpresa'));
+        // } catch (\Exception $e) {
+        //     return back()->with('mensaje', 'Error al generar el PDF: ' . $e->getMessage());
+        // }
         return $pdf->stream();
     }
 
@@ -121,6 +144,12 @@ class UserController extends Controller
             $nitEmpresa = $empresa->nit;
             $gerenteEmpresa = $empresa->representative;
         }
+        // if (empty($nombreEmpresa)) {
+        //     //  return back()->with('preuba', 'updateRol');
+        //     return redirect()->back()->withErrors(['mensaje' => 'Ocurrió un error.']);
+
+
+        // }
         $fechaAntigua1 = Carbon::parse($user->fechaIngreso);
         $fechaAntigua = $fechaAntigua1->locale('es');
         $cantidadDias = $fechaAntigua->diffInDays($fechaReciente);
@@ -132,10 +161,14 @@ class UserController extends Controller
             "NOMBRE: " . $user->name . "\n" .
             "TIEMPO: " . "Años " . $tiempo->y . " Meses " . $tiempo->m . " Dias " . $tiempo->d);
 
+        try {
+            $pdf = Pdf::loadView('admin.users.certificacionTiempoPDF', compact('user', 'date', 'nombreEmpresa', 'nitEmpresa', 'gerenteEmpresa', 'fechaAntigua', 'cantidadDias', 'cantidadMes', 'tiempo', 'codigoQR'));
+        } catch (\Exception $e) {
+            $errorMessage = $e->getMessage();
+            $message = substr($errorMessage, strpos($errorMessage, '$') + 1);
+            return back()->with('mensaje', "Falta Informacion sobre: " . $message);
+        }
 
-        // printf('%d años, %d meses, %d días, %d horas, %d minutos', $cantidadAno->y, $cantidadAno->m, $cantidadAno->d, $cantidadAno->h, $cantidadAno->i);
-
-        $pdf = Pdf::loadView('admin.users.certificacionTiempoPDF', compact('user', 'date', 'nombreEmpresa', 'nitEmpresa', 'gerenteEmpresa', 'fechaAntigua', 'cantidadDias', 'cantidadMes', 'tiempo', 'codigoQR'));
         return $pdf->stream();
     }
 
@@ -238,7 +271,7 @@ class UserController extends Controller
         return view('admin.users.edit', compact('user', 'tipoUsuarios', 'empresas'));
     }
 
-    
+
     public function rol(User $user)
     {
         try {

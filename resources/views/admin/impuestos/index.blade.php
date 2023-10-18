@@ -284,7 +284,7 @@
             Swal.fire({
                 position: 'top-end',
                 type: 'success',
-                title: 'Tipo Usuario realizado correctamente',
+                title: 'Impuesto creado correctamente',
                 showConfirmButton: false,
                 timer: 2000
             })
@@ -294,7 +294,7 @@
             Swal.fire({
                 position: 'top-end',
                 type: 'success',
-                title: 'Tipo Usuario actualizado correctamente',
+                title: 'Impuesto actualizado correctamente',
                 showConfirmButton: false,
                 timer: 2000
             })

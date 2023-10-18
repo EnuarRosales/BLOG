@@ -95,7 +95,6 @@ class ImpuestoController extends Controller
      */
     public function update(Request $request, Impuesto $impuesto)
     {
-        // dd($request->has('radio'));
         if ($request->has('radio')) {
             // obtnemos todos los impuestos
             $zero = Impuesto::all();

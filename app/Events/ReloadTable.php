@@ -2,6 +2,7 @@
 
 namespace App\Events;
 
+use App\Models\Post;
 use Illuminate\Broadcasting\Channel;
 use Illuminate\Broadcasting\InteractsWithSockets;
 use Illuminate\Broadcasting\PresenceChannel;
@@ -40,6 +41,7 @@ class ReloadTable implements ShouldBroadcast
     }
 
     public function broadcastWith(){
-        return ['message' => 'esta notificacion es para eventos publicos'];
+        return ['posts' => Post::all()];
+        // return ['message' => 'esta notificacion es para eventos publicos'];
     }
 }

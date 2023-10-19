@@ -59,10 +59,7 @@
 
 @section('js')
 
-    <script>
-        window.laravelEchoPort = '{{ env('LARAVEL_ECHO_PORT') }}';
-    </script>
-    <script src="//{{ request()->getHost() }}:{{ env('LARAVEL_ECHO_PORT') }}/socket.io/socket.io.js"></script>
+    
 
     <script>
         $(document).ready(function() {
@@ -76,7 +73,7 @@
             window.Echo.private('private-event.' + userId)
                 .listen('.message-event', (data) => {
                     $("#chat-notification").append('<div class="alert alert-danger">' + data.message +
-                    '</div>');
+                        '</div>');
                 });
 
         });
@@ -96,6 +93,10 @@
 
     <script>
         function initDataTable() {
+            // Destruir la instancia anterior de DataTable si existe
+            if ($.fn.DataTable.isDataTable('#html5-extension')) {
+                $('#html5-extension').DataTable().destroy();
+            }
             $('#html5-extension').DataTable({
                 dom: '<"row"<"col-md-12"<"row"<"col-md-6"B><"col-md-6"f> > ><"col-md-12"rt> <"col-md-12"<"row"<"col-md-5"i><"col-md-7"p>>> >',
                 buttons: {
@@ -139,7 +140,7 @@
         });
 
         // Llama a la función para reinicializar DataTables al escuchar el evento Livewire
-        Livewire.on('postCreated', function() {
+        Livewire.on('ReloadTable', function() {
             // Destruir la instancia anterior de DataTable si existe
             if ($.fn.DataTable.isDataTable('#html5-extension')) {
                 $('#html5-extension').DataTable().destroy();

@@ -27,7 +27,7 @@ class Create extends Component
         $this->dispatchBrowserEvent('close-modal');
 
 
-        $this->emit('postCreated');
+        $this->emit('ReloadTable');
 
 
 

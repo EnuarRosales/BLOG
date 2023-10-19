@@ -6,22 +6,25 @@ use Livewire\Component;
 use App\Models\Post;
 
 class Table extends Component
-{   
+{
 
-    protected $listeners = ['postCreated' => 'updateTable'];
 
     public $posts;
+    public $data;
+    protected $listeners = ['ReloadTable' => 'updateTable'];
 
-    public function mount()
+    public function updateTable($data)
     {
-        // Inicialmente, carga los datos
-        $this->posts = Post::all();
+        $this->posts = $data['posts'];
     }
 
-    public function updateTable()
-    {
-        // Actualiza los datos cuando se crea un nuevo post
+    public function __construct($data)
+{
+    $this->data = $data;
+}
+    public function mount(){
         $this->posts = Post::all();
+
     }
 
     public function render()

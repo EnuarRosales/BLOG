@@ -243,6 +243,16 @@
                 timer: 2000
             })
         </script>
+        @elseif (session('mensaje'))
+        <script>
+            Swal.fire({
+                position: 'top-end',
+                type: 'error',
+                title: "{{ session('mensaje') }}",
+                showConfirmButton: false,
+                timer: 5000
+            });
+        </script>
     @endif
 
 

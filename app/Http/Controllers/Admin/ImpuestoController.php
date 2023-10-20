@@ -157,7 +157,13 @@ class ImpuestoController extends Controller
 
         // $pagos = Pago::where('user_id', $pago->id)->get();
         $date = Carbon::now()->locale('es');
+        try{
         $pdf = Pdf::loadView('admin.impuestos.comprobanteImpuestoPDF', compact('pago', 'date', 'nombreEmpresa', 'nitEmpresa', 'codigoQR'));
+        } catch (\Exception $e) {
+            $errorMessage = $e->getMessage();
+            $message = substr($errorMessage, strpos($errorMessage, '$') + 1);
+            return back()->with('mensaje', "Falta Informacion sobre: " . $message);
+        }
         return $pdf->stream();
     }
 }

@@ -5,6 +5,13 @@
     <link href="{{ asset('template/assets/css/dashboard/dash_1.css') }}" rel="stylesheet" type="text/css" />
 
     <link href="{{ asset('template/assets/css/dashboard/dash_2.css') }}" rel="stylesheet" type="text/css" />
+    <link href="{{ asset('template/plugins/flatpickr/flatpickr.css') }}" rel="stylesheet" type="text/css">
+    <link href="{{ asset('template/plugins/noUiSlider/nouislider.min.css') }}" rel="stylesheet" type="text/css">
+    <link href="{{ asset('template/assets/css/scrollspyNav.css') }}" rel="stylesheet" type="text/css" />
+    <link href="{{ asset('template/plugins/flatpickr/custom-flatpickr.css') }}" rel="stylesheet" type="text/css">
+    <link href="{{ asset('template/plugins/noUiSlider/custom-nouiSlider.css') }}" rel="stylesheet" type="text/css">
+    <link href="{{ asset('template/plugins/bootstrap-range-Slider/bootstrap-slider.css') }}" rel="stylesheet"
+        type="text/css">
 @endsection
 
 @section('content')
@@ -365,7 +372,8 @@
                                                 <div class="td-content">240</div>
                                             </td>
                                             <td>
-                                                <div class="td-content"><a href="javascript:void(0);" class="">Direct</a>
+                                                <div class="td-content"><a href="javascript:void(0);"
+                                                        class="">Direct</a>
                                                 </div>
                                             </td>
                                         </tr>
@@ -384,7 +392,8 @@
                                                 <div class="td-content">190</div>
                                             </td>
                                             <td>
-                                                <div class="td-content"><a href="javascript:void(0);" class="">Google</a>
+                                                <div class="td-content"><a href="javascript:void(0);"
+                                                        class="">Google</a>
                                                 </div>
                                             </td>
                                         </tr>
@@ -422,7 +431,8 @@
                                                 <div class="td-content">35</div>
                                             </td>
                                             <td>
-                                                <div class="td-content"><a href="javascript:void(0);" class="">Email</a>
+                                                <div class="td-content"><a href="javascript:void(0);"
+                                                        class="">Email</a>
                                                 </div>
                                             </td>
                                         </tr>
@@ -441,7 +451,8 @@
                                                 <div class="td-content">30</div>
                                             </td>
                                             <td>
-                                                <div class="td-content"><a href="javascript:void(0);" class="">Referral</a>
+                                                <div class="td-content"><a href="javascript:void(0);"
+                                                        class="">Referral</a>
                                                 </div>
                                             </td>
                                         </tr>
@@ -460,7 +471,8 @@
                                                 <div class="td-content">130</div>
                                             </td>
                                             <td>
-                                                <div class="td-content"><a href="javascript:void(0);" class="">Google</a>
+                                                <div class="td-content"><a href="javascript:void(0);"
+                                                        class="">Google</a>
                                                 </div>
                                             </td>
                                         </tr>
@@ -490,116 +502,329 @@
                     </div>
                 </div>
             </div>
-        </div>
-
-
-        {{-- <div class="col-12">
-            <div class="row">
-                <div class="col">
-                    <livewire:admin.dashboard-models-graphics />
-                </div>
-
-                <div class="col">
-                    <livewire:admin.dashboard-multas-graphics />
-                </div>
-                <div class="col">
-                    <x-adminlte-small-box title="{{ $count_multas_user . ' ' . $count_multas_user }} %" text="otro valor"
-                        icon="fas fa-user-plus text-teal" theme="primary" url="#" url-text="View all users" />
-                </div>
-            </div>
 
             <div class="row">
-                <div class="col-8">
-                    <x-adminlte-info-box title="Meta" text="75/100" icon="fas fa-lg fa-tasks text-orange" theme="warning"
-                        icon-theme="dark" progress=99 progress-theme="dark"
-                        description="98% of the tasks have been completed" />
-
+                <div class="col-lg-12 mb-4">
+                    <div class="statbox widget box box-shadow">
+                        <div class="widget-header">
+                            <div class="row">
+                                <div class="col-xl-12 col-md-12 col-sm-12 col-12">
+                                    <h4 class="mb-4">Using HTML5 input elements</h4>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="widget-content widget-content-area align-center">
+                            <div class="container">
+                                <div id="html5"></div>
+                                <br />
+                                <div class="row mt-4 mb-4">
+                                    <div class="col-lg-6 mb-3">
+                                        <select id="input-select" class="form-control"></select>
+                                    </div>
+                                    <div class="col-lg-6">
+                                        <input type="number" class="form-control" min="-20" max="40"
+                                            step="1" id="input-number">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-                <div class="col-4">
-                    <x-adminlte-info-box title="Meta" text="75/100" icon="fas fa-lg fa-tasks text-orange" theme="warning"
-                        icon-theme="dark" progress=100 progress-theme="dark"
-                        description="75% of the tasks have been completed" />
-                </div>
-            </div>
-
-            <div>
-                <h1>{{ $chart->options['chart_title'] }}</h1>
-                {!! $chart->renderHtml() !!}
             </div>
 
             <div class="row">
-                <div class="col-4">
-                    <h2>Turnos</h2>
-                    <livewire:admin.dashboard-asignacion-turnos-table />
-                </div>
-                <div class="col-4">
-                    <h2>Modelos</h2>
-                    <table id="users" class="table table-striped table-bordered shadow-lg mt-4">
-                        <thead>
-                            <tr>
-                                <th>Nombre</th>
-                                <th>Celular</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach ($userModelos as $userModelo)
-                                <tr>
-                                    <td>{{ $userModelo->name }}</td>
-                                    <td>{{ $userModelo->celular }}</td>
-                                </tr>
-                            @endforeach
-                        </tbody>
-                    </table>
+                <div id="chartLine" class="col-xl-9 layout-top-spacing layout-spacing">
+                    <div class="widget box box-shadow">
+                        <div class="widget-header">
+                            <div class="row">
+                                <div class="col-xl-12 col-md-12 col-sm-12 col-12">
+                                    <h4>Apex (Simple)</h4>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="widget-content widget-content-area">
+                            <div id="s-line" class=""></div>
+                        </div>
+                    </div>
+
                 </div>
 
-                <div class="col-4">
-                    <table id="users" class="table table-striped table-bordered shadow-lg mt-4">
-                        <thead>
-                            <tr>
-                                <th>Nombre</th>
-                                <th>Celular</th>
+                <div class="col-xl-3 col-lg-12 col-md-6 col-sm-12 col-12 layout-top-spacing">
+                    <div class="widget widget-table-one" style="padding-top: 2rem; height: 31.0rem;">
+                        <div class="widget-heading">
+                            <h5 class="">Transactions</h5>
+                        </div>
 
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach ($userModelos as $userModelo)
-                                <tr>
-                                    <td>{{ $userModelo->name }}</td>
-                                    <td>{{ $userModelo->celular }}</td>
-                                </tr>
-                            @endforeach
-                        </tbody>
-                    </table>
+                        <div class="widget-content">
+                            <div class="transactions-list">
+                                <div class="t-item">
+                                    <div class="t-company-name">
+                                        <div class="t-icon">
+                                            <div class="icon">
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                                    viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                                    stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                                                    class="feather feather-home">
+                                                    <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+                                                    <polyline points="9 22 9 12 15 12 15 22"></polyline>
+                                                </svg>
+                                            </div>
+                                        </div>
+                                        <div class="t-name">
+                                            <h4>Electricity Bill</h4>
+                                            <p class="meta-date">4 Aug 1:00PM</p>
+                                        </div>
+
+                                    </div>
+                                    <div class="t-rate rate-dec">
+                                        <p><span>-$16.44</span> <svg xmlns="http://www.w3.org/2000/svg" width="24"
+                                                height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                                stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                                                class="feather feather-arrow-down">
+                                                <line x1="12" y1="5" x2="12" y2="19"></line>
+                                                <polyline points="19 12 12 19 5 12"></polyline>
+                                            </svg></p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="transactions-list">
+                                <div class="t-item">
+                                    <div class="t-company-name">
+                                        <div class="t-icon">
+                                            <div class="avatar avatar-xl">
+                                                <span class="avatar-title rounded-circle">SP</span>
+                                            </div>
+                                        </div>
+                                        <div class="t-name">
+                                            <h4>Shaun Park</h4>
+                                            <p class="meta-date">4 Aug 1:00PM</p>
+                                        </div>
+                                    </div>
+                                    <div class="t-rate rate-inc">
+                                        <p><span>+$66.44</span> <svg xmlns="http://www.w3.org/2000/svg" width="24"
+                                                height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                                stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                                                class="feather feather-arrow-up">
+                                                <line x1="12" y1="19" x2="12" y2="5"></line>
+                                                <polyline points="5 12 12 5 19 12"></polyline>
+                                            </svg></p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="transactions-list">
+                                <div class="t-item">
+                                    <div class="t-company-name">
+                                        <div class="t-icon">
+                                            <div class="avatar avatar-xl">
+                                                <span class="avatar-title rounded-circle">AD</span>
+                                            </div>
+                                        </div>
+                                        <div class="t-name">
+                                            <h4>Amy Diaz</h4>
+                                            <p class="meta-date">4 Aug 1:00PM</p>
+                                        </div>
+
+                                    </div>
+                                    <div class="t-rate rate-inc">
+                                        <p><span>+$66.44</span> <svg xmlns="http://www.w3.org/2000/svg" width="24"
+                                                height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                                stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                                                class="feather feather-arrow-up">
+                                                <line x1="12" y1="19" x2="12" y2="5"></line>
+                                                <polyline points="5 12 12 5 19 12"></polyline>
+                                            </svg></p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="transactions-list">
+                                <div class="t-item">
+                                    <div class="t-company-name">
+                                        <div class="t-icon">
+                                            <div class="icon">
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                                    viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                                    stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                                                    class="feather feather-home">
+                                                    <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+                                                    <polyline points="9 22 9 12 15 12 15 22"></polyline>
+                                                </svg>
+                                            </div>
+                                        </div>
+                                        <div class="t-name">
+                                            <h4>Netflix</h4>
+                                            <p class="meta-date">4 Aug 1:00PM</p>
+                                        </div>
+
+                                    </div>
+                                    <div class="t-rate rate-dec">
+                                        <p><span>-$32.00</span> <svg xmlns="http://www.w3.org/2000/svg" width="24"
+                                                height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                                stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                                                class="feather feather-arrow-down">
+                                                <line x1="12" y1="5" x2="12" y2="19"></line>
+                                                <polyline points="19 12 12 19 5 12"></polyline>
+                                            </svg></p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
-        </div>
-        </div> --}}
-    @endcan
-@endsection
 
-@section('js')
-    <script src="{{ asset('template/plugins/apex/apexcharts.min.js') }}"></script>
-    <script src="{{ asset('template/assets/js/dashboard/dash_1.js') }}"></script>
-    <script src="{{ asset('template/assets/js/dashboard/dash_2.js') }}"></script>
-    {{-- <script type="module">
-        Echo.channel(`userModelUpdateCreate`)
-            .listen('userModelEvent', (e) => {
-                //console.log(e);
-                Livewire.emit('renderModels');
+            <div class="row">
+
+                <div id="chartColumn" class="col-xl-12 layout-spacing">
+                    <div class="statbox widget box box-shadow">
+                        <div class="widget-header">
+                            <div class="row">
+                                <div class="col-xl-12 col-md-12 col-sm-12 col-12">
+                                    <h4>Simple Column</h4>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="widget-content widget-content-area">
+                            <div id="s-col" class=""></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        @endcan
+    @endsection
+
+    @section('js')
+        <script src="{{ asset('template/plugins/apex/apexcharts.min.js') }}"></script>
+        <script src="{{ asset('template/assets/js/dashboard/dash_1.js') }}"></script>
+        <script src="{{ asset('template/assets/js/dashboard/dash_2.js') }}"></script>
+
+
+        {{-- Using HTML5 input elements --}}
+        <script>
+            var html5Slider = document.getElementById('html5');
+
+            noUiSlider.create(html5Slider, {
+                start: [10, 30],
+                connect: true,
+                tooltips: true,
+                range: {
+                    'min': -20,
+                    'max': 40
+                }
             });
+        </script>
+        {{-- Apex (Simple) --}}
+        <script>
+            var sline = {
+                chart: {
+                    height: 350,
+                    type: 'line',
+                    zoom: {
+                        enabled: false
+                    },
+                    toolbar: {
+                        show: false,
+                    }
+                },
+                dataLabels: {
+                    enabled: false
+                },
+                stroke: {
+                    curve: 'straight'
+                },
+                series: [{
+                    name: "Desktops",
+                    data: [10, 41, 35, 51, 49, 62, 69, 91, 148]
+                }],
+                title: {
+                    text: 'Product Trends by Month',
+                    align: 'left'
+                },
+                grid: {
+                    row: {
+                        colors: ['#f1f2f3', 'transparent'], // takes an array which will be repeated on columns
+                        opacity: 0.5
+                    },
+                },
+                xaxis: {
+                    categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep'],
+                }
+            }
 
-        Echo.channel(`multaUpdateCreate`)
-            .listen('multaEvent', (e) => {
-                //console.log(e);
-                Livewire.emit('renderMultas');
-            });
-    </script>
-    <script>
-        let myInfoBox = new _AdminLTE_InfoBox("myInfoBox");
-    </script>
+            var chart = new ApexCharts(
+                document.querySelector("#s-line"),
+                sline
+            );
 
+            chart.render();
+        </script>
+        {{-- Simple Column --}}
+        <script>
+            var sCol = {
+                chart: {
+                    height: 350,
+                    type: 'bar',
+                    toolbar: {
+                        show: false,
+                    }
+                },
+                plotOptions: {
+                    bar: {
+                        horizontal: false,
+                        columnWidth: '55%',
+                        endingShape: 'rounded'
+                    },
+                },
+                dataLabels: {
+                    enabled: false
+                },
+                stroke: {
+                    show: true,
+                    width: 2,
+                    colors: ['transparent']
+                },
+                series: [{
+                    name: 'Net Profit',
+                    data: [44, 55, 57, 56, 61, 58, 63, 60, 66]
+                }, {
+                    name: 'Revenue',
+                    data: [76, 85, 101, 98, 87, 105, 91, 114, 94]
+                }],
+                xaxis: {
+                    categories: ['Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct'],
+                },
+                yaxis: {
+                    title: {
+                        text: '$ (thousands)'
+                    }
+                },
+                fill: {
+                    opacity: 1
 
+                },
+                tooltip: {
+                    y: {
+                        formatter: function(val) {
+                            return "$ " + val + " thousands"
+                        }
+                    }
+                }
+            }
 
-    {!! $chart->renderChartJsLibrary() !!}
-    {!! $chart->renderJs() !!} --}}
-@endsection
+            var chart = new ApexCharts(
+                document.querySelector("#s-col"),
+                sCol
+            );
+
+            chart.render();
+        </script>
+        <script src="{{ asset('template/assets/js/scrollspyNav.js') }}"></script>
+        <script src="{{ asset('template/plugins/flatpickr/flatpickr.js') }}"></script>
+        <script src="{{ asset('template/plugins/noUiSlider/nouislider.min.js') }}"></script>
+
+        <script src="{{ asset('template/plugins/flatpickr/custom-flatpickr.js') }}"></script>
+        <script src="{{ asset('template/plugins/noUiSlider/custom-nouiSlider.js') }}"></script>
+        <script src="{{ asset('template/plugins/bootstrap-range-Slider/bootstrap-rangeSlider.js') }}"></script>
+    @endsection

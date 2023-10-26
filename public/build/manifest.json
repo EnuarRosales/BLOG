@@ -1,12 +1,20 @@
 {
   "resources/css/app.css": {
-    "file": "assets/app-f5c59c85.css",
+    "file": "assets/app-c195c2ce.css",
     "isEntry": true,
     "src": "resources/css/app.css"
   },
   "resources/js/app.js": {
-    "file": "assets/app-4f1e608f.js",
+    "file": "assets/app-336b9596.js",
+    "imports": [
+      "resources/js/bootstrap.js"
+    ],
     "isEntry": true,
     "src": "resources/js/app.js"
+  },
+  "resources/js/bootstrap.js": {
+    "file": "assets/bootstrap-a4d913b4.js",
+    "isEntry": true,
+    "src": "resources/js/bootstrap.js"
   }
 }

@@ -14,7 +14,7 @@
 @stop
 
 @section('styles')
-
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     <link rel="stylesheet" type="text/css" href="{{ asset('template/plugins/table/datatable/datatables.css') }}">
     <link rel="stylesheet" type="text/css" href="{{ asset('template/plugins/table/datatable/custom_dt_html5.css') }}">
     <link rel="stylesheet" type="text/css" href="{{ asset('template/plugins/table/datatable/dt-global_style.css') }}">
@@ -25,6 +25,7 @@
     <div class="col-xl-12 col-lg-12 col-sm-12  layout-spacing">
         <div class="widget-content widget-content-area br-6">
             <div class="row g-2">
+                <div id="notificacion"></div>
 
                 <div class="col">
                     <div style="display: flex;">
@@ -46,7 +47,7 @@
             </div>
 
             <livewire:admin.posts.table>
-
+                <div id="chat-notification"> </div>
         </div>
     </div>
 
@@ -57,6 +58,26 @@
 
 
 @section('js')
+
+    
+
+    <script>
+        $(document).ready(function() {
+            const userId = '{{ auth()->id() }}';
+            window.Echo.channel('reload-table')
+                .listen('.message-event', (data) => {
+                    $("#chat-notification").append('<div class="alert alert-warning">' + data.message +
+                        '</div>');
+                });
+
+            window.Echo.private('private-event.' + userId)
+                .listen('.message-event', (data) => {
+                    $("#chat-notification").append('<div class="alert alert-danger">' + data.message +
+                        '</div>');
+                });
+
+        });
+    </script>
 
     <script>
         window.addEventListener('close-modal', function() {
@@ -71,7 +92,11 @@
     <script src="{{ asset('template/plugins/table/datatable/button-ext/buttons.print.min.js') }}"></script>
 
     <script>
-        $(document).ready(function() {
+        function initDataTable() {
+            // Destruir la instancia anterior de DataTable si existe
+            if ($.fn.DataTable.isDataTable('#html5-extension')) {
+                $('#html5-extension').DataTable().destroy();
+            }
             $('#html5-extension').DataTable({
                 dom: '<"row"<"col-md-12"<"row"<"col-md-6"B><"col-md-6"f> > ><"col-md-12"rt> <"col-md-12"<"row"<"col-md-5"i><"col-md-7"p>>> >',
                 buttons: {
@@ -107,59 +132,28 @@
                 "lengthMenu": [7, 10, 20, 50],
                 "pageLength": 7
             });
-            Livewire.on('redibujarTabla', function() {
-                // Redibujar la tabla DataTable
-                $('#html5-extension').DataTable().draw();
-            });
+        }
+
+        // Llama a la función para inicializar DataTables al cargar la página
+        $(document).ready(function() {
+            initDataTable();
+        });
+
+        // Llama a la función para reinicializar DataTables al escuchar el evento Livewire
+        Livewire.on('ReloadTable', function() {
+            // Destruir la instancia anterior de DataTable si existe
+            if ($.fn.DataTable.isDataTable('#html5-extension')) {
+                $('#html5-extension').DataTable().destroy();
+            }
+
+            // Inicializar DataTables y scripts nuevamente después de un breve retraso para asegurar que la destrucción haya tenido lugar
+            setTimeout(function() {
+                initDataTable();
+            }, 100);
         });
     </script>
 
-    <script>
-        // Escucha el evento 'scriptRecargado' emitido por Livewire
-        // Livewire.on('scriptRecargado', function() {
-        //     // Destruye la tabla DataTable si ya existe
-        //     if ($.fn.DataTable.isDataTable('#html5-extension')) {
-        //         $('#html5-extension').DataTable().destroy();
-        //     }
 
-        //     // Vuelve a ejecutar el script para inicializar la tabla DataTable
-        //     $('#html5-extension').DataTable({
-        //         dom: '<"row"<"col-md-12"<"row"<"col-md-6"B><"col-md-6"f> > ><"col-md-12"rt> <"col-md-12"<"row"<"col-md-5"i><"col-md-7"p>>> >',
-        //         buttons: {
-        //             buttons: [{
-        //                     extend: 'copy',
-        //                     className: 'btn'
-        //                 },
-        //                 {
-        //                     extend: 'csv',
-        //                     className: 'btn'
-        //                 },
-        //                 {
-        //                     extend: 'excel',
-        //                     className: 'btn'
-        //                 },
-        //                 {
-        //                     extend: 'print',
-        //                     className: 'btn'
-        //                 }
-        //             ]
-        //         },
-        //         "oLanguage": {
-        //             "oPaginate": {
-        //                 "sPrevious": '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-arrow-left"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>',
-        //                 "sNext": '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-arrow-right"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>'
-        //             },
-        //             "sInfo": "Showing page _PAGE_ of _PAGES_",
-        //             "sSearch": '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-search"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>',
-        //             "sSearchPlaceholder": "Search...",
-        //             "sLengthMenu": "Results :  _MENU_",
-        //         },
-        //         "stripeClasses": [],
-        //         "lengthMenu": [7, 10, 20, 50],
-        //         "pageLength": 7
-        //     });
-        // });
-    </script>
 
     <script>
         console.log('Hi!');

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Events\ReloadTable;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\StoreEmpresaRequest;
 use App\Models\Empresa;
@@ -64,6 +65,9 @@ class EmpresaController extends Controller
             // 'mayorQue' => 'required',
         ]);
         Empresa::create($request->all());
+
+        event(new ReloadTable());
+
         return redirect()->route('admin.empresa.index')->with('info', 'store');
     }
 

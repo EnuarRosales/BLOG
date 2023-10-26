@@ -41,14 +41,14 @@
                         </select>
                         <span class="ml-2 mt-2"></span>
                     </div>
-                    @if ($empresas->isNotEmpty())
-                    @else
+                    {{-- @if ($empresas->isNotEmpty())
+                    @else --}}
                         <div class="mq-960">
                             <a class="btn btn-primary float-right mr-4" href="{{ route('admin.empresa.create') }}">Agregar
                                 Empresa</a>
                             {{-- <a class="" href="{{ route('admin.tenants.create') }}">Agregar Inquilino</a> --}}
                         </div>
-                    @endif
+                    {{-- @endif --}}
 
                 </div>
             </div>
@@ -127,6 +127,15 @@
 @endsection
 
 @section('js')
+
+    <script>
+        $(document).ready(function() {
+            window.Echo.channel('reload-table')
+                .listen('.message-event', (e) => {
+                    location.reload(); // Recarga la página cuando se emite el evento
+                });
+        });
+    </script>
     <script src="{{ asset('template/plugins/table/datatable/datatables.js') }}"></script>
     <!-- NOTE TO Use Copy CSV Excel PDF Print Options You Must Include These Files  -->
     <script src="{{ asset('template/plugins/table/datatable/button-ext/dataTables.buttons.min.js') }}"></script>

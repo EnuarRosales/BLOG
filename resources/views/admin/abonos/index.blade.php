@@ -79,41 +79,6 @@
         </div>
     </div>
 
-    {{-- <div class="card">
-        <div class="card-body">
-        </div>
-
-        @include('admin.abonos.partials.form')
-
-        @if ($abonos->count())
-            <h2 class="h3">Listado abonos realizados</h2>
-            <div class="card">
-
-                <div class="card-body">
-
-
-                    <table id="roles" class="table table-striped table-bordered shadow-lg mt-4">
-                        <thead>
-                            <tr>
-                                <th>Valor</th>
-                                <th>Descripcion</th>
-                                <th>Fecha</th>
-
-                            </tr>
-                        </thead>
-
-
-                        <tbody>
-
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-        @endif
-
-    </div> --}}
-
-
 @stop
 
 @section('js')
@@ -142,4 +107,5 @@
         });
     </script>
     <script src="{{ asset('assets/libs/switchery/switchery.min.js') }}"></script>
+
 @stop

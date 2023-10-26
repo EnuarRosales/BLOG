@@ -12,7 +12,7 @@
         "axios": "^0.21",
         "boostrap": "^2.0.0",
         "bootstrap": "^5.3.0-alpha3",
-        "laravel-echo": "^1.15.2",
+        "laravel-echo": "^1.15.3",
         "laravel-mix": "^6.0.6",
         "laravel-vite-plugin": "^0.7.4",
         "lodash": "^4.17.19",
@@ -26,6 +26,8 @@
     },
     "dependencies": {
         "datatables.net-bs4": "^1.13.6",
-        "datatables.net-buttons-bs4": "^2.4.2"
+        "datatables.net-buttons-bs4": "^2.4.2",
+        "laravel-echo-server": "^1.6.3",
+        "socket.io-client": "^4.7.2"
     }
 }

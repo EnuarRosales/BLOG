@@ -6,23 +6,29 @@ use Livewire\Component;
 use App\Models\Post;
 
 class Table extends Component
-{   
+{
+
 
     public $posts;
-    protected $listeners = ['postCreated' => 'render'];
+    public $data;
+    protected $listeners = ['ReloadTable' => 'updateTable'];
 
-    public function actualizarListado()
+    public function updateTable($data)
     {
-        $this->posts = Post::all();
-        $this->render();
+        $this->posts = $data['posts'];
     }
 
+    public function __construct($data)
+{
+    $this->data = $data;
+}
     public function mount(){
         $this->posts = Post::all();
+
     }
+
     public function render()
     {
-        
         return view('livewire.admin.posts.table');
     }
 }

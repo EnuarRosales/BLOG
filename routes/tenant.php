@@ -54,6 +54,7 @@ Route::middleware([
     PreventAccessFromCentralDomains::class, // ESTE AYUDA QUE SI ESTAMOS DESDE UN SUBDOMINIO NO NOS CONECTEMOS A LA BASE DE DATOS PRINCIPAL
 
 ])->group(function () {
+    
     Route::get('/', [HomeController::class, 'index'])->middleware(['auth', 'verified']);
     // Route::get('/', function () {
 
@@ -140,6 +141,16 @@ Route::middleware([
 
     // Route::get('posts', Index::class)->middleware(['auth', 'verified'])->name('admin.posts.index');
     // Route::get('posts/create', Create::class)->middleware(['auth', 'verified'])->name('admin.posts.create');
+
+    Route::get('/table', function() {
+        event(new App\Events\ReloadTable());
+        dd ('Evento publico enviado satisfactoriamente');
+    });
+
+    Route::get('/private-table', function() {
+        event(new App\Events\PrivateEvent(auth()->user()));
+        dd ('Evento privado enviado satisfactoriamente');
+    });
 
     require __DIR__ . '/auth.php';
 });

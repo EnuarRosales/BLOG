@@ -53,6 +53,7 @@ Route::middleware([
     PreventAccessFromCentralDomains::class, // ESTE AYUDA QUE SI ESTAMOS DESDE UN SUBDOMINIO NO NOS CONECTEMOS A LA BASE DE DATOS PRINCIPAL
 
 ])->group(function () {
+    
     Route::get('/', [HomeController::class, 'index'])->middleware(['auth', 'verified']);
     // Route::get('/', function () {
 

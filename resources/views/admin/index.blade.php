@@ -31,7 +31,7 @@
                                     <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
                                 </svg>
                             </div>
-                            <p class="w-value">{{$usuariosModelos}}</p>
+                            <p class="w-value">{{ $usuariosModelos }}</p>
                             <h5 class="">Usuarios</h5>
                         </div>
                         <div class="widget-content">
@@ -52,7 +52,7 @@
                                     <path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path>
                                 </svg>
                             </div>
-                            <p class="w-value">{{$multas}}</p>
+                            <p class="w-value">{{ $multas }}</p>
                             <h5 class="">Multas</h5>
                         </div>
                         <div class="widget-content">
@@ -74,7 +74,7 @@
                                     </path>
                                 </svg>
                             </div>
-                            <p class="w-value">18.2%</p>
+                            <p class="w-value">{{ $descuentos }}</p>
                             <h5 class="">Descuentos</h5>
                         </div>
                         <div class="widget-content">
@@ -699,6 +699,10 @@
         <script src="{{ asset('template/plugins/apex/apexcharts.min.js') }}"></script>
         <script src="{{ asset('template/assets/js/dashboard/dash_1.js') }}"></script>
         <script src="{{ asset('template/assets/js/dashboard/dash_2.js') }}"></script>
+        <!-- En tu vista blade -->
+        <script>
+            var valoresParaJS = [{{ $dataDescuento }}];
+        </script>
 
 
         {{-- Using HTML5 input elements --}}

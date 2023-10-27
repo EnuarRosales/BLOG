@@ -17,16 +17,17 @@ return new class extends Migration
             $table->id();
             $table->double('valor')->nullable();
             $table->string('descripcion',150)->nullable();
-            $table->boolean('descontado')->default(false)->nullable();                      
-            
+            $table->boolean('descontado')->default(false)->nullable();
+
             $table->date('fechaDescontado')->nullable();
 
             $table->unsignedBigInteger('descuento_id');//campo para relacion
             $table->timestamps();
+            $table->softDeletes(); // Agregar esta línea para habilitar eliminación suave
 
             $table->foreign('descuento_id')
                     ->references('id')->on('descuentos')//tabla
-                    ->onDelete('cascade'); 
+                    ->onDelete('cascade');
 
         });
     }

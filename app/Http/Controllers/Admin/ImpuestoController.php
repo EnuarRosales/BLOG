@@ -95,15 +95,25 @@ class ImpuestoController extends Controller
      */
     public function update(Request $request, Impuesto $impuesto)
     {
-        //VALLIDACION DE FORMULARIOS
+        if ($request->has('radio')) {
+            // obtnemos todos los impuestos
+            $zero = Impuesto::all();
+            // recorremos la coleccion
+            foreach ($zero as $item) {
+                // volvemos a todo inactivos
+                $item->estado = 0;
+                $item->update();
+            }
+            // volvemos activo el seleccionado en la pantalla
+            $impuesto->update($request->all());
+            return response()->json(['success' => true]);
+        }
 
+        //VALLIDACION DE FORMULARIOS
         $request->validate([
             'nombre' => 'required',
             'porcentaje' => 'required',
             'mayorQue' => 'required',
-
-
-
         ]);
         //ASINACION MASIVA DE VARIABLES A LOS CAMPOS
         $impuesto->update($request->all());
@@ -147,7 +157,13 @@ class ImpuestoController extends Controller
 
         // $pagos = Pago::where('user_id', $pago->id)->get();
         $date = Carbon::now()->locale('es');
+        try{
         $pdf = Pdf::loadView('admin.impuestos.comprobanteImpuestoPDF', compact('pago', 'date', 'nombreEmpresa', 'nitEmpresa', 'codigoQR'));
+        } catch (\Exception $e) {
+            $errorMessage = $e->getMessage();
+            $message = substr($errorMessage, strpos($errorMessage, '$') + 1);
+            return back()->with('mensaje', "Falta Informacion sobre: " . $message);
+        }
         return $pdf->stream();
     }
 }

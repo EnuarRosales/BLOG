@@ -8,9 +8,9 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Empresa extends Model
 {
-    use HasFactory;
-    
-    
+    use HasFactory, SoftDeletes;
+
+
     protected $guarded = [];
 
     // public function users()    {
@@ -21,5 +21,5 @@ class Empresa extends Model
     public function users(){
         return $this->hasMany('App\Models\User');
     }
- 
+
 }

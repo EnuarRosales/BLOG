@@ -14,24 +14,25 @@ class CreateDescuentosTable extends Migration
     public function up()
     {
         Schema::create('descuentos', function (Blueprint $table) {
-            $table->id();           
+            $table->id();
             // $table->timestamp('fecha')->nullable();
             $table->double('montoDescuento');
             $table->double('montoDescontado')->nullable();
             $table->double('saldo')->nullable();
-            $table->unsignedBigInteger('tipoDescuento_id');//campo para relacion 
-            $table->unsignedBigInteger('user_id');//campo para relacion                       
-            
+            $table->unsignedBigInteger('tipoDescuento_id');//campo para relacion
+            $table->unsignedBigInteger('user_id');//campo para relacion
+
             $table->foreign('tipoDescuento_id')
                     ->references('id')->on('tipo_descuentos')//tabla
-                    ->onDelete('cascade');         
- 
+                    ->onDelete('cascade');
+
             $table->foreign('user_id')
                     ->references('id')->on('users')
                     ->onDelete('cascade');
 
             $table->timestamps();
-            
+            $table->softDeletes(); // Agregar esta línea para habilitar eliminación suave
+
         });
     }
 

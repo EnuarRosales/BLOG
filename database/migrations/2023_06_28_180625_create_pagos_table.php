@@ -23,9 +23,9 @@ return new class extends Migration
             $table->float('impuestoPorcentaje', 12, 2)->nullable();
             $table->float('impuestoDescuento', 12, 2)->nullable();
             $table->float('multaDescuento', 12, 2)->nullable();
-            // $table->unsignedBigInteger('descuento_id')->nullable(); //campo para relacion 
-            $table->unsignedBigInteger('user_id')->nullable(); //campo para relacion  
-            $table->unsignedBigInteger('impuesto_id')->nullable(); //campo para relacion  
+            // $table->unsignedBigInteger('descuento_id')->nullable(); //campo para relacion
+            $table->unsignedBigInteger('user_id')->nullable(); //campo para relacion
+            $table->unsignedBigInteger('impuesto_id')->nullable(); //campo para relacion
 
             // $table->foreign('descuento_id')
             //     ->references('id')->on('descuentos')
@@ -40,11 +40,12 @@ return new class extends Migration
                 ->onDelete('cascade');
 
             $table->timestamps();
+            $table->softDeletes(); // Agregar esta línea para habilitar eliminación suave
         });
     }
 
     /**
-     * Reverse the migrations. 
+     * Reverse the migrations.
      *
      * @return void
      */

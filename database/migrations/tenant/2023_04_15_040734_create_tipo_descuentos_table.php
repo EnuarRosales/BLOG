@@ -15,8 +15,9 @@ class CreateTipoDescuentosTable extends Migration
     {
         Schema::create('tipo_descuentos', function (Blueprint $table) {
             $table->id();
-            $table->timestamps();
             $table->string('nombre',45);
+            $table->timestamps();
+            $table->softDeletes(); // Agregar esta línea para habilitar eliminación suave
         });
     }
 

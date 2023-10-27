@@ -15,8 +15,8 @@ class CreateAsignacionRoomsTable extends Migration
     {
         Schema::create('asignacion_rooms', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('user_id'); //campo para relacion 
-            $table->unsignedBigInteger('room_id'); //campo para relacion 
+            $table->unsignedBigInteger('user_id'); //campo para relacion
+            $table->unsignedBigInteger('room_id'); //campo para relacion
 
             $table->foreign('user_id')
                 ->references('id')->on('users') //tabla
@@ -28,7 +28,8 @@ class CreateAsignacionRoomsTable extends Migration
 
 
             $table->timestamps();
-        }); 
+            $table->softDeletes(); // Agregar esta línea para habilitar eliminación suave
+        });
     }
 
     /**

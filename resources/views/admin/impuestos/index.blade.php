@@ -74,15 +74,19 @@
                                     <td>
                                         <div class="form-check">
                                             <label class="new-control new-radio radio-success">
-                                                <input type="radio" class="new-control-input" name="pruba"
-                                                    id="radio1">
-                                                <span class="new-control-indicator"></span>{{ $impuesto->estado }}
+                                                <input type="radio" class="new-control-input impuesto-radio"
+                                                    name="impuesto" value="{{ $impuesto->id }}"
+                                                    @if ($impuesto->estado == 1) checked @endif>
+                                                <span class="new-control-indicator"></span>
+                                                @if ($impuesto->estado == 1)
+                                                    Activo
+                                                @else
+                                                    Inactivo
+                                                @endif
                                             </label>
-                                            {{-- <input class="form-check-input" type="radio"
-                                            <label class="form-check-label" for="radio1"></label> --}}
                                         </div>
-
                                     </td>
+
                                     <td width="10px">
                                         <a href="{{ route('admin.impuestos.edit', $impuesto) }}"
                                             class="ml-4 rounded bs-tooltip" data-placement="top" title="Editar">
@@ -237,7 +241,32 @@
         bindDeleteEvents();
     </script>
     <script>
-        console.log('Hi!');
+        $(document).ready(function() {
+            $('.impuesto-radio').on('change', function() {
+                // obtener impuesto ID
+                var impuestoId = $(this).val();
+                var radio = 'radio';
+                // nuevo estado
+                var nuevoEstado = $(this).data('estado') === 1 ? 0 : 1;
+                $.ajax({
+                    type: 'PUT',
+                    url: "{{ route('admin.impuestos.update', ':id') }}".replace(':id', impuestoId),
+                    data: {
+                        estado: nuevoEstado,
+                        _token: "{{ csrf_token() }}",
+                        radio: radio,
+                    },
+                    success: function(response) {
+                        location.reload();
+                    },
+                    error: function(error) {
+                        console.error('Error al actualizar el estado');
+                    }
+                });
+
+            });
+        });
+        // console.log('Hi!');
     </script>
 
 
@@ -255,7 +284,7 @@
             Swal.fire({
                 position: 'top-end',
                 type: 'success',
-                title: 'Tipo Usuario realizado correctamente',
+                title: 'Impuesto creado correctamente',
                 showConfirmButton: false,
                 timer: 2000
             })
@@ -265,7 +294,7 @@
             Swal.fire({
                 position: 'top-end',
                 type: 'success',
-                title: 'Tipo Usuario actualizado correctamente',
+                title: 'Impuesto actualizado correctamente',
                 showConfirmButton: false,
                 timer: 2000
             })

@@ -19,6 +19,7 @@ class CreateMetasTable extends Migration
             $table->float('valor');
             $table->float('dias')->nullable();
             $table->timestamps();
+            $table->softDeletes(); // Agregar esta línea para habilitar eliminación suave
         });
     }
 

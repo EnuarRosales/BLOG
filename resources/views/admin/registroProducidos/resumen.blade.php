@@ -22,6 +22,48 @@
     {{-- <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.13.4/css/jquery.dataTables.min.css" />
     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/buttons/2.3.6/css/buttons.dataTables.min.css" /> --}}
     <link rel="stylesheet" type="text/css" href="{{ asset('assets/libs/switchery/switchery.min.css') }}" />
+
+    <style>
+        #filtro-panel {
+            /* position: fixed; */
+            top: 0;
+            right: 0;
+            width: 0;
+            height: 100%;
+            /* background-color: #fff; */
+            /* border-left: 1px solid #ccc; */
+            /* box-shadow: -5px 0 10px rgba(0, 0, 0, 0.1); */
+            transition: width 0.3s ease-in-out;
+            overflow-x: hidden;
+        }
+
+        #filtro-panel.open {
+            width: 350px;
+            /* Ancho deseado del panel */
+        }
+
+        #fecha-inicial,
+        #fecha-final {
+            margin-right: 10px;
+            /* Espacio entre los campos de fecha */
+        }
+
+        #filtrar {
+            background-color: #0073e6;
+            /* Color de fondo para el botón */
+            color: #fff;
+            /* Color de texto del botón */
+            border: none;
+            padding: 5px 10px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        #filtrar:hover {
+            background-color: #0054a6;
+            /* Cambiar el color cuando el mouse está sobre el botón */
+        }
+    </style>
 @stop
 
 @section('content')
@@ -30,7 +72,7 @@
         <div class="widget-content widget-content-area br-6">
 
             <div class="row">
-                <div class="col">
+                <div class="col-8">
                     <div style="display: flex;">
                         <label class="mt-2 ml-3 mr-1">Registros :</label>
                         <select id="records-per-page" class="form-control custom-width-20">
@@ -42,12 +84,19 @@
                         </select>
                     </div>
                 </div>
-
+                <div class="col-4"
+                    style="display: flex; flex-direction: row-reverse; justify-content: space-between;">
+                    <div id="filtro-panel" class="mb-3" style="display: flex; align-items: center;">
+                        <input type="date" id="fecha-inicial">
+                        <input type="date" id="fecha-final">
+                        <button id="filtrar">Filtrar</button>
+                    </div>
+                </div>
             </div>
 
 
-            <div class="table-responsive mb-4 mt-4">
 
+            <div class="table-responsive mb-4 mt-4">
                 <table id="html5-extension" class="table table-hover non-hover" style="width:100%">
                     <thead>
                         <tr>
@@ -65,7 +114,7 @@
                     </thead>
                     <tbody>
                         @foreach ($fechas as $fecha)
-                            <tr>
+                            <tr data-fecha="{{ $fecha->fecha }}">
                                 <td>{{ $fecha->fecha }}</td>
                                 <td>{{ $fecha->meta->nombre }}</td>
                                 <td>
@@ -170,16 +219,28 @@
             dom: '<"row"<"col-md-12"<"row"<"col-md-6"B><"col-md-6"f> > ><"col-md-12"rt> <"col-md-12"<"row"<"col-md-5"i><"col-md-7"p>>> >',
             buttons: {
                 buttons: [{
-                        extend: 'copy',
-                        className: 'btn'
-                    },
-                    {
-                        extend: 'csv',
-                        className: 'btn'
-                    },
-                    {
                         extend: 'excel',
-                        className: 'btn'
+                        className: 'btn',
+
+                        exportOptions: {
+                            columns: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9], // Incluye las columnas necesarias
+                            format: {
+                                body: function(data, rowIdx, colIdx, node) {
+                                    // Formatea las columnas 2, 3 y 4 para eliminar el signo de dólar y convertirlas en números
+                                    if (colIdx === 2 || colIdx === 3 || colIdx === 4 || colIdx === 7 ||
+                                        colIdx === 8 || colIdx === 9) {
+                                        return data.replace('$', '') *
+                                            1; // Elimina el signo de dólar y convierte a número
+                                    } else {
+                                        return data; // Mantén el formato original para otras columnas
+                                    }
+                                }
+                            }
+                        },
+                        customize: function(xlsx) {
+                            var sheet = xlsx.xl.worksheets['sheet1.xml'];
+                            // Personaliza el archivo Excel aquí si es necesario
+                        },
                     },
                     {
                         extend: 'print',
@@ -199,7 +260,9 @@
             },
             "stripeClasses": [],
             "lengthMenu": [7, 10, 20, 50],
-            "pageLength": 7
+            "pageLength": 7,
+            paging: true, // Habilita la paginación
+            info: true, // Habilita la información de registros
         });
 
         // Detectar cambios en el select
@@ -207,11 +270,27 @@
             var newLength = $(this).val();
             table.page.len(newLength).draw();
         });
+
+        $(document).ready(function() {
+            $('#filtrar').on('click', function() {
+                var fechaInicial = new Date($('#fecha-inicial').val());
+                var fechaFinal = new Date($('#fecha-final').val());
+
+                $('table tbody tr').each(function() {
+                    var fechaFila = new Date($(this).data('fecha'));
+                    if (fechaFila >= fechaInicial && fechaFila <= fechaFinal) {
+                        $(this).show(); // Mostrar la fila si está dentro del rango
+                    } else {
+                        $(this).hide(); // Ocultar la fila si está fuera del rango
+                    }
+                });
+            });
+
+            document.getElementById('filtro-panel').classList.add('open');
+        });
     </script>
     <script src="{{ asset('assets/libs/switchery/switchery.min.js') }}"></script>
-    <script>
-        console.log('Hi!');
-    </script>
+    <script></script>
 
     {{-- SWET ALERT --}}
     @if (session('info') == 'delete')

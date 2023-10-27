@@ -47,12 +47,14 @@ use App\Http\Livewire\Admin\Posts\Create;
 |
 */
 
+
 Route::middleware([
     'web',
     InitializeTenancyByDomain::class, //REALIZA CAMBIO A LA BASE DE DATOS CUANDO ARRANQUEMOS EL SISTEMA
     PreventAccessFromCentralDomains::class, // ESTE AYUDA QUE SI ESTAMOS DESDE UN SUBDOMINIO NO NOS CONECTEMOS A LA BASE DE DATOS PRINCIPAL
 
 ])->group(function () {
+    
     Route::get('/', [HomeController::class, 'index'])->middleware(['auth', 'verified']);
     // Route::get('/', function () {
 
@@ -63,7 +65,8 @@ Route::middleware([
     // Route::get('/', [HomeController::class, 'index'])->middleware(['auth', 'verified']);
     // Route::get('/dashboard', function () { return view('dashboard');})->middleware(['auth', 'verified'])->name('dashboard');
 
-    Route::get('abonos/{abonoParcial}', [DescontadoController::class, 'abonoParcial'])->middleware(['auth', 'verified'])->name('admin.abonos.abonoParcial');
+    //!! Route::get('abonos/{abonoParcial}', [DescontadoController::class, 'abonoParcial'])->middleware(['auth', 'verified'])->name('admin.abonos.abonoParcial');
+    Route::get('abonos/abonoParcial/datatable', [DescontadoController::class, 'datatable'])->middleware(['auth', 'verified'])->name('admin.abonos.abonoParcial.datatable');
     Route::post('abonos', [DescontadoController::class, 'store'])->middleware(['auth', 'verified'])->name('admin.abonos.store');
     Route::put('abonos/{abonado}', [DescontadoController::class, 'abono'])->middleware(['auth', 'verified'])->name('admin.abonos.abono');
     Route::resource('abonosResources', DescontadoController::class)->middleware(['auth', 'verified'])->names('admin.abonosResources');
@@ -84,6 +87,8 @@ Route::middleware([
 
 
     Route::resource('registroDescuentos', RegistroDescuentoController::class)->middleware(['auth', 'verified'])->names('admin.registroDescuentos');
+    Route::post('admin/registroDescuentos/eliminar', [RegistroDescuentoController::class,'eliminar'])->name('admin.registroDescuentos.eliminar');
+    Route::get('registroDescuentos/datatable', [RegistroDescuentoController::class, 'datatable'])->middleware(['auth', 'verified'])->name('admin.registroDescuentos.datatable');
     Route::resource('tipoUsuarios', TipoUsuarioController::class)->middleware(['auth', 'verified'])->names('admin.tipoUsuarios');
     Route::resource('users', UserController::class)->middleware(['auth', 'verified'])->names('admin.users');
     Route::get('userCertificacion', [UserController::class, 'userCertificacion'])->middleware(['auth', 'verified'])->name('admin.users.userCertificacion');
@@ -148,5 +153,4 @@ Route::middleware([
     });
 
     require __DIR__ . '/auth.php';
-
 });

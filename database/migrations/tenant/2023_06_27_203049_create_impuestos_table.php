@@ -19,7 +19,8 @@ return new class extends Migration
             $table->float('porcentaje', 12, 2)->nullable();
             $table->float('mayorQue', 12, 2)->nullable();
             $table->boolean('estado')->default(false)->nullable();
-            $table->timestamps();            
+            $table->timestamps();   
+            $table->softDeletes(); // Agregar esta línea para habilitar eliminación suave         
         });
     }
 

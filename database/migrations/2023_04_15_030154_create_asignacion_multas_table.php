@@ -20,7 +20,7 @@ class CreateAsignacionMultasTable extends Migration
 
 
             $table->unsignedBigInteger('user_id'); //campo para relacion
-            $table->unsignedBigInteger('tipoMulta_id'); //campo para relacion            
+            $table->unsignedBigInteger('tipoMulta_id'); //campo para relacion
 
             $table->foreign('user_id')
                 ->references('id')->on('users') //tabla
@@ -30,6 +30,7 @@ class CreateAsignacionMultasTable extends Migration
 
 
             $table->timestamps();
+            $table->softDeletes(); // Agregar esta línea para habilitar eliminación suave
         });
     }
 

@@ -81,9 +81,46 @@ class ReportePaginaController extends Controller
             'import_file' => 'required|mimes:xlsx,xls',
         ]);
 
-        Excel::import(new ReportePaginasImport, $file);
-        $reportePaginas = ReportePagina::all();
 
+        $data = Excel::toArray(new ReportePaginasImport, $file);
+        $errorRowsModel = []; // Inicializamos un arreglo para rastrear las filas con errores
+        $errorRowsPage = []; // Inicializamos un arreglo para rastrear las filas con errores
+        // dd($data);
+
+        foreach ($data as  $rows) {
+            foreach ($rows as $index => $row) {
+                $modelo = User::where('cedula', $row['modelo'])->first();
+                if (empty($modelo)) {
+                    $errorRowsModel[] = ($index + 2); // Registramos el índice de fila del error
+                }
+                $pagina = Pagina::where('nombre', $row['pagina'])->first();
+                if (empty($pagina)) {
+                    $errorRowsPage[] = ($index + 2); // Registramos el índice de fila del error
+                    // $errorRowsModel[] = 'Error en la fila ' . ($index + 2) . ': el modelo con cédula ' . $row['modelo'] . ' no existe en la base de datos.';
+                }
+            }
+        }
+
+        if (!empty($errorRowsModel)) {
+            if (count($errorRowsModel) > 27) {
+                $errorRowsModel = array_slice($errorRowsModel, 0, 27); // Limita el arreglo a los primeros 30 elementos
+            }
+            $mensaje = "error,modelo," . implode(" - ", $errorRowsModel);
+            return redirect()->route('admin.reportePaginas.index')->with('info', $mensaje);
+        }
+
+        if (!empty($errorRowsPage)) {
+            if (count($errorRowsPage) > 27) {
+                $errorRowsPage = array_slice($errorRowsPage, 0, 27); // Limita el arreglo a los primeros 30 elementos
+            }
+            $mensaje = "error,pagina," . implode(" - ", $errorRowsPage);
+            return redirect()->route('admin.reportePaginas.index')->with('info', $mensaje);
+        }
+
+
+
+        $modelo = Excel::import(new ReportePaginasImport, $file);
+        $reportePaginas = ReportePagina::where('verificado', 0)->get();
 
         foreach ($reportePaginas as $reportePagina) {
             if ($reportePagina->valorPagina == null) {
@@ -91,7 +128,6 @@ class ReportePaginaController extends Controller
                 $reportePagina->dolares = ($reportePagina->Cantidad) * ($reportePagina->pagina->valor);
                 $reportePagina->pesos = ($reportePagina->TRM) * ($reportePagina->Cantidad) * ($reportePagina->pagina->valor);
                 $reportePagina->porcentaje = $reportePagina->user->tipoUsuario->porcentaje;
-                // $reportePagina->netoPesos = (($reportePagina->TRM) * ($reportePagina->Cantidad) * ($reportePagina->pagina->valor)) * ($reportePagina->user->tipoUsuario->porcentaje) / 100;
                 $reportePagina->save();
             }
         }

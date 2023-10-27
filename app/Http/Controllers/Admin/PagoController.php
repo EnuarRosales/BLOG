@@ -27,7 +27,7 @@ class PagoController extends Controller
     {
         $pagos = Pago::all();
         $userLogueado = auth()->user()->id;
-        return view('admin.pagos.index', compact('pagos','userLogueado'));
+        return view('admin.pagos.index', compact('pagos', 'userLogueado'));
     }
 
     /**
@@ -109,9 +109,9 @@ class PagoController extends Controller
         $descuentos = 0;
 
         /*
-         *  
-         * EN LA SEGUNDA PARTE ES UNA COSNSULTA DONDE SUMA, AGRUPA, DONDE, LUEGO MUESTRA POR DOS PARAMETROS  
-         * 
+         *
+         * EN LA SEGUNDA PARTE ES UNA COSNSULTA DONDE SUMA, AGRUPA, DONDE, LUEGO MUESTRA POR DOS PARAMETROS
+         *
          */
         $pagos = ReportePagina::select(
             DB::raw('sum(netoPesos) as suma'),
@@ -123,16 +123,16 @@ class PagoController extends Controller
             ->groupBy('fecha', 'user_id')
             ->get();
         /*
-         *  
-         * EN LA TERCERO PARTE ES UNA COSNSULTA A DOS TABLAS EN DONDE TRAEMOS INFORMACION QUE NOS INTERESA LA CUAL 
-         * MAS ADELANTE SE USA  EN LOS CICLOS  
-         * 
+         *
+         * EN LA TERCERO PARTE ES UNA COSNSULTA A DOS TABLAS EN DONDE TRAEMOS INFORMACION QUE NOS INTERESA LA CUAL
+         * MAS ADELANTE SE USA  EN LOS CICLOS
+         *
          */
 
         $descuentos = DB::table('descuentos')
             ->join('descontados', 'descontados.descuento_id', '=', 'descuentos.id')
             ->select(
-                // 'descontados.descuento_id', 
+                // 'descontados.descuento_id',
                 DB::raw('sum(valor) as suma'),
                 DB::raw('user_id'),
                 // DB::raw('descuento_id'),
@@ -146,7 +146,7 @@ class PagoController extends Controller
         $descuentoss = DB::table('descuentos')
             ->join('descontados', 'descontados.descuento_id', '=', 'descuentos.id')
             ->select(
-                // 'descontados.descuento_id', 
+                // 'descontados.descuento_id',
                 DB::raw('sum(valor) as suma'),
                 DB::raw('user_id'),
                 DB::raw('descuento_id'),
@@ -159,11 +159,11 @@ class PagoController extends Controller
         // return $descuentos;
 
         /*
-         *  
+         *
          * EN LA CUARTA PARTE CON LA AYUDA DE IN CICLO ITERAMOS LOS DATOS, LUEGO SE INSERTAN EN LA TABLA,
-         * ASI MISMO UN SEGUNDO CICLO ITERA LOS DATOS DE LAS CONSULTAS ANTERIORES Y ACTUALZA SUS DATOS 
-         * DE ACUERDO A  DOS CONDICIONES 
-         * 
+         * ASI MISMO UN SEGUNDO CICLO ITERA LOS DATOS DE LAS CONSULTAS ANTERIORES Y ACTUALZA SUS DATOS
+         * DE ACUERDO A  DOS CONDICIONES
+         *
          */
         foreach ($pagos as $pago) {
             foreach ($descuentoss as $descuento) {
@@ -271,7 +271,7 @@ class PagoController extends Controller
     public function aplicarImpuesto()
     {
         $impuestos = Impuesto::where('estado', 1)->get();
-        // $pagos = Pago::where('pagado', 1)->get();  
+        // $pagos = Pago::where('pagado', 1)->get();
         foreach ($impuestos as $impuesto) {
             if ($impuesto->estado == 1) {
                 DB::table('pagos')
@@ -299,9 +299,9 @@ class PagoController extends Controller
 
 
     /*
-         *  
+         *
          * METODO PARA IMPRIMRI EL COMPROBANTE DE PAGO.
-         * 
+         *
          */
 
     public function comprobantePagoPDF(Pago $pago)
@@ -373,30 +373,36 @@ class PagoController extends Controller
             $nitEmpresa = $empresa->nit;
         }
 
-        $codigoQR =QrCode::size(80)->generate("COMPROBANTE DE PAGO"."\n". 
-                                                "NOMBRE: ".$pago->user->name."\n".
-                                                "FECHA: ".$pago->fecha."\n".
-                                                "DEVENGADO: "."$ ".number_format($pago->devengado , 2, '.', ',') ."\n".
-                                                "DESCUENTO: "."$ ".number_format($pago->descuento, 2, '.', ',') ."\n".
-                                                "IMPUESTO: "."$ ".number_format($pago->impuestoDescuento , 2, '.', ',')."\n".
-                                                "MULTA: "."$ ".number_format($pago->multaDescuento , 2, '.', ',')."\n".
-                                                "NETO: "."$ ".number_format($pago->neto, 2, '.', ',')."\n"
-                                                );                       
+        $codigoQR = QrCode::size(80)->generate(
+            "COMPROBANTE DE PAGO" . "\n" .
+                "NOMBRE: " . $pago->user->name . "\n" .
+                "FECHA: " . $pago->fecha . "\n" .
+                "DEVENGADO: " . "$ " . number_format($pago->devengado, 2, '.', ',') . "\n" .
+                "DESCUENTO: " . "$ " . number_format($pago->descuento, 2, '.', ',') . "\n" .
+                "IMPUESTO: " . "$ " . number_format($pago->impuestoDescuento, 2, '.', ',') . "\n" .
+                "MULTA: " . "$ " . number_format($pago->multaDescuento, 2, '.', ',') . "\n" .
+                "NETO: " . "$ " . number_format($pago->neto, 2, '.', ',') . "\n"
+        );
 
         $date = Carbon::now()->locale('es');
-        $pdf = Pdf::loadView('admin.pagos.comprobantePago', compact('reportePaginas', 'pago', 'descuentos', 'TRM', 'multasDescuentos', 'multasDescuentosArray', 'descuentosArray', 'date','nitEmpresa','nombreEmpresa','codigoQR'));
-
+        try {
+            $pdf = Pdf::loadView('admin.pagos.comprobantePago', compact('reportePaginas', 'pago', 'descuentos', 'TRM', 'multasDescuentos', 'multasDescuentosArray', 'descuentosArray', 'date', 'nitEmpresa', 'nombreEmpresa', 'codigoQR'));
+        } catch (\Exception $e) {
+            $errorMessage = $e->getMessage();
+            $message = substr($errorMessage, strpos($errorMessage, '$') + 1);
+            return back()->with('mensaje', "Falta Informacion sobre: " . $message);
+        }
         return $pdf->stream();
     }
 
 
 
-//     public function comprobanteImpuestoPDF(Pago $pago) {
+    //     public function comprobanteImpuestoPDF(Pago $pago) {
 
-       
-//         $pagos = Pago::where('pagado', $pago->id)->get();
-//         $date = Carbon::now()->locale('es');
-//         $pdf = Pdf::loadView('admin.pagos.comprobanteImpuesto', compact('pagos'));
-//         return $pdf->stream();
-//     }
+
+    //         $pagos = Pago::where('pagado', $pago->id)->get();
+    //         $date = Carbon::now()->locale('es');
+    //         $pdf = Pdf::loadView('admin.pagos.comprobanteImpuesto', compact('pagos'));
+    //         return $pdf->stream();
+    //     }
 }

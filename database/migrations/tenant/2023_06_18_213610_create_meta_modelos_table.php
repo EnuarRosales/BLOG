@@ -19,6 +19,7 @@ return new class extends Migration
             $table->float('porcentaje', 12, 2);
                   
             $table->timestamps();
+            $table->softDeletes(); // Agregar esta línea para habilitar eliminación suave
         });
     }
 

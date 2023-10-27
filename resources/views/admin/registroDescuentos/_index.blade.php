@@ -1,16 +1,16 @@
 @extends('template.index')
 
 @section('tittle-tab')
-    Certificaciones-Tiempo
+    Reporte de Descuentos
 @endsection
 
 @section('page-title')
-    <a href="{{ route('admin.users.certificacionTiempo') }}"> Certificaciones-Tiempo</a>
+    <a href="{{ route('admin.registroDescuentos.index') }}">Reporte de Descuentos</a>
 
 @endsection
 
 @section('content_header')
-    <h2 class="ml-3">Personal</h2>
+    <h2 class="ml-3">Listado de Descuentos </h2>
 @stop
 
 @section('styles')
@@ -19,13 +19,19 @@
     <link rel="stylesheet" type="text/css" href="{{ asset('template/plugins/table/datatable/custom_dt_html5.css') }}">
     <link rel="stylesheet" type="text/css" href="{{ asset('template/plugins/table/datatable/dt-global_style.css') }}">
 
-@endsection
+    {{-- <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.13.4/css/jquery.dataTables.min.css" />
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/buttons/2.3.6/css/buttons.dataTables.min.css" /> --}}
+    <link rel="stylesheet" type="text/css" href="{{ asset('assets/libs/switchery/switchery.min.css') }}" />
+@stop
 
 @section('content')
 
+
     <div class="col-xl-12 col-lg-12 col-sm-12  layout-spacing">
         <div class="widget-content widget-content-area br-6">
-            <div class="row g-2">
+
+            <div class="row">
+
                 <div class="col">
                     <div style="display: flex;">
                         <label class="mt-2 ml-3 mr-1">Registros :</label>
@@ -37,52 +43,84 @@
                             <option value="50">50</option>
                         </select>
                     </div>
+                    <div class="mq-960">
+                        @can('admin.registroDescuentos.create')
+                            <a class="btn btn-primary float-right mr-4"
+                                href="{{ route('admin.registroDescuentos.create') }}">Agregar
+                                Descuento</a>
+                        @endcan
+                    </div>
                 </div>
             </div>
+
+
+
+
             <div class="table-responsive mb-4 mt-4">
+
                 <table id="html5-extension" class="table table-hover non-hover" style="width:100%">
                     <thead>
                         <tr>
                             <th>ID</th>
-                            <th>Fecha ingreso</th>
-                            <th>Nombre</th>
-                            <th style="text-align:center">Años</th>
-                            <th style="text-align:center">Meses</th>
-                            <th style="text-align:center">Dias</th>
-                            <th>Certificacion</th>
+                            <th>Fecha</th>
+                            <th>Monto a Descuentar</th>
+                            <th>Monto Descontado</th>
+                            <th>Saldo</th>
+                            <th>Tipo Descuento</th>
+                            <th>Usuario</th>
+                            @can(['admin.registroDescuentos.total', 'admin.registroDescuentos.parcial'])
+                                <th>Descontar</th>
+                            @endcan
+                            {{-- @can('')
+                                <th>Descontar</th>
+                            @endcan --}}
+                            @can('admin.registroDescuentos.edit')
+                                <th>Editar</th>
+                            @endcan
+                            @can('admin.registroDescuentos.destroy')
+                                <th>Eliminar</th>
+                            @endcan
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach ($users as $user)
-                            @php
-                                $i++;
-                            @endphp
+                        @foreach ($registroDescuentos as $registroDescuento)
                             @if (auth()->user()->hasRole('Administrador'))
-                                @include('admin.users.partials.tableCertificacionTiempo')
+                                @include('admin.registroDescuentos.partials.table')
                             @elseif (auth()->user()->hasRole('Monitor'))
-                                @include('admin.users.partials.tableCertificacionTiempo')
-                            @elseif($user->id == $userLogueado)
-                                @include('admin.users.partials.tableCertificacionTiempo')
+                                @include('admin.registroDescuentos.partials.table')
+                            @elseif($registroDescuento->user->id == $userLogueado)
+                                @include('admin.registroDescuentos.partials.table')
                             @endif
                         @endforeach
                     </tbody>
                     <tfoot>
                         <tr>
                             <th>ID</th>
-                            <th>Fecha ingreso</th>
-                            <th>Nombre</th>
-                            <th style="text-align:center">Años</th>
-                            <th style="text-align:center">Meses</th>
-                            <th style="text-align:center">Dias</th>
-                            <th>Certificacion</th>
+                            <th>Fecha</th>
+                            <th>Monto a Descuentar</th>
+                            <th>Monto Descontado</th>
+                            <th>Saldo</th>
+                            <th>Tipo Descuento</th>
+                            <th>Usuario</th>
+                            @can(['admin.registroDescuentos.total', 'admin.registroDescuentos.parcial'])
+                                <th>Descontar</th>
+                            @endcan
+                            @can('admin.registroDescuentos.edit')
+                                <th>Editar</th>
+                            @endcan
+                            @can('admin.registroDescuentos.destroy')
+                                <th>Eliminar</th>
+                            @endcan
                         </tr>
                     </tfoot>
+
                 </table>
             </div>
         </div>
     </div>
 
 @stop
+
 
 @section('js')
     <script src="{{ asset('template/plugins/table/datatable/datatables.js') }}"></script>
@@ -134,7 +172,10 @@
                 botonEliminar.addEventListener('click', function(e) {
                     e.preventDefault();
 
-                    const paginasId = this.getAttribute('data-pagina-id');
+                    const registroDescuentoId = this.getAttribute('data-registroDescuento-id');
+
+
+
 
 
                     Swal.fire({
@@ -149,7 +190,8 @@
                         preConfirm: () => {
                             // Crear un formulario dinámicamente
                             const formulario = document.createElement('form');
-                            formulario.action = `paginas/${paginasId}`; // Ruta de eliminación
+                            formulario.action =
+                                `registroDescuentos/${registroDescuentoId}`; // Ruta de eliminación
                             formulario.method = 'POST'; // Método POST
                             formulario.style.display = 'none'; // Ocultar el formulario
 
@@ -192,6 +234,13 @@
         // Vincular eventos de clic para eliminar inicialmente
         bindDeleteEvents();
     </script>
+    <script src="{{ asset('assets/libs/switchery/switchery.min.js') }}"></script>
+    <script>
+        console.log('Hi!');
+    </script>
+
+
+
 
     {{-- SWET ALERT --}}
     @if (session('info') == 'delete')
@@ -207,7 +256,17 @@
             Swal.fire({
                 position: 'top-end',
                 type: 'success',
-                title: 'Usuario creado correctamente',
+                title: 'Descuento registrado correctamente',
+                showConfirmButton: false,
+                timer: 2000
+            })
+        </script>
+    @elseif(session('info') == 'valorCero')
+        <script>
+            Swal.fire({
+                position: 'top-end',
+                type: 'warning',
+                title: 'No hay saldo que descontar',
                 showConfirmButton: false,
                 timer: 2000
             })
@@ -217,30 +276,12 @@
             Swal.fire({
                 position: 'top-end',
                 type: 'success',
-                title: 'Usuario actualizado correctamente',
+                title: 'Descuento correctamente',
                 showConfirmButton: false,
                 timer: 2000
             })
-        </script>
-    @elseif(session('info') == 'updateRol')
-        <script>
-            Swal.fire({
-                position: 'top-end',
-                type: 'success',
-                title: 'Asignacion de rol exitosa',
-                showConfirmButton: false,
-                timer: 2000
-            })
-        </script>
-    @elseif (session('mensaje'))
-        <script>
-            Swal.fire({
-                position: 'top-end',
-                type: 'error',
-                title: "{{ session('mensaje') }}",
-                showConfirmButton: false,
-                timer: 5000
-            });
         </script>
     @endif
+
+
 @stop

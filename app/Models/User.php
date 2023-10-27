@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
@@ -13,7 +14,7 @@ use Spatie\Permission\Traits\HasRoles;
 
 class User extends Authenticatable implements MustVerifyEmail
 {
-    use HasApiTokens, HasFactory, Notifiable, HasRoles;
+    use HasApiTokens, HasFactory, Notifiable, HasRoles, SoftDeletes;
 
 
     // protected $attributes = [
@@ -50,11 +51,23 @@ class User extends Authenticatable implements MustVerifyEmail
         return $this->belongsTo('App\Models\TipoUsuario', 'tipoUsuario_id');
     }
 
-     //RELACION UNO A MUCHOS INVERSA
-     public function empresa()
-     {
-         return $this->belongsTo('App\Models\Empresa', 'empresa_id');
-     }
+    //RELACION UNO A MUCHOS INVERSA
+    public function empresa()
+    {
+        return $this->belongsTo('App\Models\Empresa', 'empresa_id');
+    }
+
+    public static function getPermissionIds(User $user)
+    {
+        $userLogueado = $user->id;
+
+        // Obtén los IDs de los permisos relacionados con los roles del usuario
+        $rol = ModelHasRoles::where('model_id', $userLogueado)->pluck('role_id')->toArray();
+        $rol = array_unique($rol);
+
+        return RoleHasPermission::whereIn('role_id', $rol)->pluck('permission_id')->toArray();
+    }
+
 
     // public function tipoUsuario()
     // {
@@ -131,6 +144,4 @@ class User extends Authenticatable implements MustVerifyEmail
     public function tipoUsuario(){
         return $this->hasOne('App\Models\TipoUsuarios');
     }*/
-
-    
 }

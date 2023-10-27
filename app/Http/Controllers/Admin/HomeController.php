@@ -4,9 +4,11 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\AsignacionMulta;
+use App\Models\Descuento;
 use App\Models\Empresa;
 use App\Models\ResgistroProducido;
 use App\Models\User;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -15,45 +17,47 @@ use LaravelDaily\LaravelCharts\Classes\LaravelChart;
 
 class HomeController extends Controller
 {
-    public function index()
+    public function dataDescuentos()
     {
+        $fechaActual = Carbon::now();
+        $terceraQuincena = $fechaActual->copy();
+        $segundaQuincena = $fechaActual->copy()->subDays(15);
+        $primeraQuincena = $fechaActual->copy()->subDays(30);
+        $descuentosTerceraQuincena = Descuento::whereBetween('created_at', [$terceraQuincena, $fechaActual])->sum('montoDescuento');
+        $descuentosSegundaQuincena = Descuento::whereBetween('created_at', [$segundaQuincena, $terceraQuincena])->sum('montoDescuento');
+        $descuentosPrimeraQuincena = Descuento::whereBetween('created_at', [$primeraQuincena, $segundaQuincena])->sum('montoDescuento');
 
-        $chart_options = [
+        $valoresParaJS = '[' . $descuentosTerceraQuincena . ', ' . $descuentosSegundaQuincena . ', ' . $descuentosPrimeraQuincena . ']';
 
-            'chart_title' => 'Transactions by user',
-            'chart_type' => 'bar',
-            'report_type' => 'group_by_relationship',
-            'model' => 'App\Models\User',
-
-            'relationship_name' => 'tipoUsuario', // represents function user() on Transaction model
-            'group_by_field' => 'users.tipoUsuario_id.nombre', // users.name
-
-
-
-            'filter_field' => 'tipoUsuario_id',
-            'filter_days' => 3, // show only transactions for last 30 days
-            'filter_period' => 'week', // show only transactions for this week
-        ];
-
-
-
-        $chart = new LaravelChart($chart_options);
-        // return view('admin.index', compact('chart'));
-        try {
-
-            $userModelos = DB::table('users')->get(); //id
-            // MULTAS
-
-            $count_multas_user = AsignacionMulta::select(['id'])
-                ->count();
-
-            // Pasar el arreglo de menú a la vista
-            $menu = config('adminlte.menu');
-
-            //dd($menu);
-            return view('admin.index', compact('count_multas_user', 'userModelos', 'chart', 'menu'));
-        } catch (\Exception $exception) {
-            Log::error("Error UC index: {$exception->getMessage()}, File: {$exception->getFile()}, Line: {$exception->getLine()}");
-        }
+        return $valoresParaJS;
     }
+
+
+
+
+        public function index()
+        {
+            $usuariosModelos = User::where('active', 1)
+                ->whereHas('tipoUsuario', function ($query) {
+                    $query->where('nombre', 'Modelo');
+                })
+                ->count();            
+            $multas = AsignacionMulta::where('descontado',0)->count();
+            $descuentos = Descuento::where('saldo', '>', 0)->sum('saldo');  
+            $dataDescuento = $this->dataDescuentos();
+            return view('admin.index', compact('usuariosModelos','multas','descuentos','dataDescuento'));
+        }
+
+    
+
+    
+
+
+
+
+
+
+
+
+
 }

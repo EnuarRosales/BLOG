@@ -18,6 +18,7 @@ class CreateTipoMultasTable extends Migration
             $table->string('nombre',100);
             $table->float('costo');
             $table->timestamps();
+            $table->softDeletes(); // Agregar esta línea para habilitar eliminación suave
         });
     }
 

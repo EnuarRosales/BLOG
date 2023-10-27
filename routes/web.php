@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Admin\DescontadoController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Admin\HomeController;
 use App\Http\Controllers\Admin\RegistroDescuentoController;
@@ -29,6 +30,15 @@ use Illuminate\Support\Facades\Auth;
 
 
     Route::get('/', [HomeController::class, 'index'])->middleware(['auth', 'verified'])->name('dashboard');
+
+    Route::get('registroDescuentos/datatable', [RegistroDescuentoController::class, 'datatable'])->middleware(['auth', 'verified'])->name('admin.registroDescuentos.datatable');
+
+    // Route::get('abonos/ajax', [DescontadoController::class, 'abono'])->middleware(['auth', 'verified'])->name('admin.abonos.abono.ajax');
+    Route::put('abonos/{abonado}', [DescontadoController::class, 'abono'])->middleware(['auth', 'verified'])->name('admin.abonos.abono');
+    // Route::get('abonos/abonoParcial/datatable', [DescontadoController::class, 'datatable'])->middleware(['auth', 'verified'])->name('admin.abonos.abonoParcial.datatable');
+
+
+    // require __DIR__ . '/tenant.php';
     require __DIR__ . '/auth.php';
 
 

@@ -17,13 +17,14 @@ class CreateAsistenciasTable extends Migration
             $table->id();
             $table->date('fecha');
             $table->time('mi_hora');
-            $table->unsignedBigInteger('user_id'); //campo para relacion                       
+            $table->unsignedBigInteger('user_id'); //campo para relacion
             $table->foreign('user_id')
                 ->references('id')->on('users') //tabla
                 ->onDelete('cascade');
 
 
             $table->timestamps();
+            $table->softDeletes(); // Agregar esta línea para habilitar eliminación suave
         });
     }
 

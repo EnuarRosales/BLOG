@@ -18,6 +18,7 @@ class CreateTipoUsuariosTable extends Migration
             $table->string('nombre')->nullable();
             $table->float('porcentaje',5,2)->nullable();
             $table->timestamps();
+            $table->softDeletes(); // Agregar esta línea para habilitar eliminación suave
         });
     }
 

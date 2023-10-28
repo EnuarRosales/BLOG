@@ -17,48 +17,73 @@ use LaravelDaily\LaravelCharts\Classes\LaravelChart;
 
 class HomeController extends Controller
 {
+    
     public function dataDescuentos()
     {
         $fechaActual = Carbon::now();
-        $primeraQuincena = $fechaActual->copy();
-        $segundaQuincena = $fechaActual->copy()->subDays(15);
-        $terceraQuincena = $fechaActual->copy()->subDays(30);
-        
-        $descuentosTerceraQuincena = Descuento::whereBetween('created_at', [$terceraQuincena, $fechaActual])->sum('montoDescuento');
-        $descuentosSegundaQuincena = Descuento::whereBetween('created_at', [$segundaQuincena, $terceraQuincena])->sum('montoDescuento');
-        $descuentosPrimeraQuincena = Descuento::whereBetween('created_at', [$primeraQuincena, $segundaQuincena])->sum('montoDescuento');
 
-        $valoresParaJS = '[' . $descuentosTerceraQuincena . ', ' . $descuentosSegundaQuincena . ', ' . $descuentosPrimeraQuincena . ']';
+        $cuartoMes = $fechaActual->copy();
+        $tercerMes = $fechaActual->copy()->subMonths(1);
+        $segundoMes = $fechaActual->copy()->subMonths(2);
+        $primerMes = $fechaActual->copy()->subMonths(3);
 
-        return $valoresParaJS; 
+        $primeraQuincenaCuartoMes = Descuento::whereYear('created_at', $cuartoMes)
+            ->whereMonth('created_at', $cuartoMes)
+            ->whereDay('created_at', '<=', 15)
+            ->sum('montoDescuento');
+
+        $segundaQuincenaCuartoMes = Descuento::whereYear('created_at', $cuartoMes)
+            ->whereMonth('created_at', $cuartoMes)
+            ->whereDay('created_at', '>', 15)
+            ->sum('montoDescuento');
+
+        $primeraQuincenaTercerMes = Descuento::whereYear('created_at', $tercerMes)
+            ->whereMonth('created_at', $tercerMes)
+            ->whereDay('created_at', '<=', 15)
+            ->sum('montoDescuento');
+
+        $segundaQuincenaTercerMes = Descuento::whereYear('created_at', $tercerMes)
+            ->whereMonth('created_at', $tercerMes)
+            ->whereDay('created_at', '>', 15)
+            ->sum('montoDescuento');
+
+        $primeraQuincenaSegundoMes = Descuento::whereYear('created_at', $segundoMes)
+            ->whereMonth('created_at', $segundoMes)
+            ->whereDay('created_at', '<=', 15)
+            ->sum('montoDescuento');
+
+        $segundaQuincenaSegundoMes = Descuento::whereYear('created_at', $segundoMes)
+            ->whereMonth('created_at', $segundoMes)
+            ->whereDay('created_at', '>', 15)
+            ->sum('montoDescuento');
+
+        $segundaQuincenaPrimerMes = Descuento::whereYear('created_at', $primerMes)
+            ->whereMonth('created_at', $primerMes)
+            ->whereDay('created_at', '>', 15)
+            ->sum('montoDescuento');
+
+        $dataDescuentosJS = '[' . $segundaQuincenaPrimerMes . ', ' . $primeraQuincenaSegundoMes . ', ' . $segundaQuincenaSegundoMes . ', ' . $primeraQuincenaTercerMes . ', ' . $segundaQuincenaTercerMes . ', ' . $primeraQuincenaCuartoMes . ', ' . $segundaQuincenaCuartoMes . ']';
+       
+        // echo($dataDescuentosJS );
+        return $dataDescuentosJS;
+
     }
 
 
 
 
-        public function index()
-        {
-            $usuariosModelos = User::where('active', 1)
-                ->whereHas('tipoUsuario', function ($query) {
-                    $query->where('nombre', 'Modelo');
-                })
-                ->count();            
-            $multas = AsignacionMulta::where('descontado',0)->count();
-            $descuentos = Descuento::where('saldo', '>', 0)->sum('saldo');  
-            $dataDescuento = $this->dataDescuentos();
-            return view('admin.index', compact('usuariosModelos','multas','descuentos','dataDescuento'));
-        }
-
-    
-
-    
 
 
-
-
-
-
-
-
-
+    public function index()
+    {
+        $usuariosModelos = User::where('active', 1)
+            ->whereHas('tipoUsuario', function ($query) {
+                $query->where('nombre', 'Modelo');
+            })
+            ->count();
+        $multas = AsignacionMulta::where('descontado', 0)->count();
+        $descuentos = Descuento::where('saldo', '>', 0)->sum('saldo');
+        $dataDescuentos = $this->dataDescuentos();        
+        return view('admin.index', compact('usuariosModelos','multas','descuentos','dataDescuentos'));
+    }
 }

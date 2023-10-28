@@ -384,6 +384,8 @@ try {
       },
     }
 
+    // console.log(seriesData); 
+
     // Engagement Rate
 
     var d_1options5 = {
@@ -403,8 +405,8 @@ try {
         opacity: 1,
       },
       series: [{
-        name: 'Prestamos',
-        data: [1, 1, 36, 60, 38, 52, 38 ]
+        name: 'Prestamos', 
+        data: [1, 5, 36, 60, 38, 52, 1]
       }],
       labels: ['1', '2', '3', '4', '5', '6', '7'],
       yaxis: {

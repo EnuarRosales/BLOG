@@ -90,7 +90,7 @@
                         <div class="widget-content">
                             <div class="w-content">
                                 <div class="w-info">
-                                    <h6 class="value">$ 45,141</h6>
+                                    <h6 class="value">$ 90,141</h6>
                                     <p class="">Meta</p>
                                 </div>
                                 <div class="">
@@ -105,7 +105,8 @@
                                 </div>
                             </div>
                             <div class="progress">
-                                <div class="progress-bar bg-gradient-secondary" role="progressbar" style="width: 57%"
+                                {{-- BARRA DE --}}
+                                <div class="progress-bar bg-gradient-secondary" role="progressbar" style="width: 98%"
                                     aria-valuenow="57" aria-valuemin="0" aria-valuemax="100"></div>
                             </div>
                         </div>
@@ -137,7 +138,7 @@
                                     <div class="w-browser-details">
                                         <div class="w-browser-info">
                                             <h6>Chrome</h6>
-                                            <p class="browser-count">65%</p>
+                                            <p class="browser-count">95%</p>
                                         </div>
                                         <div class="w-browser-stats">
                                             <div class="progress">
@@ -701,6 +702,10 @@
         <script src="{{ asset('template/assets/js/dashboard/dash_2.js') }}"></script>
         <!-- En tu vista blade -->
 
+        <!-- En tu vista Blade -->
+        <script>
+            var seriesData = [1, 10, 1, 10, 1, 10, 1]; // Aquí defines tu data
+        </script>
 
 
         {{-- Using HTML5 input elements --}}
@@ -717,7 +722,7 @@
                 }
             });
         </script>
-        
+
         {{-- Apex (Simple) --}}
         <script>
             var sline = {
@@ -822,7 +827,6 @@
             );
 
             chart.render();
-
         </script>
         <script src="{{ asset('template/assets/js/scrollspyNav.js') }}"></script>
         <script src="{{ asset('template/plugins/flatpickr/flatpickr.js') }}"></script>

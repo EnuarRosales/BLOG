@@ -20,16 +20,17 @@ class HomeController extends Controller
     public function dataDescuentos()
     {
         $fechaActual = Carbon::now();
-        $terceraQuincena = $fechaActual->copy();
+        $primeraQuincena = $fechaActual->copy();
         $segundaQuincena = $fechaActual->copy()->subDays(15);
-        $primeraQuincena = $fechaActual->copy()->subDays(30);
+        $terceraQuincena = $fechaActual->copy()->subDays(30);
+        
         $descuentosTerceraQuincena = Descuento::whereBetween('created_at', [$terceraQuincena, $fechaActual])->sum('montoDescuento');
         $descuentosSegundaQuincena = Descuento::whereBetween('created_at', [$segundaQuincena, $terceraQuincena])->sum('montoDescuento');
         $descuentosPrimeraQuincena = Descuento::whereBetween('created_at', [$primeraQuincena, $segundaQuincena])->sum('montoDescuento');
 
         $valoresParaJS = '[' . $descuentosTerceraQuincena . ', ' . $descuentosSegundaQuincena . ', ' . $descuentosPrimeraQuincena . ']';
 
-        return $valoresParaJS;
+        return $valoresParaJS; 
     }
 
 

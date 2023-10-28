@@ -700,9 +700,7 @@
         <script src="{{ asset('template/assets/js/dashboard/dash_1.js') }}"></script>
         <script src="{{ asset('template/assets/js/dashboard/dash_2.js') }}"></script>
         <!-- En tu vista blade -->
-        <script>
-            var valoresParaJS = [{{ $dataDescuento }}];
-        </script>
+
 
 
         {{-- Using HTML5 input elements --}}
@@ -719,6 +717,7 @@
                 }
             });
         </script>
+        
         {{-- Apex (Simple) --}}
         <script>
             var sline = {
@@ -823,11 +822,11 @@
             );
 
             chart.render();
+
         </script>
         <script src="{{ asset('template/assets/js/scrollspyNav.js') }}"></script>
         <script src="{{ asset('template/plugins/flatpickr/flatpickr.js') }}"></script>
         <script src="{{ asset('template/plugins/noUiSlider/nouislider.min.js') }}"></script>
-
         <script src="{{ asset('template/plugins/flatpickr/custom-flatpickr.js') }}"></script>
         <script src="{{ asset('template/plugins/noUiSlider/custom-nouiSlider.js') }}"></script>
         <script src="{{ asset('template/plugins/bootstrap-range-Slider/bootstrap-rangeSlider.js') }}"></script>

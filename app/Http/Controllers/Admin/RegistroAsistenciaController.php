@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\AsignacionTurno;
 use App\Models\Asistencia;
 use App\Models\Descuento;
 use App\Models\User;
@@ -11,7 +12,7 @@ use Illuminate\Http\Request;
 
 class RegistroAsistenciaController extends Controller
 {
-    /** 
+    /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
@@ -19,8 +20,25 @@ class RegistroAsistenciaController extends Controller
     public function index()
     {
         $userLogueado = auth()->user()->id;
-        $asistencias = Asistencia::all();
-        return view('admin.registroAsistencias.index', compact('asistencias','userLogueado'));
+        // Obtén la fecha actual en el huso horario de Bogotá
+        // $fechaActual = now('America/Bogota')->toDateString();
+
+        // Consulta las asistencias para el día actual
+        $asistencias = Asistencia::with('user', 'user.asignacionTurnos', 'user.asignacionTurnos.turno')
+            // ->whereDate('created_at', $fechaActual)
+            ->get();
+
+            foreach ($asistencias as $asistencia) {
+            //    dd( $asistencia->control);
+            }
+        // dd($asistencias);
+
+        foreach ($asistencias as $asistencia) {
+            $user = $asistencia->user; // Accedes a la relación user
+            $asignacionTurno = $user->asignacionTurnos; // Accedes a la relación asignacionTurno dentro de la relación user
+            // Puedes trabajar con los atributos de $asistencia, $user y $asignacionTurno según tus necesidades
+        }
+        return view('admin.registroAsistencias.index', compact('asistencias', 'userLogueado'));
     }
 
     /**
@@ -31,19 +49,19 @@ class RegistroAsistenciaController extends Controller
     public function create()
     {
         $users = User::orderBy('id', 'desc');
-        // $turnos = Turno::orderBy('id','desc'); 
+        // $turnos = Turno::orderBy('id','desc');
         return view('admin.registroAsistencias.create', compact('users'));
     }
 
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request 
+     * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
     {
-        //VALiDACION FORMULARIO 
+        //VALiDACION FORMULARIO
         $request->validate([
             'user_id' => 'required',
             'fecha' => 'required',
@@ -89,7 +107,7 @@ class RegistroAsistenciaController extends Controller
      */
     public function update(Request $request, Asistencia $registroAsistencia)
     {
-        //VALiDACION FORMULARIO 
+        //VALiDACION FORMULARIO
         $request->validate([
             'user_id' => 'required',
             'fecha' => 'required',

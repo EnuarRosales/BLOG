@@ -81,11 +81,9 @@
                     </thead>
                     <tbody>
                         @foreach ($asistencias as $asistencia)
-                            @if (auth()->user()->hasRole('Administrador'))
-                                @include('admin.registroAsistencias.partials.table')
-                            @elseif (auth()->user()->hasRole('Monitor'))
-                                @include('admin.registroAsistencias.partials.table')
-                            @elseif($asistencia->user->id == $userLogueado)
+                            @if (auth()->user()->hasRole('Administrador') ||
+                                    auth()->user()->hasRole('Monitor') ||
+                                    $asistencia->user->id == $userLogueado)
                                 @include('admin.registroAsistencias.partials.table')
                             @endif
                         @endforeach
@@ -229,7 +227,10 @@
     </script>
     <script src="{{ asset('assets/libs/switchery/switchery.min.js') }}"></script>
     <script>
-        console.log('Hi!');
+        // console.log('Hi!');
+
+
+
     </script>
 
 

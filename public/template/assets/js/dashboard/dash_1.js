@@ -13,7 +13,7 @@ try {
         ======================================
     */
 
-    
+
     // Total Visits
 
     var spark1 = {
@@ -210,7 +210,7 @@ try {
         }
         ]
     }
-    
+
 
     /*
         ===================================
@@ -239,7 +239,7 @@ try {
           bar: {
               horizontal: false,
               columnWidth: '55%',
-              endingShape: 'rounded'  
+              endingShape: 'rounded'
           },
       },
       dataLabels: {
@@ -302,45 +302,45 @@ try {
 
     // Followers
 
-    var d_1options3 = {
-      chart: {
-        id: 'sparkline1',
-        type: 'area',
-        height: 160,
-        sparkline: {
-          enabled: true
-        },
-      },
-      stroke: {
-          curve: 'smooth',
-          width: 2,
-      },
-      series: [{
-        name: 'Sales',
-        data: [38, 60, 38, 52, 36, 40, 28 ]
-      }],
-      labels: ['1', '2', '3', '4', '5', '6', '7'],
-      yaxis: {
-        min: 0
-      },
-      colors: ['#1b55e2'],
-      tooltip: {
-        x: {
-          show: false,
-        }
-      },
-      fill: {
-          type:"gradient",
-          gradient: {
-              type: "vertical",
-              shadeIntensity: 1,
-              inverseColors: !1,
-              opacityFrom: .40,
-              opacityTo: .05,
-              stops: [45, 100]
-          }
-      },
-    }
+    // var d_1options3 = {
+    //   chart: {
+    //     id: 'sparkline1',
+    //     type: 'area',
+    //     height: 160,
+    //     sparkline: {
+    //       enabled: true
+    //     },
+    //   },
+    //   stroke: {
+    //       curve: 'smooth',
+    //       width: 2,
+    //   },
+    //   series: [{
+    //     name: 'Usuarios',
+    //     data: [38, 60, 38, 52, 36, 40, 28 ]
+    //   }],
+    //   labels: ['1', '2', '3', '4', '5', '6', '7'],
+    //   yaxis: {
+    //     min: 0
+    //   },
+    //   colors: ['#1b55e2'],
+    //   tooltip: {
+    //     x: {
+    //       show: false,
+    //     }
+    //   },
+    //   fill: {
+    //       type:"gradient",
+    //       gradient: {
+    //           type: "vertical",
+    //           shadeIntensity: 1,
+    //           inverseColors: !1,
+    //           opacityFrom: .40,
+    //           opacityTo: .05,
+    //           stops: [45, 100]
+    //       }
+    //   },
+    // }
 
     // Referral
 
@@ -358,7 +358,7 @@ try {
           width: 2,
       },
       series: [{
-        name: 'Sales',
+        name: 'Usuarios',
         data: [ 60, 28, 52, 38, 40, 36, 38]
       }],
       labels: ['1', '2', '3', '4', '5', '6', '7'],
@@ -403,7 +403,7 @@ try {
         opacity: 1,
       },
       series: [{
-        name: 'Sales',
+        name: 'Usuarios',
         data: [28, 50, 36, 60, 38, 52, 38 ]
       }],
       labels: ['1', '2', '3', '4', '5', '6', '7'],
@@ -429,7 +429,7 @@ try {
       },
     }
 
-    
+
 
 
     /*
@@ -474,8 +474,8 @@ try {
 
     // Followers
 
-    var d_1C_5 = new ApexCharts(document.querySelector("#hybrid_followers"), d_1options3);
-    d_1C_5.render()
+    // var d_1C_5 = new ApexCharts(document.querySelector("#hybrid_followers"), d_1options3);
+    // d_1C_5.render()
 
     // Referral
 

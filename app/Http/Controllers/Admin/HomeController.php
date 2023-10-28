@@ -22,11 +22,20 @@ class HomeController extends Controller
                 $query->where('nombre', 'Modelo');
             })
             ->count();
-            
+
         $multas = AsignacionMulta::where('descontado',0)->count();
 
-        
+        $empresa = Empresa::get()->first();
+        if($empresa != null){
+            $modelostotales = $empresa->capacity_models;
 
-        return view('admin.index', compact('usuariosModelos','multas'));
+
+            //dd($modelostotales);
+
+        }
+
+
+
+        return view('admin.index', compact('usuariosModelos','multas', 'modelostotales'));
     }
 }

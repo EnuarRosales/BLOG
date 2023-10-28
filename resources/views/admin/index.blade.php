@@ -31,8 +31,9 @@
                                     <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
                                 </svg>
                             </div>
-                            <p class="w-value">{{$usuariosModelos}}</p>
-                            <h5 class="">Usuarios</h5>
+
+                            <p class="w-value">{{ $usuariosModelos }} Usuarios</p>
+                            <p class="w-value">5%</p>
                         </div>
                         <div class="widget-content">
                             <div class="w-chart">
@@ -52,7 +53,7 @@
                                     <path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path>
                                 </svg>
                             </div>
-                            <p class="w-value">{{$multas}}</p>
+                            <p class="w-value">{{ $multas }}</p>
                             <h5 class="">Multas</h5>
                         </div>
                         <div class="widget-content">
@@ -819,6 +820,51 @@
             );
 
             chart.render();
+        </script>
+
+        <script>
+            var d_1options3 = {
+                chart: {
+                    id: 'sparkline1',
+                    type: 'area',
+                    height: 160,
+                    sparkline: {
+                        enabled: true
+                    },
+                },
+                stroke: {
+                    curve: 'smooth',
+                    width: 2,
+                },
+                series: [{
+                    name: 'Usuarios',
+                    data: [38, 60, 38, 52, 36, 40, 28]
+                }],
+                labels: ['1', '2', '3', '4', '5', '6', '7'],
+                yaxis: {
+                    min: 0
+                },
+                colors: ['#1b55e2'],
+                tooltip: {
+                    x: {
+                        show: false,
+                    }
+                },
+                fill: {
+                    type: "gradient",
+                    gradient: {
+                        type: "vertical",
+                        shadeIntensity: 1,
+                        inverseColors: !1,
+                        opacityFrom: .40,
+                        opacityTo: .05,
+                        stops: [45, 100]
+                    }
+                },
+            }
+
+            var d_1C_5 = new ApexCharts(document.querySelector("#hybrid_followers"), d_1options3);
+            d_1C_5.render()
         </script>
         <script src="{{ asset('template/assets/js/scrollspyNav.js') }}"></script>
         <script src="{{ asset('template/plugins/flatpickr/flatpickr.js') }}"></script>

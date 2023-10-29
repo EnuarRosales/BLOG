@@ -98,16 +98,11 @@
                                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
                                             viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
                                             stroke-linecap="round" stroke-linejoin="round" class="feather feather-home">
-                                            <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+                                            <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0"></path>
                                             <polyline points="9 22 9 12 15 12 15 22"></polyline>
                                         </svg>
                                     </div>
                                 </div>
-
-
-
-
-
                             </div>
                             <div class="progress">
                                 {{-- BARRA DE  la  META --}}
@@ -125,9 +120,6 @@
 
                                 </div>
                             @endif
-
-
-
                         </div>
                     </div>
                 </div>
@@ -138,7 +130,7 @@
                 <div class="col-xl-8 col-lg-6 col-md-6 col-sm-12 col-12 layout-spacing">
                     <div class="widget-four">
                         <div class="widget-heading">
-                            <h5 class="">Visitors by Browser</h5>
+                            <h5 class="">Historial de metas</h5>
                         </div>
                         <div class="widget-content">
                             <div class="vistorsBrowser">
@@ -156,13 +148,13 @@
                                     </div>
                                     <div class="w-browser-details">
                                         <div class="w-browser-info">
-                                            <h6>Chrome</h6>
-                                            <p class="browser-count">95%</p>
+                                            <h6>{{$dataHistorialMetas[2]}}</h6>
+                                            <p class="browser-count">{{$dataHistorialMetas[3]}}%</p>
                                         </div>
                                         <div class="w-browser-stats">
                                             <div class="progress">
                                                 <div class="progress-bar bg-gradient-primary" role="progressbar"
-                                                    style="width: 65%" aria-valuenow="90" aria-valuemin="0"
+                                                    style="width: {{$dataHistorialMetas[3]}}%" aria-valuenow="90" aria-valuemin="0"
                                                     aria-valuemax="100">
                                                 </div>
                                             </div>
@@ -182,14 +174,14 @@
                                     <div class="w-browser-details">
 
                                         <div class="w-browser-info">
-                                            <h6>Safari</h6>
-                                            <p class="browser-count">25%</p>
+                                            <h6>{{$dataHistorialMetas[4]}}</h6>
+                                            <p class="browser-count">{{$dataHistorialMetas[5]}}%</p>
                                         </div>
 
                                         <div class="w-browser-stats">
                                             <div class="progress">
                                                 <div class="progress-bar bg-gradient-danger" role="progressbar"
-                                                    style="width: 35%" aria-valuenow="65" aria-valuemin="0"
+                                                    style="width: {{$dataHistorialMetas[5]}}%" aria-valuenow="65" aria-valuemin="0"
                                                     aria-valuemax="100">
                                                 </div>
                                             </div>
@@ -207,21 +199,21 @@
                                             <circle cx="12" cy="12" r="10"></circle>
                                             <line x1="2" y1="12" x2="22" y2="12"></line>
                                             <path
-                                                d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z">
+                                                d="M82.949,1559c3.826,30.183,27.577,54.084,57.577,57.91v-57.91H82">
                                             </path>
                                         </svg>
                                     </div>
                                     <div class="w-browser-details">
 
                                         <div class="w-browser-info">
-                                            <h6>Others</h6>
-                                            <p class="browser-count">15%</p>
+                                            <h6>{{$dataHistorialMetas[6]}}</h6>
+                                            <p class="browser-count">{{$dataHistorialMetas[7]}}%</p>
                                         </div>
 
                                         <div class="w-browser-stats">
                                             <div class="progress">
                                                 <div class="progress-bar bg-gradient-warning" role="progressbar"
-                                                    style="width: 15%" aria-valuenow="15" aria-valuemin="0"
+                                                    style="width: {{$dataHistorialMetas[7]}}%" aria-valuenow="15" aria-valuemin="0"
                                                     aria-valuemax="100">
                                                 </div>
                                             </div>
@@ -240,7 +232,7 @@
                 <div class="col-xl-4 col-lg-6 col-md-6 col-sm-6 col-12 layout-spacing">
                     <div class="widget-three">
                         <div class="widget-heading">
-                            <h5 class="">Summary</h5>
+                            <h5 class="">Turnos</h5>
                         </div>
                         <div class="widget-content">
 

@@ -18,7 +18,6 @@ use LaravelDaily\LaravelCharts\Classes\LaravelChart;
 
 class HomeController extends Controller
 {
-
     public function dataDescuentos()
     {
         $fechaActual = Carbon::now();
@@ -64,29 +63,21 @@ class HomeController extends Controller
             ->sum('montoDescuento');
 
         $dataDescuentosJS = '[' . $segundaQuincenaPrimerMes . ', ' . $primeraQuincenaSegundoMes . ', ' . $segundaQuincenaSegundoMes . ', ' . $primeraQuincenaTercerMes . ', ' . $segundaQuincenaTercerMes . ', ' . $primeraQuincenaCuartoMes . ', ' . $segundaQuincenaCuartoMes . ']';
-
-        // echo($dataDescuentosJS );
         return $dataDescuentosJS;
     }
 
 
     public function dataMeta()
     {
-
         $datoMasReciente = Meta::latest()->first(); // O Dato::latest()->get() si deseas obtener varios registros
         // Puedes hacer lo que desees con $datoMasReciente aquíecho
         $valorMeta = $datoMasReciente->valor;
         $idMeta = $datoMasReciente->id;
-
         $registroProduccion = ResgistroProducido::where('meta_id', $idMeta)
             ->sum('valorProducido');
-
-        $porcentajeMeta = ($registroProduccion * 100) / $valorMeta;
-        // echo ($porcentajeMeta);
-        return array ($valorMeta, $porcentajeMeta, $registroProduccion);
+        $porcentajeMeta = ($registroProduccion * 100) / $valorMeta;        
+        return array($valorMeta, $porcentajeMeta, $registroProduccion);
     }
-
-
 
     public function dataMulta()
     {
@@ -133,10 +124,25 @@ class HomeController extends Controller
             ->count();
 
         $dataMultasJS = '[' . $segundaQuincenaPrimerMes . ', ' . $primeraQuincenaSegundoMes . ', ' . $segundaQuincenaSegundoMes . ', ' . $primeraQuincenaTercerMes . ', ' . $segundaQuincenaTercerMes . ', ' . $primeraQuincenaCuartoMes . ', ' . $segundaQuincenaCuartoMes . ']';
-
-        // echo($dataDescuentosJS );
         return $dataMultasJS;
     }
+
+    public function dataHistorialMeta()
+    {
+        $datoMasRecientes = Meta::latest()->take(4)->get();
+        $miArray = array(); // Inicializar un array vacío           
+
+        foreach ($datoMasRecientes as $datoMasReciente) {
+            $registroProduccion = ResgistroProducido::where('meta_id', $datoMasReciente->id)
+                ->sum('valorProducido');
+            $porcentajeMeta = ($registroProduccion * 100) / $datoMasReciente->valor;
+
+            $miArray[] = $datoMasReciente->nombre;
+            $miArray[] = $porcentajeMeta;
+        }
+        return $miArray;
+    }
+
 
     public function index()
     {
@@ -150,7 +156,7 @@ class HomeController extends Controller
         $dataDescuentos = $this->dataDescuentos();
         $dataMetas = $this->dataMeta();
         $dataMultas = $this->dataMulta();
-        return view('admin.index', compact('usuariosModelos','multas','descuentos','dataDescuentos','dataMetas','dataMultas'));
+        $dataHistorialMetas = $this->dataHistorialMeta();
+        return view('admin.index', compact('usuariosModelos', 'multas', 'descuentos', 'dataDescuentos', 'dataMetas', 'dataMultas', 'dataHistorialMetas'));
     }
-
 }

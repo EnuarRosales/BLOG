@@ -74,8 +74,8 @@
                                     </path>
                                 </svg>
                             </div>
-                            <p class="w-value">{{ $descuentos }}</p>
-                            <h5 class="">Descuentos</h5>
+                            <p class="w-value">COP {{ $descuentos }}</p>
+                            <h5 class="">Prestamos</h5>
                         </div>
                         <div class="widget-content">
                             <div class="w-chart">
@@ -90,7 +90,7 @@
                         <div class="widget-content">
                             <div class="w-content">
                                 <div class="w-info">
-                                    <h6 class="value">$ 90,141</h6>
+                                    <h6 class="value">$ {{ $dataMetas[0] }}</h6>
                                     <p class="">Meta</p>
                                 </div>
                                 <div class="">
@@ -103,12 +103,31 @@
                                         </svg>
                                     </div>
                                 </div>
+
+
+
+
+
                             </div>
                             <div class="progress">
-                                {{-- BARRA DE --}}
-                                <div class="progress-bar bg-gradient-secondary" role="progressbar" style="width: 98%"
-                                    aria-valuenow="57" aria-valuemin="0" aria-valuemax="100"></div>
+                                {{-- BARRA DE  la  META --}}
+                                <div class="progress-bar bg-gradient-secondary" role="progressbar"
+                                    style="width: {{ $dataMetas[1] }}%" aria-valuenow="57" aria-valuemin="0"
+                                    aria-valuemax="100"></div>
                             </div>
+
+                            @if ($dataMetas[1] >= 100)
+                                <div class="w-info">
+                                    {{-- <h6 class="value">$ {{$dataMetas[0]}}</h6> --}}
+                                    <p class=""><span style="color: green;">Felicitaciones meta alcanzada</span></p>
+                                    <p class="">Valor generado: $ {{ $dataMetas[2] }} </p>
+                                    <p class="">Diferencia: +$ {{ $dataMetas[2] - $dataMetas[0] }}</p>
+
+                                </div>
+                            @endif
+
+
+
                         </div>
                     </div>
                 </div>
@@ -700,12 +719,110 @@
         <script src="{{ asset('template/plugins/apex/apexcharts.min.js') }}"></script>
         <script src="{{ asset('template/assets/js/dashboard/dash_1.js') }}"></script>
         <script src="{{ asset('template/assets/js/dashboard/dash_2.js') }}"></script>
-        <!-- En tu vista blade -->
 
-        <!-- En tu vista Blade -->
+        {{-- GRAFICA PRESTAMOS --}}
         <script>
-            var seriesData = [1, 10, 1, 10, 1, 10, 1]; // Aquí defines tu data
+            // Engagement Rate
+            var d_1options5 = {
+                chart: {
+                    id: 'sparkline1',
+                    type: 'area',
+                    height: 160,
+                    sparkline: {
+                        enabled: true
+                    },
+                },
+                stroke: {
+                    curve: 'smooth',
+                    width: 2,
+                },
+                fill: {
+                    opacity: 1,
+                },
+                series: [{
+                    name: 'Prestamos',
+                    data: {{ $dataDescuentos }}
+                }],
+                labels: ['1', '2', '3', '4', '5', '6', '7'],
+                yaxis: {
+                    min: 0
+                },
+                colors: ['#8dbf42'],
+                tooltip: {
+                    x: {
+                        show: false,
+                    }
+                },
+                fill: {
+                    type: "gradient",
+                    gradient: {
+                        type: "vertical",
+                        shadeIntensity: 1,
+                        inverseColors: !1,
+                        opacityFrom: .40,
+                        opacityTo: .05,
+                        stops: [45, 100]
+                    }
+                },
+            }
+
+
+
+            // Engagement Rate
+            var d_1C_7 = new ApexCharts(document.querySelector("#hybrid_followers3"), d_1options5);
+            d_1C_7.render()
         </script>
+
+
+    {{-- GRAFICA MULTAS --}}
+
+        <script>
+            var d_1options4 = {
+                chart: {
+                    id: 'sparkline1',
+                    type: 'area',
+                    height: 160,
+                    sparkline: {
+                        enabled: true
+                    },
+                },
+                stroke: {
+                    curve: 'smooth',
+                    width: 2,
+                },
+                series: [{
+                    name: 'Multas',
+                    data: {{$dataMultas}}
+                }],
+                labels: ['1', '2', '3', '4', '5', '6', '7'],
+                yaxis: {
+                    min: 0
+                },
+                colors: ['#e7515a'],
+                tooltip: {
+                    x: {
+                        show: false,
+                    }
+                },
+                fill: {
+                    type: "gradient",
+                    gradient: {
+                        type: "vertical",
+                        shadeIntensity: 1,
+                        inverseColors: !1,
+                        opacityFrom: .40,
+                        opacityTo: .05,
+                        stops: [45, 100]
+                    }
+                },
+            }
+
+            var d_1C_6 = new ApexCharts(document.querySelector("#hybrid_followers1"), d_1options4);
+            d_1C_6.render()
+
+        </script>
+
+
 
 
         {{-- Using HTML5 input elements --}}

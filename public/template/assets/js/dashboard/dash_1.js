@@ -344,92 +344,92 @@ try {
 
     // Referral
 
-    var d_1options4 = {
-      chart: {
-        id: 'sparkline1',
-        type: 'area',
-        height: 160,
-        sparkline: {
-          enabled: true
-        },
-      },
-      stroke: {
-          curve: 'smooth',
-          width: 2,
-      },
-      series: [{
-        name: 'Sales',
-        data: [ 60, 28, 52, 38, 40, 36, 38]
-      }],
-      labels: ['1', '2', '3', '4', '5', '6', '7'],
-      yaxis: {
-        min: 0
-      },
-      colors: ['#e7515a'],
-      tooltip: {
-        x: {
-          show: false,
-        }
-      },
-      fill: {
-          type:"gradient",
-          gradient: {
-              type: "vertical",
-              shadeIntensity: 1,
-              inverseColors: !1,
-              opacityFrom: .40,
-              opacityTo: .05,
-              stops: [45, 100]
-          }
-      },
-    }
+    // var d_1options4 = {
+    //   chart: {
+    //     id: 'sparkline1',
+    //     type: 'area',
+    //     height: 160,
+    //     sparkline: {
+    //       enabled: true
+    //     },
+    //   },
+    //   stroke: {
+    //       curve: 'smooth',
+    //       width: 2,
+    //   },
+    //   series: [{
+    //     name: 'Sales',
+    //     data: [ 60, 28, 52, 38, 40, 36, 38]
+    //   }],
+    //   labels: ['1', '2', '3', '4', '5', '6', '7'],
+    //   yaxis: {
+    //     min: 0
+    //   },
+    //   colors: ['#e7515a'],
+    //   tooltip: {
+    //     x: {
+    //       show: false,
+    //     }
+    //   },
+    //   fill: {
+    //       type:"gradient",
+    //       gradient: {
+    //           type: "vertical",
+    //           shadeIntensity: 1,
+    //           inverseColors: !1,
+    //           opacityFrom: .40,
+    //           opacityTo: .05,
+    //           stops: [45, 100]
+    //       }
+    //   },
+    // }
 
     // console.log(seriesData); 
 
     // Engagement Rate
 
-    var d_1options5 = {
-      chart: {
-        id: 'sparkline1',
-        type: 'area',
-        height: 160,
-        sparkline: {
-          enabled: true
-        },
-      },
-      stroke: {
-          curve: 'smooth',
-          width: 2,
-      },
-      fill: {
-        opacity: 1,
-      },
-      series: [{
-        name: 'Prestamos', 
-        data: [1, 5, 36, 60, 38, 52, 1]
-      }],
-      labels: ['1', '2', '3', '4', '5', '6', '7'],
-      yaxis: {
-        min: 0
-      },
-      colors: ['#8dbf42'],
-      tooltip: {
-        x: {
-          show: false,
-        }
-      },
-      fill: {
-          type:"gradient",
-          gradient: {
-              type: "vertical",
-              shadeIntensity: 1,
-              inverseColors: !1,
-              opacityFrom: .40,
-              opacityTo: .05,
-              stops: [45, 100]
-          }
-      },
-    }
+    // var d_1options5 = {
+    //   chart: {
+    //     id: 'sparkline1',
+    //     type: 'area',
+    //     height: 160,
+    //     sparkline: {
+    //       enabled: true
+    //     },
+    //   },
+    //   stroke: {
+    //       curve: 'smooth',
+    //       width: 2,
+    //   },
+    //   fill: {
+    //     opacity: 1,
+    //   },
+    //   series: [{
+    //     name: 'Prestamos', 
+    //     data: [1, 5, 36, 60, 38, 52, 1]
+    //   }],
+    //   labels: ['1', '2', '3', '4', '5', '6', '7'],
+    //   yaxis: {
+    //     min: 0
+    //   },
+    //   colors: ['#8dbf42'],
+    //   tooltip: {
+    //     x: {
+    //       show: false,
+    //     }
+    //   },
+    //   fill: {
+    //       type:"gradient",
+    //       gradient: {
+    //           type: "vertical",
+    //           shadeIntensity: 1,
+    //           inverseColors: !1,
+    //           opacityFrom: .40,
+    //           opacityTo: .05,
+    //           stops: [45, 100]
+    //       }
+    //   },
+    // }
 
     
 
@@ -481,13 +481,13 @@ try {
 
     // Referral
 
-    var d_1C_6 = new ApexCharts(document.querySelector("#hybrid_followers1"), d_1options4);
-    d_1C_6.render()
+    // var d_1C_6 = new ApexCharts(document.querySelector("#hybrid_followers1"), d_1options4);
+    // d_1C_6.render()
 
     // Engagement Rate
 
-    var d_1C_7 = new ApexCharts(document.querySelector("#hybrid_followers3"), d_1options5);
-    d_1C_7.render()
+    // var d_1C_7 = new ApexCharts(document.querySelector("#hybrid_followers3"), d_1options5);
+    // d_1C_7.render()
 
 
 

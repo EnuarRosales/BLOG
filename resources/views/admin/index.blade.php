@@ -31,9 +31,10 @@
                                     <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
                                 </svg>
                             </div>
-                            <p class="w-value">{{ $usuariosModelos }}</p>
-                            <h5 class="">Usuarios</h5>
+                            <p class="w-value">{{ $dataUsuarios[1] }}/{{ number_format($dataUsuarios[2], 2)}}%</p> 
+                            <h5 class="">Usuarios</h5>                            
                         </div>
+                        
                         <div class="widget-content">
                             <div class="w-chart">
                                 <div id="hybrid_followers"></div>
@@ -91,7 +92,7 @@
                             <div class="w-content">
                                 <div class="w-info">
                                     <h6 class="value">$ {{ $dataMetas[0] }}</h6>
-                                    <p class="">Meta</p>
+                                    <p class="">Meta: {{$dataMetas[3] }}</p>
                                 </div>
                                 <div class="">
                                     <div class="w-icon">
@@ -130,7 +131,7 @@
                 <div class="col-xl-8 col-lg-6 col-md-6 col-sm-12 col-12 layout-spacing">
                     <div class="widget-four">
                         <div class="widget-heading">
-                            <h5 class="">Historial de metas</h5>
+                            <h5 class="">Historial de metas del estudio</h5>
                         </div>
                         <div class="widget-content">
                             <div class="vistorsBrowser">
@@ -148,14 +149,14 @@
                                     </div>
                                     <div class="w-browser-details">
                                         <div class="w-browser-info">
-                                            <h6>{{$dataHistorialMetas[2]}}</h6>
-                                            <p class="browser-count">{{$dataHistorialMetas[3]}}%</p>
+                                            <h6>{{ $dataHistorialMetas[4] }} - Proyectado $ {{$dataHistorialMetas[7]}} - Generado $ {{number_format($dataHistorialMetas[6], 2)}}</h6>
+                                            <p class="browser-count">{{ number_format($dataHistorialMetas[5], 1) }}%</p>
                                         </div>
                                         <div class="w-browser-stats">
                                             <div class="progress">
                                                 <div class="progress-bar bg-gradient-primary" role="progressbar"
-                                                    style="width: {{$dataHistorialMetas[3]}}%" aria-valuenow="90" aria-valuemin="0"
-                                                    aria-valuemax="100">
+                                                    style="width: {{ $dataHistorialMetas[5] }}%" aria-valuenow="90"
+                                                    aria-valuemin="0" aria-valuemax="100">
                                                 </div>
                                             </div>
                                         </div>
@@ -174,15 +175,15 @@
                                     <div class="w-browser-details">
 
                                         <div class="w-browser-info">
-                                            <h6>{{$dataHistorialMetas[4]}}</h6>
-                                            <p class="browser-count">{{$dataHistorialMetas[5]}}%</p>
+                                            <h6>{{ $dataHistorialMetas[8] }} - Proyectado $ {{$dataHistorialMetas[11]}} - Generado $ {{number_format($dataHistorialMetas[10], 2)}}</h6>
+                                            <p class="browser-count">{{number_format($dataHistorialMetas[9], 1)  }}%</p>
                                         </div>
 
                                         <div class="w-browser-stats">
                                             <div class="progress">
                                                 <div class="progress-bar bg-gradient-danger" role="progressbar"
-                                                    style="width: {{$dataHistorialMetas[5]}}%" aria-valuenow="65" aria-valuemin="0"
-                                                    aria-valuemax="100">
+                                                    style="width: {{ $dataHistorialMetas[9] }}%" aria-valuenow="65"
+                                                    aria-valuemin="0" aria-valuemax="100">
                                                 </div>
                                             </div>
                                         </div>
@@ -198,23 +199,22 @@
                                             stroke-linecap="round" stroke-linejoin="round" class="feather feather-globe">
                                             <circle cx="12" cy="12" r="10"></circle>
                                             <line x1="2" y1="12" x2="22" y2="12"></line>
-                                            <path
-                                                d="M82.949,1559c3.826,30.183,27.577,54.084,57.577,57.91v-57.91H82">
+                                            <path d="M82.949,1559c3.826,30.183,27.577,54.084,57.577,57.91v-57.91H82">
                                             </path>
                                         </svg>
                                     </div>
                                     <div class="w-browser-details">
 
                                         <div class="w-browser-info">
-                                            <h6>{{$dataHistorialMetas[6]}}</h6>
-                                            <p class="browser-count">{{$dataHistorialMetas[7]}}%</p>
+                                            <h6>{{ $dataHistorialMetas[12] }} - Proyectado $ {{$dataHistorialMetas[15]}} - Generado $ {{number_format($dataHistorialMetas[14], 2)}}</h6>
+                                            <p class="browser-count">{{number_format($dataHistorialMetas[13], 1) }}%</p>
                                         </div>
 
                                         <div class="w-browser-stats">
                                             <div class="progress">
                                                 <div class="progress-bar bg-gradient-warning" role="progressbar"
-                                                    style="width: {{$dataHistorialMetas[7]}}%" aria-valuenow="15" aria-valuemin="0"
-                                                    aria-valuemax="100">
+                                                    style="width: {{ $dataHistorialMetas[13] }}%" aria-valuenow="15"
+                                                    aria-valuemin="0" aria-valuemax="100">
                                                 </div>
                                             </div>
                                         </div>
@@ -758,15 +758,13 @@
                 },
             }
 
-
-
             // Engagement Rate
             var d_1C_7 = new ApexCharts(document.querySelector("#hybrid_followers3"), d_1options5);
             d_1C_7.render()
         </script>
 
 
-    {{-- GRAFICA MULTAS --}}
+        {{-- GRAFICA MULTAS --}}
 
         <script>
             var d_1options4 = {
@@ -784,7 +782,7 @@
                 },
                 series: [{
                     name: 'Multas',
-                    data: {{$dataMultas}}
+                    data: {{ $dataMultas }}
                 }],
                 labels: ['1', '2', '3', '4', '5', '6', '7'],
                 yaxis: {
@@ -811,6 +809,52 @@
 
             var d_1C_6 = new ApexCharts(document.querySelector("#hybrid_followers1"), d_1options4);
             d_1C_6.render()
+        </script>
+
+        {{-- GRAFICA USUARIOS --}}
+        <script>
+            var d_1options3 = {
+                chart: {
+                    id: 'sparkline1',
+                    type: 'area',
+                    height: 160,
+                    sparkline: {
+                        enabled: true
+                    },
+                },
+                stroke: {
+                    curve: 'smooth',
+                    width: 2,
+                },
+                series: [{
+                    name: 'Modelos Incorporados',
+                    data: {{$dataUsuarios[0]}}
+                }],
+                labels: ['1', '2', '3', '4', '5', '6', '7'],
+                yaxis: {
+                    min: 0
+                },
+                colors: ['#1b55e2'],
+                tooltip: {
+                    x: {
+                        show: false,
+                    }
+                },
+                fill: {
+                    type: "gradient",
+                    gradient: {
+                        type: "vertical",
+                        shadeIntensity: 1,
+                        inverseColors: !1,
+                        opacityFrom: .40,
+                        opacityTo: .05,
+                        stops: [45, 100]
+                    }
+                },
+            }
+
+            var d_1C_5 = new ApexCharts(document.querySelector("#hybrid_followers"), d_1options3);
+            d_1C_5.render()
 
         </script>
 

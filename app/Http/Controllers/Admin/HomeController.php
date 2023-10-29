@@ -73,10 +73,11 @@ class HomeController extends Controller
         // Puedes hacer lo que desees con $datoMasReciente aquíecho
         $valorMeta = $datoMasReciente->valor;
         $idMeta = $datoMasReciente->id;
+        $nombreMeta = $datoMasReciente->nombre;
         $registroProduccion = ResgistroProducido::where('meta_id', $idMeta)
             ->sum('valorProducido');
-        $porcentajeMeta = ($registroProduccion * 100) / $valorMeta;        
-        return array($valorMeta, $porcentajeMeta, $registroProduccion);
+        $porcentajeMeta = ($registroProduccion * 100) / $valorMeta;
+        return array($valorMeta, $porcentajeMeta, $registroProduccion, $nombreMeta);
     }
 
     public function dataMulta()
@@ -137,26 +138,92 @@ class HomeController extends Controller
                 ->sum('valorProducido');
             $porcentajeMeta = ($registroProduccion * 100) / $datoMasReciente->valor;
 
-            $miArray[] = $datoMasReciente->nombre;
-            $miArray[] = $porcentajeMeta;
+            $miArray[] = $datoMasReciente->nombre; //0
+            $miArray[] = $porcentajeMeta;          //1
+            $miArray[] = $registroProduccion;      //2
+            $miArray[] = $datoMasReciente->valor;  //3
         }
+        // dd  ($miArray);
         return $miArray;
     }
 
-
-    public function index()
+    public function dataUsuario()
     {
+        $fechaActual = Carbon::now();
+        $cuartoMes = $fechaActual->copy();
+        $tercerMes = $fechaActual->copy()->subMonths(1);
+        $segundoMes = $fechaActual->copy()->subMonths(2);
+        $primerMes = $fechaActual->copy()->subMonths(3);
+
+        $primeraQuincenaCuartoMes = User::whereYear('fechaIngreso', $cuartoMes)
+            ->whereMonth('fechaIngreso', $cuartoMes)
+            ->whereDay('fechaIngreso', '<=', 15)
+            ->count();
+
+        $segundaQuincenaCuartoMes = User::whereYear('fechaIngreso', $cuartoMes)
+            ->whereMonth('fechaIngreso', $cuartoMes)
+            ->whereDay('fechaIngreso', '>', 15)
+            ->count();
+
+        $primeraQuincenaTercerMes = User::whereYear('fechaIngreso', $tercerMes)
+            ->whereMonth('fechaIngreso', $tercerMes)
+            ->whereDay('fechaIngreso', '<=', 15)
+            ->count();
+
+        $segundaQuincenaTercerMes = User::whereYear('fechaIngreso', $tercerMes)
+            ->whereMonth('fechaIngreso', $tercerMes)
+            ->whereDay('fechaIngreso', '>', 15)
+            ->count();
+
+        $primeraQuincenaSegundoMes = User::whereYear('fechaIngreso', $segundoMes)
+            ->whereMonth('fechaIngreso', $segundoMes)
+            ->whereDay('fechaIngreso', '<=', 15)
+            ->count();
+
+        $segundaQuincenaSegundoMes = User::whereYear('fechaIngreso', $segundoMes)
+            ->whereMonth('fechaIngreso', $segundoMes)
+            ->whereDay('fechaIngreso', '>', 15)
+            ->count();
+
+        $segundaQuincenaPrimerMes = User::whereYear('fechaIngreso', $primerMes)
+            ->whereMonth('fechaIngreso', $primerMes)
+            ->whereDay('fechaIngreso', '>', 15)
+            ->count();
+
+        $dataUsuariosJS = '[' . $segundaQuincenaPrimerMes . ', ' . $primeraQuincenaSegundoMes . ', ' . $segundaQuincenaSegundoMes . ', ' . $primeraQuincenaTercerMes . ', ' . $segundaQuincenaTercerMes . ', ' . $primeraQuincenaCuartoMes . ', ' . $segundaQuincenaCuartoMes . ']';
+       
+        // LOGICA PARA ALIMENTAR LAS VARIABLES DE LA GRAFICA
         $usuariosModelos = User::where('active', 1)
             ->whereHas('tipoUsuario', function ($query) {
                 $query->where('nombre', 'Modelo');
             })
-            ->count();
+            ->count();                
+
+        $empresaCapacidadModelos = Empresa::value('capacity_models');
+
+        if($empresaCapacidadModelos === null){
+            $empresaCapacidadModelos =0;
+        }
+
+        $porcentajeModelos = ($usuariosModelos *100)/$empresaCapacidadModelos;
+        
+
+    
+       
+        return array ($dataUsuariosJS,$usuariosModelos,$porcentajeModelos);
+    }
+
+
+    public function index()
+    {    
+
         $multas = AsignacionMulta::where('descontado', 0)->count();
         $descuentos = Descuento::where('saldo', '>', 0)->sum('saldo');
         $dataDescuentos = $this->dataDescuentos();
         $dataMetas = $this->dataMeta();
         $dataMultas = $this->dataMulta();
         $dataHistorialMetas = $this->dataHistorialMeta();
-        return view('admin.index', compact('usuariosModelos', 'multas', 'descuentos', 'dataDescuentos', 'dataMetas', 'dataMultas', 'dataHistorialMetas'));
+        $dataUsuarios = $this->dataUsuario();
+        return view('admin.index', compact('multas', 'descuentos', 'dataDescuentos', 'dataMetas', 'dataMultas', 'dataHistorialMetas', 'dataUsuarios'));
     }
 }

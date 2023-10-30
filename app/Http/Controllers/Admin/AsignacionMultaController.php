@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Events\multaEvent;
+use App\Events\ReloadTable;
 use App\Http\Controllers\Controller;
 use App\Models\AsignacionMulta;
 use App\Models\TipoMulta;
@@ -18,7 +19,7 @@ class AsignacionMultaController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function index()
-    { 
+    {
         $userLogueado = auth()->user()->id;
         $asignacionMultas = AsignacionMulta::orderBy('id','asc')->where('descontado', 0)->paginate();
 
@@ -33,11 +34,11 @@ class AsignacionMultaController extends Controller
 
         // }
 
-        
-       
+
+
     //  return $userLogueado = auth()->user();
 
-        
+
         return view('admin.asignacionMultas.index', compact('asignacionMultas','userLogueado'));
     }
 
@@ -65,13 +66,16 @@ class AsignacionMultaController extends Controller
             'user_id'=>'required',
             'tipoMulta_id'=>'required',
         ]);
-        
+
 
         $asignacionMulta = AsignacionMulta::create($request->all());
 
         if ($asignacionMulta) {
             multaEvent::dispatch($asignacionMulta->id);
         }
+
+        event(new ReloadTable());
+
 
         return redirect()->route('admin.asignacionMultas.index',$asignacionMulta->id)->with('info','store');
     }

@@ -8,7 +8,6 @@ use Stancl\Tenancy\Database\Models\Tenant;
 return [
     'tenant_model' => \App\Models\Tenant::class,
     'id_generator' => Stancl\Tenancy\UUIDGenerator::class,
-
     'domain_model' => Domain::class,
 
     /**
@@ -18,7 +17,7 @@ return [
      */
     'central_domains' => [
         'blog-studio.test',
-        'pp.blog-studio.test'
+        // 'pp.blog-studio.test'
         //'siaewc.com',
         // 'fo.blog-studio.test',
         // 'localhost',S

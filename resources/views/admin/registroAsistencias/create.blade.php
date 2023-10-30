@@ -16,67 +16,261 @@
 @section('content')
     <div class="col-xl-12 col-lg-12 col-sm-12  layout-spacing">
         <div class="widget-content widget-content-area br-6">
-            {{-- <div class="card">
-                <div class="card-header">
-                    @yield('content_header')
-                </div> --}}
-                {{-- <div class="card-body"> --}}
-                    {!! Form::open(['route' => 'admin.registroAsistencias.store']) !!}
-                    <div class="form-group">
+            <form method="POST" action="{{ route('admin.registroAsistencias.store') }}">
+                @csrf
 
-                        {!! Form::label('fecha', 'Fecha') !!}
-                        {!! Form::date('fecha', now(), [
-                            'class' => 'form-control',
-                        ]) !!}
-                        @error('fecha')
-                            <br>
-                            <span class="text-danger">{{ $message }}</span>
-                            <br>
-                        @enderror
+                <div class="form-group">
+                    <label for="fecha">Fecha</label>
+                    <input type="date" name="fecha" value="{{ now()->setTimezone('America/Bogota')->format('Y-m-d') }}"
+                        class="form-control">
+                    @error('fecha')
+                        <br>
+                        <span class="text-danger">{{ $message }}</span>
+                        <br>
+                    @enderror
 
-                        {!! Form::label('mi_hora', 'Hora') !!}
-                        {!! Form::time('mi_hora', now(), [
-                            'class' => 'form-control',
-                        ]) !!}
-                        @error('mi_hora')
-                            <br>
-                            <span class="text-danger">{{ $message }}</span>
-                            <br>
-                        @enderror
+                    <label for="mi_hora">Hora</label>
+                    <input type="time" name="mi_hora" value="{{ now()->setTimezone('America/Bogota')->format('H:i') }}"
+                        class="form-control" id="mi_hora">
+                    @error('mi_hora')
+                        <br>
+                        <span class="text-danger">{{ $message }}</span>
+                        <br>
+                    @enderror
 
+                    <!-- Resto del formulario -->
 
+                    <label for="user_id">Usuario</label>
+                    <select name="user_id" class="form-control" id="user_id">
+                        <option value="">Seleccione Un Usuario</option>
+                        @foreach ($users as $user)
+                            @php
+                                $asignacionTurnos = $user->asignacionTurnos->first();
+                            @endphp
+                            <option value="{{ $user->id }}"
+                                data-TurnoName="{{ $asignacionTurnos ? $asignacionTurnos->turno->nombre : 'No tiene turno asignado' }}"
+                                data-Hora="{{ $asignacionTurnos ? $asignacionTurnos->turno->horaIngreso . ' - ' . $asignacionTurnos->turno->horaTermino : 'No tiene Hora asignada' }}"
+                                data-Entrada="{{ $asignacionTurnos ? $asignacionTurnos->turno->horaIngreso : '' }}">
+                                {{ $user->name }}
+                            </option>
+                        @endforeach
 
+                    </select>
+                    @error('user_id')
+                        <br>
+                        <span class="text-danger">{{ $message }}</span>
+                        <br>
+                    @enderror
 
+                    <label for="asignacionTurnos">Turno Asignado</label>
+                    {{-- <input type="text" name="asignacionTurnos" value="{{ old('asignacionTurnos') }}"
+                        class="form-control" id="asignacionTurnos" disabled> --}}
+                    <div class="input-group">
+                        <input type="text" name="" value="{{ old('asignacionTurnos') }}" class="form-control"
+                            id="asignacionTurnos" disabled>
+                        <div class="input-group-append">
+                            <button type="button" id="asignarTurnoBtn" class="btn btn-primary" style="display: none"
+                                data-url="{{ route('admin.asignacionTurnos.index') }}">Asignar Turno</button>
+                        </div>
+                    </div><br>
+                    <div class="row" style="vertical-align: center">
+                        {{-- <div class="input-group col-10"> --}}
+                        <div class="col-2">
+                            <label for="tiempo" style=" display: flex; justify-content: flex-end; align-items: flex-end;"
+                                class="btn btn-light-info">Registro de control</label>
+                        </div>
+                        @foreach ($asistencia as $item)
+                            <input type="text" name="" value="" class="form-control" id="tiempo"
+                                data-Nombre="{{ $item->nombre }}" data-Clase="{{ $item->clase }}"
+                                data-Tiempo="{{ $item->tiempo }}" disabled hidden>
+                        @endforeach
+                        <div class="col-2">
+                            <div class="d-flex justify-content-center align-items-center">
+                                <button id='button-tiempo' name="" disabled class="btn btn-info"> Seleccione un
+                                    Usuario</button>
+                                <input type="hidden" name="control" value="tu_valor_aqui" id="button-tiempo2">
+                            </div>
+                        </div>
+                        <div class="col-2">
+                            {{-- <div class="d-flex flex justify-content align-items-center h-100">
+                                <input type="checkbox" name="" id="multa">
+                                Poner Mulata
+                            </div> --}}
 
-                        {!! Form::label('user_id', 'Usuario') !!}
-                        {!! Form::select('user_id', $users->pluck('name', 'id'), null, [
-                            'class' => 'form-control',
-                            'placeholder' => 'Seleccione Un Usuario',
-                        ]) !!}
-                        @error('user_id')
-                            <br>
-                            <span class="text-danger">{{ $message }}</span>
-                            <br>
-                        @enderror
-                        {{-- {!! Form::label('fecha', 'Fecha') !!}
-                {!! Form::select('fecha', $turnos->pluck('nombre', 'id'), null, [
-                    'class' => 'form-control',
-                    'placeholder' => 'Seleccione Un Usuario',
-                ]) !!}
-                @error('turno_id')
-                    <br>
-                    <span class="text-danger">{{ $message }}</span>
-                    <br>
-                @enderror --}}
-                    </div>
-                    {!! Form::submit('Registrar asistencia', ['class' => 'btn btn-primary']) !!}
-                    {!! Form::close() !!}
+                            <div class="d-flex align-items-center h-100" style="justify-content: space-around">
+                                <div>
+                                    <input type="checkbox" name="multa" id="multa">
+                                </div>
+                                <div>
+                                    Poner Mulata
+                                </div>
+                            </div>
 
-                {{-- </div> --}}
-
-            {{-- </div> --}}
+                        </div>
+                        {{-- </div> --}}
+                    </div><br>
+                    <button type="submit" class="btn btn-primary">Registrar asistencia</button>
+            </form>
         </div>
     </div>
 
 
 @stop
+
+@section('js')
+    <script>
+        $(document).ready(function() {
+            var userSelect = document.getElementById('user_id');
+
+            var asignacionTurnosField = document.getElementById('asignacionTurnos');
+
+            userSelect.addEventListener('change', function() {
+                var selectedUserId = this.value;
+                console.log(selectedUserId);
+                var selectedOption = this.options[this.selectedIndex];
+
+
+
+                // Obtener los valores de data-* del option seleccionado
+                var turnoName = selectedOption.getAttribute('data-TurnoName');
+                var hora = selectedOption.getAttribute('data-Hora');
+                var Entrada = selectedOption.getAttribute('data-Entrada');
+                var inputMiHora = document.getElementById('mi_hora');
+                // Obtén el valor del campo
+                var miHora = inputMiHora.value;
+                var buttonTiempo = document.getElementById('button-tiempo');
+                var multaCheckbox = document.getElementById('multa');
+
+                // Comprobar si hay un turno asignado
+                if (selectedUserId == '') {
+                    asignacionTurnosField.value = '';
+                    buttonTiempo.textContent = 'Seleccione Un Usuario'
+                    buttonTiempo.className = "btn btn-info";
+                    multaCheckbox.disabled = true;
+                    multaCheckbox.checked = false;
+                } else if (turnoName === 'No tiene turno asignado') {
+                    // No tiene turno asignado, mostrar el mensaje correspondiente
+                    asignacionTurnosField.value = turnoName;
+                    buttonTiempo.className = "btn btn-info";
+                        multaCheckbox.disabled = true;
+                        multaCheckbox.checked = false;
+                } else {
+                    // Formatear la hora en formato 12 horas (AM/PM)
+                    var horas = hora.split(' - ').map(function(time) {
+                        var parts = time.split(':');
+                        var hour = parseInt(parts[0]);
+                        var minute = parts[1];
+                        var ampm = hour >= 12 ? 'pm' : 'am';
+                        if (hour > 12) {
+                            hour -= 12;
+                        }
+                        return hour + ':' + minute + ' ' + ampm;
+                    });
+
+                    // console.log('Usuario seleccionado: ' + selectedUserId);
+                    // console.log('Turno Name: ' + turnoName);
+                    // console.log('Hora: ' + horas.join(' - '));
+
+                    // Mostrar los valores en el campo "Asignación de Turnos"
+                    asignacionTurnosField.value = turnoName + ' - ' + horas.join(' - ');
+
+                    // Convierte las horas en objetos Date para realizar la resta
+                    var miHoraDate = new Date('1970-01-01T' + miHora);
+                    var EntradaDate = new Date('1970-01-01T' + Entrada);
+
+                    // Calcula la diferencia en milisegundos
+                    var diferenciaEnMilisegundos = miHoraDate - EntradaDate;
+
+                    // Convierte la diferencia en segundos
+                    var diferenciaEnSegundos = (diferenciaEnMilisegundos / 1000);
+
+                    // Muestra la diferencia en segundos en el campo input con id "tiempo"
+                    console.log(diferenciaEnSegundos);
+
+                    var buttonTiempo = document.getElementById('button-tiempo');
+                    var buttonTiempo2 = document.getElementById('button-tiempo2');
+                    var inputTiempo = document.getElementById('tiempo');
+                    var dataNombre = inputTiempo.getAttribute('data-Nombre');
+                    var dataClase = inputTiempo.getAttribute('data-Clase');
+                    var dataTiempo = parseInt(inputTiempo.getAttribute('data-Tiempo'));
+
+                    var multaCheckbox = document.getElementById('multa');
+
+                    if (diferenciaEnSegundos < 0) {
+                        buttonTiempo.textContent = "A Tiempo";
+                        buttonTiempo2.value = "A Tiempo";
+                        buttonTiempo.className = "btn btn-success";
+                        multaCheckbox.disabled = true;
+                        multaCheckbox.checked = false;
+                    } else if (diferenciaEnSegundos < dataTiempo) {
+                        buttonTiempo.textContent = dataNombre;
+                        buttonTiempo.className = dataClase;
+                        buttonTiempo2.value = dataNombre;
+                        multaCheckbox.disabled = false;
+                        multaCheckbox.checked = false;
+                    } else {
+                        buttonTiempo.textContent = "Retardado";
+                        buttonTiempo2.value = "Retardado";
+                        buttonTiempo.className = "btn btn-danger";
+                        multaCheckbox.disabled = false;
+                        multaCheckbox.checked = true;
+                    }
+                }
+
+            });
+
+            var userSelect = document.getElementById('user_id');
+            var asignacionTurnosField = document.getElementById('asignacionTurnos');
+            var asignarTurnoBtn = document.getElementById('asignarTurnoBtn');
+            var buttonTiempo = document.getElementById('button-tiempo');
+            var buttonTiempo2 = document.getElementById('button-tiempo2');
+
+            userSelect.addEventListener('change', function() {
+                var selectedOption = this.options[this.selectedIndex];
+                var turnoName = selectedOption.getAttribute('data-TurnoName');
+
+                if (turnoName === 'No tiene turno asignado') {
+                    asignarTurnoBtn.style.display = 'block'; // Mostrar el botón
+                    buttonTiempo.textContent = "No tiene turno asignado";
+                    buttonTiempo2.value = "No tiene turno asignado";
+
+                } else {
+                    asignarTurnoBtn.style.display = 'none'; // Ocultar el botón
+                }
+            });
+
+            var miHoraInput = document.getElementById('mi_hora');
+            var asignacionTurnosField = document.getElementById('asignacionTurnos');
+
+            // Función para manejar el cambio en "mi_hora" y ejecutar simulateUserChange() si asignacionTurnos no está vacío
+            miHoraInput.addEventListener('change', function() {
+                // Obten el valor actual de "mi_hora"
+                var nuevoValorMiHora = miHoraInput.value;
+
+                // Imprime un log con el nuevo valor
+                console.log('El valor de mi_hora ha cambiado a: ' + nuevoValorMiHora);
+
+                // Verifica si el campo asignacionTurnos no está vacío
+                if (asignacionTurnosField.value.trim() !== '') {
+                    // Ejecuta la función simulateUserChange() solo si asignacionTurnos no está vacío
+                    simulateUserChange();
+                }
+
+                // Puedes agregar más lógica aquí si es necesario
+            });
+
+            function simulateUserChange() {
+                var event = new Event('change');
+                userSelect.dispatchEvent(event);
+                console.log('si');
+            }
+
+            document.getElementById('asignarTurnoBtn').addEventListener('click', function() {
+                var url = this.getAttribute('data-url');
+                if (url) {
+                    window.location.href = url;
+                }
+            });
+        });
+    </script>
+@endsection

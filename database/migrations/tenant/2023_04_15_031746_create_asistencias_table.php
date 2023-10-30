@@ -22,7 +22,7 @@ class CreateAsistenciasTable extends Migration
                 ->references('id')->on('users') //tabla
                 ->onDelete('cascade');
 
-
+            $table->string('control');
             $table->timestamps();
             $table->softDeletes(); // Agregar esta línea para habilitar eliminación suave
         });

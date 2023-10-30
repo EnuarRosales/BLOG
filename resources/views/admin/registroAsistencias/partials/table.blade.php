@@ -7,7 +7,7 @@
     </td>
     @can('admin.registroAsistencias.control')
         <td
-            class="{{ $asistencia->control === 'A tiempo' ? 'badge badge-success' : ($asistencia->control === 'Sobre el tiempo' ? 'badge badge-warning' : ($asistencia->control === 'Sin asignación de turno' ? 'badge badge-info' : 'badge badge-danger')) }}">
+            class="{{ $asistencia->control === 'A Tiempo' ? 'badge badge-success' : ($asistencia->control === 'Sobre el Tiempo' ? 'badge badge-warning' : ($asistencia->control === 'No tiene turno asignado' ? 'badge badge-info' : 'badge badge-danger')) }}">
 
             {{ $asistencia->control }}
         </td>

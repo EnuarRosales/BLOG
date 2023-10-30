@@ -3,9 +3,12 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\AsignacionMulta;
 use App\Models\AsignacionTurno;
 use App\Models\Asistencia;
+use App\Models\AsistenciaTiempoConfig;
 use App\Models\Descuento;
+use App\Models\TipoMulta;
 use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -20,23 +23,13 @@ class RegistroAsistenciaController extends Controller
     public function index()
     {
         $userLogueado = auth()->user()->id;
-        // Obtén la fecha actual en el huso horario de Bogotá
-        // $fechaActual = now('America/Bogota')->toDateString();
-
         // Consulta las asistencias para el día actual
         $asistencias = Asistencia::with('user', 'user.asignacionTurnos', 'user.asignacionTurnos.turno')
-            // ->whereDate('created_at', $fechaActual)
             ->get();
-
-            foreach ($asistencias as $asistencia) {
-            //    dd( $asistencia->control);
-            }
-        // dd($asistencias);
 
         foreach ($asistencias as $asistencia) {
             $user = $asistencia->user; // Accedes a la relación user
             $asignacionTurno = $user->asignacionTurnos; // Accedes a la relación asignacionTurno dentro de la relación user
-            // Puedes trabajar con los atributos de $asistencia, $user y $asignacionTurno según tus necesidades
         }
         return view('admin.registroAsistencias.index', compact('asistencias', 'userLogueado'));
     }
@@ -48,9 +41,9 @@ class RegistroAsistenciaController extends Controller
      */
     public function create()
     {
-        $users = User::orderBy('id', 'desc');
-        // $turnos = Turno::orderBy('id','desc');
-        return view('admin.registroAsistencias.create', compact('users'));
+        $users = User::with('asignacionTurnos', 'asignacionTurnos.turno')->orderBy('id', 'desc')->get();
+        $asistencia = AsistenciaTiempoConfig::all();
+        return view('admin.registroAsistencias.create', compact('users', 'asistencia'));
     }
 
     /**
@@ -69,9 +62,22 @@ class RegistroAsistenciaController extends Controller
 
         ]);
 
+        if ($request->has('multa')) {
+            $multa = TipoMulta::find(1);
+            $asignacionMulta = new AsignacionMulta;
+            $asignacionMulta->user_id = $request->user_id;
+            $asignacionMulta->tipoMulta_id = $multa->id;
+        }
 
+        $registroAsistencia = new Asistencia;
+        $registroAsistencia->fecha = $request->fecha;
+        $registroAsistencia->mi_hora = $request->mi_hora;
+        $registroAsistencia->user_id = $request->user_id;
+        $registroAsistencia->control = $request->control;
+        if ($registroAsistencia->save() && $request->has('multa')) {
+            $asignacionMulta->save();
+        }
 
-        $registroAsistencia = Asistencia::create($request->all());
         return redirect()->route('admin.registroAsistencias.index', $registroAsistencia->id)->with('info', 'store');
     }
 

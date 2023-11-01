@@ -42,6 +42,7 @@ class HomeController extends Controller
             ->whereDay('created_at', '<=', 15)
             ->sum('montoDescuento');
 
+            //FALLA
         $segundaQuincenaTercerMes = Descuento::whereYear('created_at', $tercerMes)
             ->whereMonth('created_at', $tercerMes)
             ->whereDay('created_at', '>', 15)
@@ -62,7 +63,11 @@ class HomeController extends Controller
             ->whereDay('created_at', '>', 15)
             ->sum('montoDescuento');
 
+            
+
         $dataDescuentosJS = '[' . $segundaQuincenaPrimerMes . ', ' . $primeraQuincenaSegundoMes . ', ' . $segundaQuincenaSegundoMes . ', ' . $primeraQuincenaTercerMes . ', ' . $segundaQuincenaTercerMes . ', ' . $primeraQuincenaCuartoMes . ', ' . $segundaQuincenaCuartoMes . ']';
+        
+        // dd($dataDescuentosJS);
         return $dataDescuentosJS;
     }
 
@@ -205,13 +210,63 @@ class HomeController extends Controller
             $empresaCapacidadModelos =0;
         }
 
-        $porcentajeModelos = ($usuariosModelos *100)/$empresaCapacidadModelos;
-        
-
-    
-       
+        $porcentajeModelos = ($usuariosModelos *100)/$empresaCapacidadModelos;     
         return array ($dataUsuariosJS,$usuariosModelos,$porcentajeModelos);
     }
+
+    public function reporte_dia()
+    {
+        /* AGRUPA EL VALOR PRODUCIDO POR LA META Y FECHA; ES DECIR  NOS MUESTRA LA PRODUCCION DIARIA
+        DE ACUERDO A LA META Y A LA FECHA, LO USAMOS  PARA VERIFICAR LO SIGUIENTE 
+        1. FECHA 
+        2. META STUDIO
+        3.OBJETIVO DIARIO; OJO APROVECHANDO LA RELACION CON LA META  LO QUE SE HACE ES DIVIDR SU VALOR EN EL NUMNERO DE DIAS 
+        4.PRODUCCION REPORTADA; OJO ES LA SUMA DEL VALOR PRODUCIDO 
+        5.ALARMA DIFERENCIA;  DIVIDE EL VALR DE LA META EN EL NUMERO DE DIAS Y LE RESTA  VALOR PRODUCIDO   
+        6.CUMPLIO; OJO VERIFICA SI LA DIFERENCIA ES POSITIVA O NEGATIVA, SI ES POSITIVA CUMPLIO = SI DE LO CONTRARIO NO
+        */
+
+        $fechas = ResgistroProducido::select( 
+            DB::raw('sum(valorProducido) as suma'),
+            DB::raw('meta_id'),
+
+            DB::raw('fecha'),
+
+        )
+            ->groupBy('fecha', 'meta_id')
+            ->get();
+
+        // echo $fechas;
+
+        /* AGRUPA EL VALOR PRODUCIDO POR LA META; ES DECIR NOS MUESTA  CUANTO SE HA PRODUCIDO POR CADA META
+        
+        LO USAMOS  PARA VERIFICAR LO SIGUIENTE 
+        
+        1. PARA PODER VER LA PRODUCCION TOTAL; ESTA SE MUESTRA EN TODAS LAS FILAS DONDE COINDIDA EL TIPO DE META*/
+
+        $fechas2 = ResgistroProducido::select(
+            DB::raw('sum(valorProducido) as suma'),
+            DB::raw('meta_id'),
+            // DB::raw('fecha'),
+
+        )
+            ->groupBy('meta_id')
+            ->get();
+
+        // echo $fechas2;            
+
+        $fechas3 = ResgistroProducido::select(
+            DB::raw('COUNT(DISTINCT(DATE(fecha)))  as date_count'),
+            DB::raw('meta_id'),
+            // DB::raw('fecha'),           
+
+        )
+            ->groupBy('meta_id')
+            ->get();
+
+        return  array($fechas, $fechas2, $fechas3);
+    }
+
 
 
     public function index()
@@ -224,6 +279,7 @@ class HomeController extends Controller
         $dataMultas = $this->dataMulta();
         $dataHistorialMetas = $this->dataHistorialMeta();
         $dataUsuarios = $this->dataUsuario();
-        return view('admin.index', compact('multas', 'descuentos', 'dataDescuentos', 'dataMetas', 'dataMultas', 'dataHistorialMetas', 'dataUsuarios'));
+        $dataResumenMeta = $this->reporte_dia();
+        return view('admin.index.index', compact('multas', 'descuentos', 'dataDescuentos', 'dataMetas', 'dataMultas', 'dataHistorialMetas', 'dataUsuarios','dataResumenMeta'));
     }
 }

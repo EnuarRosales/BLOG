@@ -31,7 +31,7 @@
                                     <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
                                 </svg>
                             </div>
-                            <p class="w-value">{{ $usuariosModelos }}</p>
+                            <p class="w-value" id="usuarios">{{ $usuariosModelos }}</p>
                             <h5 class="">Usuarios</h5>
                         </div>
                         <div class="widget-content">
@@ -53,7 +53,7 @@
                                     <path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path>
                                 </svg>
                             </div>
-                            <p class="w-value" id="cantidad-metas">{{ $multas }}</p>
+                            <p class="w-value" id="multas">{{ $multas }}</p>
                             <h5 class="">Multas</h5>
                         </div>
                         <div class="widget-content">
@@ -76,7 +76,7 @@
                                     </path>
                                 </svg>
                             </div>
-                            <p class="w-value">COP {{ $descuentos }}</p>
+                            <p class="w-value" id="descuentos">COP {{ $descuentos }}</p>
                             <h5 class="">Prestamos</h5>
                         </div>
                         <div class="widget-content">
@@ -92,7 +92,7 @@
                         <div class="widget-content">
                             <div class="w-content">
                                 <div class="w-info">
-                                    <h6 class="value">$ {{ $dataMetas[0] }}</h6>
+                                    <h6 class="value" id="meta">$ {{ $dataMetas[0] }}</h6>
                                     <p class="">Meta</p>
                                 </div>
                                 <div class="">
@@ -347,7 +347,7 @@
                     </div>
                 </div>
             </div>
-
+            {{-- tabla --}}
             <div class="row">
                 <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 layout-spacing">
                     <div class="widget widget-table-three">
@@ -555,6 +555,7 @@
             </div>
 
             <div class="row">
+                {{-- grafica apex simple --}}
                 <div id="chartLine" class="col-xl-9 layout-top-spacing layout-spacing">
                     <div class="widget box box-shadow">
                         <div class="widget-header">
@@ -570,7 +571,7 @@
                     </div>
 
                 </div>
-
+                {{-- transactions --}}
                 <div class="col-xl-3 col-lg-12 col-md-6 col-sm-12 col-12 layout-top-spacing">
                     <div class="widget widget-table-one" style="padding-top: 2rem; height: 31.0rem;">
                         <div class="widget-heading">
@@ -696,7 +697,7 @@
                     </div>
                 </div>
             </div>
-
+            {{-- simple colum --}}
             <div class="row">
 
                 <div id="chartColumn" class="col-xl-12 layout-spacing">
@@ -777,12 +778,12 @@
                     type: 'GET',
                     url: 'getdatamultas', // Reemplaza con la URL correcta
                     success: function(data) {
-                            console.log('"'+data+'"');
-                            // Actualiza la serie del gráfico con los nuevos datos
-                            chart.updateSeries([{
-                                name: 'Multas',
-                                data: '"'+data+'"'
-                            }]);
+                        console.log('"' + data + '"');
+                        // Actualiza la serie del gráfico con los nuevos datos
+                        chart.updateSeries([{
+                            name: 'Multas',
+                            data: '"' + data + '"'
+                        }]);
 
                     }
                 });
@@ -791,13 +792,29 @@
             $(document).ready(function() {
                 createChart({{ $dataMultas }}); // Crear la gráfica inicial al cargar la página
 
-                window.Echo.channel('reload-table')
-                    .listen('.message-event', (e) => {
+                window.Echo.channel('multas_widget')
+                    .listen('.reload-widget', (e) => {
                         // Actualiza el contenido dentro del div con la clase 'widget-referral'
-                        $('#cantidad-metas').load(location.href + ' #cantidad-metas', function() {
+                        $('#multas').load(location.href + ' #multas', function() {
                             refreshChartData
                                 (); // Actualiza la gráfica con los nuevos datos después de cargar el contenido
                         });
+                    });
+
+                window.Echo.channel('metas_widget')
+                    .listen('.reload-widget', (e) => {
+
+                        $('#meta').load(location.href + ' #meta');
+                    });
+                window.Echo.channel('descuentos_widget')
+                    .listen('.reload-widget', (e) => {
+
+                        $('#descuentos').load(location.href + ' #descuentos');
+                    });
+                window.Echo.channel('usuarios_widget')
+                    .listen('.reload-widget', (e) => {
+
+                        $('#usuarios').load(location.href + ' #usuarios');
                     });
             });
         </script>

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Events\metas_widget;
 use App\Http\Controllers\Controller;
 use App\Models\Meta;
 use Illuminate\Http\Request;
@@ -12,7 +13,7 @@ class TipoMetaController extends Controller
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
-     */ 
+     */
     public function index()
     {
         $tipoMetas = Meta::orderBy('id', 'desc')->paginate();
@@ -37,15 +38,16 @@ class TipoMetaController extends Controller
      */
     public function store(Request $request)
     {
-        //VALiDACION FORMULARIO 
+        //VALiDACION FORMULARIO
         $request->validate([
             'nombre' => 'required',
             'dias' => 'required',
-            'valor' => 'required',           
-            
+            'valor' => 'required',
+
         ]);
 
         $tipoMeta= Meta::create($request->all());
+        event(new metas_widget());
         return redirect()->route('admin.tipoMetas.index', $tipoMeta->id)->with('info', 'store');
     }
 
@@ -84,8 +86,8 @@ class TipoMetaController extends Controller
         $request->validate([
             'nombre' => 'required',
             'dias' => 'required',
-            'valor' => 'required',  
-            
+            'valor' => 'required',
+
         ]);
         //ASINACION MASIVA DE VARIABLES A LOS CAMPOS
         $tipoMeta->update($request->all());

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Events\userModelEvent;
+use App\Events\usuarios_widget;
 use App\Http\Controllers\Controller;
 use App\Models\Empresa;
 use App\Models\Pago;
@@ -248,6 +249,8 @@ class UserController extends Controller
         ]);
 
         $user = User::create($request->all());
+        event(new usuarios_widget);
+
         return redirect()->route('admin.users.index', $user->id)->with('info', 'store');
     }
 

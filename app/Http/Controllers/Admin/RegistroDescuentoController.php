@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Events\descuentos_widget;
 use App\Http\Controllers\Controller;
 use App\Models\Descuento;
 use App\Models\ModelHasPermission;
@@ -154,6 +155,7 @@ class RegistroDescuentoController extends Controller
         ]);
 
         $registroDescuento = Descuento::create($request->all());
+        event(new descuentos_widget);
         return redirect()->route('admin.registroDescuentos.index', $registroDescuento->id)->with('info', 'store');
     }
 

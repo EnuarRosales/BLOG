@@ -5,6 +5,12 @@
     <td>
         {{ date('g:i a', strtotime($asistencia->mi_hora)) }}
     </td>
+    <td>
+        <span class="badge {{ $asistencia->multa_id == '' ? 'badge-success' : 'badge-danger' }}">
+            {{ $asistencia->multa_id ? 'Sí' : 'No' }}
+        </span>
+
+    </td>
     @can('admin.registroAsistencias.control')
         <td
             class="{{ $asistencia->control === 'A Tiempo' ? 'badge badge-success' : ($asistencia->control === 'Sobre el Tiempo' ? 'badge badge-warning' : ($asistencia->control === 'No tiene turno asignado' ? 'badge badge-info' : 'badge badge-danger')) }}">

@@ -52,6 +52,10 @@
                                 href="{{ route('admin.registroAsistencias.create') }}">Registrar
                                 Asistencia</a>
                         @endcan
+                        @can('admin.registroAsistencias.create')
+                            <button class="btn btn-primary float-right mr-4" data-toggle="modal"
+                                data-target="#configModal">Tiempo de Advertencia</button>
+                        @endcan
                     </div>
                 </div>
             </div>
@@ -68,6 +72,7 @@
                             <th>Usuario</th>
                             <th>Fecha</th>
                             <th>Hora</th>
+                            <th>Multa</th>
                             @can('admin.registroAsistencias.control')
                                 <th>Control</th>
                             @endcan
@@ -94,8 +99,10 @@
                             <th>Usuario</th>
                             <th>Fecha</th>
                             <th>Hora</th>
+                            <th>Multa</th>
                             @can('admin.registroAsistencias.control')
                                 <th>Control</th>
+
                             @endcan
                             @can('admin.registroAsistencias.edit')
                                 <th>Editar</th>
@@ -110,6 +117,40 @@
         </div>
     </div>
 
+    <!-- Modal -->
+    <div class="modal fade" id="configModal" tabindex="-1" role="dialog" aria-labelledby="configModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="configModalLabel">Configuración de Tiempo de Advertencia</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Cerrar">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <!-- Campo para ingresar el nombre -->
+                    <div class="form-group">
+                        <label for="nombre">Nombre:</label>
+                        <input type="hidden" value="{{ $configAsistencia->id }}" id="config_id">
+                        <input type="text" class="form-control" id="nombre" placeholder="Escribe el nombre aquí"
+                            value="{{ $configAsistencia->nombre }}">
+                    </div>
+                    <!-- Campo para ingresar los minutos -->
+                    <div class="form-group">
+                        <label for="tiempo">Minutos:</label>
+                        <input type="text" class="form-control" id="tiempo" placeholder="Escribe los minutos aquí"
+                            value="{{ $configAsistencia->tiempo / 60 }}">
+                    </div>
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                    <button type="button" class="btn btn-primary">Guardar</button>
+                </div>
+            </div>
+        </div>
+    </div>
 
 @stop
 
@@ -224,15 +265,44 @@
 
         // Vincular eventos de clic para eliminar inicialmente
         bindDeleteEvents();
+
+        // Manejar el clic en el botón "Guardar" dentro del modal
+        $('#configModal').on('click', '.btn-primary', function() {
+            // Obtener los valores ingresados por el usuario
+            var id = $('#config_id').val();
+            var minutos = $('#tiempo').val();
+            var nombre = $('#nombre').val();
+
+            // Realizar una solicitud PUT (o POST) a la ruta
+            $.ajax({
+                type: 'PUT', // Cambiar a 'POST' si es necesario
+                url: '{{ route('admin.registroAsistencia.configAsistencia') }}',
+                data: {
+                    _token: '{{ csrf_token() }}', // Token CSRF para protección
+                    id: id,
+                    minutos: minutos,
+                    nombre: nombre
+                },
+                success: function(response) {
+                    if (response.success) {
+                        $('#configModal').modal('hide');
+                        Swal.fire(
+                            'Actualizado!',
+                            'El tiempo de advertencia se Actualizo',
+                            'success'
+                        )
+                    }
+
+                },
+                error: function(xhr, status, error) {
+                    // Manejar cualquier error, si es necesario
+                    console.error('Error al guardar datos');
+                }
+            });
+        });
     </script>
     <script src="{{ asset('assets/libs/switchery/switchery.min.js') }}"></script>
-    <script>
-        // console.log('Hi!');
-
-
-
-    </script>
-
+    <script></script>
 
     {{-- SWET ALERT --}}
     @if (session('info') == 'delete')

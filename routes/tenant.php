@@ -54,7 +54,7 @@ Route::middleware([
     PreventAccessFromCentralDomains::class, // ESTE AYUDA QUE SI ESTAMOS DESDE UN SUBDOMINIO NO NOS CONECTEMOS A LA BASE DE DATOS PRINCIPAL
 
 ])->group(function () {
-    
+
     Route::get('/', [HomeController::class, 'index'])->middleware(['auth', 'verified']);
     // Route::get('/', function () {
 
@@ -83,7 +83,7 @@ Route::middleware([
 
     //ROUTES --RegistroAsistenciaController-- Corresponden a las rutas que administran las tablas de registro asistencia
     Route::resource('registroAsistencias', RegistroAsistenciaController::class)->middleware(['auth', 'verified'])->names('admin.registroAsistencias');
-
+    Route::put('registroAsistencia/configAsistencia', [RegistroAsistenciaController::class, 'updateTime'])->middleware(['auth', 'verified'])->name('admin.registroAsistencia.configAsistencia');
 
 
     Route::resource('registroDescuentos', RegistroDescuentoController::class)->middleware(['auth', 'verified'])->names('admin.registroDescuentos');

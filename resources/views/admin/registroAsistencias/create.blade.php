@@ -63,8 +63,6 @@
                     @enderror
 
                     <label for="asignacionTurnos">Turno Asignado</label>
-                    {{-- <input type="text" name="asignacionTurnos" value="{{ old('asignacionTurnos') }}"
-                        class="form-control" id="asignacionTurnos" disabled> --}}
                     <div class="input-group">
                         <input type="text" name="" value="{{ old('asignacionTurnos') }}" class="form-control"
                             id="asignacionTurnos" disabled>
@@ -73,41 +71,33 @@
                                 data-url="{{ route('admin.asignacionTurnos.index') }}">Asignar Turno</button>
                         </div>
                     </div><br>
-                    <div class="row" style="vertical-align: center">
-                        {{-- <div class="input-group col-10"> --}}
-                        <div class="col-2">
-                            <label for="tiempo" style=" display: flex; justify-content: flex-end; align-items: flex-end;"
-                                class="btn btn-light-info">Registro de control</label>
+                    <div class="col-2">
+                    </div><br>
+                    @foreach ($asistencia as $item)
+                        <input type="text" name="" value="" class="form-control" id="tiempo"
+                            data-Nombre="{{ $item->nombre }}" data-Clase="{{ $item->clase }}"
+                            data-Tiempo="{{ $item->tiempo }}" disabled hidden>
+                    @endforeach
+
+                    <div class="col-3">
+                        <div>
+                            <button id='button-tiempo' name="" disabled class="btn btn-info"> Seleccione un
+                                Usuario</button>
+                            <input type="hidden" name="control" value="tu_valor_aqui" id="button-tiempo2">
                         </div>
-                        @foreach ($asistencia as $item)
-                            <input type="text" name="" value="" class="form-control" id="tiempo"
-                                data-Nombre="{{ $item->nombre }}" data-Clase="{{ $item->clase }}"
-                                data-Tiempo="{{ $item->tiempo }}" disabled hidden>
-                        @endforeach
-                        <div class="col-2">
-                            <div class="d-flex justify-content-center align-items-center">
-                                <button id='button-tiempo' name="" disabled class="btn btn-info"> Seleccione un
-                                    Usuario</button>
-                                <input type="hidden" name="control" value="tu_valor_aqui" id="button-tiempo2">
+                    </div><br>
+                    <div class="col-2">
+                        <div class="d-flex align-items-center h-100" style="">
+                            <div>
+                                <input type="radio" name="multa" id="multa" onclick="toggleRadio()">
+                            </div>
+                            <div>
+                                <label for="multa" class="form-check-label ml-2">
+                                    Poner Multa
+                                </label>
                             </div>
                         </div>
-                        <div class="col-2">
-                            {{-- <div class="d-flex flex justify-content align-items-center h-100">
-                                <input type="checkbox" name="" id="multa">
-                                Poner Mulata
-                            </div> --}}
 
-                            <div class="d-flex align-items-center h-100" style="justify-content: space-around">
-                                <div>
-                                    <input type="checkbox" name="multa" id="multa">
-                                </div>
-                                <div>
-                                    Poner Mulata
-                                </div>
-                            </div>
-
-                        </div>
-                        {{-- </div> --}}
                     </div><br>
                     <button type="submit" class="btn btn-primary">Registrar asistencia</button>
             </form>
@@ -119,17 +109,26 @@
 
 @section('js')
     <script>
+        var radioActivo = 0;
+
+        function toggleRadio() {
+            var radio = document.getElementById("multa");
+            if (radioActivo == 0) {
+                radio.checked = true;
+                radioActivo = 1;
+            } else {
+                radioActivo = 0;
+                radio.checked = false;
+            }
+        }
+
         $(document).ready(function() {
             var userSelect = document.getElementById('user_id');
-
             var asignacionTurnosField = document.getElementById('asignacionTurnos');
 
             userSelect.addEventListener('change', function() {
                 var selectedUserId = this.value;
-                console.log(selectedUserId);
                 var selectedOption = this.options[this.selectedIndex];
-
-
 
                 // Obtener los valores de data-* del option seleccionado
                 var turnoName = selectedOption.getAttribute('data-TurnoName');
@@ -152,8 +151,8 @@
                     // No tiene turno asignado, mostrar el mensaje correspondiente
                     asignacionTurnosField.value = turnoName;
                     buttonTiempo.className = "btn btn-info";
-                        multaCheckbox.disabled = true;
-                        multaCheckbox.checked = false;
+                    multaCheckbox.disabled = true;
+                    multaCheckbox.checked = false;
                 } else {
                     // Formatear la hora en formato 12 horas (AM/PM)
                     var horas = hora.split(' - ').map(function(time) {
@@ -167,10 +166,6 @@
                         return hour + ':' + minute + ' ' + ampm;
                     });
 
-                    // console.log('Usuario seleccionado: ' + selectedUserId);
-                    // console.log('Turno Name: ' + turnoName);
-                    // console.log('Hora: ' + horas.join(' - '));
-
                     // Mostrar los valores en el campo "Asignación de Turnos"
                     asignacionTurnosField.value = turnoName + ' - ' + horas.join(' - ');
 
@@ -183,9 +178,6 @@
 
                     // Convierte la diferencia en segundos
                     var diferenciaEnSegundos = (diferenciaEnMilisegundos / 1000);
-
-                    // Muestra la diferencia en segundos en el campo input con id "tiempo"
-                    console.log(diferenciaEnSegundos);
 
                     var buttonTiempo = document.getElementById('button-tiempo');
                     var buttonTiempo2 = document.getElementById('button-tiempo2');
@@ -214,6 +206,7 @@
                         buttonTiempo.className = "btn btn-danger";
                         multaCheckbox.disabled = false;
                         multaCheckbox.checked = true;
+                        radioActivo = 1;
                     }
                 }
 
@@ -247,9 +240,6 @@
                 // Obten el valor actual de "mi_hora"
                 var nuevoValorMiHora = miHoraInput.value;
 
-                // Imprime un log con el nuevo valor
-                console.log('El valor de mi_hora ha cambiado a: ' + nuevoValorMiHora);
-
                 // Verifica si el campo asignacionTurnos no está vacío
                 if (asignacionTurnosField.value.trim() !== '') {
                     // Ejecuta la función simulateUserChange() solo si asignacionTurnos no está vacío
@@ -262,7 +252,6 @@
             function simulateUserChange() {
                 var event = new Event('change');
                 userSelect.dispatchEvent(event);
-                console.log('si');
             }
 
             document.getElementById('asignarTurnoBtn').addEventListener('click', function() {

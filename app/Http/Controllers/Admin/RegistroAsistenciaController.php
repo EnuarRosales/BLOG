@@ -12,6 +12,7 @@ use App\Models\TipoMulta;
 use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class RegistroAsistenciaController extends Controller
 {
@@ -27,11 +28,13 @@ class RegistroAsistenciaController extends Controller
         $asistencias = Asistencia::with('user', 'user.asignacionTurnos', 'user.asignacionTurnos.turno')
             ->get();
 
+        $configAsistencia = AsistenciaTiempoConfig::find(1);
+
         foreach ($asistencias as $asistencia) {
             $user = $asistencia->user; // Accedes a la relación user
             $asignacionTurno = $user->asignacionTurnos; // Accedes a la relación asignacionTurno dentro de la relación user
         }
-        return view('admin.registroAsistencias.index', compact('asistencias', 'userLogueado'));
+        return view('admin.registroAsistencias.index', compact('asistencias', 'userLogueado', 'configAsistencia'));
     }
 
     /**
@@ -62,20 +65,32 @@ class RegistroAsistenciaController extends Controller
 
         ]);
 
-        if ($request->has('multa')) {
-            $multa = TipoMulta::find(1);
-            $asignacionMulta = new AsignacionMulta;
-            $asignacionMulta->user_id = $request->user_id;
-            $asignacionMulta->tipoMulta_id = $multa->id;
-        }
+        try {
+            if ($request->has('multa')) {
+                $multa = TipoMulta::find(1);
+                $asignacionMulta = new AsignacionMulta;
+                $asignacionMulta->user_id = $request->user_id;
+                $asignacionMulta->tipoMulta_id = $multa->id;
+                $asignacionMulta->save();
+            }
 
-        $registroAsistencia = new Asistencia;
-        $registroAsistencia->fecha = $request->fecha;
-        $registroAsistencia->mi_hora = $request->mi_hora;
-        $registroAsistencia->user_id = $request->user_id;
-        $registroAsistencia->control = $request->control;
-        if ($registroAsistencia->save() && $request->has('multa')) {
-            $asignacionMulta->save();
+            $registroAsistencia = new Asistencia;
+            $registroAsistencia->fecha = $request->fecha;
+            $registroAsistencia->mi_hora = $request->mi_hora;
+            $registroAsistencia->user_id = $request->user_id;
+            $registroAsistencia->control = $request->control;
+
+            // Asignar multa_id solo si se creó la asignación de multa correctamente
+            if (isset($asignacionMulta)) {
+                $registroAsistencia->multa_id = $asignacionMulta->id;
+            }
+
+            $registroAsistencia->save();
+
+            DB::commit(); // Confirma la transacción si todo se completó con éxito
+        } catch (\Exception $e) {
+            DB::rollBack(); // Deshace la transacción en caso de error
+            // Manejar el error o lanzar una excepción si es necesario
         }
 
         return redirect()->route('admin.registroAsistencias.index', $registroAsistencia->id)->with('info', 'store');
@@ -100,8 +115,9 @@ class RegistroAsistenciaController extends Controller
      */
     public function edit(Asistencia $registroAsistencia)
     {
-        $users = User::orderBy('id', 'desc');
-        return view('admin.registroAsistencias.edit', compact('registroAsistencia', 'users'));
+        $users = User::with('asignacionTurnos', 'asignacionTurnos.turno')->orderBy('id', 'desc')->get();
+        $asistencia = AsistenciaTiempoConfig::all();
+        return view('admin.registroAsistencias.edit', compact('registroAsistencia', 'users', 'asistencia'));
     }
 
     /**
@@ -119,19 +135,44 @@ class RegistroAsistenciaController extends Controller
             'fecha' => 'required',
         ]);
         //ASINACION MASIVA DE VARIABLES A LOS CAMPOS
-        $registroAsistencia->update($request->all());
-        return redirect()->route('admin.registroAsistencias.index', $registroAsistencia->id)->with('info', 'update'); //with mensaje de sesion
+        // dd($request->all());
 
+
+        if ($request->has('multa')) {
+            if ($request->multa === 'on' && $request->multa_id === null) {
+                // dd('J');
+                $multa = TipoMulta::find(1);
+                $asignacionMulta = new AsignacionMulta;
+                $asignacionMulta->user_id = $request->user_id;
+                $asignacionMulta->tipoMulta_id = $multa->id;
+                $asignacionMulta->save();
+
+                $request->merge(['multa_id' => $asignacionMulta->id]);
+                $registroAsistencia->update($request->except('multa'));
+            } else {
+                $registroAsistencia->update($request->except('multa'));
+            }
+        } else {
+            $multa=AsignacionMulta::find($request->multa_id);
+            $multa->delete();
+            $request->merge(['multa_id' => null]);
+            $registroAsistencia->update($request->except('multa'));
+        }
+
+
+        return redirect()->route('admin.registroAsistencias.index', $registroAsistencia->id)->with('info', 'update'); //with mensaje de sesion
     }
 
-
-
-
-
-
-
-
-
+    public function updateTime(Request $request)
+    {
+        $configAsistencia = AsistenciaTiempoConfig::find($request->id);
+        $configAsistencia->nombre = $request->nombre;
+        $configAsistencia->tiempo = $request->minutos * 60;
+        if ($configAsistencia->update()) {
+            return response()->json(['success' => true]);
+        }
+        return response()->json(['success' => false]);
+    }
 
     /**
      * Remove the specified resource from storage.

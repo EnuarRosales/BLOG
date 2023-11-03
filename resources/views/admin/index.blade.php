@@ -91,7 +91,7 @@
                         <div class="widget-content">
                             <div class="w-content">
                                 <div class="w-info">
-                                    <h6 class="value">$ {{ $dataMetas[0] }}</h6>
+                                    <h6 class="value">{{"$"." ". $dataMetas[0] }}</h6>
                                     <p class="">Meta: {{$dataMetas[3] }}</p>
                                 </div>
                                 <div class="">

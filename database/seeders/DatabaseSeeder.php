@@ -22,6 +22,8 @@ class DatabaseSeeder extends Seeder
         $this->call(RolSeeder::class);
         $this->call(PaginaSeeder::class);
         $this->call(MetaModeloSeeder::class);
-        $this->call(ImpuestoSeeder::class);      
+        $this->call(ImpuestoSeeder::class);
+        $this->call(AsistenciaTiempoConfigSeeder::class);
+        $this->call(TipoMultasSeeder::class);
     }
 }

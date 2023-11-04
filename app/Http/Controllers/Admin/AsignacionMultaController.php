@@ -21,25 +21,10 @@ class AsignacionMultaController extends Controller
     public function index()
     {
         $userLogueado = auth()->user()->id;
-        $asignacionMultas = AsignacionMulta::orderBy('id','asc')->where('descontado', 0)->paginate();
+        $asignacionMultas = AsignacionMulta::orderBy('id', 'asc')->where('descontado', 0)->paginate();
 
-    $rol = Role::all();
-
-    // return $rol;
-
-        // foreach($asignacionMultas as $asignacionMulta){
-        //     if (auth()->user()->hasRole('Administrador')){
-
-        //     }
-
-        // }
-
-
-
-    //  return $userLogueado = auth()->user();
-
-
-        return view('admin.asignacionMultas.index', compact('asignacionMultas','userLogueado'));
+        $rol = Role::all();
+        return view('admin.asignacionMultas.index', compact('asignacionMultas', 'userLogueado'));
     }
 
     /**
@@ -49,9 +34,9 @@ class AsignacionMultaController extends Controller
      */
     public function create()
     {
-        $users = User::orderBy('id','desc');
-        $tipoMultas = TipoMulta::orderBy('id','desc');
-        return view('admin.asignacionMultas.create', compact('users','tipoMultas'));
+        $users = User::orderBy('id', 'desc');
+        $tipoMultas = TipoMulta::orderBy('id', 'desc');
+        return view('admin.asignacionMultas.create', compact('users', 'tipoMultas'));
     }
 
     /**
@@ -63,8 +48,8 @@ class AsignacionMultaController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'user_id'=>'required',
-            'tipoMulta_id'=>'required',
+            'user_id' => 'required',
+            'tipoMulta_id' => 'required',
         ]);
 
 
@@ -74,7 +59,7 @@ class AsignacionMultaController extends Controller
             multaEvent::dispatch($asignacionMulta->id);
         }
 
-        return redirect()->route('admin.asignacionMultas.index',$asignacionMulta->id)->with('info','store');
+        return redirect()->route('admin.asignacionMultas.index', $asignacionMulta->id)->with('info', 'store');
     }
 
     /**
@@ -85,10 +70,10 @@ class AsignacionMultaController extends Controller
      */
     public function edit(AsignacionMulta $asignacionMulta)
     {
-        $users = User::orderBy('id','desc');
-        $tipoMultas = TipoMulta::orderBy('id','desc');
+        $users = User::orderBy('id', 'desc');
+        $tipoMultas = TipoMulta::orderBy('id', 'desc');
 
-        return view('admin.asignacionMultas.edit',compact('asignacionMulta','users','tipoMultas'));
+        return view('admin.asignacionMultas.edit', compact('asignacionMulta', 'users', 'tipoMultas'));
     }
 
     /**
@@ -102,12 +87,12 @@ class AsignacionMultaController extends Controller
     {
         //VALiDACION FORMULARIO
         $request->validate([
-            'user_id'=>'required',
-            'tipoMulta_id'=>'required',
+            'user_id' => 'required',
+            'tipoMulta_id' => 'required',
         ]);
         //ASINACION MASIVA DE VARIABLES A LOS CAMPOS
         $asignacionMulta->update($request->all());
-        return redirect()->route('admin.asignacionMultas.index', $asignacionMulta->id)->with('info','update'); //with mensaje de sesion
+        return redirect()->route('admin.asignacionMultas.index', $asignacionMulta->id)->with('info', 'update'); //with mensaje de sesion
 
     }
 
@@ -119,12 +104,12 @@ class AsignacionMultaController extends Controller
      */
     public function destroy(AsignacionMulta $asignacionMulta)
     {
-        $asistencia = Asistencia::where('multa_id',$asignacionMulta->id)->first();
+        $asistencia = Asistencia::where('multa_id', $asignacionMulta->id)->first();
         if ($asistencia) {
             $asistencia->update(['multa_id' => null]);
         }
 
         $asignacionMulta->delete();
-        return redirect()->route('admin.asignacionMultas.index')->with('info','delete');
+        return redirect()->route('admin.asignacionMultas.index')->with('info', 'delete');
     }
 }

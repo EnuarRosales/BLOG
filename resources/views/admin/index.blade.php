@@ -206,7 +206,7 @@
                                     <div class="w-browser-details">
 
                                         <div class="w-browser-info">
-                                            <h6>{{ $dataHistorialMetas[12] }} - Proyectado $ {{$dataHistorialMetas[15]}} - Generado $ {{number_format($dataHistorialMetas[14], 2)}}</h6>
+                                             <h6>{{ $dataHistorialMetas[12] }} - Proyectado $ {{$dataHistorialMetas[15]}} - Generado $ {{number_format($dataHistorialMetas[14], 2)}}</h6>
                                             <p class="browser-count">{{number_format($dataHistorialMetas[13], 1) }}%</p>
                                         </div>
 
@@ -337,6 +337,8 @@
                     </div>
                 </div>
             </div>
+
+            {{-- INICI TABLA --}}
 
             <div class="row">
                 <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 layout-spacing">
@@ -512,6 +514,8 @@
                     </div>
                 </div>
             </div>
+
+            {{-- FIN TABLA --}}
 
 
             

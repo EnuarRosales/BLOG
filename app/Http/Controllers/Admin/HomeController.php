@@ -282,6 +282,12 @@ class HomeController extends Controller
 
     public function reporte_dia()
     {
+        $datoMasReciente = Meta::latest()->first(); // O Dato::latest()->get() si deseas obtener varios registros
+        // Puedes hacer lo que desees con $datoMasReciente aquíecho  
+        $idMeta = $datoMasReciente->id;
+        // $registroProduccion = ResgistroProducido::where('meta_id', $idMeta)
+        // ->sum('valorProducido');
+
         /* AGRUPA EL VALOR PRODUCIDO POR LA META Y FECHA; ES DECIR  NOS MUESTRA LA PRODUCCION DIARIA
         DE ACUERDO A LA META Y A LA FECHA, LO USAMOS  PARA VERIFICAR LO SIGUIENTE 
         1. FECHA 
@@ -292,11 +298,11 @@ class HomeController extends Controller
         6.CUMPLIO; OJO VERIFICA SI LA DIFERENCIA ES POSITIVA O NEGATIVA, SI ES POSITIVA CUMPLIO = SI DE LO CONTRARIO NO
         */
 
-        $fechas = ResgistroProducido::select(
+        $fechas = ResgistroProducido::where('meta_id', $idMeta)->select(
             DB::raw('sum(valorProducido) as suma'),
             DB::raw('meta_id'),
-
             DB::raw('fecha'),
+            
 
         )
             ->groupBy('fecha', 'meta_id')

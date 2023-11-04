@@ -30,10 +30,10 @@
                                     <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
                                 </svg>
                             </div>
-                            <p class="w-value">{{ $dataUsuarios[1] }}/{{ number_format($dataUsuarios[2], 2)}}%</p> 
-                            <h5 class="">Usuarios</h5>                            
+                            <p class="w-value">{{ $dataUsuarios[1] }}/{{ number_format($dataUsuarios[2], 2) }}%</p>
+                            <h5 class="">Usuarios</h5>
                         </div>
-                        
+
                         <div class="widget-content">
                             <div class="w-chart">
                                 <div id="hybrid_followers"></div>
@@ -91,7 +91,7 @@
                             <div class="w-content">
                                 <div class="w-info">
                                     <h6 class="value">$ {{ $dataMetas[0] }}</h6>
-                                    <p class="">Meta: {{$dataMetas[3] }}</p>
+                                    <p class="">Meta: {{ $dataMetas[3] }}</p>
                                 </div>
                                 <div class="">
                                     <div class="w-icon">
@@ -126,6 +126,14 @@
 
             </div>
 
+            <div>
+                @include('admin.index.partials.tablaMetaResumen')
+            </div>
+
+             {{-- INICIA TABLA --}}
+             
+             {{-- TERMINA TABLA --}}
+
             <div class="row layout-top-spacing">
                 <div class="col-xl-8 col-lg-6 col-md-6 col-sm-12 col-12 layout-spacing">
                     <div class="widget-four">
@@ -146,9 +154,11 @@
                                             <line x1="10.88" y1="21.94" x2="15.46" y2="14"></line>
                                         </svg>
                                     </div>
+
                                     <div class="w-browser-details">
                                         <div class="w-browser-info">
-                                            <h6>{{ $dataHistorialMetas[4] }} - Proyectado $ {{$dataHistorialMetas[7]}} - Generado $ {{number_format($dataHistorialMetas[6], 2)}}</h6>
+                                            <h6>{{ $dataHistorialMetas[4] }} - Proyectado $ {{ $dataHistorialMetas[7] }} -
+                                                Generado $ {{ number_format($dataHistorialMetas[6], 2) }}</h6>
                                             <p class="browser-count">{{ number_format($dataHistorialMetas[5], 1) }}%</p>
                                         </div>
                                         <div class="w-browser-stats">
@@ -174,8 +184,9 @@
                                     <div class="w-browser-details">
 
                                         <div class="w-browser-info">
-                                            <h6>{{ $dataHistorialMetas[8] }} - Proyectado $ {{$dataHistorialMetas[11]}} - Generado $ {{number_format($dataHistorialMetas[10], 2)}}</h6>
-                                            <p class="browser-count">{{number_format($dataHistorialMetas[9], 1)  }}%</p>
+                                            <h6>{{ $dataHistorialMetas[8] }} - Proyectado $ {{ $dataHistorialMetas[11] }} -
+                                                Generado $ {{ number_format($dataHistorialMetas[10], 2) }}</h6>
+                                            <p class="browser-count">{{ number_format($dataHistorialMetas[9], 1) }}%</p>
                                         </div>
 
                                         <div class="w-browser-stats">
@@ -205,8 +216,9 @@
                                     <div class="w-browser-details">
 
                                         <div class="w-browser-info">
-                                            <h6>{{ $dataHistorialMetas[12] }} - Proyectado $ {{$dataHistorialMetas[15]}} - Generado $ {{number_format($dataHistorialMetas[14], 2)}}</h6>
-                                            <p class="browser-count">{{number_format($dataHistorialMetas[13], 1) }}%</p>
+                                            <h6>{{ $dataHistorialMetas[12] }} - Proyectado $ {{ $dataHistorialMetas[15] }} -
+                                                Generado $ {{ number_format($dataHistorialMetas[14], 2) }}</h6>
+                                            <p class="browser-count">{{ number_format($dataHistorialMetas[13], 1) }}%</p>
                                         </div>
 
                                         <div class="w-browser-stats">
@@ -337,22 +349,9 @@
                 </div>
             </div>
 
-            {{-- TABLA --}}
-            <div class="row">
-                <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 layout-spacing">
-                    <div class="widget widget-table-three">
+           
+           
 
-                        <div class="widget-heading">
-                            <h5 class="">Top Selling Product</h5>
-                        </div>
-
-                        <div class="widget-content">
-                            <div class="table-responsive">
-                                @include('admin.index.partials.tablaMetaResumen')
-                        </div>
-                    </div>
-                </div>
-            </div>
 
             <div class="row">
                 <div class="col-lg-12 mb-4">
@@ -572,7 +571,7 @@
                 },
                 series: [{
                     name: 'Prestamos',
-                    data: {{$dataDescuentos}}
+                    data: {{ $dataDescuentos }}
                 }],
                 labels: ['1', '2', '3', '4', '5', '6', '7'],
                 yaxis: {
@@ -667,7 +666,7 @@
                 },
                 series: [{
                     name: 'Modelos Incorporados',
-                    data: {{$dataUsuarios[0]}}
+                    data: {{ $dataUsuarios[0] }}
                 }],
                 labels: ['1', '2', '3', '4', '5', '6', '7'],
                 yaxis: {
@@ -694,7 +693,6 @@
 
             var d_1C_5 = new ApexCharts(document.querySelector("#hybrid_followers"), d_1options3);
             d_1C_5.render()
-
         </script>
 
 

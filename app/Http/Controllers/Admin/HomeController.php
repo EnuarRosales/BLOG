@@ -124,37 +124,38 @@ class HomeController extends Controller
         // }
 
         // echo($datoMasRecientes->count());
-        
-            if ($datoMasRecientes->count() > 0) {
-                foreach ($datoMasRecientes as $datoMasReciente) {
-                    $registroProduccion = ResgistroProducido::where('meta_id', $datoMasReciente->id)
-                        ->sum('valorProducido');
-                    $porcentajeMeta = ($registroProduccion * 100) / $datoMasReciente->valor;
-                    $miArray[] = $datoMasReciente->nombre; //0
-                    $miArray[] = $porcentajeMeta;          //1
-                    $miArray[] = $registroProduccion;      //2
-                    $miArray[] = $datoMasReciente->valor;  //3
-                }
-            }
-            
-            if(){"hola"
 
+        if ($datoMasRecientes->count() > 0) {
+            foreach ($datoMasRecientes as $datoMasReciente) {
+                $registroProduccion = ResgistroProducido::where('meta_id', $datoMasReciente->id)
+                    ->sum('valorProducido');
+                $porcentajeMeta = ($registroProduccion * 100) / $datoMasReciente->valor;
+                $miArray[] = $datoMasReciente->nombre; //0
+                $miArray[] = $porcentajeMeta;          //1
+                $miArray[] = $registroProduccion;      //2
+                $miArray[] = $datoMasReciente->valor;  //3
             }
-            
+        }
 
-            
-            else {
+
+        if ($datoMasRecientes->count() < 4) {
+            $datos = 4 - $datoMasRecientes->count();
+
+            for ($i = 0; $i < $datos; $i++) {
                 $miArray[] = "No hay datos para mostarar"; //0
                 $miArray[] = 0; //1
                 $miArray[] = 0; //2
                 $miArray[] = 0; //3
+
             }
-          
+        }
 
 
-            // dd  ($miArray);
 
-        
+
+        // dd  ($miArray);
+
+
         return $miArray;
     }
 
@@ -204,7 +205,7 @@ class HomeController extends Controller
             ->whereDay('created_at', '>', 15)
             ->count();
 
-        $dataMultasJS = '[' . $segundaQuincenaPrimerMes . ', ' . $primeraQuincenaSegundoMes . ', ' . $segundaQuincenaSegundoMes . ', ' . $primeraQuincenaTercerMes . ', ' . $segundaQuincenaTercerMes . ', ' . $primeraQuincenaCuartoMes . ', ' . $segundaQuincenaCuartoMes . ']';
+        $dataMultasJS = '[' . $segundaQuincenaPrimerMes . ', ' . $segundaQuincenaSegundoMes . ', ' . $primeraQuincenaSegundoMes . ', ' . $segundaQuincenaTercerMes . ', ' . $primeraQuincenaTercerMes . ', ' . $segundaQuincenaCuartoMes . ', ' . $primeraQuincenaCuartoMes . ']';
         return $dataMultasJS;
     }
 
@@ -253,7 +254,7 @@ class HomeController extends Controller
             ->whereDay('fechaIngreso', '>', 15)
             ->count();
 
-        $dataUsuariosJS = '[' . $segundaQuincenaPrimerMes . ', ' . $primeraQuincenaSegundoMes . ', ' . $segundaQuincenaSegundoMes . ', ' . $primeraQuincenaTercerMes . ', ' . $segundaQuincenaTercerMes . ', ' . $primeraQuincenaCuartoMes . ', ' . $segundaQuincenaCuartoMes . ']';
+        $dataUsuariosJS = '[' . $segundaQuincenaPrimerMes . ', ' . $segundaQuincenaSegundoMes . ', ' . $primeraQuincenaSegundoMes . ',  ' . $segundaQuincenaTercerMes . ', ' . $primeraQuincenaTercerMes . ', ' . $segundaQuincenaCuartoMes . ', ' . $primeraQuincenaCuartoMes . ']';
 
         // LOGICA PARA ALIMENTAR LAS VARIABLES DE LA GRAFICA
         $usuariosModelos = User::where('active', 1)
@@ -266,9 +267,18 @@ class HomeController extends Controller
 
         if ($empresaCapacidadModelos === null) {
             $empresaCapacidadModelos = 0;
+        };
+        if ($usuariosModelos > 0 && $empresaCapacidadModelos >0 ){            
+            $porcentajeModelos = ($usuariosModelos * 100) / $empresaCapacidadModelos;
+        }
+        else{
+
+            $porcentajeModelos = 0;
+            $usuariosModelos = "Configura la Empresa ";
+
         }
 
-        $porcentajeModelos = ($usuariosModelos * 100) / $empresaCapacidadModelos;
+        
         return array($dataUsuariosJS, $usuariosModelos, $porcentajeModelos);
     }
 

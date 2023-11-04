@@ -38,7 +38,7 @@
         }
 
         #filtro-panel.open {
-            width: 350px;
+            width: 430px;
             /* Ancho deseado del panel */
         }
 
@@ -48,7 +48,7 @@
             /* Espacio entre los campos de fecha */
         }
 
-        #filtrar {
+        .filtrar {
             background-color: #0073e6;
             /* Color de fondo para el botón */
             color: #fff;
@@ -89,8 +89,11 @@
                     <div id="filtro-panel" class="mb-3" style="display: flex; align-items: center;">
                         <input type="date" id="fecha-inicial">
                         <input type="date" id="fecha-final">
-                        <button id="Limpiar">Limpiar</button>
-                        <button id="filtrar">Filtrar</button>
+                        <div>
+                            <button id="Limpiar" class="filtrar">Limpiar</button>
+                            <button id="filtrar" class="filtrar">Filtrar</button>
+                        </div>
+
 
                     </div>
                 </div>
@@ -290,6 +293,18 @@
 
             document.getElementById('filtro-panel').classList.add('open');
         });
+
+        $('#Limpiar').on('click', function() {
+        // Limpiar los campos de fecha
+        $('#fecha-inicial').val('');
+        $('#fecha-final').val('');
+
+        // Mostrar todas las filas
+        $('table tbody tr').show();
+
+        // Borrar los filtros
+        // $('#filtro-panel').removeClass('open');
+    });
     </script>
     <script src="{{ asset('assets/libs/switchery/switchery.min.js') }}"></script>
     <script></script>

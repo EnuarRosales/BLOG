@@ -120,7 +120,10 @@ class AsignacionMultaController extends Controller
     public function destroy(AsignacionMulta $asignacionMulta)
     {
         $asistencia = Asistencia::where('multa_id',$asignacionMulta->id)->first();
-        $asistencia->update(['multa_id' => null]);
+        if ($asistencia) {
+            $asistencia->update(['multa_id' => null]);
+        }
+
         $asignacionMulta->delete();
         return redirect()->route('admin.asignacionMultas.index')->with('info','delete');
     }

@@ -101,6 +101,7 @@
 
 
 
+        {{-- INICIA TABLA --}}
             <div class="table-responsive mb-4 mt-4">
                 <table id="html5-extension" class="table table-hover non-hover" style="width:100%">
                     <thead>
@@ -192,6 +193,9 @@
 
                 </table>
             </div>
+        {{-- FIN DE LA TABLA --}}
+
+
         </div>
     </div>
     {{-- <div class="card">

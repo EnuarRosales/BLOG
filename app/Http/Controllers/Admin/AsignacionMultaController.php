@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Events\multaEvent;
 use App\Http\Controllers\Controller;
 use App\Models\AsignacionMulta;
+use App\Models\Asistencia;
 use App\Models\TipoMulta;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -18,7 +19,7 @@ class AsignacionMultaController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function index()
-    { 
+    {
         $userLogueado = auth()->user()->id;
         $asignacionMultas = AsignacionMulta::orderBy('id','asc')->where('descontado', 0)->paginate();
 
@@ -33,11 +34,11 @@ class AsignacionMultaController extends Controller
 
         // }
 
-        
-       
+
+
     //  return $userLogueado = auth()->user();
 
-        
+
         return view('admin.asignacionMultas.index', compact('asignacionMultas','userLogueado'));
     }
 
@@ -65,7 +66,7 @@ class AsignacionMultaController extends Controller
             'user_id'=>'required',
             'tipoMulta_id'=>'required',
         ]);
-        
+
 
         $asignacionMulta = AsignacionMulta::create($request->all());
 
@@ -118,6 +119,8 @@ class AsignacionMultaController extends Controller
      */
     public function destroy(AsignacionMulta $asignacionMulta)
     {
+        $asistencia = Asistencia::where('multa_id',$asignacionMulta->id)->first();
+        $asistencia->update(['multa_id' => null]);
         $asignacionMulta->delete();
         return redirect()->route('admin.asignacionMultas.index')->with('info','delete');
     }

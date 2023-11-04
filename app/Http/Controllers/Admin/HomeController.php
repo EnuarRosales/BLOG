@@ -209,8 +209,6 @@ class HomeController extends Controller
         return $dataMultasJS;
     }
 
-
-
     public function dataUsuario()
     {
         $fechaActual = Carbon::now();
@@ -348,6 +346,6 @@ class HomeController extends Controller
         $dataHistorialMetas = $this->dataHistorialMeta();
         $dataUsuarios = $this->dataUsuario();
         $dataResumenMeta = $this->reporte_dia();
-        return view('admin.index', compact('multas', 'descuentos', 'dataDescuentos', 'dataMetas', 'dataMultas', 'dataHistorialMetas', 'dataUsuarios', 'dataResumenMeta'));
+        return view('admin.index.index', compact('multas', 'descuentos', 'dataDescuentos', 'dataMetas', 'dataMultas', 'dataHistorialMetas', 'dataUsuarios', 'dataResumenMeta'));
     }
 }

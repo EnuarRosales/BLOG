@@ -140,7 +140,6 @@ class RegistroAsistenciaController extends Controller
 
         if ($request->has('multa')) {
             if ($request->multa === 'on' && $request->multa_id === null) {
-                // dd('J');
                 $multa = TipoMulta::find(1);
                 $asignacionMulta = new AsignacionMulta;
                 $asignacionMulta->user_id = $request->user_id;
@@ -153,8 +152,10 @@ class RegistroAsistenciaController extends Controller
                 $registroAsistencia->update($request->except('multa'));
             }
         } else {
-            $multa=AsignacionMulta::find($request->multa_id);
-            $multa->delete();
+            $multa = AsignacionMulta::find($request->multa_id);
+            if ($multa) {
+                $multa->delete();
+            }
             $request->merge(['multa_id' => null]);
             $registroAsistencia->update($request->except('multa'));
         }
@@ -182,6 +183,10 @@ class RegistroAsistenciaController extends Controller
      */
     public function destroy(Asistencia $registroAsistencia)
     {
+        $multa = AsignacionMulta::find($registroAsistencia->multa_id);
+        if ($multa) {
+            $multa->delete();
+        }
         $registroAsistencia->delete();
         return redirect()->route('admin.registroAsistencias.index')->with('info', 'delete');
     }

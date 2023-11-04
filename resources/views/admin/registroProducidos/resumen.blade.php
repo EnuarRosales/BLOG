@@ -72,7 +72,7 @@
         <div class="widget-content widget-content-area br-6">
 
             <div class="row">
-                <div class="col-8">
+                <div class="col-7">
                     <div style="display: flex;">
                         <label class="mt-2 ml-3 mr-1">Registros :</label>
                         <select id="records-per-page" class="form-control custom-width-20">
@@ -84,12 +84,14 @@
                         </select>
                     </div>
                 </div>
-                <div class="col-4"
+                <div class="col-5"
                     style="display: flex; flex-direction: row-reverse; justify-content: space-between;">
                     <div id="filtro-panel" class="mb-3" style="display: flex; align-items: center;">
                         <input type="date" id="fecha-inicial">
                         <input type="date" id="fecha-final">
+                        <button id="Limpiar">Limpiar</button>
                         <button id="filtrar">Filtrar</button>
+
                     </div>
                 </div>
             </div>

@@ -6,11 +6,15 @@
         {{ date('g:i a', strtotime($asistencia->mi_hora)) }}
     </td>
     @can('admin.registroAsistencias.control')
-        <td>{{ '#' }}</td>
+        <td
+            class="{{ $asistencia->control === 'A Tiempo' ? 'badge badge-success' : ($asistencia->control === 'Sobre el Tiempo' ? 'badge badge-warning' : ($asistencia->control === 'No tiene turno asignado' ? 'badge badge-info' : 'badge badge-danger')) }}">
+
+            {{ $asistencia->control }}
+        </td>
     @endcan
     @can('admin.registroAsistencias.edit')
         <td width="10px">
-                    <a href="{{ route('admin.registroAsistencias.edit', $asistencia) }}" class="ml-4 rounded bs-tooltip"
+            <a href="{{ route('admin.registroAsistencias.edit', $asistencia) }}" class="ml-4 rounded bs-tooltip"
                 data-placement="top" title="Editar">
                 <svg class="mr-4" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
                     fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
@@ -23,7 +27,7 @@
     @endcan
     @can('admin.registroAsistencias.destroy')
         <td width="10px">
-             <a href="javascript:void(0);" class="ml-2 eliminar-registro rounded bs-tooltip" data-placement="top"
+            <a href="javascript:void(0);" class="ml-2 eliminar-registro rounded bs-tooltip" data-placement="top"
                 title="Eliminar" data-asistencia-id="{{ $asistencia->id }}">
                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
                     stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"

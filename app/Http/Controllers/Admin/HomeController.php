@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\AsignacionMulta;
+use App\Models\AsignacionTurno;
 use App\Models\Descuento;
 use App\Models\Empresa;
 use App\Models\Meta;
@@ -63,12 +64,7 @@ class HomeController extends Controller
             ->whereDay('created_at', '>', 15)
             ->sum('montoDescuento');
 
-
         $dataDescuentosJS = '[' . $segundaQuincenaPrimerMes . ', ' . $segundaQuincenaSegundoMes . ', ' . $primeraQuincenaSegundoMes . ',  ' . $segundaQuincenaTercerMes . ', ' . $primeraQuincenaTercerMes . ',  ' . $segundaQuincenaCuartoMes . ', ' . $primeraQuincenaCuartoMes . ']';
-
-        // echo $primerMes->locale('es')->monthName . " " . "Segundada Quincena";
-
-
         return $dataDescuentosJS;
     }
 
@@ -76,8 +72,6 @@ class HomeController extends Controller
     public function dataMeta()
     {
         $datoMasReciente = Meta::latest()->first(); // O Dato::latest()->get() si deseas obtener varios registros
-        // Puedes hacer lo que desees con $datoMasReciente aquíecho       
-
         if ($datoMasReciente != null) {
 
             $valorMeta = $datoMasReciente->valor;
@@ -85,9 +79,7 @@ class HomeController extends Controller
             $nombreMeta = $datoMasReciente->nombre;
             $registroProduccion = ResgistroProducido::where('meta_id', $idMeta)
                 ->sum('valorProducido');
-
             $porcentajeMeta = ($registroProduccion * 100) / $valorMeta;
-
             return array($valorMeta, $porcentajeMeta, $registroProduccion, $nombreMeta);
         } else {
             $nombreMeta = "Programa una meta";
@@ -99,32 +91,7 @@ class HomeController extends Controller
     public function dataHistorialMeta()
     {
         $datoMasRecientes = Meta::latest()->take(4)->get();
-        $miArray = array(); // Inicializar un array vacío         
-
-        // dd($datoMasRecientes);
-        // for ($i = 0; $i < 4; $i++) {
-        //     if ($datoMasRecientes != null) {
-        //         foreach ($datoMasRecientes as $datoMasReciente) {
-        //             if ($datoMasRecientes != null) {
-        //                 $registroProduccion = ResgistroProducido::where('meta_id', $datoMasReciente->id)
-        //                     ->sum('valorProducido');
-        //                 $porcentajeMeta = ($registroProduccion * 100) / $datoMasReciente->valor;
-        //                 $miArray[] = $datoMasReciente->nombre; //0
-        //                 $miArray[] = $porcentajeMeta;          //1
-        //                 $miArray[] = $registroProduccion;      //2
-        //                 $miArray[] = $datoMasReciente->valor;  //3
-        //             } else {
-        //                 $miArray[] = "No hay datos para mostarar"; //0
-        //                 $miArray[] = " "; //1
-        //                 $miArray[] = " "; //2
-        //                 $miArray[] = " "; //3
-        //             }
-        //         }
-        //     }
-        // }
-
-        // echo($datoMasRecientes->count());
-
+        $miArray = array(); // Inicializar un array vacío       
         if ($datoMasRecientes->count() > 0) {
             foreach ($datoMasRecientes as $datoMasReciente) {
                 $registroProduccion = ResgistroProducido::where('meta_id', $datoMasReciente->id)
@@ -149,12 +116,6 @@ class HomeController extends Controller
 
             }
         }
-
-
-
-
-        // dd  ($miArray);
-
 
         return $miArray;
     }
@@ -266,17 +227,15 @@ class HomeController extends Controller
         if ($empresaCapacidadModelos === null) {
             $empresaCapacidadModelos = 0;
         };
-        if ($usuariosModelos > 0 && $empresaCapacidadModelos >0 ){            
+        if ($usuariosModelos > 0 && $empresaCapacidadModelos > 0) {
             $porcentajeModelos = ($usuariosModelos * 100) / $empresaCapacidadModelos;
-        }
-        else{
+        } else {
 
             $porcentajeModelos = 0;
-            $usuariosModelos = "Configura la Empresa ";
-
+            $usuariosModelos = "Configura Empresa ";
         }
 
-        
+
         return array($dataUsuariosJS, $usuariosModelos, $porcentajeModelos);
     }
 
@@ -284,60 +243,81 @@ class HomeController extends Controller
     {
         $datoMasReciente = Meta::latest()->first(); // O Dato::latest()->get() si deseas obtener varios registros
         // Puedes hacer lo que desees con $datoMasReciente aquíecho  
-        $idMeta = $datoMasReciente->id;
-        // $registroProduccion = ResgistroProducido::where('meta_id', $idMeta)
-        // ->sum('valorProducido');
+        if ($datoMasReciente != null) {
+            $idMeta = $datoMasReciente->id;
 
-        /* AGRUPA EL VALOR PRODUCIDO POR LA META Y FECHA; ES DECIR  NOS MUESTRA LA PRODUCCION DIARIA
-        DE ACUERDO A LA META Y A LA FECHA, LO USAMOS  PARA VERIFICAR LO SIGUIENTE 
-        1. FECHA 
-        2. META STUDIO
-        3.OBJETIVO DIARIO; OJO APROVECHANDO LA RELACION CON LA META  LO QUE SE HACE ES DIVIDR SU VALOR EN EL NUMNERO DE DIAS 
-        4.PRODUCCION REPORTADA; OJO ES LA SUMA DEL VALOR PRODUCIDO 
-        5.ALARMA DIFERENCIA;  DIVIDE EL VALR DE LA META EN EL NUMERO DE DIAS Y LE RESTA  VALOR PRODUCIDO   
-        6.CUMPLIO; OJO VERIFICA SI LA DIFERENCIA ES POSITIVA O NEGATIVA, SI ES POSITIVA CUMPLIO = SI DE LO CONTRARIO NO
-        */
+            $fechas = ResgistroProducido::where('meta_id', $idMeta)->select(
+                DB::raw('sum(valorProducido) as suma'),
+                DB::raw('meta_id'),
+                DB::raw('fecha'),
 
-        $fechas = ResgistroProducido::where('meta_id', $idMeta)->select(
-            DB::raw('sum(valorProducido) as suma'),
-            DB::raw('meta_id'),
-            DB::raw('fecha'),
-            
+            )
+                ->groupBy('fecha', 'meta_id')
+                ->get();
 
-        )
-            ->groupBy('fecha', 'meta_id')
-            ->get();
+     
+            $fechas2 = ResgistroProducido::select(
+                DB::raw('sum(valorProducido) as suma'),
+                DB::raw('meta_id'),
+                // DB::raw('fecha'),
 
-        // echo $fechas;
+            )
+                ->groupBy('meta_id')
+                ->get();                
 
-        /* AGRUPA EL VALOR PRODUCIDO POR LA META; ES DECIR NOS MUESTA  CUANTO SE HA PRODUCIDO POR CADA META
+            $fechas3 = ResgistroProducido::select(
+                DB::raw('COUNT(DISTINCT(DATE(fecha)))  as date_count'),
+                DB::raw('meta_id'),
+                // DB::raw('fecha'),           
+
+            )
+                ->groupBy('meta_id')
+                ->get();                
+                return  array($fechas, $fechas2, $fechas3);
+        }
+
+        // $noHayMetas = 1;
+        return 0;   
         
-        LO USAMOS  PARA VERIFICAR LO SIGUIENTE 
-        
-        1. PARA PODER VER LA PRODUCCION TOTAL; ESTA SE MUESTRA EN TODAS LAS FILAS DONDE COINDIDA EL TIPO DE META*/
-
-        $fechas2 = ResgistroProducido::select(
-            DB::raw('sum(valorProducido) as suma'),
-            DB::raw('meta_id'),
-            // DB::raw('fecha'),
-
-        )
-            ->groupBy('meta_id')
-            ->get();
-
-        // echo $fechas2;            
-
-        $fechas3 = ResgistroProducido::select(
-            DB::raw('COUNT(DISTINCT(DATE(fecha)))  as date_count'),
-            DB::raw('meta_id'),
-            // DB::raw('fecha'),           
-
-        )
-            ->groupBy('meta_id')
-            ->get();
-
-        return  array($fechas, $fechas2, $fechas3);
     }
+
+    public function dataTurno()
+    {
+
+        $capacidadRooms = Empresa::value('number_rooms');
+        $error = " ";
+        if ($capacidadRooms === null) {
+            $capacidadRooms = 0;
+            $error = "Favor configura la empresa";
+        };
+
+        if ($capacidadRooms > 0) {
+            $turnosManana = AsignacionTurno::whereHas('turno', function ($query) {
+                $query->where('nombre', 'Mañana');
+            })->count();
+            $mananaPorcentaje = ($turnosManana * 100) / $capacidadRooms;
+
+            $turnosTarde = AsignacionTurno::whereHas('turno', function ($query) {
+                $query->where('nombre', 'Tarde');
+            })->count();
+            $tardeProcentaje = ($turnosTarde * 100) / $capacidadRooms;
+
+            $turnosNoche = AsignacionTurno::whereHas('turno', function ($query) {
+                $query->where('nombre', 'Noche');
+            })->count();
+            $nochePorcentaje = ($turnosNoche * 100) / $capacidadRooms;
+        } else {
+            $mananaPorcentaje = 0;
+            $turnosManana = 0;
+            $tardeProcentaje = 0;
+            $turnosTarde = 0;
+            $nochePorcentaje = 0;
+            $turnosNoche = 0;
+        }
+
+        return  array($mananaPorcentaje, $turnosManana, $tardeProcentaje, $turnosTarde, $nochePorcentaje, $turnosNoche, $error);
+    }
+
 
 
 
@@ -352,6 +332,7 @@ class HomeController extends Controller
         $dataHistorialMetas = $this->dataHistorialMeta();
         $dataUsuarios = $this->dataUsuario();
         $dataResumenMeta = $this->reporte_dia();
-        return view('admin.index.index', compact('multas', 'descuentos', 'dataDescuentos', 'dataMetas', 'dataMultas', 'dataHistorialMetas', 'dataUsuarios', 'dataResumenMeta'));
+        $dataTurnos = $this->dataTurno();
+        return view('admin.index.index', compact('multas', 'descuentos', 'dataDescuentos', 'dataMetas', 'dataMultas', 'dataHistorialMetas', 'dataUsuarios', 'dataResumenMeta', 'dataTurnos'));
     }
 }

@@ -19,6 +19,11 @@ class Asistencia extends Model
         return $this->belongsTo('App\Models\User');
     }
 
+    public function personal()
+    {
+        return $this->belongsTo(User::class, 'user_id', 'id');
+    }
+
     // public function getControlAttribute()
     // {
     //     $horaLlegada = strtotime($this->mi_hora);

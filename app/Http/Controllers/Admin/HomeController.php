@@ -5,6 +5,8 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\AsignacionMulta;
 use App\Models\AsignacionTurno;
+use App\Models\Asistencia;
+use App\Models\AsistenciaTiempoConfig;
 use App\Models\Descuento;
 use App\Models\Empresa;
 use App\Models\Meta;
@@ -255,7 +257,7 @@ class HomeController extends Controller
                 ->groupBy('fecha', 'meta_id')
                 ->get();
 
-     
+
             $fechas2 = ResgistroProducido::select(
                 DB::raw('sum(valorProducido) as suma'),
                 DB::raw('meta_id'),
@@ -263,7 +265,7 @@ class HomeController extends Controller
 
             )
                 ->groupBy('meta_id')
-                ->get();                
+                ->get();
 
             $fechas3 = ResgistroProducido::select(
                 DB::raw('COUNT(DISTINCT(DATE(fecha)))  as date_count'),
@@ -272,13 +274,12 @@ class HomeController extends Controller
 
             )
                 ->groupBy('meta_id')
-                ->get();                
-                return  array($fechas, $fechas2, $fechas3);
+                ->get();
+            return  array($fechas, $fechas2, $fechas3);
         }
 
         // $noHayMetas = 1;
-        return 0;   
-        
+        return 0;
     }
 
     public function dataTurno()
@@ -318,11 +319,23 @@ class HomeController extends Controller
         return  array($mananaPorcentaje, $turnosManana, $tardeProcentaje, $turnosTarde, $nochePorcentaje, $turnosNoche, $error);
     }
 
+    public function dataAsistencia()
+    {
+        // Obtén la fecha actual
+        $fechaActual = Carbon::now()->toDateString();
+        // Realiza la consulta para obtener los registros del día actual
+        $registrosAsistencia = Asistencia::whereDate('fecha', $fechaActual)->get();       
+       
+
+        return $registrosAsistencia;
+    }
+
 
 
 
     public function index()
     {
+        $configAsistencia = AsistenciaTiempoConfig::find(1);$configAsistencia = AsistenciaTiempoConfig::find(1);
 
         $multas = AsignacionMulta::where('descontado', 0)->count();
         $descuentos = Descuento::where('saldo', '>', 0)->sum('saldo');
@@ -333,6 +346,8 @@ class HomeController extends Controller
         $dataUsuarios = $this->dataUsuario();
         $dataResumenMeta = $this->reporte_dia();
         $dataTurnos = $this->dataTurno();
-        return view('admin.index.index', compact('multas', 'descuentos', 'dataDescuentos', 'dataMetas', 'dataMultas', 'dataHistorialMetas', 'dataUsuarios', 'dataResumenMeta', 'dataTurnos'));
+        $dataAsistencias =$this->dataAsistencia();
+
+        return view('admin.index.index', compact('multas', 'descuentos', 'dataDescuentos', 'dataMetas', 'dataMultas', 'dataHistorialMetas', 'dataUsuarios', 'dataResumenMeta', 'dataTurnos','dataAsistencias','configAsistencia'));
     }
 }

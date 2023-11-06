@@ -142,6 +142,10 @@
             </div>
 
             <div>
+                @include('admin.index.partials.tablaAsistenciaPersonal')
+            </div>
+
+            <div>
                 @include('admin.index.partials.tablaMetaResumen')
             </div>
 

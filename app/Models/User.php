@@ -60,7 +60,6 @@ class User extends Authenticatable implements MustVerifyEmail
     public static function getPermissionIds(User $user)
     {
         $userLogueado = $user->id;
-
         // Obtén los IDs de los permisos relacionados con los roles del usuario
         $rol = ModelHasRoles::where('model_id', $userLogueado)->pluck('role_id')->toArray();
         $rol = array_unique($rol);

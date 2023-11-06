@@ -722,11 +722,11 @@
         <script>
             var chart; // Variable global para almacenar el gráfico
 
-            function createChart(data) {
+            function createChartMulta(data, id) {
                 var chartOptions = {
                     // Configuración de tu gráfico
                     chart: {
-                        id: 'sparkline1',
+                        id: id,
                         type: 'area',
                         height: 160,
                         sparkline: {
@@ -768,36 +768,111 @@
                 chart.render();
             }
 
-            function refreshChartData() {
+            function createChartDescuento(data, id) {
+                var chartOptions = {
+                    // Configuración de tu gráfico
+                    chart: {
+                        id: id,
+                        type: 'area',
+                        height: 160,
+                        sparkline: {
+                            enabled: true
+                        },
+                    },
+                    stroke: {
+                        curve: 'smooth',
+                        width: 2,
+                    },
+                    fill: {
+                        opacity: 1,
+                    },
+                    series: [{
+                        name: 'Prestamos',
+                        data: data
+                    }],
+                    labels: ['1', '2', '3', '4', '5', '6', '7'],
+                    yaxis: {
+                        min: 0
+                    },
+                    colors: ['#8dbf42'],
+                    tooltip: {
+                        x: {
+                            show: false,
+                        }
+                    },
+                    fill: {
+                        type: "gradient",
+                        gradient: {
+                            type: "vertical",
+                            shadeIntensity: 1,
+                            inverseColors: !1,
+                            opacityFrom: .40,
+                            opacityTo: .05,
+                            stops: [45, 100]
+                        }
+                    },
+                };
+
+                chart = new ApexCharts(document.querySelector("#hybrid_followers3"), chartOptions);
+                chart.render();
+            }
+
+            function refreshChartDataMulta() {
                 // Realiza una petición AJAX para obtener los nuevos datos de la gráfica
                 $.ajax({
                     type: 'GET',
                     url: 'getdatamultas', // Reemplaza con la URL correcta
                     success: function(data) {
-                        console.log('"' + data + '"');
+
+                        var array_multa = JSON.parse(data);
+                        console.log(array_multa);
+
                         // Actualiza la serie del gráfico con los nuevos datos
-                        chart.updateSeries([{
-                            name: 'Multas',
-                            data: '"' + data + '"'
-                        }]);
+                        ApexCharts.exec('multas', 'updateSeries', [{
+                            data: array_multa
+                        }], true);
+
+                    }
+                });
+            }
+
+            function refreshChartDataDescuento() {
+                // Realiza una petición AJAX para obtener los nuevos datos de la gráfica
+                $.ajax({
+                    type: 'GET',
+                    url: 'getdatadescuentos', // Reemplaza con la URL correcta
+                    success: function(data) {
+
+                        var array_descuento = JSON.parse(data);
+                        console.log(array_descuento);
+
+                        // Actualiza la serie del gráfico con los nuevos datos
+                        ApexCharts.exec('descuento', 'updateSeries', [{
+                            data: array_descuento
+                        }], true);
 
                     }
                 });
             }
 
             $(document).ready(function() {
-                createChart({{ $dataMultas }});
+                createChartMulta({{ $dataMultas }}, 'multas');
+                createChartDescuento({{ $dataDescuentos }}, 'descuento');
 
 
                 // Crear la gráfica inicial al cargar la página
 
                 window.Echo.channel('multas_widget')
-                    .listen('.reload-widget', (e) => {
+                    .listen('.reload-multas', (e) => {
                         // Actualiza el contenido dentro del div con la clase 'widget-referral'
                         $('#multas').load(location.href + ' #multas', function() {
-                            refreshChartData
-                                (); // Actualiza la gráfica con los nuevos datos después de cargar el contenido
+                            // ApexCharts.exec('multas', 'updateSeries', [{
+                            //     data: {{ $dataMultas }}
+                            // }], true);
+                            refreshChartDataMulta();
                         });
+
+
                     });
 
                 window.Echo.channel('metas_widget')
@@ -810,9 +885,9 @@
                         var metaCantidadValue = {{ $dataMetas[0] }};
 
                         console.log(metaCantidadValue);
+                        console.log(data.progreso);
                         // console.log(data);
-                        var progreso = (data.progreso * 100) /
-                        metaCantidadValue; // Asegúrate de que $progreso esté disponible en tu vista
+                        var progreso = data.progreso; // Asegúrate de que $progreso esté disponible en tu vista
                         var valormeta = data.valormeta; // Asegúrate de que $progreso esté disponible en tu vista
                         var meta = data.meta; // Asegúrate de que $progreso esté disponible en tu vista
 
@@ -836,10 +911,13 @@
 
 
                 window.Echo.channel('descuentos_widget')
-                    .listen('.reload-widget', (e) => {
+                    .listen('.reload-descuentos', (e) => {
 
                         $('#descuentos').load(location.href + ' #descuentos');
+                        refreshChartDataDescuento();
                     });
+
+
                 window.Echo.channel('usuarios_widget')
                     .listen('.reload-widget', (e) => {
 
@@ -847,233 +925,6 @@
                     });
             });
         </script>
-
-        {{-- <script>
-            var d_1options4; // Declaración global de d_1options4
-
-            function createChart() {
-                d_1options4 = {
-                    chart: {
-                        id: 'sparkline1',
-                        type: 'area',
-                        height: 160,
-                        sparkline: {
-                            enabled: true
-                        },
-                    },
-                    stroke: {
-                        curve: 'smooth',
-                        width: 2,
-                    },
-                    series: [{
-                        name: 'Multas',
-                        data: {{ $dataMultas }}
-                    }],
-                    labels: ['1', '2', '3', '4', '5', '6', '7'],
-                    yaxis: {
-                        min: 0
-                    },
-                    colors: ['#e7515a'],
-                    tooltip: {
-                        x: {
-                            show: false,
-                        }
-                    },
-                    fill: {
-                        type: "gradient",
-                        gradient: {
-                            type: "vertical",
-                            shadeIntensity: 1,
-                            inverseColors: !1,
-                            opacityFrom: .40,
-                            opacityTo: .05,
-                            stops: [45, 100]
-                        }
-                    }
-                };
-
-                var chart = new ApexCharts(document.querySelector("#hybrid_followers1"), d_1options4);
-                chart.render();
-            }
-
-            function refreshChartData() {
-                // Realiza una petición AJAX para obtener los nuevos datos de la gráfica
-                $.ajax({
-                    type: 'GET',
-                    url: 'getdatamultas', // Reemplaza con la URL correcta
-                    success: function(data) {
-                        // Verifica que los datos sean un arreglo antes de crear la nueva gráfica
-                        if (Array.isArray(data)) {
-                            var newChartOptions = {
-                                chart: {
-                                    id: 'sparkline1',
-                                    type: 'area',
-                                    height: 160,
-                                    sparkline: {
-                                        enabled: true
-                                    },
-                                },
-                                stroke: {
-                                    curve: 'smooth',
-                                    width: 2,
-                                },
-                                series: [{
-                                    name: 'Multas',
-                                    data: data
-                                }],
-                                labels: ['1', '2', '3', '4', '5', '6', '7'],
-                                yaxis: {
-                                    min: 0
-                                },
-                                colors: ['#e7515a'],
-                                tooltip: {
-                                    x: {
-                                        show: false,
-                                    }
-                                },
-                                fill: {
-                                    type: "gradient",
-                                    gradient: {
-                                        type: "vertical",
-                                        shadeIntensity: 1,
-                                        inverseColors: !1,
-                                        opacityFrom: .40,
-                                        opacityTo: .05,
-                                        stops: [45, 100]
-                                    }
-                                }
-                            };
-
-                            // Crear una nueva gráfica y renderizarla en el mismo elemento
-                            var newChart = new ApexCharts(document.querySelector("#hybrid_followers1"),
-                                newChartOptions);
-                            newChart.render();
-                        }
-                    }
-                });
-            }
-
-
-
-            $(document).ready(function() {
-                createChart(); // Crea la gráfica inicialmente
-
-                window.Echo.channel('reload-table')
-                    .listen('.message-event', (e) => {
-                        // Actualiza el contenido dentro del div con la clase 'widget-referral'
-                        $('#cantidad-metas').load(location.href + ' #cantidad-metas');
-
-                        // Verifica y crea la gráfica nuevamente
-                        refreshChartData();
-                    });
-            });
-        </script> --}}
-
-
-
-
-        {{-- GRAFICA PRESTAMOS --}}
-
-        <script>
-            // Engagement Rate
-            var d_1options5 = {
-                chart: {
-                    id: 'sparkline1',
-                    type: 'area',
-                    height: 160,
-                    sparkline: {
-                        enabled: true
-                    },
-                },
-                stroke: {
-                    curve: 'smooth',
-                    width: 2,
-                },
-                fill: {
-                    opacity: 1,
-                },
-                series: [{
-                    name: 'Prestamos',
-                    data: {{ $dataDescuentos }}
-                }],
-                labels: ['1', '2', '3', '4', '5', '6', '7'],
-                yaxis: {
-                    min: 0
-                },
-                colors: ['#8dbf42'],
-                tooltip: {
-                    x: {
-                        show: false,
-                    }
-                },
-                fill: {
-                    type: "gradient",
-                    gradient: {
-                        type: "vertical",
-                        shadeIntensity: 1,
-                        inverseColors: !1,
-                        opacityFrom: .40,
-                        opacityTo: .05,
-                        stops: [45, 100]
-                    }
-                },
-            }
-
-            // Engagement Rate
-            var d_1C_7 = new ApexCharts(document.querySelector("#hybrid_followers3"), d_1options5);
-            d_1C_7.render()
-        </script>
-
-
-        {{-- GRAFICA MULTAS --}}
-
-        {{-- <script>
-            var d_1options4 = {
-                chart: {
-                    id: 'sparkline1',
-                    type: 'area',
-                    height: 160,
-                    sparkline: {
-                        enabled: true
-                    },
-                },
-                stroke: {
-                    curve: 'smooth',
-                    width: 2,
-                },
-                series: [{
-                    name: 'Multas',
-                    data: {{ $dataMultas }}
-                }],
-                labels: ['1', '2', '3', '4', '5', '6', '7'],
-                yaxis: {
-                    min: 0
-                },
-                colors: ['#e7515a'],
-                tooltip: {
-                    x: {
-                        show: false,
-                    }
-                },
-                fill: {
-                    type: "gradient",
-                    gradient: {
-                        type: "vertical",
-                        shadeIntensity: 1,
-                        inverseColors: !1,
-                        opacityFrom: .40,
-                        opacityTo: .05,
-                        stops: [45, 100]
-                    }
-                },
-            }
-
-            var d_1C_6 = new ApexCharts(document.querySelector("#hybrid_followers1"), d_1options4);
-            d_1C_6.render()
-
-        </script>
-
-
 
 
         {{-- Using HTML5 input elements --}}

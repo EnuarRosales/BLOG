@@ -35,6 +35,6 @@ class multas_widget implements ShouldBroadcast
     }
 
     public function broadcastAs(){
-        return 'reload-widget';
+        return 'reload-multas';
     }
 }

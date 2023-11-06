@@ -35,6 +35,6 @@ class descuentos_widget implements ShouldBroadcast
     }
 
     public function broadcastAs(){
-        return 'reload-widget';
+        return 'reload-descuentos';
     }
 }

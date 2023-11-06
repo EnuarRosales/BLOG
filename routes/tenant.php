@@ -79,6 +79,7 @@ Route::middleware([
     //ROUTES --RegistroProducidoController-- Corresponden a las rutas que administran las tablas de registro producido
     Route::resource('registroProducidos', RegistroProducidoController::class)->middleware(['auth', 'verified'])->names('admin.registroProducidos');
     Route::get('registroProducidoss', [RegistroProducidoController::class, 'resumen'])->middleware(['auth', 'verified'])->name('admin.registroProducidoss.resumen');
+    // Route::get('registroProducidos_ajax', [RegistroProducidoController::class, 'resumen_ajax'])->middleware(['auth', 'verified'])->name('admin.registroProducidos.resumen_ajax');
     Route::get('registroProducidoss', [RegistroProducidoController::class, 'reporte_dia'])->middleware(['auth', 'verified'])->name('admin.registroProducidoss.reporte_dia');
 
     //ROUTES --RegistroAsistenciaController-- Corresponden a las rutas que administran las tablas de registro asistencia

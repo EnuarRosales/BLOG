@@ -84,24 +84,15 @@
                         </select>
                     </div>
                 </div>
-                <div class="col-5"
-                    style="display: flex; flex-direction: row-reverse; justify-content: space-between;">
-                    <div id="filtro-panel" class="mb-3" style="display: flex; align-items: center;">
-                        <input type="date" id="fecha-inicial">
-                        <input type="date" id="fecha-final">
-                        <div>
-                            <button id="Limpiar" class="filtrar">Limpiar</button>
-                            <button id="filtrar" class="filtrar">Filtrar</button>
-                        </div>
-
-
-                    </div>
+                <div class="col-5" style="display: flex; flex-direction: row-reverse; justify-content: space-between;">
+                    <button type="button" class="btn btn-primary" id="open-filter-modal" data-toggle="modal"
+                        data-target="#miModal">Abrir Filtros</button>
                 </div>
             </div>
 
 
 
-        {{-- INICIA TABLA --}}
+            {{-- INICIA TABLA --}}
             <div class="table-responsive mb-4 mt-4">
                 <table id="html5-extension" class="table table-hover non-hover" style="width:100%">
                     <thead>
@@ -120,7 +111,7 @@
                     </thead>
                     <tbody>
                         @foreach ($fechas as $fecha)
-                            <tr data-fecha="{{ $fecha->fecha }}">
+                            <tr data-fecha="{{ $fecha->fecha }}" data-meta="{{ $fecha->meta->id }}">
                                 <td>{{ $fecha->fecha }}</td>
                                 <td>{{ $fecha->meta->nombre }}</td>
                                 <td>
@@ -193,8 +184,69 @@
 
                 </table>
             </div>
-        {{-- FIN DE LA TABLA --}}
+            {{-- FIN DE LA TABLA --}}
 
+
+            <div class="modal" id="miModal">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <!-- Contenido del modal -->
+                        <div class="modal-header">
+                            <h5 class="modal-title">Filtros</h5>
+                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        </div>
+                        <div class="modal-body">
+
+                            <input type="radio" name="radio_fecha" id="radio_fecha" onclick="toggleRadioFecha()">
+                            <label for="radio_fecha">Fecha</label>
+
+                            <div id="filtro-panel" class="mb-3"
+                                style="display: flex; justify-content: center; align-items: center;">
+
+
+                                <input type="date" id="fecha-inicial">
+                                <input type="date" id="fecha-final">
+                                <div>
+                                    <button id="Limpiar_fechas" class="filtrar">Limpiar</button>
+
+                                </div>
+
+
+                            </div><br>
+
+                            <input type="radio" name="radio_meta" id="radio_meta" onclick="toggleRadioMeta()">
+                            <label for="radio_meta">Meta</label>
+
+                            {{-- <div id="filtro-panel-select" class="mb-3" style="display: flex; justify-content: center; align-items: center;"> --}}
+                            <div class="mb-3" style="display: flex; align-items: center;">
+
+                                <select id="metaSelect" class="form-control ml-2" style="margin-bottom: 0;">
+                                    <option value="">Seleccione una opción</option>
+                                    @foreach ($metas as $meta)
+                                        <option value="{{ $meta->id }}">{{ $meta->nombre }}</option>
+                                    @endforeach
+                                </select>
+                                <button id="Limpiar_meta" class="flitrar btn btn-primary"
+                                    style="margin-left: 10px;">Limpiar</button>
+                            </div>
+
+                            {{-- <button id="Limpiar_meta" class="flitrar btn btn-primary">Limpiar</button> --}}
+                            {{-- </div> --}}
+                            {{-- </div> --}}
+                            <br>
+
+                            <div class="mb-3" style="display: flex; justify-content: center; align-items: center;">
+                                <button id="filtrar" class="filtrar mr-2">Filtrar</button>
+                                <!-- Agregamos un margen a la derecha -->
+                                <button id="Limpiar" class="filtrar">Limpiar</button>
+                            </div>
+                        </div>
+                        {{-- <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                        </div> --}}
+                    </div>
+                </div>
+            </div>
 
         </div>
     </div>
@@ -224,7 +276,7 @@
     <script src="{{ asset('template/plugins/table/datatable/button-ext/buttons.html5.min.js') }}"></script>
     <script src="{{ asset('template/plugins/table/datatable/button-ext/buttons.print.min.js') }}"></script>
     <script>
-        $('#html5-extension').DataTable({
+        var table = $('#html5-extension').DataTable({
             dom: '<"row"<"col-md-12"<"row"<"col-md-6"B><"col-md-6"f> > ><"col-md-12"rt> <"col-md-12"<"row"<"col-md-5"i><"col-md-7"p>>> >',
             buttons: {
                 buttons: [{
@@ -289,40 +341,264 @@
         });
 
         // Detectar cambios en el select
-        $('#records-per-page').change(function() {
-            var newLength = $(this).val();
-            table.page.len(newLength).draw();
+        $('#records-per-page').on('change', function() {
+            var newPageLength = $(this).val(); // Obtener el nuevo valor seleccionado
+
+            table.page.len(newPageLength).draw(); // Cambiar la longitud de página y redibujar la tabla
         });
 
-        $(document).ready(function() {
-            $('#filtrar').on('click', function() {
-                var fechaInicial = new Date($('#fecha-inicial').val());
-                var fechaFinal = new Date($('#fecha-final').val());
+        var radioActivo_fecha = 0;
+        var radio_fecha = document.getElementById("radio_fecha");
 
-                $('table tbody tr').each(function() {
-                    var fechaFila = new Date($(this).data('fecha'));
-                    if (fechaFila >= fechaInicial && fechaFila <= fechaFinal) {
-                        $(this).show(); // Mostrar la fila si está dentro del rango
-                    } else {
-                        $(this).hide(); // Ocultar la fila si está fuera del rango
-                    }
-                });
+        function toggleRadioFecha() {
+
+            if (radioActivo_fecha == 0) {
+                radio_fecha.checked = true;
+                radioActivo_fecha = 1;
+            } else {
+                radioActivo_fecha = 0;
+                radio_fecha.checked = false;
+            }
+        }
+
+        var radioActivo_meta = 0;
+        var radio_meta = document.getElementById("radio_meta");
+
+        function toggleRadioMeta() {
+
+            if (radioActivo_meta == 0) {
+                radio_meta.checked = true;
+                radioActivo_meta = 1;
+            } else {
+                radioActivo_meta = 0;
+                radio_meta.checked = false;
+            }
+        }
+
+        $(document).ready(function() {
+
+            var rowsShowFecha = 0;
+            var rowsHideFecha = 0;
+            var clickFil = 0;
+
+
+            document.getElementById('open-filter-modal').addEventListener('click', function() {
+                document.getElementById('filtro-panel').classList.add('open');
             });
 
-            document.getElementById('filtro-panel').classList.add('open');
+            //se ejecta pra actualizar la cantidad de registros
+            $('#filtrar').on('click', function() {
+                // Cambiar la longitud de página a 50 (o tu valor deseado)
+                table.page.len(100).draw();
+                ejecutarFiltro();
+            });
+
+            //se ejecta pra actualizar la cantidad de registros
+            $('#filtrar').on('click', function() {
+                // Cambiar la longitud de página a 50 (o tu valor deseado)
+                table.page.len(100).draw();
+                ejecutarFiltro();
+            });
+
+
+            table.on('draw.dt', function() {
+                // var infoText = "Mostrando " + 1 + " a " + rowsShowFecha + " de " + (rowsShowFecha + rowsHideFecha) +
+                //     " registros visibles";
+                var infoText = "Mostrando un total de " + rowsShowFecha + " Registros filtrados";
+                $(".dataTables_info").html(infoText);
+            });
+
+
+            function ejecutarFiltro() {
+                var fechaInicial = new Date($('#fecha-inicial').val());
+                var fechaFinal = new Date($('#fecha-final').val());
+                var selectedMetaId = $("#metaSelect").val(); // Obtener la meta seleccionada en el select
+                $('#records-per-page').prop('disabled', true);
+
+                // Reiniciar las variables antes de contar
+                rowsShowFecha = 0;
+                rowsHideFecha = 0;
+
+                // Reiniciar las variables antes de contar
+                rowsShowMeta = 0;
+                rowsHideMeta = 0;
+
+                if (radio_meta.checked == true && radio_fecha.checked == true) {
+
+                    if (fechaInicial.toString() === "Invalid Date" && fechaFinal.toString() === "Invalid Date") {
+                        // Muestra un mensaje de error con SweetAlert2
+                        Swal.fire({
+                            position: 'top-end',
+                            type: 'error',
+                            title: 'Error',
+                            text: 'Faltan fechas inicial y final',
+                        });
+                        return false;
+                    } else {
+                        if (fechaInicial.toString() === "Invalid Date") {
+                            // Muestra un mensaje de advertencia con SweetAlert2
+                            Swal.fire({
+                                position: 'top-end',
+                                type: 'warning',
+                                title: 'Para este filtro falta fecha inicial',
+                                showConfirmButton: false,
+                                timer: 2000
+                            });
+                            return false;
+                        }
+
+                        if (fechaFinal.toString() === "Invalid Date") {
+                            // Muestra un mensaje de advertencia con SweetAlert2
+                            Swal.fire({
+                                position: 'top-end',
+                                type: 'warning',
+                                title: 'Para este filtro falta fecha final',
+                                showConfirmButton: false,
+                                timer: 2000
+                            });
+                            return false;
+                        }
+                    }
+
+                    if (selectedMetaId == "") {
+                        // Muestra un mensaje de error con SweetAlert2
+                        Swal.fire({
+                            position: 'top-end',
+                            type: 'error',
+                            title: 'Error',
+                            text: 'Debe Seleccionar una Opcion',
+                        });
+                        return false;
+                    }
+
+                    table.column(0).data().each(function(value, index) {
+                        var fechaFila = new Date(value);
+                        var metaId = $(table.row(index).node()).data("meta");
+
+                        if (
+                            (fechaFila >= fechaInicial && fechaFila <= fechaFinal) &&
+                            (selectedMetaId === "" || selectedMetaId == metaId)
+                        ) {
+                            $(table.row(index).node()).show();
+                            rowsShowFecha += 1;
+                            rowsShowMeta += 1;
+                        } else {
+                            $(table.row(index).node()).hide();
+                            rowsHideFecha += 1;
+                            rowsHideMeta += 1;
+                        }
+                    });
+                } else if (radio_fecha.checked == true) {
+
+                    if (fechaInicial.toString() === "Invalid Date" && fechaFinal.toString() === "Invalid Date") {
+                        // Muestra un mensaje de error con SweetAlert2
+                        Swal.fire({
+                            position: 'top-end',
+                            type: 'error',
+                            title: 'Error',
+                            text: 'Faltan fechas inicial y final',
+                        });
+                        return false
+                    } else {
+                        if (fechaInicial.toString() === "Invalid Date") {
+                            // Muestra un mensaje de advertencia con SweetAlert2
+                            Swal.fire({
+                                position: 'top-end',
+                                type: 'warning',
+                                title: 'Para este filtro falta fecha inicial',
+                                showConfirmButton: false,
+                                timer: 2000
+                            });
+                            return false
+                        }
+
+                        if (fechaFinal.toString() === "Invalid Date") {
+                            // Muestra un mensaje de advertencia con SweetAlert2
+                            Swal.fire({
+                                position: 'top-end',
+                                type: 'warning',
+                                title: 'Para este filtro falta fecha final',
+                                showConfirmButton: false,
+                                timer: 2000
+                            });
+                            return false
+                        }
+
+                        table.column(0).data().each(function(value, index) {
+                            var fechaFila = new Date(value);
+
+                            if (fechaFila >= fechaInicial && fechaFila <= fechaFinal) {
+                                $(table.row(index).node()).show();
+                                rowsShowFecha += 1;
+                            } else {
+                                $(table.row(index).node()).hide();
+                                rowsHideFecha += 1;
+                            }
+                        });
+
+                        document.getElementById('filtro-panel').classList.add('open');
+                    }
+
+                } else if (radio_meta.checked == true) {
+
+                    if (selectedMetaId == "") {
+                        // Muestra un mensaje de error con SweetAlert2
+                        Swal.fire({
+                            position: 'top-end',
+                            type: 'error',
+                            title: 'Error',
+                            text: 'Debe Seleccionar una Opcion',
+                        });
+                        return false
+                    }
+
+                    table.column(0).data().each(function(value, index) {
+                        var metaId = $(table.row(index).node()).data(
+                            "meta"); // Obtener el valor de data-meta de la fila
+
+                        if (selectedMetaId === "" || selectedMetaId == metaId) {
+                            $(table.row(index).node()).show();
+                            rowsShowFecha += 1;
+                        } else {
+                            $(table.row(index).node()).hide();
+                            rowsHideFecha += 1;
+                        }
+                    });
+                }
+
+            }
+
+        });
+
+        $('#Limpiar_fechas').on('click', function() {
+            // Limpiar los campos de fecha
+            $('#fecha-inicial').val('');
+            $('#fecha-final').val('');
+            radioActivo_fecha = 0;
+            radio_fecha.checked = false;
+
+        });
+
+        $('#Limpiar_meta').on('click', function() {
+            document.getElementById("metaSelect").value = "";
+            radioActivo_meta = 0;
+            radio_meta.checked = false;
         });
 
         $('#Limpiar').on('click', function() {
-        // Limpiar los campos de fecha
-        $('#fecha-inicial').val('');
-        $('#fecha-final').val('');
+            // Limpiar los campos de fecha
+            $('#fecha-inicial').val('');
+            $('#fecha-final').val('');
+            radioActivo_fecha = 0;
+            radio_fecha.checked = false;
 
-        // Mostrar todas las filas
-        $('table tbody tr').show();
+            document.getElementById("metaSelect").value = "";
+            radioActivo_meta = 0;
+            radio_meta.checked = false;
 
-        // Borrar los filtros
-        // $('#filtro-panel').removeClass('open');
-    });
+            // Mostrar todas las filas
+            $('table tbody tr').show();
+        });
     </script>
     <script src="{{ asset('assets/libs/switchery/switchery.min.js') }}"></script>
     <script></script>

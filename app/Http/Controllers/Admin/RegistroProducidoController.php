@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Events\metas_widget;
 use App\Http\Controllers\Controller;
 use App\Models\Meta;
 use App\Models\Pagina;
@@ -43,7 +44,7 @@ class RegistroProducidoController extends Controller
         $users = User::orderBy('id', 'desc');
         $metas = Meta::orderBy('id', 'desc');
         $paginas = Pagina::orderBy('id', 'desc');
-        // $turnos = Turno::orderBy('id','desc'); 
+        // $turnos = Turno::orderBy('id','desc');
         return view('admin.registroProducidos.create', compact('users', 'metas', 'paginas'));
     }
 
@@ -56,7 +57,7 @@ class RegistroProducidoController extends Controller
     public function store(Request $request)
     {
         $userLogueado = auth()->user()->id;
-        //VALiDACION FORMULARIO 
+        //VALiDACION FORMULARIO
         $request->validate([
             // 'user_id' => 'required',
             'fecha' => 'required',
@@ -68,6 +69,9 @@ class RegistroProducidoController extends Controller
         $registroProducido = ResgistroProducido::create($request->all());
         $registroProducido->user_id = $userLogueado;
         $registroProducido->save();
+
+        event(new metas_widget);
+
 
         return redirect()->route('admin.registroProducidos.index', $registroProducido->id)->with('info', 'store');
     }
@@ -108,7 +112,7 @@ class RegistroProducidoController extends Controller
      */
     public function update(Request $request, ResgistroProducido $registroProducido)
     {
-        //VALiDACION FORMULARIO 
+        //VALiDACION FORMULARIO
         $request->validate([
             'valorProducido' => 'required',
             'meta_id' => 'required',
@@ -141,7 +145,7 @@ class RegistroProducidoController extends Controller
                 $registroProducido->cumplio = "Si";
                 $registroProducido->save();
             } else {
- 
+
                 $registroProducido->cumplio = "No";
                 $registroProducido->save();
             }
@@ -163,16 +167,16 @@ class RegistroProducidoController extends Controller
     {
 
         /* AGRUPA EL VALOR PRODUCIDO POR LA META Y FECHA; ES DECIR  NOS MUESTRA LA PRODUCCION DIARIA
-        DE ACUERDO A LA META Y A LA FECHA, LO USAMOS  PARA VERIFICAR LO SIGUIENTE 
-        1. FECHA 
+        DE ACUERDO A LA META Y A LA FECHA, LO USAMOS  PARA VERIFICAR LO SIGUIENTE
+        1. FECHA
         2. META STUDIO
-        3.OBJETIVO DIARIO; OJO APROVECHANDO LA RELACION CON LA META  LO QUE SE HACE ES DIVIDR SU VALOR EN EL NUMNERO DE DIAS 
-        4.PRODUCCION REPORTADA; OJO ES LA SUMA DEL VALOR PRODUCIDO 
-        5.ALARMA DIFERENCIA;  DIVIDE EL VALR DE LA META EN EL NUMERO DE DIAS Y LE RESTA  VALOR PRODUCIDO   
+        3.OBJETIVO DIARIO; OJO APROVECHANDO LA RELACION CON LA META  LO QUE SE HACE ES DIVIDR SU VALOR EN EL NUMNERO DE DIAS
+        4.PRODUCCION REPORTADA; OJO ES LA SUMA DEL VALOR PRODUCIDO
+        5.ALARMA DIFERENCIA;  DIVIDE EL VALR DE LA META EN EL NUMERO DE DIAS Y LE RESTA  VALOR PRODUCIDO
         6.CUMPLIO; OJO VERIFICA SI LA DIFERENCIA ES POSITIVA O NEGATIVA, SI ES POSITIVA CUMPLIO = SI DE LO CONTRARIO NO
         */
 
-        $fechas = ResgistroProducido::select( 
+        $fechas = ResgistroProducido::select(
             DB::raw('sum(valorProducido) as suma'),
             DB::raw('meta_id'),
 
@@ -185,9 +189,9 @@ class RegistroProducidoController extends Controller
         // echo $fechas;
 
         /* AGRUPA EL VALOR PRODUCIDO POR LA META; ES DECIR NOS MUESTA  CUANTO SE HA PRODUCIDO POR CADA META
-        
-        LO USAMOS  PARA VERIFICAR LO SIGUIENTE 
-        
+
+        LO USAMOS  PARA VERIFICAR LO SIGUIENTE
+
         1. PARA PODER VER LA PRODUCCION TOTAL; ESTA SE MUESTRA EN TODAS LAS FILAS DONDE COINDIDA EL TIPO DE META*/
 
         $fechas2 = ResgistroProducido::select(
@@ -199,12 +203,12 @@ class RegistroProducidoController extends Controller
             ->groupBy('meta_id')
             ->get();
 
-        // echo $fechas2;            
+        // echo $fechas2;
 
         $fechas3 = ResgistroProducido::select(
             DB::raw('COUNT(DISTINCT(DATE(fecha)))  as date_count'),
             DB::raw('meta_id'),
-            // DB::raw('fecha'),           
+            // DB::raw('fecha'),
 
         )
             ->groupBy('meta_id')

@@ -3,7 +3,6 @@
 @section('styles')
     <link href="{{ asset('template/plugins/apex/apexcharts.css') }}" rel="stylesheet" type="text/css">
     <link href="{{ asset('template/assets/css/dashboard/dash_1.css') }}" rel="stylesheet" type="text/css" />
-
     <link href="{{ asset('template/assets/css/dashboard/dash_2.css') }}" rel="stylesheet" type="text/css" />
     <link href="{{ asset('template/plugins/flatpickr/flatpickr.css') }}" rel="stylesheet" type="text/css">
     <link href="{{ asset('template/plugins/noUiSlider/nouislider.min.css') }}" rel="stylesheet" type="text/css">
@@ -31,11 +30,10 @@
                                     <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
                                 </svg>
                             </div>
-                            <p class="w-value" id="usuarios">{{ $dataUsuarios[1] }}/{{ number_format($dataUsuarios[2], 2) }}%
-                            </p>
-                            <h5 class="">Usuarios</h5>
+                            <p class="w-value">{{ $dataUsuarios[1] }}/{{ number_format($dataUsuarios[2], 2)}}%</p> 
+                            <h5 class="">Usuarios</h5>                            
                         </div>
-
+                        
                         <div class="widget-content">
                             <div class="w-chart">
                                 <div id="hybrid_followers"></div>
@@ -43,7 +41,6 @@
                         </div>
                     </div>
                 </div>
-                {{-- Widget con graficas de multas --}}
                 <div class="col-xl-3 col-lg-3 col-md-3 col-sm-3 col-12">
                     <div class="widget widget-one_hybrid widget-referral">
                         <div class="widget-heading">
@@ -55,7 +52,7 @@
                                     <path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path>
                                 </svg>
                             </div>
-                            <p class="w-value" id="multas">{{ $multas }}</p>
+                            <p class="w-value">{{ $multas }}</p>
                             <h5 class="">Multas</h5>
                         </div>
                         <div class="widget-content">
@@ -65,7 +62,6 @@
                         </div>
                     </div>
                 </div>
-                {{-- Widget con graficas de descuentos --}}
                 <div class="col-xl-3 col-lg-3 col-md-3 col-sm-3 col-12">
                     <div class="widget widget-one_hybrid widget-engagement">
                         <div class="widget-heading">
@@ -78,7 +74,7 @@
                                     </path>
                                 </svg>
                             </div>
-                            <p class="w-value" id="descuentos">COP {{ $descuentos }}</p>
+                            <p class="w-value">COP {{ $descuentos }}</p>
                             <h5 class="">Prestamos</h5>
                         </div>
                         <div class="widget-content">
@@ -94,8 +90,8 @@
                         <div class="widget-content">
                             <div class="w-content">
                                 <div class="w-info">
-                                    <h6 class="value" id="meta_cantidad">{{ "$" . ' ' . $dataMetas[0] }}</h6>
-                                    <p class="" id="meta_nombre">Meta: {{ $dataMetas[3] }}</p>
+                                    <h6 class="value">$ {{ $dataMetas[0] }}</h6>
+                                    <p class="">Meta: {{$dataMetas[3] }}</p>
                                 </div>
                                 <div class="">
                                     <div class="w-icon">
@@ -112,7 +108,7 @@
                                 {{-- BARRA DE  la  META --}}
                                 <div class="progress-bar bg-gradient-secondary" role="progressbar"
                                     style="width: {{ $dataMetas[1] }}%" aria-valuenow="57" aria-valuemin="0"
-                                    aria-valuemax="100" id="progeso_meta"></div>
+                                    aria-valuemax="100"></div>
                             </div>
 
                             @if ($dataMetas[1] >= 100)
@@ -152,8 +148,7 @@
                                     </div>
                                     <div class="w-browser-details">
                                         <div class="w-browser-info">
-                                            <h6>{{ $dataHistorialMetas[4] }} - Proyectado $ {{ $dataHistorialMetas[7] }} -
-                                                Generado $ {{ number_format($dataHistorialMetas[6], 2) }}</h6>
+                                            <h6>{{ $dataHistorialMetas[4] }} - Proyectado $ {{$dataHistorialMetas[7]}} - Generado $ {{number_format($dataHistorialMetas[6], 2)}}</h6>
                                             <p class="browser-count">{{ number_format($dataHistorialMetas[5], 1) }}%</p>
                                         </div>
                                         <div class="w-browser-stats">
@@ -179,9 +174,8 @@
                                     <div class="w-browser-details">
 
                                         <div class="w-browser-info">
-                                            <h6>{{ $dataHistorialMetas[8] }} - Proyectado $ {{ $dataHistorialMetas[11] }} -
-                                                Generado $ {{ number_format($dataHistorialMetas[10], 2) }}</h6>
-                                            <p class="browser-count">{{ number_format($dataHistorialMetas[9], 1) }}%</p>
+                                            <h6>{{ $dataHistorialMetas[8] }} - Proyectado $ {{$dataHistorialMetas[11]}} - Generado $ {{number_format($dataHistorialMetas[10], 2)}}</h6>
+                                            <p class="browser-count">{{number_format($dataHistorialMetas[9], 1)  }}%</p>
                                         </div>
 
                                         <div class="w-browser-stats">
@@ -211,9 +205,8 @@
                                     <div class="w-browser-details">
 
                                         <div class="w-browser-info">
-                                            <h6>{{ $dataHistorialMetas[12] }} - Proyectado $ {{ $dataHistorialMetas[15] }} -
-                                                Generado $ {{ number_format($dataHistorialMetas[14], 2) }}</h6>
-                                            <p class="browser-count">{{ number_format($dataHistorialMetas[13], 1) }}%</p>
+                                            <h6>{{ $dataHistorialMetas[12] }} - Proyectado $ {{$dataHistorialMetas[15]}} - Generado $ {{number_format($dataHistorialMetas[14], 2)}}</h6>
+                                            <p class="browser-count">{{number_format($dataHistorialMetas[13], 1) }}%</p>
                                         </div>
 
                                         <div class="w-browser-stats">
@@ -343,7 +336,8 @@
                     </div>
                 </div>
             </div>
-            {{-- tabla --}}
+
+            {{-- TABLA --}}
             <div class="row">
                 <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 layout-spacing">
                     <div class="widget widget-table-three">
@@ -354,168 +348,7 @@
 
                         <div class="widget-content">
                             <div class="table-responsive">
-                                <table class="table">
-                                    <thead>
-                                        <tr>
-                                            <th>
-                                                <div class="th-content">Product</div>
-                                            </th>
-                                            <th>
-                                                <div class="th-content th-heading">Price</div>
-                                            </th>
-                                            <th>
-                                                <div class="th-content th-heading">Discount</div>
-                                            </th>
-                                            <th>
-                                                <div class="th-content">Sold</div>
-                                            </th>
-                                            <th>
-                                                <div class="th-content">Source</div>
-                                            </th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr>
-                                            <td>
-                                                <div class="td-content product-name"><img src="assets/img/90x90.jpg"
-                                                        alt="product">Speakers</div>
-                                            </td>
-                                            <td>
-                                                <div class="td-content"><span class="pricing">$84.00</span></div>
-                                            </td>
-                                            <td>
-                                                <div class="td-content"><span class="discount-pricing">$10.00</span></div>
-                                            </td>
-                                            <td>
-                                                <div class="td-content">240</div>
-                                            </td>
-                                            <td>
-                                                <div class="td-content"><a href="javascript:void(0);"
-                                                        class="">Direct</a>
-                                                </div>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td>
-                                                <div class="td-content product-name"><img src="assets/img/90x90.jpg"
-                                                        alt="product">Sunglasses</div>
-                                            </td>
-                                            <td>
-                                                <div class="td-content"><span class="pricing">$56.07</span></div>
-                                            </td>
-                                            <td>
-                                                <div class="td-content"><span class="discount-pricing">$5.07</span></div>
-                                            </td>
-                                            <td>
-                                                <div class="td-content">190</div>
-                                            </td>
-                                            <td>
-                                                <div class="td-content"><a href="javascript:void(0);"
-                                                        class="">Google</a>
-                                                </div>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td>
-                                                <div class="td-content product-name"><img src="assets/img/90x90.jpg"
-                                                        alt="product">Watch</div>
-                                            </td>
-                                            <td>
-                                                <div class="td-content"><span class="pricing">$88.00</span></div>
-                                            </td>
-                                            <td>
-                                                <div class="td-content"><span class="discount-pricing">$20.00</span></div>
-                                            </td>
-                                            <td>
-                                                <div class="td-content">66</div>
-                                            </td>
-                                            <td>
-                                                <div class="td-content"><a href="javascript:void(0);" class="">Ads</a>
-                                                </div>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td>
-                                                <div class="td-content product-name"><img src="assets/img/90x90.jpg"
-                                                        alt="product">Laptop</div>
-                                            </td>
-                                            <td>
-                                                <div class="td-content"><span class="pricing">$110.00</span></div>
-                                            </td>
-                                            <td>
-                                                <div class="td-content"><span class="discount-pricing">$33.00</span></div>
-                                            </td>
-                                            <td>
-                                                <div class="td-content">35</div>
-                                            </td>
-                                            <td>
-                                                <div class="td-content"><a href="javascript:void(0);"
-                                                        class="">Email</a>
-                                                </div>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td>
-                                                <div class="td-content product-name"><img src="assets/img/90x90.jpg"
-                                                        alt="product">Camera</div>
-                                            </td>
-                                            <td>
-                                                <div class="td-content"><span class="pricing">$126.04</span></div>
-                                            </td>
-                                            <td>
-                                                <div class="td-content"><span class="discount-pricing">$26.04</span></div>
-                                            </td>
-                                            <td>
-                                                <div class="td-content">30</div>
-                                            </td>
-                                            <td>
-                                                <div class="td-content"><a href="javascript:void(0);"
-                                                        class="">Referral</a>
-                                                </div>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td>
-                                                <div class="td-content product-name"><img src="assets/img/90x90.jpg"
-                                                        alt="product">Shoes</div>
-                                            </td>
-                                            <td>
-                                                <div class="td-content"><span class="pricing">$108.09</span></div>
-                                            </td>
-                                            <td>
-                                                <div class="td-content"><span class="discount-pricing">$47.09</span></div>
-                                            </td>
-                                            <td>
-                                                <div class="td-content">130</div>
-                                            </td>
-                                            <td>
-                                                <div class="td-content"><a href="javascript:void(0);"
-                                                        class="">Google</a>
-                                                </div>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td>
-                                                <div class="td-content product-name"><img src="assets/img/90x90.jpg"
-                                                        alt="product">Headphone</div>
-                                            </td>
-                                            <td>
-                                                <div class="td-content"><span class="pricing">$168.09</span></div>
-                                            </td>
-                                            <td>
-                                                <div class="td-content"><span class="discount-pricing">$60.09</span></div>
-                                            </td>
-                                            <td>
-                                                <div class="td-content">170</div>
-                                            </td>
-                                            <td>
-                                                <div class="td-content"><a href="javascript:void(0);" class="">Ads</a>
-                                                </div>
-                                            </td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                            </div>
+                                @include('admin.index.partials.tablaMetaResumen')
                         </div>
                     </div>
                 </div>
@@ -551,7 +384,6 @@
             </div>
 
             <div class="row">
-                {{-- grafica apex simple --}}
                 <div id="chartLine" class="col-xl-9 layout-top-spacing layout-spacing">
                     <div class="widget box box-shadow">
                         <div class="widget-header">
@@ -567,7 +399,7 @@
                     </div>
 
                 </div>
-                {{-- transactions --}}
+
                 <div class="col-xl-3 col-lg-12 col-md-6 col-sm-12 col-12 layout-top-spacing">
                     <div class="widget widget-table-one" style="padding-top: 2rem; height: 31.0rem;">
                         <div class="widget-heading">
@@ -693,7 +525,7 @@
                     </div>
                 </div>
             </div>
-            {{-- simple colum --}}
+
             <div class="row">
 
                 <div id="chartColumn" class="col-xl-12 layout-spacing">
@@ -719,261 +551,7 @@
         <script src="{{ asset('template/assets/js/dashboard/dash_1.js') }}"></script>
         <script src="{{ asset('template/assets/js/dashboard/dash_2.js') }}"></script>
 
-        <script>
-            var chart; // Variable global para almacenar el gráfico
-
-            function createChart(data) {
-                var chartOptions = {
-                    // Configuración de tu gráfico
-                    chart: {
-                        id: 'sparkline1',
-                        type: 'area',
-                        height: 160,
-                        sparkline: {
-                            enabled: true
-                        },
-                    },
-                    stroke: {
-                        curve: 'smooth',
-                        width: 2,
-                    },
-                    series: [{
-                        name: 'Multas',
-                        data: data
-                    }],
-                    labels: ['1', '2', '3', '4', '5', '6', '7'],
-                    yaxis: {
-                        min: 0
-                    },
-                    colors: ['#e7515a'],
-                    tooltip: {
-                        x: {
-                            show: false,
-                        }
-                    },
-                    fill: {
-                        type: "gradient",
-                        gradient: {
-                            type: "vertical",
-                            shadeIntensity: 1,
-                            inverseColors: !1,
-                            opacityFrom: .40,
-                            opacityTo: .05,
-                            stops: [45, 100]
-                        }
-                    }
-                };
-
-                chart = new ApexCharts(document.querySelector("#hybrid_followers1"), chartOptions);
-                chart.render();
-            }
-
-            function refreshChartData() {
-                // Realiza una petición AJAX para obtener los nuevos datos de la gráfica
-                $.ajax({
-                    type: 'GET',
-                    url: 'getdatamultas', // Reemplaza con la URL correcta
-                    success: function(data) {
-                        console.log('"' + data + '"');
-                        // Actualiza la serie del gráfico con los nuevos datos
-                        chart.updateSeries([{
-                            name: 'Multas',
-                            data: '"' + data + '"'
-                        }]);
-
-                    }
-                });
-            }
-
-            $(document).ready(function() {
-                createChart({{ $dataMultas }});
-
-
-                // Crear la gráfica inicial al cargar la página
-
-                window.Echo.channel('multas_widget')
-                    .listen('.reload-widget', (e) => {
-                        // Actualiza el contenido dentro del div con la clase 'widget-referral'
-                        $('#multas').load(location.href + ' #multas', function() {
-                            refreshChartData
-                                (); // Actualiza la gráfica con los nuevos datos después de cargar el contenido
-                        });
-                    });
-
-                window.Echo.channel('metas_widget')
-                    .listen('.reload-metas', (data) => {
-
-                        //console.log(data.estatico);
-                        $('#meta_cantidad').load(location.href + ' #meta_cantidad');
-                        $('#meta_nombre').load(location.href + ' #meta_nombre');
-
-                        var metaCantidadValue = {{ $dataMetas[0] }};
-
-                        console.log(metaCantidadValue);
-                        // console.log(data);
-                        var progreso = (data.progreso * 100) /
-                        metaCantidadValue; // Asegúrate de que $progreso esté disponible en tu vista
-                        var valormeta = data.valormeta; // Asegúrate de que $progreso esté disponible en tu vista
-                        var meta = data.meta; // Asegúrate de que $progreso esté disponible en tu vista
-
-                        console.log(progreso);
-                        console.log(valormeta);
-                        console.log(meta);
-                        // Función para actualizar la barra de progreso
-                        function actualizarBarraDeProgreso() {
-                            var barraDeProgreso = document.getElementById('progeso_meta');
-                            var valorProgreso = progreso + '%';
-                            //barraDeProgreso.setAttribute('aria-valuenow', progreso);
-                            barraDeProgreso.style.width = valorProgreso;
-                        }
-
-                        // Llama a la función para actualizar la barra de progreso
-                        actualizarBarraDeProgreso();
-
-
-                    });
-
-
-
-                window.Echo.channel('descuentos_widget')
-                    .listen('.reload-widget', (e) => {
-
-                        $('#descuentos').load(location.href + ' #descuentos');
-                    });
-                window.Echo.channel('usuarios_widget')
-                    .listen('.reload-widget', (e) => {
-
-                        $('#usuarios').load(location.href + ' #usuarios');
-                    });
-            });
-        </script>
-
-        {{-- <script>
-            var d_1options4; // Declaración global de d_1options4
-
-            function createChart() {
-                d_1options4 = {
-                    chart: {
-                        id: 'sparkline1',
-                        type: 'area',
-                        height: 160,
-                        sparkline: {
-                            enabled: true
-                        },
-                    },
-                    stroke: {
-                        curve: 'smooth',
-                        width: 2,
-                    },
-                    series: [{
-                        name: 'Multas',
-                        data: {{ $dataMultas }}
-                    }],
-                    labels: ['1', '2', '3', '4', '5', '6', '7'],
-                    yaxis: {
-                        min: 0
-                    },
-                    colors: ['#e7515a'],
-                    tooltip: {
-                        x: {
-                            show: false,
-                        }
-                    },
-                    fill: {
-                        type: "gradient",
-                        gradient: {
-                            type: "vertical",
-                            shadeIntensity: 1,
-                            inverseColors: !1,
-                            opacityFrom: .40,
-                            opacityTo: .05,
-                            stops: [45, 100]
-                        }
-                    }
-                };
-
-                var chart = new ApexCharts(document.querySelector("#hybrid_followers1"), d_1options4);
-                chart.render();
-            }
-
-            function refreshChartData() {
-                // Realiza una petición AJAX para obtener los nuevos datos de la gráfica
-                $.ajax({
-                    type: 'GET',
-                    url: 'getdatamultas', // Reemplaza con la URL correcta
-                    success: function(data) {
-                        // Verifica que los datos sean un arreglo antes de crear la nueva gráfica
-                        if (Array.isArray(data)) {
-                            var newChartOptions = {
-                                chart: {
-                                    id: 'sparkline1',
-                                    type: 'area',
-                                    height: 160,
-                                    sparkline: {
-                                        enabled: true
-                                    },
-                                },
-                                stroke: {
-                                    curve: 'smooth',
-                                    width: 2,
-                                },
-                                series: [{
-                                    name: 'Multas',
-                                    data: data
-                                }],
-                                labels: ['1', '2', '3', '4', '5', '6', '7'],
-                                yaxis: {
-                                    min: 0
-                                },
-                                colors: ['#e7515a'],
-                                tooltip: {
-                                    x: {
-                                        show: false,
-                                    }
-                                },
-                                fill: {
-                                    type: "gradient",
-                                    gradient: {
-                                        type: "vertical",
-                                        shadeIntensity: 1,
-                                        inverseColors: !1,
-                                        opacityFrom: .40,
-                                        opacityTo: .05,
-                                        stops: [45, 100]
-                                    }
-                                }
-                            };
-
-                            // Crear una nueva gráfica y renderizarla en el mismo elemento
-                            var newChart = new ApexCharts(document.querySelector("#hybrid_followers1"),
-                                newChartOptions);
-                            newChart.render();
-                        }
-                    }
-                });
-            }
-
-
-
-            $(document).ready(function() {
-                createChart(); // Crea la gráfica inicialmente
-
-                window.Echo.channel('reload-table')
-                    .listen('.message-event', (e) => {
-                        // Actualiza el contenido dentro del div con la clase 'widget-referral'
-                        $('#cantidad-metas').load(location.href + ' #cantidad-metas');
-
-                        // Verifica y crea la gráfica nuevamente
-                        refreshChartData();
-                    });
-            });
-        </script> --}}
-
-
-
-
         {{-- GRAFICA PRESTAMOS --}}
-
         <script>
             // Engagement Rate
             var d_1options5 = {
@@ -994,7 +572,7 @@
                 },
                 series: [{
                     name: 'Prestamos',
-                    data: {{ $dataDescuentos }}
+                    data: {{$dataDescuentos}}
                 }],
                 labels: ['1', '2', '3', '4', '5', '6', '7'],
                 yaxis: {
@@ -1027,7 +605,7 @@
 
         {{-- GRAFICA MULTAS --}}
 
-        {{-- <script>
+        <script>
             var d_1options4 = {
                 chart: {
                     id: 'sparkline1',
@@ -1070,6 +648,52 @@
 
             var d_1C_6 = new ApexCharts(document.querySelector("#hybrid_followers1"), d_1options4);
             d_1C_6.render()
+        </script>
+
+        {{-- GRAFICA USUARIOS --}}
+        <script>
+            var d_1options3 = {
+                chart: {
+                    id: 'sparkline1',
+                    type: 'area',
+                    height: 160,
+                    sparkline: {
+                        enabled: true
+                    },
+                },
+                stroke: {
+                    curve: 'smooth',
+                    width: 2,
+                },
+                series: [{
+                    name: 'Modelos Incorporados',
+                    data: {{$dataUsuarios[0]}}
+                }],
+                labels: ['1', '2', '3', '4', '5', '6', '7'],
+                yaxis: {
+                    min: 0
+                },
+                colors: ['#1b55e2'],
+                tooltip: {
+                    x: {
+                        show: false,
+                    }
+                },
+                fill: {
+                    type: "gradient",
+                    gradient: {
+                        type: "vertical",
+                        shadeIntensity: 1,
+                        inverseColors: !1,
+                        opacityFrom: .40,
+                        opacityTo: .05,
+                        stops: [45, 100]
+                    }
+                },
+            }
+
+            var d_1C_5 = new ApexCharts(document.querySelector("#hybrid_followers"), d_1options3);
+            d_1C_5.render()
 
         </script>
 
@@ -1195,51 +819,6 @@
             );
 
             chart.render();
-        </script>
-
-        <script>
-            var d_1options3 = {
-                chart: {
-                    id: 'sparkline1',
-                    type: 'area',
-                    height: 160,
-                    sparkline: {
-                        enabled: true
-                    },
-                },
-                stroke: {
-                    curve: 'smooth',
-                    width: 2,
-                },
-                series: [{
-                    name: 'Usuarios',
-                    data: [38, 60, 38, 52, 36, 40, 28]
-                }],
-                labels: ['1', '2', '3', '4', '5', '6', '7'],
-                yaxis: {
-                    min: 0
-                },
-                colors: ['#1b55e2'],
-                tooltip: {
-                    x: {
-                        show: false,
-                    }
-                },
-                fill: {
-                    type: "gradient",
-                    gradient: {
-                        type: "vertical",
-                        shadeIntensity: 1,
-                        inverseColors: !1,
-                        opacityFrom: .40,
-                        opacityTo: .05,
-                        stops: [45, 100]
-                    }
-                },
-            }
-
-            var d_1C_5 = new ApexCharts(document.querySelector("#hybrid_followers"), d_1options3);
-            d_1C_5.render()
         </script>
         <script src="{{ asset('template/assets/js/scrollspyNav.js') }}"></script>
         <script src="{{ asset('template/plugins/flatpickr/flatpickr.js') }}"></script>

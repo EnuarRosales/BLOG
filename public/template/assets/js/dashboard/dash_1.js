@@ -316,8 +316,8 @@ try {
     //       width: 2,
     //   },
     //   series: [{
-    //     name: 'Usuarios',
-    //     data: [38, 60, 38, 52, 36, 40, 28 ]
+    //     name: 'Modelos Incorporados',
+    //     data: [90, 60, 38, 52, 36, 40, 28 ]
     //   }],
     //   labels: ['1', '2', '3', '4', '5', '6', '7'],
     //   yaxis: {

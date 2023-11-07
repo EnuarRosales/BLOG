@@ -66,7 +66,7 @@ class EmpresaController extends Controller
         ]);
         Empresa::create($request->all());
 
-        event(new ReloadTable());
+        // event(new ReloadTable());
 
         return redirect()->route('admin.empresa.index')->with('info', 'store');
     }

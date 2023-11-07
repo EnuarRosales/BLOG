@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Events\control_asistencia;
 use App\Http\Controllers\Controller;
 use App\Models\AsignacionMulta;
 use App\Models\AsignacionTurno;
@@ -86,6 +87,7 @@ class RegistroAsistenciaController extends Controller
             }
 
             $registroAsistencia->save();
+            event(new control_asistencia);
 
             DB::commit(); // Confirma la transacción si todo se completó con éxito
         } catch (\Exception $e) {

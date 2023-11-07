@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Events\control_turnos;
 use App\Http\Controllers\Controller;
 use App\Models\AsignacionTurno;
 use App\Models\Turno;
@@ -49,6 +50,8 @@ class AsignacionTurnoController extends Controller
         ]);
  
         $asignacionTurno = AsignacionTurno::create($request->all());
+        event(new control_turnos());
+
         return redirect()->route('admin.asignacionTurnos.index',$asignacionTurno->id)->with('info','store');
 
         

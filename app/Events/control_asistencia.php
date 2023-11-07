@@ -10,7 +10,7 @@ use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
 
-class usuarios_widget implements ShouldBroadcast
+class control_asistencia implements ShouldBroadcast
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
@@ -31,10 +31,13 @@ class usuarios_widget implements ShouldBroadcast
      */
     public function broadcastOn()
     {
-        return new Channel('usuarios_widget');
+        return new Channel('control_asistencia');
     }
 
-    public function broadcastAs(){
-        return 'reload-usuarios';
+    public function broadcastAs()
+    {
+        return 'reload-asistencia';
     }
+
+
 }

@@ -32,7 +32,9 @@
                             </div>
 
                             @if (is_numeric($dataUsuarios[1]))
-                                <p class="w-value">{{ $dataUsuarios[1] }}/{{ number_format($dataUsuarios[2], 2) }}%</p>
+                                <p class="w-value" id="usuarios">
+                                    {{ $dataUsuarios[1] }}/{{ number_format($dataUsuarios[2], 2) }}%
+                                </p>
                                 <h5 class="">Usuarios</h5>
                             @else
                                 <p class="w-value"><span style="color: red; font-weight: bold;">{{ $dataUsuarios[1] }}</span>
@@ -60,7 +62,7 @@
                                     <path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path>
                                 </svg>
                             </div>
-                            <p class="w-value">{{ $multas }}</p>
+                            <p class="w-value" id="multas">{{ $multas }}</p>
                             <h5 class="">Multas</h5>
                         </div>
                         <div class="widget-content">
@@ -82,7 +84,7 @@
                                     </path>
                                 </svg>
                             </div>
-                            <p class="w-value">COP {{ $descuentos }}</p>
+                            <p class="w-value" id="descuentos">COP {{ $descuentos }}</p>
                             <h5 class="">Prestamos</h5>
                         </div>
                         <div class="widget-content">
@@ -100,11 +102,12 @@
                                 <div class="w-info">
 
                                     @if ($dataMetas[0] > 0)
-                                        <h6 class="value">$ {{ $dataMetas[0] }}</h6>
-                                        <p class="">Meta: {{ $dataMetas[3]}}</p>
+                                        <h6 class="value" id="meta_cantidad">{{ "$" . ' ' . $dataMetas[0] }}</h6>
+                                        <p class="" id="meta_nombre">Meta: {{ $dataMetas[3] }}</p>
                                     @else
                                         <h6 class="value">$ {{ $dataMetas[0] }}</h6>
-                                        <p class="">Meta: <span style="color: red; font-weight: bold;">{{ $dataMetas[3] }}</span></p>
+                                        <p class="">Meta: <span
+                                                style="color: red; font-weight: bold;">{{ $dataMetas[3] }}</span></p>
                                     @endif
 
                                 </div>
@@ -123,7 +126,7 @@
                                 {{-- BARRA DE  la  META --}}
                                 <div class="progress-bar bg-gradient-secondary" role="progressbar"
                                     style="width: {{ $dataMetas[1] }}%" aria-valuenow="57" aria-valuemin="0"
-                                    aria-valuemax="100"></div>
+                                    aria-valuemax="100" id="progeso_meta"></div>
                             </div>
 
                             @if ($dataMetas[1] >= 100)
@@ -152,224 +155,11 @@
             {{-- INICIA TABLA --}}
 
             {{-- TERMINA TABLA --}}
+            {{-- HISTORIAL DE METAS --}}
 
-            <div class="row layout-top-spacing">
-                <div class="col-xl-8 col-lg-6 col-md-6 col-sm-12 col-12 layout-spacing">
-                    <div class="widget-four">
-                        <div class="widget-heading">
-                            <h5 class="">Control historial metas del estudio</h5>
-                        </div>
-                        <div class="widget-content">
-                            <div class="vistorsBrowser">
-                                <div class="browser-list">
-                                    <div class="w-icon">
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
-                                            viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-                                            stroke-linecap="round" stroke-linejoin="round" class="feather feather-chrome">
-                                            <circle cx="12" cy="12" r="10"></circle>
-                                            <circle cx="12" cy="12" r="4"></circle>
-                                            <line x1="21.17" y1="8" x2="12" y2="8"></line>
-                                            <line x1="3.95" y1="6.06" x2="8.54" y2="14"></line>
-                                            <line x1="10.88" y1="21.94" x2="15.46" y2="14"></line>
-                                        </svg>
-                                    </div>
+            @include('admin.index.partials.historial_meta_turno')
 
-                                    <div class="w-browser-details">
-                                        <div class="w-browser-info">
-                                            <h6>{{ $dataHistorialMetas[4] }} - Proyectado $ {{ $dataHistorialMetas[7] }} -
-                                                Generado $ {{ number_format($dataHistorialMetas[6], 2) }}</h6>
-                                            <p class="browser-count">{{ number_format($dataHistorialMetas[5], 1) }}%</p>
-                                        </div>
-                                        <div class="w-browser-stats">
-                                            <div class="progress">
-                                                <div class="progress-bar bg-gradient-primary" role="progressbar"
-                                                    style="width: {{ $dataHistorialMetas[5] }}%" aria-valuenow="90"
-                                                    aria-valuemin="0" aria-valuemax="100">
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div class="browser-list">
-                                    <div class="w-icon">
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
-                                            viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-                                            stroke-linecap="round" stroke-linejoin="round" class="feather feather-compass">
-                                            <circle cx="12" cy="12" r="10"></circle>
-                                            <polygon points="16.24 7.76 14.12 14.12 7.76 16.24 9.88 9.88 16.24 7.76"></polygon>
-                                        </svg>
-                                    </div>
-                                    <div class="w-browser-details">
-
-                                        <div class="w-browser-info">
-                                            <h6>{{ $dataHistorialMetas[8] }} - Proyectado $ {{ $dataHistorialMetas[11] }} -
-                                                Generado $ {{ number_format($dataHistorialMetas[10], 2) }}</h6>
-                                            <p class="browser-count">{{ number_format($dataHistorialMetas[9], 1) }}%</p>
-                                        </div>
-
-                                        <div class="w-browser-stats">
-                                            <div class="progress">
-                                                <div class="progress-bar bg-gradient-danger" role="progressbar"
-                                                    style="width: {{ $dataHistorialMetas[9] }}%" aria-valuenow="65"
-                                                    aria-valuemin="0" aria-valuemax="100">
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                    </div>
-
-                                </div>
-
-                                <div class="browser-list">
-                                    <div class="w-icon">
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
-                                            viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-                                            stroke-linecap="round" stroke-linejoin="round" class="feather feather-globe">
-                                            <circle cx="12" cy="12" r="10"></circle>
-                                            <line x1="2" y1="12" x2="22" y2="12"></line>
-                                            <path d="M82.949,1559c3.826,30.183,27.577,54.084,57.577,57.91v-57.91H82">
-                                            </path>
-                                        </svg>
-                                    </div>
-                                    <div class="w-browser-details">
-
-                                        <div class="w-browser-info">
-                                            <h6>{{ $dataHistorialMetas[12] }} - Proyectado $ {{ $dataHistorialMetas[15] }} -
-                                                Generado $ {{ number_format($dataHistorialMetas[14], 2) }}</h6>
-                                            <p class="browser-count">{{ number_format($dataHistorialMetas[13], 1) }}%</p>
-                                        </div>
-
-                                        <div class="w-browser-stats">
-                                            <div class="progress">
-                                                <div class="progress-bar bg-gradient-warning" role="progressbar"
-                                                    style="width: {{ $dataHistorialMetas[13] }}%" aria-valuenow="15"
-                                                    aria-valuemin="0" aria-valuemax="100">
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                    </div>
-
-                                </div>
-
-                            </div>
-
-                        </div>
-                    </div>
-                </div>
-
-                <div class="col-xl-4 col-lg-6 col-md-6 col-sm-6 col-12 layout-spacing">
-                    <div class="widget-three">
-                        <div class="widget-heading">
-                            <h5 class=""> Control turnos <span
-                                    style="color: red; font-weight: bold;">{{ $dataTurnos[6] }}</span> </h5>
-                        </div>
-                        <div class="widget-content">
-
-                            <div class="order-summary">
-
-                                <div class="summary-list">
-                                    <div class="w-icon">
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
-                                            viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-                                            stroke-linecap="round" stroke-linejoin="round"
-                                            class="feather feather-shopping-bag">
-                                            <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path>
-                                            <line x1="3" y1="6" x2="21" y2="6"></line>
-                                            <path d="M16 10a4 4 0 0 1-8 0"></path>
-                                        </svg>
-                                    </div>
-                                    <div class="w-summary-details">
-
-                                        <div class="w-summary-info">
-                                            <h6>Manaña</h6>
-                                            <p class="summary-count">Modelos: {{ $dataTurnos[1] }}</p>
-                                        </div>
-
-                                        <div class="w-summary-stats">
-                                            <div class="progress">
-                                                <div class="progress-bar bg-gradient-secondary" role="progressbar"
-                                                    style="width: {{ $dataTurnos[0] }}%" aria-valuenow="90"
-                                                    aria-valuemin="0" aria-valuemax="100">
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                    </div>
-
-                                </div>
-
-                                <div class="summary-list">
-                                    <div class="w-icon">
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
-                                            viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-                                            stroke-linecap="round" stroke-linejoin="round" class="feather feather-tag">
-                                            <path
-                                                d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z">
-                                            </path>
-                                            <line x1="7" y1="7" x2="7" y2="7"></line>
-                                        </svg>
-                                    </div>
-                                    <div class="w-summary-details">
-
-                                        <div class="w-summary-info">
-                                            <h6>Tarde</h6>
-                                            <p class="summary-count">Modelos: {{ $dataTurnos[3] }}</p>
-                                        </div>
-
-                                        <div class="w-summary-stats">
-                                            <div class="progress">
-                                                <div class="progress-bar bg-gradient-success" role="progressbar"
-                                                    style="width: {{ $dataTurnos[2] }}%" aria-valuenow="65"
-                                                    aria-valuemin="0" aria-valuemax="100">
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                    </div>
-
-                                </div>
-
-                                <div class="summary-list">
-                                    <div class="w-icon">
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
-                                            viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-                                            stroke-linecap="round" stroke-linejoin="round"
-                                            class="feather feather-credit-card">
-                                            <rect x="1" y="4" width="22" height="16" rx="2" ry="2">
-                                            </rect>
-                                            <line x1="1" y1="10" x2="23" y2="10"></line>
-                                        </svg>
-                                    </div>
-                                    <div class="w-summary-details">
-
-                                        <div class="w-summary-info">
-                                            <h6>Noche</h6>
-                                            <p class="summary-count">Modelos: {{ $dataTurnos[5] }}</p>
-                                        </div>
-
-                                        <div class="w-summary-stats">
-                                            <div class="progress">
-                                                <div class="progress-bar bg-gradient-warning" role="progressbar"
-                                                    style="width: {{ $dataTurnos[4] }}%" aria-valuenow="80"
-                                                    aria-valuemin="0" aria-valuemax="100">
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                    </div>
-
-                                </div>
-
-                            </div>
-
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-
+            {{-- FINAL HISTORIAL DE METAS --}}
 
 
 
@@ -570,8 +360,313 @@
         <script src="{{ asset('template/assets/js/dashboard/dash_1.js') }}"></script>
         <script src="{{ asset('template/assets/js/dashboard/dash_2.js') }}"></script>
 
-        {{-- GRAFICA PRESTAMOS --}}
+
         <script>
+            var chart; // Variable global para almacenar el gráfico
+
+            function createChartMulta(data, id) {
+                var chartOptions = {
+                    // Configuración de tu gráfico
+                    chart: {
+                        id: id,
+                        type: 'area',
+                        height: 160,
+                        sparkline: {
+                            enabled: true
+                        },
+                    },
+                    stroke: {
+                        curve: 'smooth',
+                        width: 2,
+                    },
+                    series: [{
+                        name: 'Multas',
+                        data: data
+                    }],
+                    labels: ['1', '2', '3', '4', '5', '6', '7'],
+                    yaxis: {
+                        min: 0
+                    },
+                    colors: ['#e7515a'],
+                    tooltip: {
+                        x: {
+                            show: false,
+                        }
+                    },
+                    fill: {
+                        type: "gradient",
+                        gradient: {
+                            type: "vertical",
+                            shadeIntensity: 1,
+                            inverseColors: !1,
+                            opacityFrom: .40,
+                            opacityTo: .05,
+                            stops: [45, 100]
+                        }
+                    }
+                };
+
+                chart = new ApexCharts(document.querySelector("#hybrid_followers1"), chartOptions);
+                chart.render();
+            }
+
+            function createChartDescuento(data, id) {
+                var chartOptions = {
+                    // Configuración de tu gráfico
+                    chart: {
+                        id: id,
+                        type: 'area',
+                        height: 160,
+                        sparkline: {
+                            enabled: true
+                        },
+                    },
+                    stroke: {
+                        curve: 'smooth',
+                        width: 2,
+                    },
+                    fill: {
+                        opacity: 1,
+                    },
+                    series: [{
+                        name: 'Prestamos',
+                        data: data
+                    }],
+                    labels: ['1', '2', '3', '4', '5', '6', '7'],
+                    yaxis: {
+                        min: 0
+                    },
+                    colors: ['#8dbf42'],
+                    tooltip: {
+                        x: {
+                            show: false,
+                        }
+                    },
+                    fill: {
+                        type: "gradient",
+                        gradient: {
+                            type: "vertical",
+                            shadeIntensity: 1,
+                            inverseColors: !1,
+                            opacityFrom: .40,
+                            opacityTo: .05,
+                            stops: [45, 100]
+                        }
+                    },
+                };
+
+                chart = new ApexCharts(document.querySelector("#hybrid_followers3"), chartOptions);
+                chart.render();
+            }
+
+            function createChartUsuario(data, id) {
+                var chartOptions = {
+                    chart: {
+                        id: id,
+                        type: 'area',
+                        height: 160,
+                        sparkline: {
+                            enabled: true
+                        },
+                    },
+                    stroke: {
+                        curve: 'smooth',
+                        width: 2,
+                    },
+                    series: [{
+                        name: 'Modelos Incorporados',
+                        data: data
+                    }],
+                    labels: ['1', '2', '3', '4', '5', '6', '7'],
+                    yaxis: {
+                        min: 0
+                    },
+                    colors: ['#1b55e2'],
+                    tooltip: {
+                        x: {
+                            show: false,
+                        }
+                    },
+                    fill: {
+                        type: "gradient",
+                        gradient: {
+                            type: "vertical",
+                            shadeIntensity: 1,
+                            inverseColors: !1,
+                            opacityFrom: .40,
+                            opacityTo: .05,
+                            stops: [45, 100]
+                        }
+                    },
+                }
+
+                chart = new ApexCharts(document.querySelector("#hybrid_followers"), chartOptions);
+                chart.render();
+            }
+
+            function refreshChartDataMulta() {
+                // Realiza una petición AJAX para obtener los nuevos datos de la gráfica
+                $.ajax({
+                    type: 'GET',
+                    url: 'getdatamultas', // Reemplaza con la URL correcta
+                    success: function(data) {
+
+                        var array_multa = JSON.parse(data);
+                        console.log(array_multa);
+
+                        // Actualiza la serie del gráfico con los nuevos datos
+                        ApexCharts.exec('multas', 'updateSeries', [{
+                            data: array_multa
+                        }], true);
+
+                    }
+                });
+            }
+
+            function refreshChartDataDescuento() {
+                // Realiza una petición AJAX para obtener los nuevos datos de la gráfica
+                $.ajax({
+                    type: 'GET',
+                    url: 'getdatadescuentos', // Reemplaza con la URL correcta
+                    success: function(data) {
+
+                        var array_descuento = JSON.parse(data);
+                        console.log(array_descuento);
+
+                        // Actualiza la serie del gráfico con los nuevos datos
+                        ApexCharts.exec('descuento', 'updateSeries', [{
+                            data: array_descuento
+                        }], true);
+
+                    }
+                });
+            }
+
+            function refreshChartDataUsuario() {
+                // Realiza una petición AJAX para obtener los nuevos datos de la gráfica
+                $.ajax({
+                    type: 'GET',
+                    url: 'getdatausuarios', // Reemplaza con la URL correcta
+                    success: function(data) {
+
+                        // var array_descuento = JSON.parse(data);
+                        var array_usuarios = JSON.parse(data[0]);
+
+                        console.log(array_usuarios);
+
+                        // Actualiza la serie del gráfico con los nuevos datos
+                        ApexCharts.exec('usuario', 'updateSeries', [{
+                            data: array_usuarios
+                        }], true);
+
+                    }
+                });
+            }
+
+            $(document).ready(function() {
+                createChartMulta({{ $dataMultas }}, 'multas');
+                createChartDescuento({{ $dataDescuentos }}, 'descuento');
+                createChartUsuario({{ $dataUsuarios[0] }}, 'usuario');
+
+
+                // Crear la gráfica inicial al cargar la página
+
+                window.Echo.channel('multas_widget')
+                    .listen('.reload-multas', (e) => {
+                        // Actualiza el contenido dentro del div con la clase 'widget-referral'
+                        $('#multas').load(location.href + ' #multas', function() {
+                            // ApexCharts.exec('multas', 'updateSeries', [{
+                            //     data: {{ $dataMultas }}
+                            // }], true);
+                            refreshChartDataMulta();
+                        });
+
+
+                    });
+
+                window.Echo.channel('metas_widget')
+                    .listen('.reload-metas', (data) => {
+
+                        //console.log(data.estatico);
+                        $('#meta_cantidad').load(location.href + ' #meta_cantidad');
+                        $('#meta_nombre').load(location.href + ' #meta_nombre');
+                        $('#table_resumenmeta').load(location.href + ' #table_resumenmeta');
+                        $('#segunda_meta').load(location.href + ' #segunda_meta');
+                        $('#segunda_meta_progreso').load(location.href + ' #segunda_meta_progreso');
+                        $('#tercera_meta').load(location.href + ' #tercera_meta');
+                        $('#cuarta_meta').load(location.href + ' #cuarta_meta');
+
+
+                        var historialmetas = data.historialmetas;
+
+                        console.log(historialmetas);
+                        // Función para actualizar la barra de progreso
+                        function actualizarBarraDeProgreso() {
+                            var barraDeProgreso = document.getElementById('progeso_meta');
+                            var valorProgreso = historialmetas[1] + '%';
+                            //barraDeProgreso.setAttribute('aria-valuenow', progreso);
+                            barraDeProgreso.style.width = valorProgreso;
+
+                            var barraDeProgreso2 = document.getElementById('segunda_meta_progreso');
+                            var valorProgreso2 = historialmetas[5] + '%';
+                            //barraDeProgreso.setAttribute('aria-valuenow', progreso);
+                            barraDeProgreso2.style.width = valorProgreso2;
+
+                            var barraDeProgreso3 = document.getElementById('tercera_meta_progreso');
+                            var valorProgreso3 = historialmetas[9] + '%';
+                            //barraDeProgreso.setAttribute('aria-valuenow', progreso);
+                            barraDeProgreso3.style.width = valorProgreso3;
+
+                            var barraDeProgreso4 = document.getElementById('cuarta_meta_progreso');
+                            var valorProgreso4 = historialmetas[13] + '%';
+                            //barraDeProgreso.setAttribute('aria-valuenow', progreso);
+                            barraDeProgreso4.style.width = valorProgreso4;
+                        }
+
+                        // Llama a la función para actualizar la barra de progreso
+                        actualizarBarraDeProgreso();
+
+
+                    });
+
+
+
+                window.Echo.channel('descuentos_widget')
+                    .listen('.reload-descuentos', (e) => {
+
+                        $('#descuentos').load(location.href + ' #descuentos');
+                        refreshChartDataDescuento();
+                    });
+
+
+                window.Echo.channel('usuarios_widget')
+                    .listen('.reload-usuarios', (e) => {
+
+                        $('#usuarios').load(location.href + ' #usuarios');
+                        refreshChartDataUsuario();
+                    });
+
+                window.Echo.channel('control_asistencia')
+                    .listen('.reload-asistencia', (e) => {
+
+                        $('#table_controlasistencia').load(location.href + ' #table_controlasistencia');
+
+                    });
+                window.Echo.channel('control_turnos')
+                    .listen('.reload-turnos', (e) => {
+
+                        console.log(e);
+
+                        function actualizarBarraDeProgresoTurnos() 
+                        {
+                            
+                        }
+
+                    });
+            });
+        </script>
+        {{-- GRAFICA PRESTAMOS --}}
+        {{-- <script>
             // Engagement Rate
             var d_1options5 = {
                 chart: {
@@ -619,12 +714,12 @@
             // Engagement Rate
             var d_1C_7 = new ApexCharts(document.querySelector("#hybrid_followers3"), d_1options5);
             d_1C_7.render()
-        </script>
+        </script> --}}
 
 
         {{-- GRAFICA MULTAS --}}
 
-        <script>
+        {{-- <script>
             var d_1options4 = {
                 chart: {
                     id: 'sparkline1',
@@ -667,10 +762,10 @@
 
             var d_1C_6 = new ApexCharts(document.querySelector("#hybrid_followers1"), d_1options4);
             d_1C_6.render()
-        </script>
+        </script> --}}
 
         {{-- GRAFICA USUARIOS --}}
-        <script>
+        {{-- <script>
             var d_1options3 = {
                 chart: {
                     id: 'sparkline1',
@@ -713,7 +808,7 @@
 
             var d_1C_5 = new ApexCharts(document.querySelector("#hybrid_followers"), d_1options3);
             d_1C_5.render()
-        </script>
+        </script> --}}
 
 
 
@@ -754,11 +849,11 @@
                 },
                 series: [{
                     name: "Prooduccion",
-                    data: {{$dataQuincenas[0]}},
+                    data: {{ $dataQuincenas[0] }},
 
-                    
-                    
-                   
+
+
+
                 }],
                 title: {
                     text: 'Facturado por quincena',
@@ -771,14 +866,14 @@
                     },
                 },
                 xaxis: {
-                    categories: {{  $dataQuincenas[0]}},
+                    categories: {{ $dataQuincenas[0] }},
 
-                 
-                    
 
-                    
-                   
-                    
+
+
+
+
+
                 }
             }
 

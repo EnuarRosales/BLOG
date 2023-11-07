@@ -57,7 +57,8 @@ Route::middleware([
 
     Route::get('/', [HomeController::class, 'index'])->middleware(['auth', 'verified']);
     Route::get('/getdatamultas', [HomeController::class, 'dataMultas'])->middleware(['auth', 'verified'])->name('getdatamultas');
-    Route::get('/getdatadescuentos', [HomeController::class, 'dataDescuentos'])->middleware(['auth', 'verified'])->name('getdatamultas');
+    Route::get('/getdatadescuentos', [HomeController::class, 'dataDescuentos'])->middleware(['auth', 'verified'])->name('getdatadescuentos');
+    Route::get('/getdatausuarios', [HomeController::class, 'dataUsuario'])->middleware(['auth', 'verified'])->name('getdatausuarios');
     // Route::get('/', function () {
 
     //     return "estes una pruebaaaaa";

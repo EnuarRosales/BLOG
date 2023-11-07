@@ -47,20 +47,35 @@ class metas_widget implements ShouldBroadcast
 
     public function broadcastWith()
     {
-        $this->datoMasReciente = Meta::orderBy('created_at', 'desc')->first();
-        $idMeta = $this->datoMasReciente->id;
-        $registroProduccion = ResgistroProducido::where('meta_id', $idMeta)
-            ->sum('valorProducido');
-        $valorMeta = $this->datoMasReciente->valor;
+        $datoMasRecientes = Meta::latest()->take(4)->get();
+        $miArray = array(); // Inicializar un array vacío       
+        if ($datoMasRecientes->count() > 0) {
+            foreach ($datoMasRecientes as $datoMasReciente) {
+                $registroProduccion = ResgistroProducido::where('meta_id', $datoMasReciente->id)
+                    ->sum('valorProducido');
+                $porcentajeMeta = ($registroProduccion * 100) / $datoMasReciente->valor;
+                $miArray[] = $datoMasReciente->nombre; //0
+                $miArray[] = $porcentajeMeta;          //1
+                $miArray[] = $registroProduccion;      //2
+                $miArray[] = $datoMasReciente->valor;  //3
+            }
+        }
 
-        $porcentajeMeta = ($registroProduccion * 100) / $valorMeta;
 
-        //dd($this->progreso);
+        if ($datoMasRecientes->count() < 4) {
+            $datos = 4 - $datoMasRecientes->count();
+
+            for ($i = 0; $i < $datos; $i++) {
+                $miArray[] = "No hay datos para mostarar"; //0
+                $miArray[] = 0; //1
+                $miArray[] = 0; //2
+                $miArray[] = 0; //3
+
+            }
+        }
         return [
-            'progreso' => $porcentajeMeta,
-            'estatico' => 5000,
-            'valormeta' => $valorMeta,
-            'meta' => $this->datoMasReciente,
+
+            'historialmetas' => $miArray
             // Otros datos que quieras transmitir...
         ];
     }

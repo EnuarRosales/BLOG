@@ -6,7 +6,7 @@
             </div>
             <div class="widget-content">
                 <div class="table-responsive">
-                    <table class="table">
+                    <table class="table" id="table_controlasistencia">
                         <thead>
                             <tr>
                                 <th>Usuario</th>

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Events\multaEvent;
+use App\Events\multas_widget;
 use App\Events\ReloadTable;
 use App\Http\Controllers\Controller;
 use App\Models\AsignacionMulta;
@@ -60,7 +61,7 @@ class AsignacionMultaController extends Controller
             multaEvent::dispatch($asignacionMulta->id);
         }
 
-        event(new ReloadTable());
+        event(new multas_widget());
 
 
         return redirect()->route('admin.asignacionMultas.index',$asignacionMulta->id)->with('info','store');

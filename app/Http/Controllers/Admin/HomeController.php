@@ -91,7 +91,7 @@ class HomeController extends Controller
             return array($valorMeta, $porcentajeMeta, $registroProduccion, $nombreMeta);
         } else {
             $nombreMeta = "Programa una meta";
-            // return array($nombreMeta);           
+            // return array($nombreMeta);
             return array("0", " ", " ", $nombreMeta);
         }
     }

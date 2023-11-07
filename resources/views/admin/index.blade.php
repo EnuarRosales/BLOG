@@ -31,10 +31,11 @@
                                     <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
                                 </svg>
                             </div>
-                            <p class="w-value">{{ $dataUsuarios[1] }}/{{ number_format($dataUsuarios[2], 2)}}%</p> 
-                            <h5 class="">Usuarios</h5>                            
+                            <p class="w-value" id="usuarios">{{ $dataUsuarios[1] }}/{{ number_format($dataUsuarios[2], 2) }}%
+                            </p>
+                            <h5 class="">Usuarios</h5>
                         </div>
-                        
+
                         <div class="widget-content">
                             <div class="w-chart">
                                 <div id="hybrid_followers"></div>
@@ -54,7 +55,7 @@
                                     <path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path>
                                 </svg>
                             </div>
-                            <p class="w-value" id="cantidad-metas">{{ $multas }}</p>
+                            <p class="w-value" id="multas">{{ $multas }}</p>
                             <h5 class="">Multas</h5>
                         </div>
                         <div class="widget-content">
@@ -77,7 +78,7 @@
                                     </path>
                                 </svg>
                             </div>
-                            <p class="w-value">COP {{ $descuentos }}</p>
+                            <p class="w-value" id="descuentos">COP {{ $descuentos }}</p>
                             <h5 class="">Prestamos</h5>
                         </div>
                         <div class="widget-content">
@@ -93,8 +94,8 @@
                         <div class="widget-content">
                             <div class="w-content">
                                 <div class="w-info">
-                                    <h6 class="value">{{"$"." ". $dataMetas[0] }}</h6>
-                                    <p class="">Meta: {{$dataMetas[3] }}</p>
+                                    <h6 class="value" id="meta_cantidad">{{ "$" . ' ' . $dataMetas[0] }}</h6>
+                                    <p class="" id="meta_nombre">Meta: {{ $dataMetas[3] }}</p>
                                 </div>
                                 <div class="">
                                     <div class="w-icon">
@@ -111,7 +112,7 @@
                                 {{-- BARRA DE  la  META --}}
                                 <div class="progress-bar bg-gradient-secondary" role="progressbar"
                                     style="width: {{ $dataMetas[1] }}%" aria-valuenow="57" aria-valuemin="0"
-                                    aria-valuemax="100"></div>
+                                    aria-valuemax="100" id="progeso_meta"></div>
                             </div>
 
                             @if ($dataMetas[1] >= 100)
@@ -151,7 +152,8 @@
                                     </div>
                                     <div class="w-browser-details">
                                         <div class="w-browser-info">
-                                            <h6>{{ $dataHistorialMetas[4] }} - Proyectado $ {{$dataHistorialMetas[7]}} - Generado $ {{number_format($dataHistorialMetas[6], 2)}}</h6>
+                                            <h6>{{ $dataHistorialMetas[4] }} - Proyectado $ {{ $dataHistorialMetas[7] }} -
+                                                Generado $ {{ number_format($dataHistorialMetas[6], 2) }}</h6>
                                             <p class="browser-count">{{ number_format($dataHistorialMetas[5], 1) }}%</p>
                                         </div>
                                         <div class="w-browser-stats">
@@ -177,8 +179,9 @@
                                     <div class="w-browser-details">
 
                                         <div class="w-browser-info">
-                                            <h6>{{ $dataHistorialMetas[8] }} - Proyectado $ {{$dataHistorialMetas[11]}} - Generado $ {{number_format($dataHistorialMetas[10], 2)}}</h6>
-                                            <p class="browser-count">{{number_format($dataHistorialMetas[9], 1)  }}%</p>
+                                            <h6>{{ $dataHistorialMetas[8] }} - Proyectado $ {{ $dataHistorialMetas[11] }} -
+                                                Generado $ {{ number_format($dataHistorialMetas[10], 2) }}</h6>
+                                            <p class="browser-count">{{ number_format($dataHistorialMetas[9], 1) }}%</p>
                                         </div>
 
                                         <div class="w-browser-stats">
@@ -208,8 +211,14 @@
                                     <div class="w-browser-details">
 
                                         <div class="w-browser-info">
+<<<<<<< HEAD
                                              <h6>{{ $dataHistorialMetas[12] }} - Proyectado $ {{$dataHistorialMetas[15]}} - Generado $ {{number_format($dataHistorialMetas[14], 2)}}</h6>
                                             <p class="browser-count">{{number_format($dataHistorialMetas[13], 1) }}%</p>
+=======
+                                            <h6>{{ $dataHistorialMetas[12] }} - Proyectado $ {{ $dataHistorialMetas[15] }} -
+                                                Generado $ {{ number_format($dataHistorialMetas[14], 2) }}</h6>
+                                            <p class="browser-count">{{ number_format($dataHistorialMetas[13], 1) }}%</p>
+>>>>>>> 4b7241d1e311cb10f56e8b4f0fcbe0afb94409a6
                                         </div>
 
                                         <div class="w-browser-stats">
@@ -339,9 +348,13 @@
                     </div>
                 </div>
             </div>
+<<<<<<< HEAD
 
             {{-- INICI TABLA --}}
 
+=======
+            {{-- tabla --}}
+>>>>>>> 4b7241d1e311cb10f56e8b4f0fcbe0afb94409a6
             <div class="row">
                 <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 layout-spacing">
                     <div class="widget widget-table-three">
@@ -728,6 +741,7 @@
             </div>
 
             <div class="row">
+                {{-- grafica apex simple --}}
                 <div id="chartLine" class="col-xl-9 layout-top-spacing layout-spacing">
                     <div class="widget box box-shadow">
                         <div class="widget-header">
@@ -743,7 +757,7 @@
                     </div>
 
                 </div>
-
+                {{-- transactions --}}
                 <div class="col-xl-3 col-lg-12 col-md-6 col-sm-12 col-12 layout-top-spacing">
                     <div class="widget widget-table-one" style="padding-top: 2rem; height: 31.0rem;">
                         <div class="widget-heading">
@@ -869,7 +883,7 @@
                     </div>
                 </div>
             </div>
-
+            {{-- simple colum --}}
             <div class="row">
 
                 <div id="chartColumn" class="col-xl-12 layout-spacing">
@@ -898,11 +912,11 @@
         <script>
             var chart; // Variable global para almacenar el gráfico
 
-            function createChart(data) {
+            function createChartMulta(data, id) {
                 var chartOptions = {
                     // Configuración de tu gráfico
                     chart: {
-                        id: 'sparkline1',
+                        id: id,
                         type: 'area',
                         height: 160,
                         sparkline: {
@@ -944,44 +958,11 @@
                 chart.render();
             }
 
-            function refreshChartData() {
-                // Realiza una petición AJAX para obtener los nuevos datos de la gráfica
-                $.ajax({
-                    type: 'GET',
-                    url: 'getdatamultas', // Reemplaza con la URL correcta
-                    success: function(data) {
-                            console.log('"'+data+'"');
-                            // Actualiza la serie del gráfico con los nuevos datos
-                            chart.updateSeries([{
-                                name: 'Multas',
-                                data: '"'+data+'"'
-                            }]);
-
-                    }
-                });
-            }
-
-            $(document).ready(function() {
-                createChart({{ $dataMultas }}); // Crear la gráfica inicial al cargar la página
-
-                window.Echo.channel('reload-table')
-                    .listen('.message-event', (e) => {
-                        // Actualiza el contenido dentro del div con la clase 'widget-referral'
-                        $('#cantidad-metas').load(location.href + ' #cantidad-metas', function() {
-                            refreshChartData
-                                (); // Actualiza la gráfica con los nuevos datos después de cargar el contenido
-                        });
-                    });
-            });
-        </script>
-
-        {{-- <script>
-            var d_1options4; // Declaración global de d_1options4
-
-            function createChart() {
-                d_1options4 = {
+            function createChartDescuento(data, id) {
+                var chartOptions = {
+                    // Configuración de tu gráfico
                     chart: {
-                        id: 'sparkline1',
+                        id: id,
                         type: 'area',
                         height: 160,
                         sparkline: {
@@ -992,15 +973,18 @@
                         curve: 'smooth',
                         width: 2,
                     },
+                    fill: {
+                        opacity: 1,
+                    },
                     series: [{
-                        name: 'Multas',
-                        data: {{ $dataMultas }}
+                        name: 'Prestamos',
+                        data: data
                     }],
                     labels: ['1', '2', '3', '4', '5', '6', '7'],
                     yaxis: {
                         min: 0
                     },
-                    colors: ['#e7515a'],
+                    colors: ['#8dbf42'],
                     tooltip: {
                         x: {
                             show: false,
@@ -1016,142 +1000,124 @@
                             opacityTo: .05,
                             stops: [45, 100]
                         }
-                    }
+                    },
                 };
 
-                var chart = new ApexCharts(document.querySelector("#hybrid_followers1"), d_1options4);
+                chart = new ApexCharts(document.querySelector("#hybrid_followers3"), chartOptions);
                 chart.render();
             }
 
-            function refreshChartData() {
+            function refreshChartDataMulta() {
                 // Realiza una petición AJAX para obtener los nuevos datos de la gráfica
                 $.ajax({
                     type: 'GET',
                     url: 'getdatamultas', // Reemplaza con la URL correcta
                     success: function(data) {
-                        // Verifica que los datos sean un arreglo antes de crear la nueva gráfica
-                        if (Array.isArray(data)) {
-                            var newChartOptions = {
-                                chart: {
-                                    id: 'sparkline1',
-                                    type: 'area',
-                                    height: 160,
-                                    sparkline: {
-                                        enabled: true
-                                    },
-                                },
-                                stroke: {
-                                    curve: 'smooth',
-                                    width: 2,
-                                },
-                                series: [{
-                                    name: 'Multas',
-                                    data: data
-                                }],
-                                labels: ['1', '2', '3', '4', '5', '6', '7'],
-                                yaxis: {
-                                    min: 0
-                                },
-                                colors: ['#e7515a'],
-                                tooltip: {
-                                    x: {
-                                        show: false,
-                                    }
-                                },
-                                fill: {
-                                    type: "gradient",
-                                    gradient: {
-                                        type: "vertical",
-                                        shadeIntensity: 1,
-                                        inverseColors: !1,
-                                        opacityFrom: .40,
-                                        opacityTo: .05,
-                                        stops: [45, 100]
-                                    }
-                                }
-                            };
 
-                            // Crear una nueva gráfica y renderizarla en el mismo elemento
-                            var newChart = new ApexCharts(document.querySelector("#hybrid_followers1"),
-                                newChartOptions);
-                            newChart.render();
-                        }
+                        var array_multa = JSON.parse(data);
+                        console.log(array_multa);
+
+                        // Actualiza la serie del gráfico con los nuevos datos
+                        ApexCharts.exec('multas', 'updateSeries', [{
+                            data: array_multa
+                        }], true);
+
                     }
                 });
             }
 
+            function refreshChartDataDescuento() {
+                // Realiza una petición AJAX para obtener los nuevos datos de la gráfica
+                $.ajax({
+                    type: 'GET',
+                    url: 'getdatadescuentos', // Reemplaza con la URL correcta
+                    success: function(data) {
 
+                        var array_descuento = JSON.parse(data);
+                        console.log(array_descuento);
 
-            $(document).ready(function() {
-                createChart(); // Crea la gráfica inicialmente
+                        // Actualiza la serie del gráfico con los nuevos datos
+                        ApexCharts.exec('descuento', 'updateSeries', [{
+                            data: array_descuento
+                        }], true);
 
-                window.Echo.channel('reload-table')
-                    .listen('.message-event', (e) => {
-                        // Actualiza el contenido dentro del div con la clase 'widget-referral'
-                        $('#cantidad-metas').load(location.href + ' #cantidad-metas');
-
-                        // Verifica y crea la gráfica nuevamente
-                        refreshChartData();
-                    });
-            });
-        </script> --}}
-
-
-
-
-        {{-- GRAFICA PRESTAMOS --}}
-
-        <script>
-            // Engagement Rate
-            var d_1options5 = {
-                chart: {
-                    id: 'sparkline1',
-                    type: 'area',
-                    height: 160,
-                    sparkline: {
-                        enabled: true
-                    },
-                },
-                stroke: {
-                    curve: 'smooth',
-                    width: 2,
-                },
-                fill: {
-                    opacity: 1,
-                },
-                series: [{
-                    name: 'Prestamos',
-                    data: {{$dataDescuentos}}
-                }],
-                labels: ['1', '2', '3', '4', '5', '6', '7'],
-                yaxis: {
-                    min: 0
-                },
-                colors: ['#8dbf42'],
-                tooltip: {
-                    x: {
-                        show: false,
                     }
-                },
-                fill: {
-                    type: "gradient",
-                    gradient: {
-                        type: "vertical",
-                        shadeIntensity: 1,
-                        inverseColors: !1,
-                        opacityFrom: .40,
-                        opacityTo: .05,
-                        stops: [45, 100]
-                    }
-                },
+                });
             }
 
-            // Engagement Rate
-            var d_1C_7 = new ApexCharts(document.querySelector("#hybrid_followers3"), d_1options5);
-            d_1C_7.render()
+            $(document).ready(function() {
+                createChartMulta({{ $dataMultas }}, 'multas');
+                createChartDescuento({{ $dataDescuentos }}, 'descuento');
+
+
+                // Crear la gráfica inicial al cargar la página
+
+                window.Echo.channel('multas_widget')
+                    .listen('.reload-multas', (e) => {
+                        // Actualiza el contenido dentro del div con la clase 'widget-referral'
+                        $('#multas').load(location.href + ' #multas', function() {
+                            // ApexCharts.exec('multas', 'updateSeries', [{
+                            //     data: {{ $dataMultas }}
+                            // }], true);
+                            refreshChartDataMulta();
+                        });
+
+
+                    });
+
+                window.Echo.channel('metas_widget')
+                    .listen('.reload-metas', (data) => {
+
+                        //console.log(data.estatico);
+                        $('#meta_cantidad').load(location.href + ' #meta_cantidad');
+                        $('#meta_nombre').load(location.href + ' #meta_nombre');
+
+                        var metaCantidadValue = {{ $dataMetas[0] }};
+
+                        console.log(metaCantidadValue);
+                        console.log(data.progreso);
+                        // console.log(data);
+                        var progreso = data.progreso; // Asegúrate de que $progreso esté disponible en tu vista
+                        var valormeta = data.valormeta; // Asegúrate de que $progreso esté disponible en tu vista
+                        var meta = data.meta; // Asegúrate de que $progreso esté disponible en tu vista
+
+                        console.log(progreso);
+                        console.log(valormeta);
+                        console.log(meta);
+                        // Función para actualizar la barra de progreso
+                        function actualizarBarraDeProgreso() {
+                            var barraDeProgreso = document.getElementById('progeso_meta');
+                            var valorProgreso = progreso + '%';
+                            //barraDeProgreso.setAttribute('aria-valuenow', progreso);
+                            barraDeProgreso.style.width = valorProgreso;
+                        }
+
+                        // Llama a la función para actualizar la barra de progreso
+                        actualizarBarraDeProgreso();
+
+
+                    });
+
+
+
+                window.Echo.channel('descuentos_widget')
+                    .listen('.reload-descuentos', (e) => {
+
+                        $('#descuentos').load(location.href + ' #descuentos');
+                        refreshChartDataDescuento();
+                    });
+
+
+                window.Echo.channel('usuarios_widget')
+                    .listen('.reload-widget', (e) => {
+
+                        $('#usuarios').load(location.href + ' #usuarios');
+                    });
+            });
         </script>
 
 
+<<<<<<< HEAD
         {{-- GRAFICA MULTAS --}}
 
         {{-- <script>
@@ -1248,6 +1214,8 @@
 
 
 
+=======
+>>>>>>> 4b7241d1e311cb10f56e8b4f0fcbe0afb94409a6
         {{-- Using HTML5 input elements --}}
         <script>
             var html5Slider = document.getElementById('html5');

@@ -26,7 +26,8 @@ class RegistroAsistenciaController extends Controller
         $userLogueado = auth()->user()->id;
         // Consulta las asistencias para el día actual
         $asistencias = Asistencia::with('user', 'user.asignacionTurnos', 'user.asignacionTurnos.turno')
-            ->get();
+            ->get()
+            ->sortByDesc('updated_at');
 
         $configAsistencia = AsistenciaTiempoConfig::find(1);
 

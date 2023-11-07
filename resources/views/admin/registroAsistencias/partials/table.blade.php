@@ -2,6 +2,7 @@
     <td>{{ $asistencia->id }}</td>
     <td>{{ $asistencia->user->name }}</td>
     <td>{{ $asistencia->fecha }}</td>
+    <td hidden>{{ $asistencia->updated_at }}</td>
     <td>
         {{ date('g:i a', strtotime($asistencia->mi_hora)) }}
     </td>

@@ -84,7 +84,7 @@ Route::middleware([
 
     //ROUTES --RegistroAsistenciaController-- Corresponden a las rutas que administran las tablas de registro asistencia
     Route::resource('registroAsistencias', RegistroAsistenciaController::class)->middleware(['auth', 'verified'])->names('admin.registroAsistencias');
-
+    Route::put('registroAsistencia/configAsistencia', [RegistroAsistenciaController::class, 'updateTime'])->middleware(['auth', 'verified'])->name('admin.registroAsistencia.configAsistencia');
 
 
     Route::resource('registroDescuentos', RegistroDescuentoController::class)->middleware(['auth', 'verified'])->names('admin.registroDescuentos');

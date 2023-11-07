@@ -30,10 +30,18 @@
                                     <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
                                 </svg>
                             </div>
-                            <p class="w-value">{{ $dataUsuarios[1] }}/{{ number_format($dataUsuarios[2], 2)}}%</p> 
-                            <h5 class="">Usuarios</h5>                            
+
+                            @if (is_numeric($dataUsuarios[1]))
+                                <p class="w-value">{{ $dataUsuarios[1] }}/{{ number_format($dataUsuarios[2], 2) }}%</p>
+                                <h5 class="">Usuarios</h5>
+                            @else
+                                <p class="w-value"><span style="color: red; font-weight: bold;">{{ $dataUsuarios[1] }}</span>
+                                </p>
+                                <h5 class="">Usuarios</h5>
+                            @endif
+
                         </div>
-                        
+
                         <div class="widget-content">
                             <div class="w-chart">
                                 <div id="hybrid_followers"></div>
@@ -90,8 +98,15 @@
                         <div class="widget-content">
                             <div class="w-content">
                                 <div class="w-info">
-                                    <h6 class="value">$ {{ $dataMetas[0] }}</h6>
-                                    <p class="">Meta: {{$dataMetas[3] }}</p>
+
+                                    @if ($dataMetas[0] > 0)
+                                        <h6 class="value">$ {{ $dataMetas[0] }}</h6>
+                                        <p class="">Meta: {{ $dataMetas[3]}}</p>
+                                    @else
+                                        <h6 class="value">$ {{ $dataMetas[0] }}</h6>
+                                        <p class="">Meta: <span style="color: red; font-weight: bold;">{{ $dataMetas[3] }}</span></p>
+                                    @endif
+
                                 </div>
                                 <div class="">
                                     <div class="w-icon">
@@ -126,11 +141,23 @@
 
             </div>
 
+            <div>
+                @include('admin.index.partials.tablaAsistenciaPersonal')
+            </div>
+
+            <div>
+                @include('admin.index.partials.tablaMetaResumen')
+            </div>
+
+            {{-- INICIA TABLA --}}
+
+            {{-- TERMINA TABLA --}}
+
             <div class="row layout-top-spacing">
                 <div class="col-xl-8 col-lg-6 col-md-6 col-sm-12 col-12 layout-spacing">
                     <div class="widget-four">
                         <div class="widget-heading">
-                            <h5 class="">Historial de metas del estudio</h5>
+                            <h5 class="">Control historial metas del estudio</h5>
                         </div>
                         <div class="widget-content">
                             <div class="vistorsBrowser">
@@ -146,9 +173,11 @@
                                             <line x1="10.88" y1="21.94" x2="15.46" y2="14"></line>
                                         </svg>
                                     </div>
+
                                     <div class="w-browser-details">
                                         <div class="w-browser-info">
-                                            <h6>{{ $dataHistorialMetas[4] }} - Proyectado $ {{$dataHistorialMetas[7]}} - Generado $ {{number_format($dataHistorialMetas[6], 2)}}</h6>
+                                            <h6>{{ $dataHistorialMetas[4] }} - Proyectado $ {{ $dataHistorialMetas[7] }} -
+                                                Generado $ {{ number_format($dataHistorialMetas[6], 2) }}</h6>
                                             <p class="browser-count">{{ number_format($dataHistorialMetas[5], 1) }}%</p>
                                         </div>
                                         <div class="w-browser-stats">
@@ -174,8 +203,9 @@
                                     <div class="w-browser-details">
 
                                         <div class="w-browser-info">
-                                            <h6>{{ $dataHistorialMetas[8] }} - Proyectado $ {{$dataHistorialMetas[11]}} - Generado $ {{number_format($dataHistorialMetas[10], 2)}}</h6>
-                                            <p class="browser-count">{{number_format($dataHistorialMetas[9], 1)  }}%</p>
+                                            <h6>{{ $dataHistorialMetas[8] }} - Proyectado $ {{ $dataHistorialMetas[11] }} -
+                                                Generado $ {{ number_format($dataHistorialMetas[10], 2) }}</h6>
+                                            <p class="browser-count">{{ number_format($dataHistorialMetas[9], 1) }}%</p>
                                         </div>
 
                                         <div class="w-browser-stats">
@@ -205,8 +235,9 @@
                                     <div class="w-browser-details">
 
                                         <div class="w-browser-info">
-                                            <h6>{{ $dataHistorialMetas[12] }} - Proyectado $ {{$dataHistorialMetas[15]}} - Generado $ {{number_format($dataHistorialMetas[14], 2)}}</h6>
-                                            <p class="browser-count">{{number_format($dataHistorialMetas[13], 1) }}%</p>
+                                            <h6>{{ $dataHistorialMetas[12] }} - Proyectado $ {{ $dataHistorialMetas[15] }} -
+                                                Generado $ {{ number_format($dataHistorialMetas[14], 2) }}</h6>
+                                            <p class="browser-count">{{ number_format($dataHistorialMetas[13], 1) }}%</p>
                                         </div>
 
                                         <div class="w-browser-stats">
@@ -231,7 +262,8 @@
                 <div class="col-xl-4 col-lg-6 col-md-6 col-sm-6 col-12 layout-spacing">
                     <div class="widget-three">
                         <div class="widget-heading">
-                            <h5 class="">Turnos</h5>
+                            <h5 class=""> Control turnos <span
+                                    style="color: red; font-weight: bold;">{{ $dataTurnos[6] }}</span> </h5>
                         </div>
                         <div class="widget-content">
 
@@ -251,15 +283,15 @@
                                     <div class="w-summary-details">
 
                                         <div class="w-summary-info">
-                                            <h6>Income</h6>
-                                            <p class="summary-count">$92,600</p>
+                                            <h6>Manaña</h6>
+                                            <p class="summary-count">Modelos: {{ $dataTurnos[1] }}</p>
                                         </div>
 
                                         <div class="w-summary-stats">
                                             <div class="progress">
                                                 <div class="progress-bar bg-gradient-secondary" role="progressbar"
-                                                    style="width: 90%" aria-valuenow="90" aria-valuemin="0"
-                                                    aria-valuemax="100">
+                                                    style="width: {{ $dataTurnos[0] }}%" aria-valuenow="90"
+                                                    aria-valuemin="0" aria-valuemax="100">
                                                 </div>
                                             </div>
                                         </div>
@@ -282,15 +314,15 @@
                                     <div class="w-summary-details">
 
                                         <div class="w-summary-info">
-                                            <h6>Profit</h6>
-                                            <p class="summary-count">$37,515</p>
+                                            <h6>Tarde</h6>
+                                            <p class="summary-count">Modelos: {{ $dataTurnos[3] }}</p>
                                         </div>
 
                                         <div class="w-summary-stats">
                                             <div class="progress">
                                                 <div class="progress-bar bg-gradient-success" role="progressbar"
-                                                    style="width: 65%" aria-valuenow="65" aria-valuemin="0"
-                                                    aria-valuemax="100">
+                                                    style="width: {{ $dataTurnos[2] }}%" aria-valuenow="65"
+                                                    aria-valuemin="0" aria-valuemax="100">
                                                 </div>
                                             </div>
                                         </div>
@@ -313,15 +345,15 @@
                                     <div class="w-summary-details">
 
                                         <div class="w-summary-info">
-                                            <h6>Expenses</h6>
-                                            <p class="summary-count">$55,085</p>
+                                            <h6>Noche</h6>
+                                            <p class="summary-count">Modelos: {{ $dataTurnos[5] }}</p>
                                         </div>
 
                                         <div class="w-summary-stats">
                                             <div class="progress">
                                                 <div class="progress-bar bg-gradient-warning" role="progressbar"
-                                                    style="width: 80%" aria-valuenow="80" aria-valuemin="0"
-                                                    aria-valuemax="100">
+                                                    style="width: {{ $dataTurnos[4] }}%" aria-valuenow="80"
+                                                    aria-valuemin="0" aria-valuemax="100">
                                                 </div>
                                             </div>
                                         </div>
@@ -337,22 +369,9 @@
                 </div>
             </div>
 
-            {{-- TABLA --}}
-            <div class="row">
-                <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 layout-spacing">
-                    <div class="widget widget-table-three">
 
-                        <div class="widget-heading">
-                            <h5 class="">Top Selling Product</h5>
-                        </div>
 
-                        <div class="widget-content">
-                            <div class="table-responsive">
-                                @include('admin.index.partials.tablaMetaResumen')
-                        </div>
-                    </div>
-                </div>
-            </div>
+
 
             <div class="row">
                 <div class="col-lg-12 mb-4">
@@ -389,7 +408,7 @@
                         <div class="widget-header">
                             <div class="row">
                                 <div class="col-xl-12 col-md-12 col-sm-12 col-12">
-                                    <h4>Apex (Simple)</h4>
+                                    <h4>Estadistca de produccion quincenal</h4>
                                 </div>
                             </div>
                         </div>
@@ -572,7 +591,7 @@
                 },
                 series: [{
                     name: 'Prestamos',
-                    data: {{$dataDescuentos}}
+                    data: {{ $dataDescuentos }}
                 }],
                 labels: ['1', '2', '3', '4', '5', '6', '7'],
                 yaxis: {
@@ -667,7 +686,7 @@
                 },
                 series: [{
                     name: 'Modelos Incorporados',
-                    data: {{$dataUsuarios[0]}}
+                    data: {{ $dataUsuarios[0] }}
                 }],
                 labels: ['1', '2', '3', '4', '5', '6', '7'],
                 yaxis: {
@@ -694,7 +713,6 @@
 
             var d_1C_5 = new ApexCharts(document.querySelector("#hybrid_followers"), d_1options3);
             d_1C_5.render()
-
         </script>
 
 
@@ -735,11 +753,15 @@
                     curve: 'straight'
                 },
                 series: [{
-                    name: "Desktops",
-                    data: [10, 41, 35, 51, 49, 62, 69, 91, 148]
+                    name: "Prooduccion",
+                    data: {{$dataQuincenas[0]}},
+
+                    
+                    
+                   
                 }],
                 title: {
-                    text: 'Product Trends by Month',
+                    text: 'Facturado por quincena',
                     align: 'left'
                 },
                 grid: {
@@ -749,7 +771,14 @@
                     },
                 },
                 xaxis: {
-                    categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep'],
+                    categories: {{  $dataQuincenas[0]}},
+
+                 
+                    
+
+                    
+                   
+                    
                 }
             }
 

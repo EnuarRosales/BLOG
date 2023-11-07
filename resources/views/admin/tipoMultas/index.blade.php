@@ -263,6 +263,18 @@
 
             });
         </script>
+        @elseif(session('info') == 'error-delete')
+        <script>
+            Swal.fire({
+                position: 'top-end',
+                text: "Este tipo de multa esta definido por defecto!",
+                type: 'error',
+                padding: '2em',
+                title: 'Imposible Eliminar',
+                showConfirmButton: false,
+                timer: 2000
+            })
+        </script>
     @endif
 
 @stop

@@ -23,6 +23,10 @@ class CreateAsistenciasTable extends Migration
                 ->onDelete('cascade');
 
             $table->string('control');
+            $table->unsignedBigInteger('multa_id')->nullable();
+            $table->foreign('multa_id')
+                ->references('id')->on('asignacion_multas') //tabla
+                ->onDelete('cascade');
             $table->timestamps();
             $table->softDeletes(); // Agregar esta línea para habilitar eliminación suave
         });

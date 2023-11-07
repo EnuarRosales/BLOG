@@ -4,9 +4,13 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\AsignacionMulta;
+use App\Models\AsignacionTurno;
+use App\Models\Asistencia;
+use App\Models\AsistenciaTiempoConfig;
 use App\Models\Descuento;
 use App\Models\Empresa;
 use App\Models\Meta;
+use App\Models\Pago;
 use App\Models\ResgistroProducido;
 use App\Models\User;
 use Carbon\Carbon;
@@ -42,7 +46,7 @@ class HomeController extends Controller
             ->whereDay('created_at', '<=', 15)
             ->sum('montoDescuento');
 
-            //FALLA
+        //FALLA
         $segundaQuincenaTercerMes = Descuento::whereYear('created_at', $tercerMes)
             ->whereMonth('created_at', $tercerMes)
             ->whereDay('created_at', '>', 15)
@@ -63,11 +67,7 @@ class HomeController extends Controller
             ->whereDay('created_at', '>', 15)
             ->sum('montoDescuento');
 
-            
-
-        $dataDescuentosJS = '[' . $segundaQuincenaPrimerMes . ', ' . $primeraQuincenaSegundoMes . ', ' . $segundaQuincenaSegundoMes . ', ' . $primeraQuincenaTercerMes . ', ' . $segundaQuincenaTercerMes . ', ' . $primeraQuincenaCuartoMes . ', ' . $segundaQuincenaCuartoMes . ']';
-        
-        // dd($dataDescuentosJS);
+        $dataDescuentosJS = '[' . $segundaQuincenaPrimerMes . ', ' . $segundaQuincenaSegundoMes . ', ' . $primeraQuincenaSegundoMes . ',  ' . $segundaQuincenaTercerMes . ', ' . $primeraQuincenaTercerMes . ',  ' . $segundaQuincenaCuartoMes . ', ' . $primeraQuincenaCuartoMes . ']';
         return $dataDescuentosJS;
     }
 
@@ -76,19 +76,59 @@ class HomeController extends Controller
     {
         $datoMasReciente = Meta::latest()->first();
          // O Dato::latest()->get() si deseas obtener varios registros
-        // Puedes hacer lo que desees con $datoMasReciente aquíecho
+        if ($datoMasReciente != null) {
 
+    
         // if($datoMasReciente != null){
 
         // }
         $valorMeta = $datoMasReciente->valor;
-        $idMeta = $datoMasReciente->id;
-        $nombreMeta = $datoMasReciente->nombre;
-        $registroProduccion = ResgistroProducido::where('meta_id', $idMeta)
-            ->sum('valorProducido');
-        $porcentajeMeta = ($registroProduccion * 100) / $valorMeta;
-        return array($valorMeta, $porcentajeMeta, $registroProduccion, $nombreMeta);
+            $idMeta = $datoMasReciente->id;
+            $nombreMeta = $datoMasReciente->nombre;
+            $registroProduccion = ResgistroProducido::where('meta_id', $idMeta)
+                ->sum('valorProducido');
+            $porcentajeMeta = ($registroProduccion * 100) / $valorMeta;
+            return array($valorMeta, $porcentajeMeta, $registroProduccion, $nombreMeta);
+        } else {
+            $nombreMeta = "Programa una meta";
+            // return array($nombreMeta);           
+            return array("0", " ", " ", $nombreMeta);
+        }
     }
+
+    public function dataHistorialMeta()
+    {
+        $datoMasRecientes = Meta::latest()->take(4)->get();
+        $miArray = array(); // Inicializar un array vacío       
+        if ($datoMasRecientes->count() > 0) {
+            foreach ($datoMasRecientes as $datoMasReciente) {
+                $registroProduccion = ResgistroProducido::where('meta_id', $datoMasReciente->id)
+                    ->sum('valorProducido');
+                $porcentajeMeta = ($registroProduccion * 100) / $datoMasReciente->valor;
+                $miArray[] = $datoMasReciente->nombre; //0
+                $miArray[] = $porcentajeMeta;          //1
+                $miArray[] = $registroProduccion;      //2
+                $miArray[] = $datoMasReciente->valor;  //3
+            }
+        }
+
+
+        if ($datoMasRecientes->count() < 4) {
+            $datos = 4 - $datoMasRecientes->count();
+
+            for ($i = 0; $i < $datos; $i++) {
+                $miArray[] = "No hay datos para mostarar"; //0
+                $miArray[] = 0; //1
+                $miArray[] = 0; //2
+                $miArray[] = 0; //3
+
+            }
+        }
+
+        return $miArray;
+    }
+
+
 
     public function dataMulta()
     {
@@ -134,7 +174,7 @@ class HomeController extends Controller
             ->whereDay('created_at', '>', 15)
             ->count();
 
-        $dataMultasJS = '[' . $segundaQuincenaPrimerMes . ', ' . $primeraQuincenaSegundoMes . ', ' . $segundaQuincenaSegundoMes . ', ' . $primeraQuincenaTercerMes . ', ' . $segundaQuincenaTercerMes . ', ' . $primeraQuincenaCuartoMes . ', ' . $segundaQuincenaCuartoMes . ']';
+        $dataMultasJS = '[' . $segundaQuincenaPrimerMes . ', ' . $segundaQuincenaSegundoMes . ', ' . $primeraQuincenaSegundoMes . ', ' . $segundaQuincenaTercerMes . ', ' . $primeraQuincenaTercerMes . ', ' . $segundaQuincenaCuartoMes . ', ' . $primeraQuincenaCuartoMes . ']';
         return $dataMultasJS;
     }
 
@@ -143,25 +183,6 @@ class HomeController extends Controller
 
         return response()->json($dataMultas);
 
-    }
-
-    public function dataHistorialMeta()
-    {
-        $datoMasRecientes = Meta::latest()->take(4)->get();
-        $miArray = array(); // Inicializar un array vacío           
-
-        foreach ($datoMasRecientes as $datoMasReciente) {
-            $registroProduccion = ResgistroProducido::where('meta_id', $datoMasReciente->id)
-                ->sum('valorProducido');
-            $porcentajeMeta = ($registroProduccion * 100) / $datoMasReciente->valor;
-
-            $miArray[] = $datoMasReciente->nombre; //0
-            $miArray[] = $porcentajeMeta;          //1
-            $miArray[] = $registroProduccion;      //2
-            $miArray[] = $datoMasReciente->valor;  //3
-        }
-        // dd  ($miArray);
-        return $miArray;
     }
 
     public function dataUsuario()
@@ -207,82 +228,164 @@ class HomeController extends Controller
             ->whereDay('fechaIngreso', '>', 15)
             ->count();
 
-        $dataUsuariosJS = '[' . $segundaQuincenaPrimerMes . ', ' . $primeraQuincenaSegundoMes . ', ' . $segundaQuincenaSegundoMes . ', ' . $primeraQuincenaTercerMes . ', ' . $segundaQuincenaTercerMes . ', ' . $primeraQuincenaCuartoMes . ', ' . $segundaQuincenaCuartoMes . ']';
-       
+        $dataUsuariosJS = '[' . $segundaQuincenaPrimerMes . ', ' . $segundaQuincenaSegundoMes . ', ' . $primeraQuincenaSegundoMes . ',  ' . $segundaQuincenaTercerMes . ', ' . $primeraQuincenaTercerMes . ', ' . $segundaQuincenaCuartoMes . ', ' . $primeraQuincenaCuartoMes . ']';
+
         // LOGICA PARA ALIMENTAR LAS VARIABLES DE LA GRAFICA
         $usuariosModelos = User::where('active', 1)
             ->whereHas('tipoUsuario', function ($query) {
                 $query->where('nombre', 'Modelo');
             })
-            ->count();                
+            ->count();
 
         $empresaCapacidadModelos = Empresa::value('capacity_models');
 
-        if($empresaCapacidadModelos === null){
-            $empresaCapacidadModelos =0;
+        if ($empresaCapacidadModelos === null) {
+            $empresaCapacidadModelos = 0;
+        };
+        if ($usuariosModelos > 0 && $empresaCapacidadModelos > 0) {
+            $porcentajeModelos = ($usuariosModelos * 100) / $empresaCapacidadModelos;
+        } else {
+
+            $porcentajeModelos = 0;
+            $usuariosModelos = "Configura Empresa ";
         }
 
-        $porcentajeModelos = ($usuariosModelos *100)/$empresaCapacidadModelos;     
-        return array ($dataUsuariosJS,$usuariosModelos,$porcentajeModelos);
+
+        return array($dataUsuariosJS, $usuariosModelos, $porcentajeModelos);
     }
 
     public function reporte_dia()
     {
-        /* AGRUPA EL VALOR PRODUCIDO POR LA META Y FECHA; ES DECIR  NOS MUESTRA LA PRODUCCION DIARIA
-        DE ACUERDO A LA META Y A LA FECHA, LO USAMOS  PARA VERIFICAR LO SIGUIENTE 
-        1. FECHA 
-        2. META STUDIO
-        3.OBJETIVO DIARIO; OJO APROVECHANDO LA RELACION CON LA META  LO QUE SE HACE ES DIVIDR SU VALOR EN EL NUMNERO DE DIAS 
-        4.PRODUCCION REPORTADA; OJO ES LA SUMA DEL VALOR PRODUCIDO 
-        5.ALARMA DIFERENCIA;  DIVIDE EL VALR DE LA META EN EL NUMERO DE DIAS Y LE RESTA  VALOR PRODUCIDO   
-        6.CUMPLIO; OJO VERIFICA SI LA DIFERENCIA ES POSITIVA O NEGATIVA, SI ES POSITIVA CUMPLIO = SI DE LO CONTRARIO NO
-        */
+        $datoMasReciente = Meta::latest()->first(); // O Dato::latest()->get() si deseas obtener varios registros
+        // Puedes hacer lo que desees con $datoMasReciente aquíecho  
+        if ($datoMasReciente != null) {
+            $idMeta = $datoMasReciente->id;
 
-        $fechas = ResgistroProducido::select( 
-            DB::raw('sum(valorProducido) as suma'),
-            DB::raw('meta_id'),
+            $fechas = ResgistroProducido::where('meta_id', $idMeta)->select(
+                DB::raw('sum(valorProducido) as suma'),
+                DB::raw('meta_id'),
+                DB::raw('fecha'),
 
-            DB::raw('fecha'),
+            )
+                ->groupBy('fecha', 'meta_id')
+                ->get();
 
-        )
-            ->groupBy('fecha', 'meta_id')
-            ->get();
 
-        // echo $fechas;
+            $fechas2 = ResgistroProducido::select(
+                DB::raw('sum(valorProducido) as suma'),
+                DB::raw('meta_id'),
+                // DB::raw('fecha'),
 
-        /* AGRUPA EL VALOR PRODUCIDO POR LA META; ES DECIR NOS MUESTA  CUANTO SE HA PRODUCIDO POR CADA META
-        
-        LO USAMOS  PARA VERIFICAR LO SIGUIENTE 
-        
-        1. PARA PODER VER LA PRODUCCION TOTAL; ESTA SE MUESTRA EN TODAS LAS FILAS DONDE COINDIDA EL TIPO DE META*/
+            )
+                ->groupBy('meta_id')
+                ->get();
 
-        $fechas2 = ResgistroProducido::select(
-            DB::raw('sum(valorProducido) as suma'),
-            DB::raw('meta_id'),
-            // DB::raw('fecha'),
+            $fechas3 = ResgistroProducido::select(
+                DB::raw('COUNT(DISTINCT(DATE(fecha)))  as date_count'),
+                DB::raw('meta_id'),
+                // DB::raw('fecha'),           
 
-        )
-            ->groupBy('meta_id')
-            ->get();
+            )
+                ->groupBy('meta_id')
+                ->get();
+            return  array($fechas, $fechas2, $fechas3);
+        }
 
-        // echo $fechas2;            
-
-        $fechas3 = ResgistroProducido::select(
-            DB::raw('COUNT(DISTINCT(DATE(fecha)))  as date_count'),
-            DB::raw('meta_id'),
-            // DB::raw('fecha'),           
-
-        )
-            ->groupBy('meta_id')
-            ->get();
-
-        return  array($fechas, $fechas2, $fechas3);
+        // $noHayMetas = 1;
+        return 0;
     }
 
+    public function dataTurno()
+    {
 
+        $capacidadRooms = Empresa::value('number_rooms');
+        $error = " ";
+        if ($capacidadRooms === null) {
+            $capacidadRooms = 0;
+            $error = "Favor configura la empresa";
+        };
+
+        if ($capacidadRooms > 0) {
+            $turnosManana = AsignacionTurno::whereHas('turno', function ($query) {
+                $query->where('nombre', 'Mañana');
+            })->count();
+            $mananaPorcentaje = ($turnosManana * 100) / $capacidadRooms;
+
+            $turnosTarde = AsignacionTurno::whereHas('turno', function ($query) {
+                $query->where('nombre', 'Tarde');
+            })->count();
+            $tardeProcentaje = ($turnosTarde * 100) / $capacidadRooms;
+
+            $turnosNoche = AsignacionTurno::whereHas('turno', function ($query) {
+                $query->where('nombre', 'Noche');
+            })->count();
+            $nochePorcentaje = ($turnosNoche * 100) / $capacidadRooms;
+        } else {
+            $mananaPorcentaje = 0;
+            $turnosManana = 0;
+            $tardeProcentaje = 0;
+            $turnosTarde = 0;
+            $nochePorcentaje = 0;
+            $turnosNoche = 0;
+        }
+
+        return  array($mananaPorcentaje, $turnosManana, $tardeProcentaje, $turnosTarde, $nochePorcentaje, $turnosNoche, $error);
+    }
+
+    public function dataAsistencia()
+    {
+        // Obtén la fecha actual
+        $fechaActual = Carbon::now()->toDateString();
+        // Realiza la consulta para obtener los registros del día actual
+        $registrosAsistencia = Asistencia::whereDate('fecha', $fechaActual)->get();
+        return $registrosAsistencia;
+    }
+
+    public function dataQuincenas()
+    {
+
+
+        $pagosAgrupados = Pago::orderBy('fecha', 'desc')
+            ->get()
+            ->groupBy(function ($date) {
+                return \Carbon\Carbon::parse($date->fecha)->format('Y-m-d'); // Agrupar por día
+            });
+
+        if ($pagosAgrupados != null) {
+
+            $totalPagosPorFecha = [];
+            $fechasArray = array();
+            foreach ($pagosAgrupados as $fecha => $pagos) {
+                $fechasArray[] = $fecha;
+                $totalPagosPorFecha[$fecha] = $pagos->sum('devengado');
+
+                // echo $pagos->sum('devengado');
+            }
+            $totalPagos = array_values($totalPagosPorFecha);
+            $fechas = array_keys($totalPagosPorFecha);
+
+            $fechasString = json_encode($fechas);
+            $totalPagosString = json_encode($totalPagos);
+
+
+            $fechasEscapadas = htmlspecialchars($fechasString, ENT_QUOTES, 'UTF-8');
+            $totalPagosEscapados = htmlspecialchars($totalPagosString, ENT_QUOTES, 'UTF-8');
+        }
+        else{
+            $fechasArray[] = 0;
+            $totalPagosEscapados[]=0;
+        }
+
+
+
+
+        return array($totalPagosEscapados, $fechasArray);
+    }
 
     public function index()
-    {    
+    {
+        $configAsistencia = AsistenciaTiempoConfig::find(1);
+        $configAsistencia = AsistenciaTiempoConfig::find(1);
 
         $multas = AsignacionMulta::where('descontado', 0)->count();
         $descuentos = Descuento::where('saldo', '>', 0)->sum('saldo');
@@ -292,6 +395,11 @@ class HomeController extends Controller
         $dataHistorialMetas = $this->dataHistorialMeta();
         $dataUsuarios = $this->dataUsuario();
         $dataResumenMeta = $this->reporte_dia();
-        return view('admin.index.index', compact('multas', 'descuentos', 'dataDescuentos', 'dataMetas', 'dataMultas', 'dataHistorialMetas', 'dataUsuarios','dataResumenMeta'));
+        $dataTurnos = $this->dataTurno();
+        $dataAsistencias = $this->dataAsistencia();
+        $dataQuincenas = $this->dataQuincenas();
+
+
+        return view('admin.index.index', compact('multas', 'descuentos', 'dataDescuentos', 'dataMetas', 'dataMultas', 'dataHistorialMetas', 'dataUsuarios', 'dataResumenMeta', 'dataTurnos', 'dataAsistencias', 'configAsistencia', 'dataQuincenas'));
     }
 }

@@ -16,15 +16,23 @@ class CreateAsignacionTurnosTable extends Migration
         Schema::create('asignacion_turnos', function (Blueprint $table) {
             $table->id();
 
-            $table->unsignedBigInteger('user_id');//campo para relacion
-            $table->unsignedBigInteger('turno_id');//campo para relacion
+            $table->unsignedBigInteger('user_id')->nullable(); //campo para relacion
+
+            $table->unsignedBigInteger('turno_id'); //campo para relacion
+
             $table->foreign('user_id')
-                    ->references('id')->on('users')//tabla
-                    ->onDelete('cascade');
+                ->references('id')
+                ->on('users') //tabla
+                ->onDelete('set null');
+
             $table->foreign('turno_id')
-                    ->references('id')->on('turnos');
+                ->references('id')
+                ->on('turnos')
+                ->onDelete('cascade');
+
             $table->timestamps();
             $table->softDeletes(); // Agregar esta línea para habilitar eliminación suave
+
         });
     }
 

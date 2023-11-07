@@ -6,8 +6,8 @@ use App\Http\Controllers\Controller;
 use App\Models\TipoMulta;
 use Illuminate\Http\Request;
 
-class TipoMultaController extends Controller 
-{ 
+class TipoMultaController extends Controller
+{
     /**
      * Display a listing of the resource.
      *
@@ -31,19 +31,19 @@ class TipoMultaController extends Controller
 
     /**
      * Store a newly created resource in storage.
-     * 
+     *
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
     {
-        //VALiDACION FORMULARIO 
+        //VALiDACION FORMULARIO
         $request->validate([
             'nombre' => 'required',
             'costo' => 'required',
         ]);
 
-        $tipoMulta= TipoMulta::create($request->all());
+        $tipoMulta = TipoMulta::create($request->all());
         return redirect()->route('admin.tipoMultas.index', $tipoMulta->id)->with('info', 'store');
     }
 
@@ -66,7 +66,7 @@ class TipoMultaController extends Controller
      */
     public function edit(TipoMulta $tipoMulta)
     {
-        return view('admin.tipoMultas.edit',compact('tipoMulta'));
+        return view('admin.tipoMultas.edit', compact('tipoMulta'));
     }
 
     /**
@@ -89,7 +89,6 @@ class TipoMultaController extends Controller
 
     }
 
-
     /**
      * Remove the specified resource from storage.
      *
@@ -98,7 +97,11 @@ class TipoMultaController extends Controller
      */
     public function destroy(TipoMulta $tipoMulta)
     {
+        if ($tipoMulta->id === 1) {
+            return redirect()->route('admin.tipoMultas.index')->with('info', 'error-delete');
+        }
         $tipoMulta->delete();
-        return redirect()->route('admin.tipoMultas.index')->with('info','delete');
+        return redirect()->route('admin.tipoMultas.index')->with('info', 'delete');
     }
+
 }

@@ -52,6 +52,10 @@
                                 href="{{ route('admin.registroAsistencias.create') }}">Registrar
                                 Asistencia</a>
                         @endcan
+                        @can('admin.registroAsistencias.create')
+                            <button class="btn btn-primary float-right mr-4" data-toggle="modal"
+                                data-target="#configModal">Tiempo de Advertencia</button>
+                        @endcan
                     </div>
                 </div>
             </div>
@@ -68,6 +72,7 @@
                             <th>Usuario</th>
                             <th>Fecha</th>
                             <th>Hora</th>
+                            <th>Multa</th>
                             @can('admin.registroAsistencias.control')
                                 <th>Control</th>
                             @endcan
@@ -94,8 +99,10 @@
                             <th>Usuario</th>
                             <th>Fecha</th>
                             <th>Hora</th>
+                            <th>Multa</th>
                             @can('admin.registroAsistencias.control')
                                 <th>Control</th>
+
                             @endcan
                             @can('admin.registroAsistencias.edit')
                                 <th>Editar</th>
@@ -110,6 +117,42 @@
         </div>
     </div>
 
+    <!-- Modal -->
+    <div class="modal fade" id="configModal" tabindex="-1" role="dialog" aria-labelledby="configModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="configModalLabel">Configuración de Tiempo de Advertencia</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Cerrar">
+                        <span aria-hidden="true">&times;</span>
+                    </button>.   
+
+                     
+                </div>
+                <div class="modal-body">
+                    <!-- Campo para ingresar el nombre -->
+                    <div class="form-group">
+                        <label for="nombre">Nombre:</label>
+                        <input type="hidden" value="{{ $configAsistencia->id }}" id="config_id">
+                        <input type="text" class="form-control" id="nombre" placeholder="Escribe el nombre aquí"
+                            value="{{ $configAsistencia->nombre }}">
+                    </div>
+                    <!-- Campo para ingresar los minutos -->
+                    <div class="form-group">
+                        <label for="tiempo">Minutos:</label>
+                        <input type="text" class="form-control" id="tiempo" placeholder="Escribe los minutos aquí"
+                            value="{{ $configAsistencia->tiempo / 60 }}">
+                    </div>
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                    <button type="button" class="btn btn-primary">Guardar</button>
+                </div>
+            </div>
+        </div>
+    </div>
 
 @stop
 
@@ -126,14 +169,15 @@
         var table = $('#html5-extension').DataTable({
             dom: '<"row"<"col-md-12"<"row"<"col-md-6"B><"col-md-6"f> > ><"col-md-12"rt> <"col-md-12"<"row"<"col-md-5"i><"col-md-7"p>>> >',
             buttons: {
-                buttons: [{
-                        extend: 'copy',
-                        className: 'btn'
-                    },
-                    {
-                        extend: 'csv',
-                        className: 'btn'
-                    },
+                buttons: [
+                    // {
+                    //     extend: 'copy',
+                    //     className: 'btn'
+                    // },
+                    // {
+                    //     extend: 'csv',
+                    //     className: 'btn'
+                    // },
                     {
                         extend: 'excel',
                         className: 'btn'
@@ -144,15 +188,29 @@
                     }
                 ]
             },
-            "oLanguage": {
-                "oPaginate": {
-                    "sPrevious": '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-arrow-left"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>',
-                    "sNext": '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-arrow-right"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>'
+            language: {
+                "decimal": ",",
+                "emptyTable": "No hay datos disponibles en la tabla",
+                "info": "Mostrando _START_ a _END_ de _TOTAL_ registros",
+                "infoEmpty": "Mostrando 0 a 0 de 0 registros",
+                "infoFiltered": "(filtrado de _MAX_ registros en total)",
+                "infoPostFix": "",
+                "thousands": ".",
+                "lengthMenu": "Mostrar _MENU_ registros por página",
+                "loadingRecords": "Cargando...",
+                "processing": "Procesando...",
+                "search": "Buscar:",
+                "zeroRecords": "No se encontraron registros coincidentes",
+                "paginate": {
+                    "first": "Primero",
+                    "last": "Último",
+                    "next": '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-arrow-right"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>',
+                    "previous": '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-arrow-left"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>',
                 },
-                "sInfo": "Página _PAGE_ de _PAGES_",
-                "sSearch": '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-search"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>',
-                "sSearchPlaceholder": "Buscar...",
-                "sLengthMenu": "Mostrar _MENU_ resultados por página",
+                "aria": {
+                    "sortAscending": ": activar para ordenar la columna ascendente",
+                    "sortDescending": ": activar para ordenar la columna descendente"
+                },
             },
             "stripeClasses": [],
             "lengthMenu": [7, 10, 20, 50],
@@ -224,15 +282,44 @@
 
         // Vincular eventos de clic para eliminar inicialmente
         bindDeleteEvents();
+
+        // Manejar el clic en el botón "Guardar" dentro del modal
+        $('#configModal').on('click', '.btn-primary', function() {
+            // Obtener los valores ingresados por el usuario
+            var id = $('#config_id').val();
+            var minutos = $('#tiempo').val();
+            var nombre = $('#nombre').val();
+
+            // Realizar una solicitud PUT (o POST) a la ruta
+            $.ajax({
+                type: 'PUT', // Cambiar a 'POST' si es necesario
+                url: '{{ route('admin.registroAsistencia.configAsistencia') }}',
+                data: {
+                    _token: '{{ csrf_token() }}', // Token CSRF para protección
+                    id: id,
+                    minutos: minutos,
+                    nombre: nombre
+                },
+                success: function(response) {
+                    if (response.success) {
+                        $('#configModal').modal('hide');
+                        Swal.fire(
+                            'Actualizado!',
+                            'El tiempo de advertencia se Actualizo',
+                            'success'
+                        )
+                    }
+
+                },
+                error: function(xhr, status, error) {
+                    // Manejar cualquier error, si es necesario
+                    console.error('Error al guardar datos');
+                }
+            });
+        });
     </script>
     <script src="{{ asset('assets/libs/switchery/switchery.min.js') }}"></script>
-    <script>
-        // console.log('Hi!');
-
-
-
-    </script>
-
+    <script></script>
 
     {{-- SWET ALERT --}}
     @if (session('info') == 'delete')

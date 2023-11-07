@@ -38,7 +38,7 @@
         }
 
         #filtro-panel.open {
-            width: 350px;
+            width: 430px;
             /* Ancho deseado del panel */
         }
 
@@ -48,7 +48,7 @@
             /* Espacio entre los campos de fecha */
         }
 
-        #filtrar {
+        .filtrar {
             background-color: #0073e6;
             /* Color de fondo para el botón */
             color: #fff;
@@ -72,7 +72,7 @@
         <div class="widget-content widget-content-area br-6">
 
             <div class="row">
-                <div class="col-8">
+                <div class="col-7">
                     <div style="display: flex;">
                         <label class="mt-2 ml-3 mr-1">Registros :</label>
                         <select id="records-per-page" class="form-control custom-width-20">
@@ -84,12 +84,17 @@
                         </select>
                     </div>
                 </div>
-                <div class="col-4"
+                <div class="col-5"
                     style="display: flex; flex-direction: row-reverse; justify-content: space-between;">
                     <div id="filtro-panel" class="mb-3" style="display: flex; align-items: center;">
                         <input type="date" id="fecha-inicial">
                         <input type="date" id="fecha-final">
-                        <button id="filtrar">Filtrar</button>
+                        <div>
+                            <button id="Limpiar" class="filtrar">Limpiar</button>
+                            <button id="filtrar" class="filtrar">Filtrar</button>
+                        </div>
+
+
                     </div>
                 </div>
             </div>
@@ -252,15 +257,29 @@
                     }
                 ]
             },
-            "oLanguage": {
-                "oPaginate": {
-                    "sPrevious": '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-arrow-left"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>',
-                    "sNext": '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-arrow-right"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>'
+            language: {
+                "decimal": ",",
+                "emptyTable": "No hay datos disponibles en la tabla",
+                "info": "Mostrando _START_ a _END_ de _TOTAL_ registros",
+                "infoEmpty": "Mostrando 0 a 0 de 0 registros",
+                "infoFiltered": "(filtrado de _MAX_ registros en total)",
+                "infoPostFix": "",
+                "thousands": ".",
+                "lengthMenu": "Mostrar _MENU_ registros por página",
+                "loadingRecords": "Cargando...",
+                "processing": "Procesando...",
+                "search": "Buscar:",
+                "zeroRecords": "No se encontraron registros coincidentes",
+                "paginate": {
+                    "first": "Primero",
+                    "last": "Último",
+                    "next": '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-arrow-right"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>',
+                    "previous": '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-arrow-left"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>',
                 },
-                "sInfo": "Página _PAGE_ de _PAGES_",
-                "sSearch": '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-search"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>',
-                "sSearchPlaceholder": "Buscar...",
-                "sLengthMenu": "Results :  _MENU_",
+                "aria": {
+                    "sortAscending": ": activar para ordenar la columna ascendente",
+                    "sortDescending": ": activar para ordenar la columna descendente"
+                },
             },
             "stripeClasses": [],
             "lengthMenu": [7, 10, 20, 50],
@@ -292,6 +311,18 @@
 
             document.getElementById('filtro-panel').classList.add('open');
         });
+
+        $('#Limpiar').on('click', function() {
+        // Limpiar los campos de fecha
+        $('#fecha-inicial').val('');
+        $('#fecha-final').val('');
+
+        // Mostrar todas las filas
+        $('table tbody tr').show();
+
+        // Borrar los filtros
+        // $('#filtro-panel').removeClass('open');
+    });
     </script>
     <script src="{{ asset('assets/libs/switchery/switchery.min.js') }}"></script>
     <script></script>

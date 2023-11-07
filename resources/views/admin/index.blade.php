@@ -1115,9 +1115,6 @@
                     });
             });
         </script>
-
-
-<<<<<<< HEAD
         {{-- GRAFICA MULTAS --}}
 
         {{-- <script>
@@ -1209,13 +1206,7 @@
 
             var d_1C_5 = new ApexCharts(document.querySelector("#hybrid_followers"), d_1options3);
             d_1C_5.render()
-        </script> --}}
-
-
-
-
-=======
->>>>>>> 4b7241d1e311cb10f56e8b4f0fcbe0afb94409a6
+        </script> 
         {{-- Using HTML5 input elements --}}
         <script>
             var html5Slider = document.getElementById('html5');

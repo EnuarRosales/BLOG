@@ -14,7 +14,7 @@
     </td>
     @can('admin.registroAsistencias.control')
         <td
-            class="{{ $asistencia->control === 'A Tiempo' ? 'badge badge-success' : ($asistencia->control === $configAsistencia->nombre ? 'badge badge-warning' : ($asistencia->control === 'No tiene turno asignado' ? 'badge badge-info' : 'badge badge-danger')) }}">
+            class="{{ $asistencia->control === 'A Tiempo' ? 'badge badge-success' : ($asistencia->control === 'Retardado' ? 'badge badge-danger' : ($asistencia->control === 'No tiene turno asignado' ? 'badge badge-info' : 'badge badge-warning')) }}">
 
             {{ $asistencia->control }}
 

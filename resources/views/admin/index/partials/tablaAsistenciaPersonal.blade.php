@@ -37,10 +37,20 @@
                                     </td>
 
                                     <td>
-                                        <span
+                                        @if ($dataAsistencia->control == "A Tiempo")
+                                            <span class="badge badge-success"> {{ $dataAsistencia->control }} </span>
+                                        @elseif ($dataAsistencia->control == "No tiene turno asignado")
+                                            <span class="badge badge-info"> {{ $dataAsistencia->control }} </span>
+                                        @elseif ($dataAsistencia->control == "Retardado")
+                                            <span class="badge badge-danger"> {{ $dataAsistencia->control }} </span>
+                                        @else
+                                            <span class="badge badge-warning"> {{ $dataAsistencia->control }} </span>
+                                        @endif
+
+                                        {{-- <span
                                             class="{{ $dataAsistencia->control === 'A Tiempo' ? 'badge badge-success' : ($dataAsistencia->control === $configAsistencia->nombre ? 'badge badge-warning' : ($dataAsistencia->control === 'No tiene turno asignado' ? 'badge badge-info' : 'badge badge-danger')) }}">
                                             {{ $dataAsistencia->control }}
-                                        </span>
+                                        </span> --}}
                                     </td>
 
                                 </tr>

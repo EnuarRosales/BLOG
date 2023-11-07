@@ -10,6 +10,7 @@ use App\Models\AsistenciaTiempoConfig;
 use App\Models\Descuento;
 use App\Models\Empresa;
 use App\Models\Meta;
+use App\Models\Pago;
 use App\Models\ResgistroProducido;
 use App\Models\User;
 use Carbon\Carbon;
@@ -324,18 +325,64 @@ class HomeController extends Controller
         // Obtén la fecha actual
         $fechaActual = Carbon::now()->toDateString();
         // Realiza la consulta para obtener los registros del día actual
-        $registrosAsistencia = Asistencia::whereDate('fecha', $fechaActual)->get();       
-       
-
+        $registrosAsistencia = Asistencia::whereDate('fecha', $fechaActual)->get();
         return $registrosAsistencia;
     }
+
+    public function dataQuincenas()
+    {
+
+
+        $pagosAgrupados = Pago::orderBy('fecha', 'desc')
+            ->get()
+            ->groupBy(function ($date) {
+                return \Carbon\Carbon::parse($date->fecha)->format('Y-m-d'); // Agrupar por día
+            });
+
+        $totalPagosPorFecha = [];
+        
+
+        $fechasArray = array();
+
+        foreach ($pagosAgrupados as $fecha => $pagos) {
+            $fechasArray[] = $fecha;
+            $totalPagosPorFecha[$fecha] = $pagos->sum('devengado');
+            
+            // echo $pagos->sum('devengado');
+        }
+
+        // dd ($fechasArray);
+
+        // echo $fechasArray;
+
+
+        $totalPagos = array_values($totalPagosPorFecha);
+        $fechas = array_keys($totalPagosPorFecha);
+
+        $fechasString = json_encode($fechas);
+        $totalPagosString = json_encode($totalPagos);
+
+
+        $fechasEscapadas = htmlspecialchars($fechasString, ENT_QUOTES, 'UTF-8');
+        $totalPagosEscapados = htmlspecialchars($totalPagosString, ENT_QUOTES, 'UTF-8');
+
+
+        return array($totalPagosEscapados, $fechasArray);
+    }
+
+
+
+
+
+
 
 
 
 
     public function index()
     {
-        $configAsistencia = AsistenciaTiempoConfig::find(1);$configAsistencia = AsistenciaTiempoConfig::find(1);
+        $configAsistencia = AsistenciaTiempoConfig::find(1);
+        $configAsistencia = AsistenciaTiempoConfig::find(1);
 
         $multas = AsignacionMulta::where('descontado', 0)->count();
         $descuentos = Descuento::where('saldo', '>', 0)->sum('saldo');
@@ -346,8 +393,10 @@ class HomeController extends Controller
         $dataUsuarios = $this->dataUsuario();
         $dataResumenMeta = $this->reporte_dia();
         $dataTurnos = $this->dataTurno();
-        $dataAsistencias =$this->dataAsistencia();
+        $dataAsistencias = $this->dataAsistencia();
+        $dataQuincenas = $this->dataQuincenas();
 
-        return view('admin.index.index', compact('multas', 'descuentos', 'dataDescuentos', 'dataMetas', 'dataMultas', 'dataHistorialMetas', 'dataUsuarios', 'dataResumenMeta', 'dataTurnos','dataAsistencias','configAsistencia'));
+
+        return view('admin.index.index', compact('multas', 'descuentos', 'dataDescuentos', 'dataMetas', 'dataMultas', 'dataHistorialMetas', 'dataUsuarios', 'dataResumenMeta', 'dataTurnos', 'dataAsistencias', 'configAsistencia', 'dataQuincenas'));
     }
 }

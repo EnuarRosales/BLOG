@@ -3,7 +3,7 @@
         <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 layout-spacing">
             <div class="widget widget-table-three">
                 <div class="widget-heading">
-                    <h5 class="">Cumplimiento meta</h5>
+                    <h5 class="">Control de meta</h5>
                 </div>
                 <div class="widget-content">
                     <div class="table-responsive">
@@ -94,7 +94,8 @@
         <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 layout-spacing">
             <div class="widget widget-table-three">
                 <div class="widget-heading">
-                    <h5 class="">Cumplimiento meta <span style="color: red; font-weight: bold;"> Programa una meta </span></h5>
+                    <h5 class="">Cumplimiento meta <span style="color: red; font-weight: bold;"> Programa una meta
+                        </span></h5>
                 </div>
                 <div class="widget-content">
                     <div class="table-responsive">

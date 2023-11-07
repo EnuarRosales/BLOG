@@ -69,8 +69,8 @@
                             <tr>
                                 <td>{{ $asignacionTurno->id }}</td>
                                 <td>{{ $asignacionTurno->user->name }}</td>
-                                <td>{{ $asignacionTurno->user->tipoUsuario->nombre }}</td>
-                                <td>{{ $asignacionTurno->turno->nombre }}</td>
+                                <td>{{ $asignacionTurno->user->tipoUsuario->nombre ?? 'Vacio' }}</td>
+                                <td>{{ $asignacionTurno->turno->nombre ?? 'Vacio' }}</td>
                                 @can('admin.asignacionTurnos.edit')
                                     <td width="10px">
                                         <a href="{{ route('admin.asignacionTurnos.edit', $asignacionTurno) }}"

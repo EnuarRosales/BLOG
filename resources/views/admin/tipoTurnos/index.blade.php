@@ -37,11 +37,11 @@
                         </select>
                         <span class="ml-2 mt-2"></span>
                     </div>
-                    <div class="mq-960">
+                    {{-- <div class="mq-960">
                         <a class="btn btn-primary float-right mr-4" href="{{ route('admin.tipoTurnos.create') }}">Agregar
                             tipo
                             turno</a>
-                    </div>
+                    </div> --}}
                 </div>
             </div>
             <div class="table-responsive mb-4 mt-4">
@@ -53,7 +53,7 @@
                             <th>Hora Ingreso</th>
                             <th>Hora Termino</th>
                             <th>Editar</th>
-                            <th>Eliminar</th>
+                            {{-- <th>Eliminar</th> --}}
                         </tr>
                     </thead>
                     <tbody>
@@ -61,8 +61,9 @@
                             <tr>
                                 <td>{{ $turno->id }}</td>
                                 <td>{{ $turno->nombre }}</td>
-                                <td> {{ date('g:i a', strtotime($turno->horaIngreso)) }}</td>
+                                <td> {{ date('g:i a', strtotime($turno->horaIngreso )) ?? 'Vacio'  }}</td>
                                 <td> {{ date('g:i a', strtotime($turno->horaTermino)) }}</td>
+                                
                                 <td width="10px">
                                     <a href="{{ route('admin.tipoTurnos.edit', $turno) }}" class=" bs-tooltip"
                                         data-placement="top" title="Editar">
@@ -76,7 +77,7 @@
                                     </a>
                                 </td>
 
-                                <td width="10px">
+                                {{-- <td width="10px">
                                     <a href="javascript:void(0);" class="ml-2 eliminar-registro rounded bs-tooltip"
                                         data-placement="top" title="Eliminar" data-turno-id="{{ $turno->id }}">
                                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
@@ -87,15 +88,9 @@
                                             <line x1="15" y1="9" x2="9" y2="15"></line>
                                             <line x1="9" y1="9" x2="15" y2="15"></line>
                                         </svg>
-                                    </a>
-                                    {{-- <form class="formulario-eliminar"
-                                        action="{{ route('admin.tipoTurnos.destroy', $turno) }}" method="POST">
-                                        @csrf
-                                        @method('delete')
-                                        <button type="submit" class="btn btn-dark btn-sm">Eliminar</button>
-                                    </form> --}}
+                                    </a>                                   
 
-                                </td>
+                                </td> --}}
 
                             </tr>
                         @endforeach
@@ -107,7 +102,7 @@
                             <th>Hora Ingreso</th>
                             <th>Hora Termino</th>
                             <th>Editar</th>
-                            <th>Eliminar</th>
+                            {{-- <th>Eliminar</th> --}}
                         </tr>
                     </tfoot>
                 </table>

@@ -142,6 +142,10 @@
             </div>
 
             <div>
+                @include('admin.index.partials.tablaAsistenciaPersonal')
+            </div>
+
+            <div>
                 @include('admin.index.partials.tablaMetaResumen')
             </div>
 
@@ -153,7 +157,7 @@
                 <div class="col-xl-8 col-lg-6 col-md-6 col-sm-12 col-12 layout-spacing">
                     <div class="widget-four">
                         <div class="widget-heading">
-                            <h5 class="">Historial de metas del estudio</h5>
+                            <h5 class="">Control historial metas del estudio</h5>
                         </div>
                         <div class="widget-content">
                             <div class="vistorsBrowser">
@@ -258,7 +262,7 @@
                 <div class="col-xl-4 col-lg-6 col-md-6 col-sm-6 col-12 layout-spacing">
                     <div class="widget-three">
                         <div class="widget-heading">
-                            <h5 class="">Turnos <span
+                            <h5 class=""> Control turnos <span
                                     style="color: red; font-weight: bold;">{{ $dataTurnos[6] }}</span> </h5>
                         </div>
                         <div class="widget-content">
@@ -404,7 +408,7 @@
                         <div class="widget-header">
                             <div class="row">
                                 <div class="col-xl-12 col-md-12 col-sm-12 col-12">
-                                    <h4>Apex (Simple)</h4>
+                                    <h4>Estadistca de produccion quincenal</h4>
                                 </div>
                             </div>
                         </div>
@@ -749,11 +753,15 @@
                     curve: 'straight'
                 },
                 series: [{
-                    name: "Desktops",
-                    data: [10, 41, 35, 51, 49, 62, 69, 91, 148]
+                    name: "Prooduccion",
+                    data: {{$dataQuincenas[0]}},
+
+                    
+                    
+                   
                 }],
                 title: {
-                    text: 'Product Trends by Month',
+                    text: 'Facturado por quincena',
                     align: 'left'
                 },
                 grid: {
@@ -763,7 +771,14 @@
                     },
                 },
                 xaxis: {
-                    categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep'],
+                    categories: {{  $dataQuincenas[0]}},
+
+                 
+                    
+
+                    
+                   
+                    
                 }
             }
 

@@ -20,6 +20,8 @@ class ReportePagina extends Model
         return $this->belongsTo('App\Models\User','user_id');
     }
 
+    
+
 
 
     //RELACION UNO A MUCHOS  INVERSA

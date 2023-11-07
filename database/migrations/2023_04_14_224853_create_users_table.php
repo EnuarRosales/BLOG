@@ -17,7 +17,7 @@ class CreateUsersTable extends Migration
             $table->id();
             $table->date('fechaIngreso')->nullable();
             $table->string('name', 45)->nullable();
-            $table->string('cedula', 45)->nullable();
+            $table->string('cedula', 45)->uniqued() ->nullable();
             $table->string('celular', 45)->nullable();
             $table->string('direccion', 150)->nullable();
             $table->string('email')->unique()->nullable();

@@ -339,45 +339,36 @@ class HomeController extends Controller
                 return \Carbon\Carbon::parse($date->fecha)->format('Y-m-d'); // Agrupar por día
             });
 
-        $totalPagosPorFecha = [];
-        
+        if ($pagosAgrupados != null) {
 
-        $fechasArray = array();
+            $totalPagosPorFecha = [];
+            $fechasArray = array();
+            foreach ($pagosAgrupados as $fecha => $pagos) {
+                $fechasArray[] = $fecha;
+                $totalPagosPorFecha[$fecha] = $pagos->sum('devengado');
 
-        foreach ($pagosAgrupados as $fecha => $pagos) {
-            $fechasArray[] = $fecha;
-            $totalPagosPorFecha[$fecha] = $pagos->sum('devengado');
-            
-            // echo $pagos->sum('devengado');
+                // echo $pagos->sum('devengado');
+            }
+            $totalPagos = array_values($totalPagosPorFecha);
+            $fechas = array_keys($totalPagosPorFecha);
+
+            $fechasString = json_encode($fechas);
+            $totalPagosString = json_encode($totalPagos);
+
+
+            $fechasEscapadas = htmlspecialchars($fechasString, ENT_QUOTES, 'UTF-8');
+            $totalPagosEscapados = htmlspecialchars($totalPagosString, ENT_QUOTES, 'UTF-8');
+        }
+        else{
+            $fechasArray[] = 0;
+            $totalPagosEscapados[]=0;
         }
 
-        // dd ($fechasArray);
 
-        // echo $fechasArray;
-
-
-        $totalPagos = array_values($totalPagosPorFecha);
-        $fechas = array_keys($totalPagosPorFecha);
-
-        $fechasString = json_encode($fechas);
-        $totalPagosString = json_encode($totalPagos);
-
-
-        $fechasEscapadas = htmlspecialchars($fechasString, ENT_QUOTES, 'UTF-8');
-        $totalPagosEscapados = htmlspecialchars($totalPagosString, ENT_QUOTES, 'UTF-8');
 
 
         return array($totalPagosEscapados, $fechasArray);
     }
-
-
-
-
-
-
-
-
-
 
     public function index()
     {

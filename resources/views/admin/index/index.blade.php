@@ -771,7 +771,7 @@
                     },
                 },
                 xaxis: {
-                    categories: {{  $dataQuincenas[1][1]}},
+                    categories: {{  $dataQuincenas[0]}},
 
                  
                     

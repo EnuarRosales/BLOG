@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Events\ReloadTable;
+use App\Events\usuarios_widget;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\StoreEmpresaRequest;
 use App\Models\Empresa;
@@ -58,7 +59,7 @@ class EmpresaController extends Controller
      */
     public function store(StoreEmpresaRequest $request): RedirectResponse
     {
-        //VALiDACION FORMULARIO 
+        //VALiDACION FORMULARIO
         $request->validate([
             'name' => 'required',
             // 'porcentaje' => 'required',
@@ -66,7 +67,7 @@ class EmpresaController extends Controller
         ]);
         Empresa::create($request->all());
 
-        event(new ReloadTable());
+        event(new usuarios_widget());
 
         return redirect()->route('admin.empresa.index')->with('info', 'store');
     }

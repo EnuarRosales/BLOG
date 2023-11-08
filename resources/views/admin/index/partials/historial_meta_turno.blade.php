@@ -129,7 +129,7 @@
 
                             <div class="w-summary-info">
                                 <h6>Manaña</h6>
-                                <p class="summary-count">Modelos: {{ $dataTurnos[1] }}</p>
+                                <p class="summary-count" id="cantidad_manana">Modelos: {{ $dataTurnos[1] }}</p>
                             </div>
 
                             <div class="w-summary-stats">
@@ -160,7 +160,7 @@
 
                             <div class="w-summary-info">
                                 <h6>Tarde</h6>
-                                <p class="summary-count">Modelos: {{ $dataTurnos[3] }}</p>
+                                <p class="summary-count" id="cantidad_tarde">Modelos: {{ $dataTurnos[3] }}</p>
                             </div>
 
                             <div class="w-summary-stats">
@@ -191,7 +191,7 @@
 
                             <div class="w-summary-info">
                                 <h6>Noche</h6>
-                                <p class="summary-count">Modelos: {{ $dataTurnos[5] }}</p>
+                                <p class="summary-count" id="cantidad_noche">Modelos: {{ $dataTurnos[5] }}</p>
                             </div>
 
                             <div class="w-summary-stats">

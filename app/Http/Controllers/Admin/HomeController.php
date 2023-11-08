@@ -399,6 +399,8 @@ class HomeController extends Controller
         $dataAsistencias = $this->dataAsistencia();
         $dataQuincenas = $this->dataQuincenas();
 
+        // dd($dataQuincenas);
+
 
         return view('admin.index.index', compact('multas', 'descuentos', 'dataDescuentos', 'dataMetas', 'dataMultas', 'dataHistorialMetas', 'dataUsuarios', 'dataResumenMeta', 'dataTurnos', 'dataAsistencias', 'configAsistencia', 'dataQuincenas'));
     }

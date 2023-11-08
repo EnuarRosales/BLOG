@@ -2,12 +2,12 @@
 
                 <ul class="navbar-nav theme-brand flex-row  text-center">
                     <li class="nav-item theme-logo">
-                        <a href="index.html">
-                            <img src="{{asset('template/assets/img/90x90.jpg')}}" class="navbar-logo" alt="logo">
+                        <a href="{{ route('home') }}">
+                            <img src="{{asset('template/assets/img/loco.jpg')}}" class="navbar-logo" alt="logo">
                         </a>
                     </li>
                     <li class="nav-item theme-text">
-                        <a href="index.html" class="nav-link"> @yield('tittle-system', 'SistemaWC') </a>
+                        <a href="{{ route('home') }}" class="nav-link"> @yield('tittle-system', 'SistemaWC') </a>
                     </li>
                 </ul>
 

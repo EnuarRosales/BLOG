@@ -43,7 +43,7 @@
                     <label for="user_id">Usuario</label>
                     <select name="user_id" class="form-control" id="user_id">
                         <option value="">Seleccione Un Usuario</option>
-                        @foreach ($users as $user)
+                        {{-- @foreach ($users as $user)
                             @php
                                 $asignacionTurnos = $user->asignacionTurnos->first();
                             @endphp
@@ -53,6 +53,20 @@
                                 data-Entrada="{{ $asignacionTurnos ? $asignacionTurnos->turno->horaIngreso : '' }}">
                                 {{ $user->name }}
                             </option>
+                        @endforeach --}}
+
+                        @foreach ($users as $user)
+                            @php
+                                $asignacionTurnos = $user->asignacionTurnos;
+                            @endphp
+
+                            @foreach ($asignacionTurnos as $asignacionTurno)
+                                <option value="{{ $user->id }}" data-TurnoName="{{ $asignacionTurno->turno->nombre }}"
+                                    data-Hora="{{ $asignacionTurno->turno->horaIngreso . ' - ' . $asignacionTurno->turno->horaTermino }}"
+                                    data-Entrada="{{ $asignacionTurno->turno->horaIngreso }}">
+                                    {{ $user->name }} - {{ $asignacionTurno->turno->nombre }}
+                                </option>
+                            @endforeach
                         @endforeach
 
                     </select>

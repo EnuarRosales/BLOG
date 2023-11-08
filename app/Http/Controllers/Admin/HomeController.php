@@ -354,7 +354,7 @@ class HomeController extends Controller
         if ($pagosAgrupados != null) {
 
             $totalPagosPorFecha = [];
-            $fechasArray = array();
+            $fechasArray = [];
             foreach ($pagosAgrupados as $fecha => $pagos) {
                 $fechasArray[] = $fecha;
                 $totalPagosPorFecha[$fecha] = $pagos->sum('devengado');
@@ -366,7 +366,7 @@ class HomeController extends Controller
 
             $fechasString = json_encode($fechas);
             $totalPagosString = json_encode($totalPagos);
-
+            
 
             $fechasEscapadas = htmlspecialchars($fechasString, ENT_QUOTES, 'UTF-8');
             $totalPagosEscapados = htmlspecialchars($totalPagosString, ENT_QUOTES, 'UTF-8');
@@ -377,7 +377,7 @@ class HomeController extends Controller
         }
 
 
-
+        // dd($fechasArray);
 
         return array($totalPagosEscapados, $fechasArray);
     }
@@ -399,7 +399,7 @@ class HomeController extends Controller
         $dataAsistencias = $this->dataAsistencia();
         $dataQuincenas = $this->dataQuincenas();
 
-        // dd($dataQuincenas);
+         //dd($dataQuincenas);
 
 
         return view('admin.index.index', compact('multas', 'descuentos', 'dataDescuentos', 'dataMetas', 'dataMultas', 'dataHistorialMetas', 'dataUsuarios', 'dataResumenMeta', 'dataTurnos', 'dataAsistencias', 'configAsistencia', 'dataQuincenas'));

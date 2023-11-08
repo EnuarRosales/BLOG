@@ -2,6 +2,7 @@
     <td>{{ $asistencia->id }}</td>
     <td>{{ $asistencia->user->name }}</td>
     <td>{{ $asistencia->fecha }}</td>
+    <td hidden>{{ $asistencia->updated_at }}</td>
     <td>
         {{ date('g:i a', strtotime($asistencia->mi_hora)) }}
     </td>
@@ -13,7 +14,7 @@
     </td>
     @can('admin.registroAsistencias.control')
         <td
-            class="{{ $asistencia->control === 'A Tiempo' ? 'badge badge-success' : ($asistencia->control === $configAsistencia->nombre ? 'badge badge-warning' : ($asistencia->control === 'No tiene turno asignado' ? 'badge badge-info' : 'badge badge-danger')) }}">
+            class="{{ $asistencia->control === 'A Tiempo' ? 'badge badge-success' : ($asistencia->control === 'Retardado' ? 'badge badge-danger' : ($asistencia->control === 'No tiene turno asignado' ? 'badge badge-info' : 'badge badge-warning')) }}">
 
             {{ $asistencia->control }}
 

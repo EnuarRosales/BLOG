@@ -71,6 +71,7 @@
                             <th>ID</th>
                             <th>Usuario</th>
                             <th>Fecha</th>
+                            <th hidden>Actualizacion</th>
                             <th>Hora</th>
                             <th>Multa</th>
                             @can('admin.registroAsistencias.control')
@@ -98,6 +99,7 @@
                             <th>ID</th>
                             <th>Usuario</th>
                             <th>Fecha</th>
+                            <th hidden>Actualizacion</th>
                             <th>Hora</th>
                             <th>Multa</th>
                             @can('admin.registroAsistencias.control')
@@ -214,7 +216,8 @@
             },
             "stripeClasses": [],
             "lengthMenu": [7, 10, 20, 50],
-            "pageLength": 7
+            "pageLength": 7,
+            "order": [[3, 'desc']]
         });
 
         // Vincular eventos de clic para eliminar

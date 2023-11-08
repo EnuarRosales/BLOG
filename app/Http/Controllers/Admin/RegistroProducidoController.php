@@ -140,6 +140,7 @@ class RegistroProducidoController extends Controller
     {
         $registroProducidos = ResgistroProducido::all();
 
+
         foreach ($registroProducidos as $registroProducido) {
             if ($registroProducido->valorProducido > $registroProducido->meta->valor) {
                 $registroProducido->cumplio = "Si";
@@ -156,11 +157,18 @@ class RegistroProducidoController extends Controller
             ->get()
             ->sum('valorProducido');
         $total =  $registroProducidoss->sum('valorProducido');
+
         // echo $registroProducidoss;
-        return view('admin.registroProducidos.resumen', compact('registroProducidoss'));
+        return view('admin.registroProducidos.resumen', compact('registroProducidoss','metas'));
     }
 
-
+    public function resumen_ajax(Request $request)
+    {
+        $fechaInicial = $request->input('fechaInicial');
+        $fechaFinal = $request->input('fechaFinal');
+        $datosFiltrados = ResgistroProducido::whereBetween('fecha', [$fechaInicial, $fechaFinal])->get();
+        return response()->json(['success' => true, 'data' => $datosFiltrados]);
+    }
 
 
     public function reporte_dia(Request $request)
@@ -214,6 +222,8 @@ class RegistroProducidoController extends Controller
             ->groupBy('meta_id')
             ->get();
 
-        return view('admin.registroProducidos.resumen', compact('fechas', 'fechas2', 'fechas3'));
+            $metas = Meta::orderBy('id', 'desc')->get();
+
+        return view('admin.registroProducidos.resumen', compact('fechas', 'fechas2', 'fechas3','metas'));
     }
 }

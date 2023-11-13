@@ -75,14 +75,14 @@ class HomeController extends Controller
     public function dataMeta()
     {
         $datoMasReciente = Meta::latest()->first();
-         // O Dato::latest()->get() si deseas obtener varios registros
+        // O Dato::latest()->get() si deseas obtener varios registros
         if ($datoMasReciente != null) {
 
-    
-        // if($datoMasReciente != null){
 
-        // }
-        $valorMeta = $datoMasReciente->valor;
+            // if($datoMasReciente != null){
+
+            // }
+            $valorMeta = $datoMasReciente->valor;
             $idMeta = $datoMasReciente->id;
             $nombreMeta = $datoMasReciente->nombre;
             $registroProduccion = ResgistroProducido::where('meta_id', $idMeta)
@@ -178,11 +178,11 @@ class HomeController extends Controller
         return $dataMultasJS;
     }
 
-    public function dataMultas (){
+    public function dataMultas()
+    {
         $dataMultas = $this->dataMulta();
 
         return response()->json($dataMultas);
-
     }
 
     public function dataUsuario()
@@ -348,7 +348,7 @@ class HomeController extends Controller
         $pagosAgrupados = Pago::orderBy('fecha', 'desc')
             ->get()
             ->groupBy(function ($date) {
-                return \Carbon\Carbon::parse($date->fecha)->format('Y-m-d'); // Agrupar por día
+                return \Carbon\Carbon::parse($date->fecha)->format('Y-m-d');
             });
 
         if ($pagosAgrupados != null) {
@@ -361,25 +361,29 @@ class HomeController extends Controller
 
                 // echo $pagos->sum('devengado');
             }
-            $totalPagos = array_values($totalPagosPorFecha);
-            $fechas = array_keys($totalPagosPorFecha);
 
-            $fechasString = json_encode($fechas);
-            $totalPagosString = json_encode($totalPagos);
-            
 
-            $fechasEscapadas = htmlspecialchars($fechasString, ENT_QUOTES, 'UTF-8');
+            $fechasArrayString = json_encode($fechasArray);
+            $totalPagosString = json_encode(array_values($totalPagosPorFecha));
+
+
+            // $fechasEscapadas = htmlspecialchars_decode($fechasString, ENT_QUOTES);
+            // $fechasEscapadas = str_replace('"', " ", $fechasEscapadas);
             $totalPagosEscapados = htmlspecialchars($totalPagosString, ENT_QUOTES, 'UTF-8');
-        }
-        else{
+
+            //dd($fechasEscapadas);
+        } else {
             $fechasArray[] = 0;
-            $totalPagosEscapados[]=0;
+            $totalPagosEscapados[] = 0;
         }
 
 
         // dd($fechasArray);
 
-        return array($totalPagosEscapados, $fechasArray);
+        return response()->json([
+            'fechas' => $fechasArrayString,
+            'totalPagos' => $totalPagosString,
+        ]);
     }
 
     public function index()
@@ -397,11 +401,11 @@ class HomeController extends Controller
         $dataResumenMeta = $this->reporte_dia();
         $dataTurnos = $this->dataTurno();
         $dataAsistencias = $this->dataAsistencia();
-        $dataQuincenas = $this->dataQuincenas();
+        //$dataQuincenas = $this->dataQuincenas();
 
-         //dd($dataQuincenas);
+        //dd($dataQuincenas);
 
 
-        return view('admin.index.index', compact('multas', 'descuentos', 'dataDescuentos', 'dataMetas', 'dataMultas', 'dataHistorialMetas', 'dataUsuarios', 'dataResumenMeta', 'dataTurnos', 'dataAsistencias', 'configAsistencia', 'dataQuincenas'));
+        return view('admin.index.index', compact('multas', 'descuentos', 'dataDescuentos', 'dataMetas', 'dataMultas', 'dataHistorialMetas', 'dataUsuarios', 'dataResumenMeta', 'dataTurnos', 'dataAsistencias', 'configAsistencia'));
     }
 }

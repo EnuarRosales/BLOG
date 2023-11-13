@@ -74,21 +74,7 @@
             </div>
 
             <div class="row">
-                <div id="chartLine" class="col-xl-9 layout-top-spacing layout-spacing">
-                    <div class="widget box box-shadow">
-                        <div class="widget-header">
-                            <div class="row">
-                                <div class="col-xl-12 col-md-12 col-sm-12 col-12">
-                                    <h4>Estadistca de produccion quincenal</h4>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="widget-content widget-content-area">
-                            <div id="s-line" class=""></div>
-                        </div>
-                    </div>
-
-                </div>
+                @include('admin.index.partials.grafico_quincena')
 
                 <div class="col-xl-3 col-lg-12 col-md-6 col-sm-12 col-12 layout-top-spacing">
                     <div class="widget widget-table-one" style="padding-top: 2rem; height: 31.0rem;">
@@ -214,7 +200,7 @@
                     </div>
                 </div>
             </div>
-
+            
             <div class="row">
 
                 <div id="chartColumn" class="col-xl-12 layout-spacing">
@@ -579,61 +565,60 @@
 
         {{-- Apex (Simple) --}}
         <script>
-            var sline = {
-                chart: {
-                    height: 350,
-                    type: 'line',
-                    zoom: {
-                        enabled: false
-                    },
-                    toolbar: {
-                        show: false,
-                    }
-                },
-                dataLabels: {
-                    enabled: false
-                },
-                stroke: {
-                    curve: 'straight'
-                },
-                series: [{
-                    name: "Prooduccion",
-                    data: {{ $dataQuincenas[0] }},
+            // Realiza una petición AJAX para obtener los nuevos datos de la gráfica
+            $.ajax({
+                type: 'GET',
+                url: 'getdataquincenas', // Reemplaza con la URL correcta
+                success: function(data) {
+                    var fechasEscapadas = JSON.parse(data.fechas);
+                    var totalPagos = JSON.parse(data.totalPagos);
 
+                    var sline = {
+                        chart: {
+                            height: 350,
+                            type: 'line',
+                            zoom: {
+                                enabled: false
+                            },
+                            toolbar: {
+                                show: false,
+                            }
+                        },
+                        dataLabels: {
+                            enabled: false
+                        },
+                        stroke: {
+                            curve: 'straight'
+                        },
+                        series: [{
+                            name: "Producción",
+                            data: totalPagos,
+                        }],
+                        title: {
+                            text: 'Facturado por quincena',
+                            align: 'left'
+                        },
+                        grid: {
+                            row: {
+                                colors: ['#f1f2f3', 'transparent'],
+                                opacity: 0.5
+                            },
+                        },
+                        xaxis: {
+                            categories: fechasEscapadas,
+                        }
+                    };
 
+                    var chart = new ApexCharts(
+                        document.querySelector("#s-line"),
+                        sline
+                    );
 
-
-                }],
-                title: {
-                    text: 'Facturado por quincena',
-                    align: 'left'
-                },
-                grid: {
-                    row: {
-                        colors: ['#f1f2f3', 'transparent'], // takes an array which will be repeated on columns
-                        opacity: 0.5
-                    },
-                },
-                xaxis: {
-                    // categories: {{ $dataQuincenas[0] }},
-                    categories: {{ $dataQuincenas[1] }},
-
-
-
-
-
-
-
+                    chart.render();
                 }
-            }
-
-            var chart = new ApexCharts(
-                document.querySelector("#s-line"),
-                sline
-            );
-
-            chart.render();
+            });
         </script>
+
         {{-- Simple Column --}}
         <script>
             var sCol = {

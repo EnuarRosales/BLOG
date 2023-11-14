@@ -12,7 +12,7 @@
                                 <th>Usuario</th>
                                 <th>Fecha</th>
                                 <th>Hora</th>
-                                <th>Turno</th>
+                                {{-- <th>Turno</th> --}}
                                 <th>Multa</th>
                                 <th>Control</th>
                             </tr>
@@ -26,7 +26,7 @@
                                         {{ date('g:i a', strtotime($dataAsistencia->mi_hora)) }}
                                     </td>
 
-                                    <td>#</td>
+                                    {{-- <td>#</td> --}}
 
                                     <td>
                                         @if ($dataAsistencia->multa_id == null)

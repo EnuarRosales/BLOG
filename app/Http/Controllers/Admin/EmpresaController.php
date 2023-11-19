@@ -58,17 +58,34 @@ class EmpresaController extends Controller
      */
     public function store(StoreEmpresaRequest $request): RedirectResponse
     {
-        //VALiDACION FORMULARIO 
-        $request->validate([
-            'name' => 'required',
-            // 'porcentaje' => 'required',
-            // 'mayorQue' => 'required',
-        ]);
-        Empresa::create($request->all());
+        try {
+            DB::beginTransaction();
 
-        // event(new ReloadTable());
+            $request_data = $request->all();
 
-        return redirect()->route('admin.empresa.index')->with('info', 'store');
+            // Manejar el logo
+            if ($request->hasFile('logo')) {
+                $url_logo = $this->handleLogo($request->file('logo'));
+                $request_data['logo'] = $url_logo;
+            }
+            // Crear la empresa
+            Empresa::create($request_data);
+
+            DB::commit();
+            return redirect()->route('admin.empresa.index')->with('info', 'store');
+        } catch (\Exception $exception) {
+            DB::rollBack();
+            Log::error("Error EmpCr store: {$exception->getMessage()}, File: {$exception->getFile()}, Line: {$exception->getLine()}");
+            return back();
+        }
+    }
+
+    // Método privado para manejar el logo
+    private function handleLogo($logoFile)
+    {
+        $name_logo = uniqid() . '.' . $logoFile->getClientOriginalExtension();
+        $logoFile->move(public_path('image'), $name_logo);
+        return '/' . $name_logo;
     }
 
     /**
@@ -98,24 +115,31 @@ class EmpresaController extends Controller
     public function update(StoreEmpresaRequest $request, Empresa $empresa)
     {
         try {
-
             DB::beginTransaction();
 
             if (!$request->file('logo')) {
                 $empresa->update($request->all());
             } else {
                 $request_data = $request->all();
+                $logoFile = $request->file('logo');
 
-                $name_logo = uniqid($empresa->id . '-') . '.' . $request->file('logo')->getClientOriginalExtension();
+                // Generar un nombre único para el archivo
+                $name_logo = uniqid($empresa->id . '-') . '.' . $logoFile->getClientOriginalExtension();
 
-                Storage::disk('public-logo')->put($name_logo, File::get($request->file('logo')));
+                // Mover el archivo a la nueva ubicación
+                // $logoFile->move('C:\laragon\www\BLOG-STUDIO\public\vendor\adminlte\dist\img', $name_logo);
+                $logoFile->move(public_path('image'), $name_logo);
 
-                $url_logo = Storage::disk('public-logo')->url($name_logo);
 
+                // Obtener la URL completa del nuevo logo
+                $url_logo = '/' . $name_logo;
+
+                // Actualizar los datos con la nueva URL del logo
                 $request_data['logo'] = $url_logo;
 
                 $empresa->update($request_data);
             }
+
             DB::commit();
             return redirect()->route('admin.empresa.index')->with('info', 'update');
         } catch (\Exception $exception) {
@@ -124,6 +148,7 @@ class EmpresaController extends Controller
             return back();
         }
     }
+
 
     /**
      * Remove the specified resource from storage.

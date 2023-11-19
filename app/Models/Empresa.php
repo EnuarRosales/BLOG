@@ -13,6 +13,10 @@ class Empresa extends Model
 
     protected $guarded = [];
 
+    protected $fillable = [
+        'name', 'nit', 'address', 'representative', 'representative_identification_card', 'number_rooms', 'capacity_models', 'logo',
+    ];
+
     // public function users()    {
     //     return $this->belongsToMany(User::class, 'user_empresa');
     // }

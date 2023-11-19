@@ -11,7 +11,7 @@
 
 <body>
     <header style="margin-bottom: 50%">
-        <img src="{{ public_path() . '\image\Imagen2.png' }}" width="105" height="90">
+        <img src="{{ public_path() . '\image' . $logoEmpresa }}" width="100" height="90" style="margin-left: 20px; margin-top:20px">
         <img class="QR" src="data:image/png;base64,{!! base64_encode($codigoQR) !!}">
         <p style="position: fixed; top: -60px; left: 220px; center: 0px; height: 200px; color:#858585;">
             CERTIFICACION LABORAL

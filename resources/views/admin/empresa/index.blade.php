@@ -41,14 +41,16 @@
                         </select>
                         <span class="ml-2 mt-2"></span>
                     </div>
-                    @if ($empresas->isNotEmpty())
-                    @else
+                    {{-- @if ($empresas->isNotEmpty())
+                    @else --}}
+                    @if ($empresas->count() < 1)
                         <div class="mq-960">
                             <a class="btn btn-primary float-right mr-4" href="{{ route('admin.empresa.create') }}">Agregar
                                 Empresa</a>
                             {{-- <a class="" href="{{ route('admin.tenants.create') }}">Agregar Inquilino</a> --}}
                         </div>
                     @endif
+                    {{-- @endif --}}
 
                 </div>
             </div>

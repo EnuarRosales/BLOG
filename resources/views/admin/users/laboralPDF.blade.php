@@ -11,9 +11,10 @@
 
 <body>
     <header style="margin-bottom: 50%">
-        {{-- <img src="{{ public_path() . '\image' . $logoEmpresa }}" width="100" height="90" style="margin-left: 20px; margin-top:20px"> --}}
         
-        <img src="{{ asset('image/' . $logoEmpresa) }}" width="100" height="90" style="margin-left: 20px; margin-top:20px">
+        <img src="{{ public_path() . '\image' . $logoEmpresa }}" width="100" height="90" style="margin-left: 20px; margin-top:20px">
+        
+        {{-- <img src="{{ asset('image/' . $logoEmpresa) }}" width="100" height="90" style="margin-left: 20px; margin-top:20px"> --}}
 
         
         <img class="QR" src="data:image/png;base64,{!! base64_encode($codigoQR) !!}">

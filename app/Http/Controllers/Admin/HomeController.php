@@ -11,6 +11,7 @@ use App\Models\Descuento;
 use App\Models\Empresa;
 use App\Models\Meta;
 use App\Models\Pago;
+use App\Models\ReportePagina;
 use App\Models\ResgistroProducido;
 use App\Models\User;
 use Carbon\Carbon;
@@ -345,7 +346,7 @@ class HomeController extends Controller
     {
 
 
-        $pagosAgrupados = Pago::orderBy('fecha', 'desc')
+        $pagosAgrupados = ReportePagina::orderBy('fecha', 'desc')
             ->get()
             ->groupBy(function ($date) {
                 return \Carbon\Carbon::parse($date->fecha)->format('Y-m-d');
@@ -357,7 +358,7 @@ class HomeController extends Controller
             $fechasArray = [];
             foreach ($pagosAgrupados as $fecha => $pagos) {
                 $fechasArray[] = $fecha;
-                $totalPagosPorFecha[$fecha] = $pagos->sum('devengado');
+                $totalPagosPorFecha[$fecha] = $pagos->sum('dolares');
 
                 // echo $pagos->sum('devengado');
             }
@@ -386,6 +387,38 @@ class HomeController extends Controller
         ]);
     }
 
+    public function dataQuincenas2()
+    {
+        $pagosAgrupados = ReportePagina::orderBy('fecha', 'desc')
+            ->get()
+            ->groupBy(function ($date) {
+                return \Carbon\Carbon::parse($date->fecha)->format('Y-m-d');
+            });
+
+        if ($pagosAgrupados != null) {
+
+            $totalPagosPorFecha = [];
+            $fechasArray = [];
+            foreach ($pagosAgrupados as $fecha => $pagos) {
+                $fechasArray[] = $fecha;
+                $totalPagosPorFecha[$fecha] = $pagos->sum('dolares');          
+            }       
+
+           
+        } else {
+            $fechasArray[] = 0;
+            $totalPagosEscapados[] = 0;
+        }
+        // echo $fechasArrayString."hola";
+
+        // dd($totalPagosString);
+
+        // dd($fechasArray);
+
+       return [$fechasArray,$totalPagosPorFecha];
+        
+    }
+
     public function index()
     {
         $configAsistencia = AsistenciaTiempoConfig::find(1);
@@ -401,11 +434,12 @@ class HomeController extends Controller
         $dataResumenMeta = $this->reporte_dia();
         $dataTurnos = $this->dataTurno();
         $dataAsistencias = $this->dataAsistencia();
-        //$dataQuincenas = $this->dataQuincenas();
+        // $dataQuincenas = $this->dataQuincenas2();
+        list($fechasArray, $totalPagosPorFecha) = $this->dataQuincenas2();
 
         //dd($dataQuincenas);
 
 
-        return view('admin.index.index', compact('multas', 'descuentos', 'dataDescuentos', 'dataMetas', 'dataMultas', 'dataHistorialMetas', 'dataUsuarios', 'dataResumenMeta', 'dataTurnos', 'dataAsistencias', 'configAsistencia'));
+        return view('admin.index.index', compact('multas', 'descuentos', 'dataDescuentos', 'dataMetas', 'dataMultas', 'dataHistorialMetas', 'dataUsuarios', 'dataResumenMeta', 'dataTurnos', 'dataAsistencias', 'configAsistencia','fechasArray','totalPagosPorFecha'));
     }
 }

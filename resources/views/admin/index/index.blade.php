@@ -292,7 +292,7 @@
                     <div class="widget-header">
                         <div class="row">
                             <div class="col-xl-12 col-md-12 col-sm-12 col-12">
-                                <h4>Simple Column</h4>
+                                <h4>Estadisticas de Paginas por Quincenas</h4>
                             </div>
                         </div>
                     </div>
@@ -705,8 +705,8 @@
 
     {{-- Simple Column --}}
     <script>
-        var nombresPaginas = @json($datapaginas['nombresPaginas']);
-        var totalesNetoPesos = @json($datapaginas['totalNetaPesos']);
+        var seriesPorPagina = @json($datapaginas['seriesPorPagina']);
+        var fechaQuincenas = @json($datapaginas['fechaQuincenas']);
     
         var sCol = {
             chart: {
@@ -731,14 +731,13 @@
                 width: 2,
                 colors: ['transparent']
             },
-            series: [],
+            series: seriesPorPagina,
             xaxis: {
-                categories: ['Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct'],
-
+                categories: fechaQuincenas,
             },
             yaxis: {
                 title: {
-                    text: '$ (thousands)'
+                    text: '$ (COP)'
                 }
             },
             fill: {
@@ -747,19 +746,11 @@
             tooltip: {
                 y: {
                     formatter: function(val) {
-                        return "$ " + val + " thousands"
+                        return "$ " + val + " COP"
                     }
                 }
             }
         };
-    
-        // Agregar dinámicamente las series
-        for (var i = 0; i < totalesNetoPesos.length; i++) {
-            sCol.series.push({
-                name: nombresPaginas[i],
-                data: [totalesNetoPesos[i]] // Asegúrate de proporcionar los datos adecuados aquí
-            });
-        }
     
         var chart = new ApexCharts(
             document.querySelector("#s-col"),
@@ -768,6 +759,7 @@
     
         chart.render();
     </script>
+    
     
     <script src="{{ asset('template/assets/js/scrollspyNav.js') }}"></script>
     <script src="{{ asset('template/plugins/flatpickr/flatpickr.js') }}"></script>

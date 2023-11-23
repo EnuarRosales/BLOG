@@ -82,21 +82,76 @@ class HomeController extends Controller
         $segundoMes = $fechaActual->copy()->subMonths(2);
         $primerMes = $fechaActual->copy()->subMonths(3);
 
-        $sumatoriaPorPagina = ReportePagina::selectRaw('pagina_id, SUM(netoPesos) as totalNetaPesos')
+        $primeraQuincenaCuartoMes = ReportePagina::selectRaw('pagina_id, DATE(fecha) as fecha, SUM(netoPesos) as totalNetaPesos')
             ->whereYear('created_at', $cuartoMes)
             ->whereMonth('created_at', $cuartoMes)
             ->whereDay('created_at', '<=', 15)
-            ->groupBy('pagina_id')
+            ->groupBy('pagina_id', 'fecha')
             ->get();
 
-        // Arreglo para almacenar los valores de idPagina y Totalnetapesos por página
-        // Arreglos para almacenar nombres de página y sumatorias de netoPesos
-        $nombresPaginas = [];
-        $totalNetaPesos = [];
+        $dataAgrupadaPorFecha = [];
+
+        foreach ($primeraQuincenaCuartoMes as $item) {
+            $fecha = $item->fecha;
+
+            if (!isset($dataAgrupadaPorFecha[$fecha])) {
+                $dataAgrupadaPorFecha[$fecha] = [];
+            }
+
+            $dataAgrupadaPorFecha[$fecha][] = [
+                'pagina_id' => $item->pagina_id,
+                'totalNetaPesos' => $item->totalNetaPesos,
+                // Otros datos que quieras asociar con esta fecha
+            ];
+        }
+
+        // Supongamos que tienes un array $dataAgrupadaPorFecha con los datos agrupados por fecha y pagina_id
+
+        // Obtener todas las páginas únicas disponibles en los datos agrupados
+        $paginasUnicas = collect($dataAgrupadaPorFecha)
+            ->flatMap(function ($items) {
+                return collect($items)->pluck('pagina_id');
+            })
+            ->unique()
+            ->values();
+
+        // Crear un array para almacenar las series
+        $seriesPorPagina = [];
+
+        // Iterar sobre cada página única y sus datos asociados por fecha
+        foreach ($paginasUnicas as $pagina) {
+            $paginax = Pagina::where('id', $pagina)->first();
+            $serie = [
+                'name' => $paginax->nombre, // Nombre de la serie (puedes ajustarlo según tus necesidades)
+                'data' => []
+            ];
+
+            foreach ($dataAgrupadaPorFecha as $fecha => $items) {
+                $totalNetaPesosPorPagina = collect($items)
+                    ->where('pagina_id', $pagina)
+                    ->pluck('totalNetaPesos')
+                    ->first() ?? 0; // Valor predeterminado si no hay datos para esta página en esta fecha
+
+                $serie['data'][] = $totalNetaPesosPorPagina;
+            }
+
+            // Agregar la serie al array de series
+            $seriesPorPagina[] = $serie;
+        }
+
+        // $seriesPorPagina ahora contiene las series separadas por pagina_id y sus respectivos datos asociados a cada fecha
+
+
+        // dd($seriesPorPagina);
+
+     //   $nombresPaginas = [];
+      //  $totalNetaPesos = [];
+        $fechaQuincenas = [];
 
         // Iterar sobre los resultados para obtener la sumatoria por página
-        foreach ($sumatoriaPorPagina as $pagina) {
+        foreach ($primeraQuincenaCuartoMes as $pagina) {
             $idPagina = $pagina->pagina_id;
+            $fechaQuincena = $pagina->fecha;
             $page = Pagina::where('id', $idPagina)->first();
             $nombrePagina = $page->nombre;
             $totalNetaPesosPagina = $pagina->totalNetaPesos;
@@ -104,11 +159,17 @@ class HomeController extends Controller
             // Almacenar los valores en los arreglos respectivos
             $nombresPaginas[] = $nombrePagina;
             $totalNetaPesos[] = $totalNetaPesosPagina;
+            $fechaQuincenas[] = $fechaQuincena;
+
+            $fechaQuincenas = array_unique($fechaQuincenas);
+            $fechaQuincenas = array_values(array_unique($fechaQuincenas));
         }
 
         return [
-            'nombresPaginas' => $nombresPaginas,
-            'totalNetaPesos' => $totalNetaPesos,
+            'seriesPorPagina' => $seriesPorPagina ,
+            'fechaQuincenas' => $fechaQuincenas,
+
+            // 'nombresPaginas' => $nombresPaginas,
         ];
 
         $segundaQuincenaCuartoMes = Descuento::whereYear('created_at', $cuartoMes)
@@ -508,7 +569,7 @@ class HomeController extends Controller
         list($fechasArray, $totalPagosPorFecha) = $this->dataQuincenas2();
         $datapaginas = $this->dataPaginas();
 
-        // $this->dataPaginas();
+        //$this->dataPaginas();
         // dd($datapaginas);
 
 

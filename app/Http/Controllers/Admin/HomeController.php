@@ -10,6 +10,7 @@ use App\Models\AsistenciaTiempoConfig;
 use App\Models\Descuento;
 use App\Models\Empresa;
 use App\Models\Meta;
+use App\Models\Pagina;
 use App\Models\Pago;
 use App\Models\ReportePagina;
 use App\Models\ResgistroProducido;
@@ -72,6 +73,78 @@ class HomeController extends Controller
         return $dataDescuentosJS;
     }
 
+    public function dataPaginas()
+    {
+        $fechaActual = Carbon::now();
+
+        $cuartoMes = $fechaActual->copy();
+        $tercerMes = $fechaActual->copy()->subMonths(1);
+        $segundoMes = $fechaActual->copy()->subMonths(2);
+        $primerMes = $fechaActual->copy()->subMonths(3);
+
+        $sumatoriaPorPagina = ReportePagina::selectRaw('pagina_id, SUM(netoPesos) as totalNetaPesos')
+            ->whereYear('created_at', $cuartoMes)
+            ->whereMonth('created_at', $cuartoMes)
+            ->whereDay('created_at', '<=', 15)
+            ->groupBy('pagina_id')
+            ->get();
+
+        // Arreglo para almacenar los valores de idPagina y Totalnetapesos por página
+        // Arreglos para almacenar nombres de página y sumatorias de netoPesos
+        $nombresPaginas = [];
+        $totalNetaPesos = [];
+
+        // Iterar sobre los resultados para obtener la sumatoria por página
+        foreach ($sumatoriaPorPagina as $pagina) {
+            $idPagina = $pagina->pagina_id;
+            $page = Pagina::where('id', $idPagina)->first();
+            $nombrePagina = $page->nombre;
+            $totalNetaPesosPagina = $pagina->totalNetaPesos;
+
+            // Almacenar los valores en los arreglos respectivos
+            $nombresPaginas[] = $nombrePagina;
+            $totalNetaPesos[] = $totalNetaPesosPagina;
+        }
+
+        return [
+            'nombresPaginas' => $nombresPaginas,
+            'totalNetaPesos' => $totalNetaPesos,
+        ];
+
+        $segundaQuincenaCuartoMes = Descuento::whereYear('created_at', $cuartoMes)
+            ->whereMonth('created_at', $cuartoMes)
+            ->whereDay('created_at', '>', 15)
+            ->sum('montoDescuento');
+
+        $primeraQuincenaTercerMes = Descuento::whereYear('created_at', $tercerMes)
+            ->whereMonth('created_at', $tercerMes)
+            ->whereDay('created_at', '<=', 15)
+            ->sum('montoDescuento');
+
+        //FALLA
+        $segundaQuincenaTercerMes = Descuento::whereYear('created_at', $tercerMes)
+            ->whereMonth('created_at', $tercerMes)
+            ->whereDay('created_at', '>', 15)
+            ->sum('montoDescuento');
+
+        $primeraQuincenaSegundoMes = Descuento::whereYear('created_at', $segundoMes)
+            ->whereMonth('created_at', $segundoMes)
+            ->whereDay('created_at', '<=', 15)
+            ->sum('montoDescuento');
+
+        $segundaQuincenaSegundoMes = Descuento::whereYear('created_at', $segundoMes)
+            ->whereMonth('created_at', $segundoMes)
+            ->whereDay('created_at', '>', 15)
+            ->sum('montoDescuento');
+
+        $segundaQuincenaPrimerMes = Descuento::whereYear('created_at', $primerMes)
+            ->whereMonth('created_at', $primerMes)
+            ->whereDay('created_at', '>', 15)
+            ->sum('montoDescuento');
+
+        $dataDescuentosJS = '[' . $segundaQuincenaPrimerMes . ', ' . $segundaQuincenaSegundoMes . ', ' . $primeraQuincenaSegundoMes . ',  ' . $segundaQuincenaTercerMes . ', ' . $primeraQuincenaTercerMes . ',  ' . $segundaQuincenaCuartoMes . ', ' . $primeraQuincenaCuartoMes . ']';
+        return $dataDescuentosJS;
+    }
 
     public function dataMeta()
     {
@@ -401,10 +474,8 @@ class HomeController extends Controller
             $fechasArray = [];
             foreach ($pagosAgrupados as $fecha => $pagos) {
                 $fechasArray[] = $fecha;
-                $totalPagosPorFecha[$fecha] = $pagos->sum('dolares');          
-            }       
-
-           
+                $totalPagosPorFecha[$fecha] = $pagos->sum('dolares');
+            }
         } else {
             $fechasArray[] = 0;
             $totalPagosEscapados[] = 0;
@@ -415,8 +486,7 @@ class HomeController extends Controller
 
         // dd($fechasArray);
 
-       return [$fechasArray,$totalPagosPorFecha];
-        
+        return [$fechasArray, $totalPagosPorFecha];
     }
 
     public function index()
@@ -436,10 +506,12 @@ class HomeController extends Controller
         $dataAsistencias = $this->dataAsistencia();
         // $dataQuincenas = $this->dataQuincenas2();
         list($fechasArray, $totalPagosPorFecha) = $this->dataQuincenas2();
+        $datapaginas = $this->dataPaginas();
 
-        //dd($dataQuincenas);
+        // $this->dataPaginas();
+        // dd($datapaginas);
 
 
-        return view('admin.index.index', compact('multas', 'descuentos', 'dataDescuentos', 'dataMetas', 'dataMultas', 'dataHistorialMetas', 'dataUsuarios', 'dataResumenMeta', 'dataTurnos', 'dataAsistencias', 'configAsistencia','fechasArray','totalPagosPorFecha'));
+        return view('admin.index.index', compact('multas', 'descuentos', 'dataDescuentos', 'dataMetas', 'dataMultas', 'dataHistorialMetas', 'dataUsuarios', 'dataResumenMeta', 'dataTurnos', 'dataAsistencias', 'configAsistencia', 'fechasArray', 'totalPagosPorFecha', 'datapaginas'));
     }
 }

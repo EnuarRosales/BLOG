@@ -705,6 +705,9 @@
 
     {{-- Simple Column --}}
     <script>
+        var nombresPaginas = @json($datapaginas['nombresPaginas']);
+        var totalesNetoPesos = @json($datapaginas['totalNetaPesos']);
+    
         var sCol = {
             chart: {
                 height: 350,
@@ -728,15 +731,10 @@
                 width: 2,
                 colors: ['transparent']
             },
-            series: [{
-                name: 'Net Profit',
-                data: [44, 55, 57, 56, 61, 58, 63, 60, 66]
-            }, {
-                name: 'Revenue',
-                data: [76, 85, 101, 98, 87, 105, 91, 114, 94]
-            }],
+            series: [],
             xaxis: {
                 categories: ['Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct'],
+
             },
             yaxis: {
                 title: {
@@ -745,7 +743,6 @@
             },
             fill: {
                 opacity: 1
-
             },
             tooltip: {
                 y: {
@@ -754,15 +751,24 @@
                     }
                 }
             }
+        };
+    
+        // Agregar dinámicamente las series
+        for (var i = 0; i < totalesNetoPesos.length; i++) {
+            sCol.series.push({
+                name: nombresPaginas[i],
+                data: [totalesNetoPesos[i]] // Asegúrate de proporcionar los datos adecuados aquí
+            });
         }
-
+    
         var chart = new ApexCharts(
             document.querySelector("#s-col"),
             sCol
         );
-
+    
         chart.render();
     </script>
+    
     <script src="{{ asset('template/assets/js/scrollspyNav.js') }}"></script>
     <script src="{{ asset('template/plugins/flatpickr/flatpickr.js') }}"></script>
     <script src="{{ asset('template/plugins/noUiSlider/nouislider.min.js') }}"></script>

@@ -78,10 +78,6 @@ class HomeController extends Controller
         $fechaActual = Carbon::now();
 
         $cuartoMes = $fechaActual->copy();
-        $tercerMes = $fechaActual->copy()->subMonths(1);
-        $segundoMes = $fechaActual->copy()->subMonths(2);
-        $primerMes = $fechaActual->copy()->subMonths(3);
-
         $primeraQuincenaCuartoMes = ReportePagina::selectRaw('pagina_id, DATE(fecha) as fecha, SUM(netoPesos) as totalNetaPesos')
             ->whereYear('created_at', $cuartoMes)
             ->whereMonth('created_at', $cuartoMes)
@@ -144,8 +140,8 @@ class HomeController extends Controller
 
         // dd($seriesPorPagina);
 
-     //   $nombresPaginas = [];
-      //  $totalNetaPesos = [];
+        //   $nombresPaginas = [];
+        //  $totalNetaPesos = [];
         $fechaQuincenas = [];
 
         // Iterar sobre los resultados para obtener la sumatoria por página
@@ -166,45 +162,11 @@ class HomeController extends Controller
         }
 
         return [
-            'seriesPorPagina' => $seriesPorPagina ,
+            'seriesPorPagina' => $seriesPorPagina,
             'fechaQuincenas' => $fechaQuincenas,
 
             // 'nombresPaginas' => $nombresPaginas,
         ];
-
-        $segundaQuincenaCuartoMes = Descuento::whereYear('created_at', $cuartoMes)
-            ->whereMonth('created_at', $cuartoMes)
-            ->whereDay('created_at', '>', 15)
-            ->sum('montoDescuento');
-
-        $primeraQuincenaTercerMes = Descuento::whereYear('created_at', $tercerMes)
-            ->whereMonth('created_at', $tercerMes)
-            ->whereDay('created_at', '<=', 15)
-            ->sum('montoDescuento');
-
-        //FALLA
-        $segundaQuincenaTercerMes = Descuento::whereYear('created_at', $tercerMes)
-            ->whereMonth('created_at', $tercerMes)
-            ->whereDay('created_at', '>', 15)
-            ->sum('montoDescuento');
-
-        $primeraQuincenaSegundoMes = Descuento::whereYear('created_at', $segundoMes)
-            ->whereMonth('created_at', $segundoMes)
-            ->whereDay('created_at', '<=', 15)
-            ->sum('montoDescuento');
-
-        $segundaQuincenaSegundoMes = Descuento::whereYear('created_at', $segundoMes)
-            ->whereMonth('created_at', $segundoMes)
-            ->whereDay('created_at', '>', 15)
-            ->sum('montoDescuento');
-
-        $segundaQuincenaPrimerMes = Descuento::whereYear('created_at', $primerMes)
-            ->whereMonth('created_at', $primerMes)
-            ->whereDay('created_at', '>', 15)
-            ->sum('montoDescuento');
-
-        $dataDescuentosJS = '[' . $segundaQuincenaPrimerMes . ', ' . $segundaQuincenaSegundoMes . ', ' . $primeraQuincenaSegundoMes . ',  ' . $segundaQuincenaTercerMes . ', ' . $primeraQuincenaTercerMes . ',  ' . $segundaQuincenaCuartoMes . ', ' . $primeraQuincenaCuartoMes . ']';
-        return $dataDescuentosJS;
     }
 
     public function dataMeta()
@@ -550,6 +512,67 @@ class HomeController extends Controller
         return [$fechasArray, $totalPagosPorFecha];
     }
 
+    public function dataModelosQuincena()
+    {
+        $registrosAgrupados = ReportePagina::all()
+            ->groupBy('user_id');
+
+        // Array para almacenar los nombres de los modelos por 'user_id'
+        $nombresModelosPorUsuario = [];
+
+        // Obtener 'user_id' únicos
+        $userIds = $registrosAgrupados->keys();
+        
+        foreach ($userIds as $userId) {
+            $modelo = User::where('id', $userId)->first();
+            $nombreModelo = $modelo->name; // Reemplaza 'nombreModelo' con el nombre de la columna que contiene el nombre del modelo
+        
+            $nombresModelosPorUsuario[$userId] = $nombreModelo;
+        }
+
+        // Array para almacenar las sumatorias por fecha para cada usuario
+        $sumatoriasPorFechaPorUsuario = [];
+        $totalespesonetoquincena = [];
+        foreach ($registrosAgrupados as $userId => $registrosUsuario) {
+            // Obtener fechas únicas para el usuario actual
+            $fechasUnicas = $registrosUsuario->pluck('fecha')->unique();
+            $sumaTotalUsuario = 0;
+            // Iterar sobre las fechas únicas
+            foreach ($fechasUnicas as $fecha) {
+                // Filtrar los registros para la fecha actual
+                $registrosPorFecha = $registrosUsuario->where('fecha', $fecha);
+
+                // Obtener la sumatoria de 'dolarers' y 'netoPesos' para la fecha actual
+                $sumatoriaDolarers = $registrosPorFecha->sum('dolarers');
+                $sumatoriaNetoPesos = $registrosPorFecha->sum('netoPesos');
+
+                $sumaTotalUsuario += $sumatoriaNetoPesos;
+                // Almacenar la sumatoria por fecha para el usuario actual
+                $sumatoriasPorFechaPorUsuario[$userId][$fecha] = [
+                    'sumatoriaDolarers' => $sumatoriaDolarers,
+                    'sumatoriaNetoPesos' => $sumatoriaNetoPesos,
+                ];
+            }
+            $totalespesonetoquincena[$userId] = $sumaTotalUsuario;
+
+        
+        }
+        // dd($totalespesonetoquincena);
+        $fechasUnicas = $registrosAgrupados->flatMap(function ($registrosUsuario) {
+            return $registrosUsuario->pluck('fecha');
+        })->unique()->toArray();
+
+
+        //dd($sumatoriasPorFechaPorUsuario);
+        return [
+            'sumatoriasPorFechaPorUsuario' => $sumatoriasPorFechaPorUsuario,
+            'nombresModelosPorUsuario' => $nombresModelosPorUsuario,
+            'fechasUnicas' => $fechasUnicas,
+            'totalespesonetoquincena' => $totalespesonetoquincena,
+        ];
+
+    }
+
     public function index()
     {
         $configAsistencia = AsistenciaTiempoConfig::find(1);
@@ -569,10 +592,12 @@ class HomeController extends Controller
         list($fechasArray, $totalPagosPorFecha) = $this->dataQuincenas2();
         $datapaginas = $this->dataPaginas();
 
-        //$this->dataPaginas();
-        // dd($datapaginas);
+        $dataModelosQuincena = $this->dataModelosQuincena();
+
+        // $this->dataModelosQuincena();
+        // dd($dataModelosQuincena);
 
 
-        return view('admin.index.index', compact('multas', 'descuentos', 'dataDescuentos', 'dataMetas', 'dataMultas', 'dataHistorialMetas', 'dataUsuarios', 'dataResumenMeta', 'dataTurnos', 'dataAsistencias', 'configAsistencia', 'fechasArray', 'totalPagosPorFecha', 'datapaginas'));
+        return view('admin.index.index', compact('multas', 'descuentos', 'dataDescuentos', 'dataMetas', 'dataMultas', 'dataHistorialMetas', 'dataUsuarios', 'dataResumenMeta', 'dataTurnos', 'dataAsistencias', 'configAsistencia', 'fechasArray', 'totalPagosPorFecha', 'datapaginas', 'dataModelosQuincena'));
     }
 }

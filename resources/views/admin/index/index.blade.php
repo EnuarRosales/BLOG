@@ -136,7 +136,12 @@
                                         <tr>
                                             <td>{{ $nombreModelo }}</td>
                                             @foreach ($dataModelosQuincena['sumatoriasPorFechaPorUsuario'][$userId] as $fecha => $total)
-                                                <td>{{ $total['sumatoriaNetoPesos'] }}</td>
+                                                @php
+                                                    $color = $dataModelosQuincena['coloresPorUsuario'][$userId][$fecha] ?? 'white'; // Color predeterminado
+                                                @endphp
+                                                <td> <span class="badge badge-{{ $color }}"> {{ $total['sumatoriaNetoPesos'] }}</span>
+                                                    </td>
+
                                                 {{-- <td>{{ $total['sumatoriaDolarers'] }}</td> --}}
                                             @endforeach
                                             <td>{{ $dataModelosQuincena['totalespesonetoquincena'][$userId] }}</td>

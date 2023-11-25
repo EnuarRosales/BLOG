@@ -1338,7 +1338,46 @@ select.form-control.form-custom {
 
 .badge-success {
   color: #fff;
-  background-color: #8dbf42; }
+  background-color: #7fff7f; }
+
+.badge-success-light {
+  color: #fff;
+  background-color: #86c87e; } 
+
+.badge-success-lighter {
+  color: #fff;
+  background-color: #a8d27e;
+}
+
+.badge-success-very-lighter {
+  color: #fff;
+  background-color: #cddd82;
+}
+
+.badge-yellow-dark {
+  color: #fff;
+  background-color: #f0e583;
+}
+
+.badge-orange {
+  color: #fff;
+  background-color: #fedc82;
+}
+
+.badge-orange-dark {
+  color: #fff;
+  background-color: #fbbe7b;
+}
+
+.badge-orange-darker {
+  color: #fff;
+  background-color: #f8a476;
+}
+
+.badge-orange-very-darker {
+  color: #fff;
+  background-color: #f68672;
+}
 
 .badge-danger {
   color: #fff;

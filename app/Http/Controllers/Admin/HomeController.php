@@ -522,11 +522,11 @@ class HomeController extends Controller
 
         // Obtener 'user_id' únicos
         $userIds = $registrosAgrupados->keys();
-        
+
         foreach ($userIds as $userId) {
             $modelo = User::where('id', $userId)->first();
             $nombreModelo = $modelo->name; // Reemplaza 'nombreModelo' con el nombre de la columna que contiene el nombre del modelo
-        
+
             $nombresModelosPorUsuario[$userId] = $nombreModelo;
         }
 
@@ -554,8 +554,6 @@ class HomeController extends Controller
                 ];
             }
             $totalespesonetoquincena[$userId] = $sumaTotalUsuario;
-
-        
         }
         // dd($totalespesonetoquincena);
         $fechasUnicas = $registrosAgrupados->flatMap(function ($registrosUsuario) {
@@ -563,14 +561,71 @@ class HomeController extends Controller
         })->unique()->toArray();
 
 
-        //dd($sumatoriasPorFechaPorUsuario);
+        $maximoValor = 0;
+
+        foreach ($sumatoriasPorFechaPorUsuario as $userId => $sumatoriasPorFecha) {
+            foreach ($sumatoriasPorFecha as $fecha => $total) {
+                $valor = $total['sumatoriaNetoPesos'];
+                if ($valor > $maximoValor) {
+                    $maximoValor = $valor;
+                }
+            }
+        }
+
+        // Calcular los porcentajes
+        $intervalos = [
+            1.0, // 100%
+            0.9, // 90%
+            0.8, // 80%
+            0.7, // 70%
+            0.6, // 60%
+            0.5, // 50%
+            0.4, // 40%
+            0.3, // 30%
+            0.2, // 20%
+            0.1, // 10%
+        ];
+
+        $colores = [
+            'success', // Verde
+            'success-light', // Verde manzana
+            'success-lighter', // Verde claro
+            'success-very-lighter', // Amarillo
+            'yellow-dark', // Mostaza
+            'orange', // Naranja
+            'orange-dark', // Naranja oscuro
+            'orange-darker', // Rojo
+            'orange-very-darker', // Rojo
+            'danger', // Rojo
+        ];
+
+        $coloresPorUsuario = [];
+
+        foreach ($sumatoriasPorFechaPorUsuario as $userId => $sumatoriasPorFecha) {
+            foreach ($sumatoriasPorFecha as $fecha => $total) {
+                $valor = $total['sumatoriaNetoPesos'];
+                $porcentaje = $valor / $maximoValor;
+
+                // Encontrar el rango en el que cae el porcentaje y asignar el color correspondiente
+                for ($i = 0; $i < count($intervalos); $i++) {
+                    if ($porcentaje >= $intervalos[$i]) {
+                        $coloresPorUsuario[$userId][$fecha] = $colores[$i];
+                        break;
+                    }
+                }
+            }
+        }
+
+        // dd($coloresPorUsuario);
+
         return [
             'sumatoriasPorFechaPorUsuario' => $sumatoriasPorFechaPorUsuario,
             'nombresModelosPorUsuario' => $nombresModelosPorUsuario,
             'fechasUnicas' => $fechasUnicas,
             'totalespesonetoquincena' => $totalespesonetoquincena,
-        ];
+            'coloresPorUsuario' => $coloresPorUsuario,
 
+        ];
     }
 
     public function index()

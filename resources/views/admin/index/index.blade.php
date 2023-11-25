@@ -139,12 +139,12 @@
                                                 @php
                                                     $color = $dataModelosQuincena['coloresPorUsuario'][$userId][$fecha] ?? 'white'; // Color predeterminado
                                                 @endphp
-                                                <td> <span class="badge badge-{{ $color }}"> {{ $total['sumatoriaNetoPesos'] }}</span>
+                                                <td> <span class="badge badge-{{ $color }}">$ {{ $total['sumatoriaNetoPesos'] }} COP</span>
                                                     </td>
 
                                                 {{-- <td>{{ $total['sumatoriaDolarers'] }}</td> --}}
                                             @endforeach
-                                            <td>{{ $dataModelosQuincena['totalespesonetoquincena'][$userId] }}</td>
+                                            <td> ${{ $dataModelosQuincena['totalespesonetoquincena'][$userId] }} COP</td>
                                         </tr>
                                     @endforeach
                                 </tbody>

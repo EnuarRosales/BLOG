@@ -1340,44 +1340,51 @@ select.form-control.form-custom {
   color: #fff;
   background-color: #7fff7f; }
 
+  .badge-listo {
+    color: #000000;
+    background-color: #7fff7f; }
+
 .badge-success-light {
-  color: #fff;
+  color: #000000;
   background-color: #86c87e; } 
 
 .badge-success-lighter {
-  color: #fff;
+  color: #000000;
   background-color: #a8d27e;
 }
 
 .badge-success-very-lighter {
-  color: #fff;
+  color: #000000;
   background-color: #cddd82;
 }
 
 .badge-yellow-dark {
-  color: #fff;
+  color: #000000;
   background-color: #f0e583;
 }
 
 .badge-orange {
-  color: #fff;
+  color: #000000;
   background-color: #fedc82;
 }
 
 .badge-orange-dark {
-  color: #fff;
+  color: #000000;
   background-color: #fbbe7b;
 }
 
 .badge-orange-darker {
-  color: #fff;
+  color: #000000;
   background-color: #f8a476;
 }
 
 .badge-orange-very-darker {
-  color: #fff;
+  color: #000000;
   background-color: #f68672;
 }
+.badge-rojo {
+  color: #000000;
+  background-color: #e7515a; }
 
 .badge-danger {
   color: #fff;

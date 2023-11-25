@@ -587,7 +587,7 @@ class HomeController extends Controller
         ];
 
         $colores = [
-            'success', // Verde
+            'listo', // Verde
             'success-light', // Verde manzana
             'success-lighter', // Verde claro
             'success-very-lighter', // Amarillo
@@ -596,7 +596,7 @@ class HomeController extends Controller
             'orange-dark', // Naranja oscuro
             'orange-darker', // Rojo
             'orange-very-darker', // Rojo
-            'danger', // Rojo
+            'rojo', // Rojo
         ];
 
         $coloresPorUsuario = [];

@@ -11,6 +11,7 @@ use App\Models\User;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\File;
@@ -69,8 +70,9 @@ class EmpresaController extends Controller
                 $url_logo = $this->handleLogo($request->file('logo'));
                 $request_data['logo'] = $url_logo;
             }
+
             // Crear la empresa
-            Empresa::create($request_data);
+            $empresa = Empresa::create($request_data);
 
             DB::commit();
             return redirect()->route('admin.empresa.index')->with('info', 'store');
@@ -81,14 +83,19 @@ class EmpresaController extends Controller
         }
     }
 
-    // Método privado para manejar el logo
-    private function handleLogo($logoFile)
+    /**
+     * Maneja el proceso del logo y devuelve la URL.
+     *
+     * @param \Illuminate\Http\UploadedFile $logo
+     * @return string
+     */
+    private function handleLogo(UploadedFile $logo): string
     {
-        $name_logo = uniqid() . '.' . $logoFile->getClientOriginalExtension();
-        $logoFile->move(public_path('image'), $name_logo);
-        return '/' . $name_logo;
+        $name_logo = uniqid() . '.' . $logo->getClientOriginalExtension();
+        Storage::disk('public-logo')->put($name_logo, File::get($logo));
+        $url_logo = str_replace('http://', 'https://', url(Storage::disk('public-logo')->url($name_logo)));
+        return $url_logo;
     }
-
     /**
      * Show the form for editing the specified resource.
      *
@@ -113,33 +120,50 @@ class EmpresaController extends Controller
      * @param  int  $id
      * @return Response
      */
+    // public function update(StoreEmpresaRequest $request, Empresa $empresa)
+    // {
+    //     try {
+
+    //         DB::beginTransaction();
+
+    //         if (!$request->file('logo')) {
+    //             $empresa->update($request->all());
+    //         } else {
+    //             $request_data = $request->all();
+
+    //             $name_logo = uniqid($empresa->id . '-') . '.' . $request->file('logo')->getClientOriginalExtension();
+
+    //             Storage::disk('public-logo')->put($name_logo, File::get($request->file('logo')));
+
+    //             $url_logo = str_replace('http://', 'https://', url(Storage::disk('public-logo')->url($name_logo)));
+
+    //             $request_data['logo'] = $url_logo;
+
+    //             $empresa->update($request_data);
+    //         }
+    //         DB::commit();
+    //         return redirect()->route('admin.empresa.index')->with('info', 'update');
+    //     } catch (\Exception $exception) {
+    //         DB::rollBack();
+    //         Log::error("Error EmpCr update: {$exception->getMessage()}, File: {$exception->getFile()}, Line: {$exception->getLine()}");
+    //         return back();
+    //     }
+    // }
+
     public function update(StoreEmpresaRequest $request, Empresa $empresa)
     {
         try {
             DB::beginTransaction();
 
-            if (!$request->file('logo')) {
-                $empresa->update($request->all());
-            } else {
-                $request_data = $request->all();
-                $logoFile = $request->file('logo');
+            $request_data = $request->all();
 
-                // Generar un nombre único para el archivo
-                $name_logo = uniqid($empresa->id . '-') . '.' . $logoFile->getClientOriginalExtension();
-
-                // Mover el archivo a la nueva ubicación
-                // $logoFile->move('C:\laragon\www\BLOG-STUDIO\public\vendor\adminlte\dist\img', $name_logo);
-                $logoFile->move(public_path('image'), $name_logo);
-
-
-                // Obtener la URL completa del nuevo logo
-                $url_logo = '/' . $name_logo;
-
-                // Actualizar los datos con la nueva URL del logo
+            // Manejar el logo
+            if ($request->hasFile('logo')) {
+                $url_logo = $this->handleLogo($request->file('logo'));
                 $request_data['logo'] = $url_logo;
-
-                $empresa->update($request_data);
             }
+
+            $empresa->update($request_data);
 
             DB::commit();
             return redirect()->route('admin.empresa.index')->with('info', 'update');

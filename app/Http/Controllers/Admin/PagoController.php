@@ -371,6 +371,7 @@ class PagoController extends Controller
         foreach ($empresas as $empresa) {
             $nombreEmpresa = $empresa->name;
             $nitEmpresa = $empresa->nit;
+            $logoEmpresa= $empresa->logo;
         }
 
         $codigoQR = QrCode::size(80)->generate(
@@ -386,7 +387,7 @@ class PagoController extends Controller
 
         $date = Carbon::now()->locale('es');
         try {
-            $pdf = Pdf::loadView('admin.pagos.comprobantePago', compact('reportePaginas', 'pago', 'descuentos', 'TRM', 'multasDescuentos', 'multasDescuentosArray', 'descuentosArray', 'date', 'nitEmpresa', 'nombreEmpresa', 'codigoQR'));
+            $pdf = Pdf::loadView('admin.pagos.comprobantePago', compact('reportePaginas', 'pago', 'descuentos', 'TRM', 'multasDescuentos', 'multasDescuentosArray', 'descuentosArray', 'date', 'nitEmpresa', 'nombreEmpresa', 'codigoQR','logoEmpresa'));
         } catch (\Exception $e) {
             $errorMessage = $e->getMessage();
             $message = substr($errorMessage, strpos($errorMessage, '$') + 1);

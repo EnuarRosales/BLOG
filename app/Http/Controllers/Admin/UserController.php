@@ -126,7 +126,7 @@ class UserController extends Controller
 
 
         // printf('%d años, %d meses, %d días, %d horas, %d minutos', $cantidadAno->y, $cantidadAno->m, $cantidadAno->d, $cantidadAno->h, $cantidadAno->i);
-
+        // dd($logoEmpresa);
         // try {
         $pdf = PDF::loadView('admin.users.laboralPDF', compact('user', 'date', 'nombreEmpresa', 'nitEmpresa', 'gerenteEmpresa', 'fechaAntigua', 'cantidadDias', 'cantidadMes', 'cantidadAno', 'codigoQR', 'logoEmpresa'));
         // } catch (\Exception $e) {
@@ -141,6 +141,7 @@ class UserController extends Controller
         $fechaReciente = Carbon::now();
         $empresas = Empresa::all();
         foreach ($empresas as $empresa) {
+            // dd($empresa);
             $nombreEmpresa = $empresa->name;
             $nitEmpresa = $empresa->nit;
             $gerenteEmpresa = $empresa->representative;
@@ -197,42 +198,6 @@ class UserController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    // public function store(Request $request)
-    // {
-    //     try {
-    //         DB::beginTransaction();
-
-    //         $request->validate([
-    //             'fechaIngreso' => 'required',
-    //             'name' => 'required',
-    //             'cedula' => 'required',
-    //             'celular' => 'required',
-    //             'direccion' => 'required',
-    //             'email' => 'required',
-    //             'tipoUsuario_id' => 'required',
-    //         ]);
-
-    //         $empresa_id = $request->input('empresa_id');
-    //         $request = $request->except('empresa_id');
-    //         $user = User::create($request);
-
-    //         if ($empresa_id) {
-    //             $empresa = Empresa::find($empresa_id);
-    //             $empresa->users()->attach($user->id);
-    //         }
-    //         DB::commit();
-    //         if ($user->active) {
-    //             userModelEvent::dispatch($user->id);
-    //         }
-    //         return redirect()->route('admin.users.index', $user->id)->with('info', 'store');
-    //     } catch (\Exception $exception) {
-    //         DB::rollBack();
-    //         Log::error("Error UC store: {$exception->getMessage()}, File: {$exception->getFile()}, Line: {$exception->getLine()}");
-    //     }
-    // }
-
-
-
     public function store(Request $request)
     {
 

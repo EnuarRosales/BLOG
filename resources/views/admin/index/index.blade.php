@@ -137,7 +137,7 @@
                                             <td>{{ $nombreModelo }}</td>
                                             @foreach ($dataModelosQuincena['sumatoriasPorFechaPorUsuario'][$userId] as $fecha => $total)
                                                 @php
-                                                    $color = $dataModelosQuincena['coloresPorUsuario'][$userId][$fecha] ?? 'white'; // Color predeterminado
+                                                    $color = $dataModelosQuincena['coloresPorUsuario'][$userId][$fecha] ?? 'rojo'; // Color predeterminado
                                                 @endphp
                                                 <td> <span class="badge badge-{{ $color }}">$ {{ $total['sumatoriaNetoPesos'] }} COP</span>
                                                     </td>
@@ -508,6 +508,8 @@
             success: function(data) {
                 var fechasEscapadas = JSON.parse(data.fechas);
                 var totalPagos = JSON.parse(data.totalPagos);
+                console.log(fechasEscapadas);
+                console.log(totalPagos);
 
                 var sline = {
                     chart: {

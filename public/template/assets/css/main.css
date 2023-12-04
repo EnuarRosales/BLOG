@@ -1340,9 +1340,10 @@ select.form-control.form-custom {
   color: #fff;
   background-color: #7fff7f; }
 
+  /* COLORES MAPA DE */
   .badge-listo {
     color: #000000;
-    background-color: #7fff7f; }
+    background-color: #1dd41d; }
 
 .badge-success-light {
   color: #000000;
@@ -1385,6 +1386,8 @@ select.form-control.form-custom {
 .badge-rojo {
   color: #000000;
   background-color: #e7515a; }
+
+  /* TERMINO DE COLORES DE PORCENTAJE */
 
 .badge-danger {
   color: #fff;

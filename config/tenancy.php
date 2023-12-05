@@ -16,9 +16,9 @@ return [
      * Only relevant if you're using the domain or subdomain identification middleware.
      */
     'central_domains' => [
-        // 'blog-studio.test',
+        'blog-studio.test',
         // 'pp.blog-studio.test'
-        'siaewc.com',
+        // 'siaewc.com',
         // 'fo.blog-studio.test',
         // 'localhost',S
         // 'blum.com',

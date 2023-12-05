@@ -16,6 +16,7 @@ use Spatie\Permission\Models\Role;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Carbon\Carbon;
 use Exception;
+use Illuminate\Database\QueryException;
 use PhpParser\Node\Stmt\TryCatch;
 use SimpleSoftwareIO\QrCode\Facades\QrCode;
 
@@ -145,6 +146,7 @@ class UserController extends Controller
             $nombreEmpresa = $empresa->name;
             $nitEmpresa = $empresa->nit;
             $gerenteEmpresa = $empresa->representative;
+            $logoEmpresa = $empresa->logo;
         }
         // if (empty($nombreEmpresa)) {
         //     //  return back()->with('preuba', 'updateRol');
@@ -164,7 +166,7 @@ class UserController extends Controller
             "TIEMPO: " . "Años " . $tiempo->y . " Meses " . $tiempo->m . " Dias " . $tiempo->d);
 
         try {
-            $pdf = Pdf::loadView('admin.users.certificacionTiempoPDF', compact('user', 'date', 'nombreEmpresa', 'nitEmpresa', 'gerenteEmpresa', 'fechaAntigua', 'cantidadDias', 'cantidadMes', 'tiempo', 'codigoQR'));
+            $pdf = Pdf::loadView('admin.users.certificacionTiempoPDF', compact('user', 'date', 'nombreEmpresa', 'nitEmpresa', 'gerenteEmpresa', 'fechaAntigua', 'cantidadDias', 'cantidadMes', 'tiempo', 'codigoQR', 'logoEmpresa'));
         } catch (\Exception $e) {
             $errorMessage = $e->getMessage();
             $message = substr($errorMessage, strpos($errorMessage, '$') + 1);
@@ -213,10 +215,63 @@ class UserController extends Controller
             'empresa_id' => 'required',
         ]);
 
-        $user = User::create($request->all());
-        event(new usuarios_widget);
+        try {
+            DB::beginTransaction();
 
-        return redirect()->route('admin.users.index', $user->id)->with('info', 'store');
+            $user = User::create($request->all());
+
+            $nameTipoUsuario = TipoUsuario::findOrFail($user->tipoUsuario_id);
+            $idRole = Role::where('name', $nameTipoUsuario->nombre)->first();
+
+            if ($idRole) {
+                $user->roles()->sync($idRole->id);
+            }
+
+            DB::commit();
+
+            event(new usuarios_widget);
+            return redirect()->route('admin.users.index', $user->id)->with('info', 'store');
+        } catch (QueryException $e) {
+            // Verificar si la excepción es por violación de clave única (correo electrónico duplicado)
+            if ($e->errorInfo[1] == 1062) {
+                // El código 1062 es específico de MySQL para violación de clave única
+                return back()->withInput()->withErrors(['email' => 'El correo electrónico ya está registrado. Por favor, elija otro.']);
+            }
+
+            // Si la excepción no es por violación de clave única, puedes manejarla según tus necesidades
+            DB::rollBack();
+            Log::error("Error UC store: {$e->getMessage()}, File: {$e->getFile()}, Line: {$e->getLine()}");
+            return back()->withInput()->withErrors(['general' => 'Hubo un problema al procesar la solicitud. Por favor, inténtelo de nuevo.']);
+        }
+
+        // try {
+        //     $user = User::create($request->all());
+        //     $nameTipoUsuario = TipoUsuario::where('id', $user->tipoUsuario_id)->first();
+        //     $idRole = Role::where('name', $nameTipoUsuario->nombre)->first();
+
+        //     if ($idRole) {
+        //         try {
+        //             DB::beginTransaction();
+        //             $user->roles()->sync($idRole->id);
+        //             DB::commit();
+        //             // return redirect()->route('admin.users.index')->with('info', 'updateRol'); //with mensaje de sesion
+        //         } catch (\Exception $exception) {
+        //             DB::rollBack();
+        //             Log::error("Error UC updateRol: {$exception->getMessage()}, File: {$exception->getFile()}, Line: {$exception->getLine()}");
+        //         }
+        //     }
+        //     event(new usuarios_widget);
+        // } catch (QueryException $e) {
+        //     // Verificar si la excepción es por violación de clave única (correo electrónico duplicado)
+        //     if ($e->errorInfo[1] == 1062) {
+        //         // El código 1062 es específico de MySQL para violación de clave única
+        //         return back()->withInput()->withErrors(['email' => 'El correo electrónico ya está registrado. Por favor, elija otro.']);
+        //     } else {
+        //         // Si la excepción no es por violación de clave única, puedes manejarla según tus necesidades
+        //         return back()->withInput()->withErrors(['general' => 'Hubo un problema al procesar la solicitud. Por favor, inténtelo de nuevo.']);
+        //     }
+        // }
+        // return redirect()->route('admin.users.index', $user->id)->with('info', 'store');
     }
 
 

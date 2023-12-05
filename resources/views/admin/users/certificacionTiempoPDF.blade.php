@@ -11,7 +11,8 @@
 
 <body>
     <header style="margin-bottom: 50%">
-        <img src="{{ public_path() . '\image\Imagen2.png' }}" width="105" height="90">
+        {{-- <img src="{{ public_path() . '\image\Imagen2.png' }}" width="105" height="90"> --}}
+        <img src="{{ $logoEmpresa }}" width="100" height="90" style="margin-left: 20px; margin-top:20px">
 
         {{-- C:\laragon\www\BLOG-STUDIO\storage\app\public\logos\1-64d1967249271.png
         storage\app\public\logos\1-64d1967249271.png --}}

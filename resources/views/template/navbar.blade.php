@@ -33,7 +33,7 @@
                             <img src="{{asset('template/assets/img/loco.jpg')}}" class="img-fluid mr-2" alt="avatar">
                             <div class="media-body">
                                 <h5>{{Auth::user()->name}}</h5>
-                                <p>{{ Auth::user()->roles[0]['name'] }}</p>
+                                {{-- <p>{{ Auth::user()->roles[0]['name'] }}</p> --}}
 
                             </div>
                         </div>

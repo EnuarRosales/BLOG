@@ -306,6 +306,11 @@ class PagoController extends Controller
 
     public function comprobantePagoPDF(Pago $pago)
     {
+         /*
+         *
+         * MUESTRA LAS PAGINAS Y LA TRM ESTA PRIMER CONSULTA.
+         *
+         */
         $reportePaginas = ReportePagina::with('user', 'pagina')->select(
             // DB::raw('sum(netoPesos) as suma'),
             DB::raw('Cantidad'),
@@ -315,22 +320,15 @@ class PagoController extends Controller
             DB::raw('pagina_id'),
             DB::raw('porcentajeTotal'),
             DB::raw('pesos'),
+            DB::raw('TRM'),
+
         )
-            ->where('verificado', 1)
+            ->where('verificado', 1) 
             ->where('enviarPago', 1)
             ->where('user_id', $pago->user_id)
             ->where('fecha', $pago->fecha)
-            ->groupBy('fecha', 'user_id', 'pagina_id', 'Cantidad', 'netoPesos', 'porcentajeTotal', 'pesos')
-            ->get();
-
-        $TRM = ReportePagina::with('user', 'pagina')->select(
-            DB::raw('TRM'),
-            DB::raw('pagina_id'),
-
-        )
-            ->where('user_id', $pago->user_id)
-            ->groupBy('TRM', 'pagina_id')
-            ->get();
+            ->groupBy('fecha', 'user_id', 'pagina_id', 'Cantidad', 'netoPesos', 'porcentajeTotal', 'pesos','TRM')
+            ->get();       
 
         $multasDescuentos = AsignacionMulta::select(
             DB::raw('count(tipoMulta_id) as count'),
@@ -387,7 +385,7 @@ class PagoController extends Controller
 
         $date = Carbon::now()->locale('es');
         try {
-            $pdf = Pdf::loadView('admin.pagos.comprobantePago', compact('reportePaginas', 'pago', 'descuentos', 'TRM', 'multasDescuentos', 'multasDescuentosArray', 'descuentosArray', 'date', 'nitEmpresa', 'nombreEmpresa', 'codigoQR','logoEmpresa'));
+            $pdf = Pdf::loadView('admin.pagos.comprobantePago', compact('reportePaginas', 'pago', 'descuentos', 'multasDescuentos', 'multasDescuentosArray', 'descuentosArray', 'date', 'nitEmpresa', 'nombreEmpresa', 'codigoQR','logoEmpresa'));
         } catch (\Exception $e) {
             $errorMessage = $e->getMessage();
             $message = substr($errorMessage, strpos($errorMessage, '$') + 1);

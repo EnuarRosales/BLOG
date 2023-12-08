@@ -5,7 +5,7 @@
             <th>Cantidad</th>
             <th>Devengado</th>
             <th>Deducido</th>
-        </tr>
+        </tr> 
     </thead>
     <tbody>
         @foreach ($reportePaginas as $reportePagina)

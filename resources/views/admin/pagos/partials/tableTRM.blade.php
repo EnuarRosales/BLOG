@@ -1,3 +1,4 @@
+
 <table class="table tablaTotales" style="text-align:center">
     <thead class="cabecera">
         <tr>
@@ -6,10 +7,10 @@
         </tr>
     </thead>
     <tbody>
-        @foreach ($TRM as $item)
+        @foreach ($reportePaginas as $reportePagina)
             <tr>
-                <td>{{ $item->pagina->nombre }}</td>
-                <td>{{ number_format($item->TRM, 2, '.', ',') }}</td>
+                <td>{{ $reportePagina->pagina->nombre }}</td>
+                <td>{{ number_format($reportePagina->TRM, 2, '.', ',') }}</td>
             </tr>
         @endforeach
     </tbody>

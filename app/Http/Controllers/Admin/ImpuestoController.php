@@ -138,17 +138,19 @@ class ImpuestoController extends Controller
 
     public function comprobanteImpuestoPDF(Pago $pago)
     {
+        // dd($pago);
         $empresas = Empresa::all();
         foreach ($empresas as $empresa) {
             $nombreEmpresa = $empresa->name;
             $nitEmpresa = $empresa->nit;
+            $logoEmpresa =$empresa->logo;
         }
 
         $codigoQR = QrCode::size(80)->generate(
             "CERTIFICACION IMPUESTO" . "\n" .
                 "NOMBRE: " . $pago->user->name . "\n" .
                 "FECHA: " . $pago->fecha . "\n" .
-                "CONCEPTO: " . $pago->impuestos->nombre . "\n" .
+                "CONCEPTO: " . ($pago->impuestos->nombre ?? 'N/A') . "\n" .  // Usar 'N/A' si el nombre es nulo
                 "PORCENTAJE: " . $pago->impuestoPorcentaje . " %" . "\n" .
                 "BASE GRABABLE: " . "$ " . number_format($pago->devengado, 2, '.', ',') . "\n" .
                 "RETENIDO: " . "$ " . number_format($pago->impuestoDescuento, 2, '.', ',') . "\n"
@@ -158,7 +160,7 @@ class ImpuestoController extends Controller
         // $pagos = Pago::where('user_id', $pago->id)->get();
         $date = Carbon::now()->locale('es');
         try{
-        $pdf = Pdf::loadView('admin.impuestos.comprobanteImpuestoPDF', compact('pago', 'date', 'nombreEmpresa', 'nitEmpresa', 'codigoQR'));
+        $pdf = Pdf::loadView('admin.impuestos.comprobanteImpuestoPDF', compact('pago', 'date', 'nombreEmpresa', 'nitEmpresa', 'codigoQR','logoEmpresa'));
         } catch (\Exception $e) {
             $errorMessage = $e->getMessage();
             $message = substr($errorMessage, strpos($errorMessage, '$') + 1);

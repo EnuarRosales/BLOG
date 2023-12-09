@@ -22,8 +22,8 @@
                         <div class="w-browser-details">
                             <div class="w-browser-info" id="segunda_meta">
                                 <h6>{{ $dataHistorialMetas[4] }} - Proyectado $ {{ $dataHistorialMetas[7] }} -
-                                    Generado $ {{ number_format($dataHistorialMetas[6], 2) }}</h6>
-                                <p class="browser-count">{{ number_format($dataHistorialMetas[5], 1) }}%</p>
+                                    Generado $ {{$dataHistorialMetas[6] }}</h6>
+                                <p class="browser-count">{{ $dataHistorialMetas[5] }}%</p>
                             </div>
                             <div class="w-browser-stats">
                                 <div class="progress">
@@ -49,8 +49,8 @@
 
                             <div class="w-browser-info" id="tercera_meta">
                                 <h6>{{ $dataHistorialMetas[8] }} - Proyectado $ {{ $dataHistorialMetas[11] }} -
-                                    Generado $ {{ number_format($dataHistorialMetas[10], 2) }}</h6>
-                                <p class="browser-count">{{ number_format($dataHistorialMetas[9], 1) }}%</p>
+                                    Generado $ {{$dataHistorialMetas[10]}}</h6>
+                                <p class="browser-count">{{$dataHistorialMetas[9] }}%</p>
                             </div>
 
                             <div class="w-browser-stats">
@@ -81,8 +81,8 @@
 
                             <div class="w-browser-info" id="cuarta_meta">
                                 <h6>{{ $dataHistorialMetas[12] }} - Proyectado $ {{ $dataHistorialMetas[15] }} -
-                                    Generado $ {{ number_format($dataHistorialMetas[14], 2) }}</h6>
-                                <p class="browser-count">{{ number_format($dataHistorialMetas[13], 1) }}%</p>
+                                    Generado $ {{$dataHistorialMetas[14]}}</h6>
+                                <p class="browser-count">{{ $dataHistorialMetas[13]}}%</p>
                             </div>
 
                             <div class="w-browser-stats">

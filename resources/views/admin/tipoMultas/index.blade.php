@@ -53,7 +53,7 @@
                         <tr>
                             <th>ID</th>
                             <th>Nombre</th>
-                            <th>Costo</th>
+                            <th>Costo en Pesos</th>
                             <th>Editar</th>
                             <th>Eliminar</th>
 
@@ -66,7 +66,8 @@
                             <tr>
                                 <td>{{ $tipoMulta->id }}</td>
                                 <td>{{ $tipoMulta->nombre }}</td>
-                                <td>{{ $tipoMulta->costo }}</td>
+                                <td>{{ ($tipoMulta->costo  == intval($tipoMulta->costo )) ? number_format($tipoMulta->costo , 0, ',', '.') : number_format($tipoMulta->costo, 2, ',', '.')}}</td>
+                                
                                 <td width="10px">
                                     <a href="{{ route('admin.tipoMultas.edit', $tipoMulta) }}" class=" bs-tooltip"
                                         data-placement="top" title="Editar">

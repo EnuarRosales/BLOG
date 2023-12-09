@@ -38,7 +38,7 @@
                             <br>
                             <span class="text-danger">{{ $message }}</span>
                             <br>
-                        @enderror
+                        @enderror 
 
                         {!! Form::label('name', 'Nombre') !!}
                         {{-- ojo que en la linea siguiente va el nombre de la columa =( --}}

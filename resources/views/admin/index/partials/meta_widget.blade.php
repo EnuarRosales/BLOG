@@ -5,7 +5,7 @@
                 <div class="w-info">
 
                     @if ($dataMetas[0] > 0)
-                        <h6 class="value" id="meta_cantidad">{{ "$" . ' ' . $dataMetas[0] }}</h6>
+                        <h6 class="value" id="meta_cantidad">$ {{($dataMetas[0] == intval($dataMetas[0] )) ? number_format($dataMetas[0], 0, ',', '.') : number_format($dataMetas[0], 2, ',', '.') }}</h6>
                         <p class="" id="meta_nombre">Meta: {{ $dataMetas[3] }}</p>
                     @else
                         <h6 class="value" id="meta_cantidad">$ {{ $dataMetas[0] }}</h6>

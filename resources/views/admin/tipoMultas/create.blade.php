@@ -32,9 +32,9 @@
                             <br>
                         @enderror
 
-                        {!! Form::label('name', 'Costo') !!}
+                        {!! Form::label('name', 'Costo en Pesos') !!}
                         {{-- ojo que en la linea siguiente va el nombre de la columa =( --}}
-                        {!! Form::text('costo', null, ['class' => 'form-control', 'placeholder' => 'Favor ingrese un tipo multa']) !!}
+                        {!! Form::text('costo', null, ['class' => 'form-control', 'placeholder' => 'Favor ingrese un costo']) !!}
 
                         @error('costo')
                             <br>

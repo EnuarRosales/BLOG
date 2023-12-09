@@ -138,6 +138,8 @@ class PagoController extends Controller
                 // DB::raw('descuento_id'),
             )
             ->where('descontado', 0)
+            ->whereNull('descuentos.deleted_at')  // Condición para descuentos no eliminados
+            ->whereNull('descontados.deleted_at') // Condición para descontados no eliminados
 
             ->groupBy('user_id')
             ->get();
@@ -185,6 +187,9 @@ class PagoController extends Controller
                 DB::raw('user_id'),
             )
             ->where('asignacion_multas.descontado', 0)
+
+            ->whereNull('asignacion_multas.deleted_at')  // Condición para asignacion_multas no eliminadas
+            ->whereNull('tipo_multas.deleted_at')        // Condición para tipo_multas no eliminadas
 
             ->groupBy('user_id')
             ->get();
@@ -306,7 +311,7 @@ class PagoController extends Controller
 
     public function comprobantePagoPDF(Pago $pago)
     {
-         /*
+        /*
          *
          * MUESTRA LAS PAGINAS Y LA TRM ESTA PRIMER CONSULTA.
          *
@@ -323,12 +328,12 @@ class PagoController extends Controller
             DB::raw('TRM'),
 
         )
-            ->where('verificado', 1) 
+            ->where('verificado', 1)
             ->where('enviarPago', 1)
             ->where('user_id', $pago->user_id)
             ->where('fecha', $pago->fecha)
-            ->groupBy('fecha', 'user_id', 'pagina_id', 'Cantidad', 'netoPesos', 'porcentajeTotal', 'pesos','TRM')
-            ->get();       
+            ->groupBy('fecha', 'user_id', 'pagina_id', 'Cantidad', 'netoPesos', 'porcentajeTotal', 'pesos', 'TRM')
+            ->get();
 
         $multasDescuentos = AsignacionMulta::select(
             DB::raw('count(tipoMulta_id) as count'),
@@ -337,8 +342,13 @@ class PagoController extends Controller
 
         )
             ->where('descontado', 1)
+
             ->where('user_id', $pago->user_id)
             ->where('fechaDescontado', $pago->fecha)
+            ->whereNull('deleted_at')
+            // ->whereNull('asignacion_multas.deleted_at')  // Condición para asignacion_multas no eliminadas
+            // ->whereNull('tipo_multas.deleted_at')        // Condición para tipo_multas no eliminadas
+
             ->groupBy('user_id', 'tipoMulta_id')
             ->get();
 
@@ -355,6 +365,8 @@ class PagoController extends Controller
             ->select('descuentos.user_id', 'descontados.valor', 'descuentos.tipoDescuento_id', 'tipo_descuentos.nombre')
             ->where('descuentos.user_id', $pago->user_id)
             ->where('descontados.descontado', 1)
+            ->whereNull('descuentos.deleted_at')  // Condición para descuentos no eliminados
+            ->whereNull('descontados.deleted_at') // Condición para descontados no eliminados
             ->where('descontados.fechaDescontado', $pago->fecha)
             ->get();
 
@@ -369,7 +381,7 @@ class PagoController extends Controller
         foreach ($empresas as $empresa) {
             $nombreEmpresa = $empresa->name;
             $nitEmpresa = $empresa->nit;
-            $logoEmpresa= $empresa->logo;
+            $logoEmpresa = $empresa->logo;
         }
 
         $codigoQR = QrCode::size(80)->generate(
@@ -385,7 +397,7 @@ class PagoController extends Controller
 
         $date = Carbon::now()->locale('es');
         try {
-            $pdf = Pdf::loadView('admin.pagos.comprobantePago', compact('reportePaginas', 'pago', 'descuentos', 'multasDescuentos', 'multasDescuentosArray', 'descuentosArray', 'date', 'nitEmpresa', 'nombreEmpresa', 'codigoQR','logoEmpresa'));
+            $pdf = Pdf::loadView('admin.pagos.comprobantePago', compact('reportePaginas', 'pago', 'descuentos', 'multasDescuentos', 'multasDescuentosArray', 'descuentosArray', 'date', 'nitEmpresa', 'nombreEmpresa', 'codigoQR', 'logoEmpresa'));
         } catch (\Exception $e) {
             $errorMessage = $e->getMessage();
             $message = substr($errorMessage, strpos($errorMessage, '$') + 1);

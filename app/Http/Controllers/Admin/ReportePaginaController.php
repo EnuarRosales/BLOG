@@ -385,6 +385,10 @@ class ReportePaginaController extends Controller
                 DB::raw('user_id'),
             )
             ->where('descontado', 0)
+
+            ->whereNull('descuentos.deleted_at')  // Condición para descuentos no eliminados
+            ->whereNull('descontados.deleted_at') // Condición para descontados no eliminados
+
             ->groupBy('user_id')
             ->get();
 
@@ -406,6 +410,10 @@ class ReportePaginaController extends Controller
                 DB::raw('user_id'),
             )
             ->where('asignacion_multas.descontado', 0)
+
+            ->whereNull('asignacion_multas.deleted_at')  // Condición para asignacion_multas no eliminadas
+            ->whereNull('tipo_multas.deleted_at')        // Condición para tipo_multas no eliminadas
+
 
             ->groupBy('user_id')
             ->get();

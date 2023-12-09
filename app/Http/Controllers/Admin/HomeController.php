@@ -128,7 +128,7 @@ class HomeController extends Controller
                     ->pluck('totalNetaPesos')
                     ->first() ?? 0; // Valor predeterminado si no hay datos para esta página en esta fecha
 
-                $serie['data'][] = $totalNetaPesosPorPagina;
+                $serie['data'][] =  $totalNetaPesosPorPagina;
             }
 
             // Agregar la serie al array de series
@@ -155,6 +155,10 @@ class HomeController extends Controller
             // Almacenar los valores en los arreglos respectivos
             $nombresPaginas[] = $nombrePagina;
             $totalNetaPesos[] = $totalNetaPesosPagina;
+
+             
+
+            // dd($nombrePagina);
             $fechaQuincenas[] = $fechaQuincena;
 
             $fechaQuincenas = array_unique($fechaQuincenas);
@@ -203,9 +207,9 @@ class HomeController extends Controller
                     ->sum('valorProducido');
                 $porcentajeMeta = ($registroProduccion * 100) / $datoMasReciente->valor;
                 $miArray[] = $datoMasReciente->nombre; //0
-                $miArray[] = $porcentajeMeta;          //1
-                $miArray[] = $registroProduccion;      //2
-                $miArray[] = $datoMasReciente->valor;  //3
+                $miArray[] = $porcentajeMeta == intval($porcentajeMeta) ? number_format($porcentajeMeta, 0, ',', '.') : number_format($porcentajeMeta, 2, ',', '.');    //1
+                $miArray[] = $registroProduccion == intval($registroProduccion) ? number_format($registroProduccion, 0, ',', '.') : number_format($registroProduccion, 2, ',', '.');   //2
+                $miArray[] = $datoMasReciente->valor == intval($datoMasReciente->valor) ? number_format($datoMasReciente->valor, 0, ',', '.') : number_format($datoMasReciente->valor, 2, ',', '.'); //3
             }
         }
 
@@ -385,7 +389,15 @@ class HomeController extends Controller
             )
                 ->groupBy('meta_id')
                 ->get();
-            return  array($fechas, $fechas2, $fechas3);
+
+                    // FORMATEO DE NUMEROS
+                    // Formatea el número con o sin decimales según sea necesario
+        // $FormateadoFechas = ($fechas2 == intval($fechas2)) ? number_format($fechas2, 0, ',', '.') : number_format($fechas2, 2, ',', '.');
+
+
+        // dd($fechas2);
+
+            return  array($fechas , $fechas2, $fechas3);
         }
 
         // $noHayMetas = 1;
@@ -454,7 +466,7 @@ class HomeController extends Controller
             $fechasArray = [];
             foreach ($pagosAgrupados as $fecha => $pagos) {
                 $fechasArray[] = $fecha;
-                $totalPagosPorFecha[$fecha] = $pagos->sum('dolares');
+                $totalPagosPorFecha[$fecha] = ($pagos->sum('dolares') == intval($pagos->sum('dolares'))) ? number_format($pagos->sum('dolares'), 0, ',', '.') : number_format($pagos->sum('dolares'), 2, ',', '.');
 
                 // echo $pagos->sum('devengado');
             }
@@ -497,7 +509,7 @@ class HomeController extends Controller
             $fechasArray = [];
             foreach ($pagosAgrupados as $fecha => $pagos) {
                 $fechasArray[] = $fecha;
-                $totalPagosPorFecha[$fecha] = $pagos->sum('dolares');
+                $totalPagosPorFecha[$fecha] = ($pagos->sum('dolares') == intval($pagos->sum('dolares'))) ? number_format($pagos->sum('dolares'), 0, ',', '.') : number_format($pagos->sum('dolares'), 2, ',', '.');
             }
         } else {
             $fechasArray[] = 0;

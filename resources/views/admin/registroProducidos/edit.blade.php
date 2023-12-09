@@ -37,7 +37,7 @@
                     <br>
                 @enderror --}}
                         {!! Form::label('fecha', 'Fecha') !!}
-                        {!! Form::date('fecha', now(), [
+                        {!! Form::date('fecha', null, [
                             'class' => 'form-control',
                         ]) !!}
                         @error('fecha')
@@ -45,6 +45,8 @@
                             <span class="text-danger">{{ $message }}</span>
                             <br>
                         @enderror
+
+
 
                         {!! Form::label('valorProducido', 'Valor Producido') !!}
                         {!! Form::number('valorProducido', null, [

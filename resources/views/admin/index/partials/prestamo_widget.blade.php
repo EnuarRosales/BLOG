@@ -10,7 +10,7 @@
                     </path>
                 </svg>
             </div>
-            <p class="w-value" id="descuentos">COP {{ $descuentos }}</p>
+            <p class="w-value" id="descuentos">COP {{ ($descuentos== intval($descuentos)) ? number_format($descuentos, 0, ',', '.') : number_format($descuentos, 2, ',', '.') }}</p>
             <h5 class="">Prestamos</h5>
         </div>
         <div class="widget-content">

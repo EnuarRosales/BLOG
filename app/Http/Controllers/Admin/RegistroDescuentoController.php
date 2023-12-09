@@ -226,7 +226,6 @@ class RegistroDescuentoController extends Controller
             $Descuento->delete();
             return response()->json(['success' => true]);
         }
-
         return response()->json(['success' => false, 'message' => 'No se encontró el registro.']);
     }
 }

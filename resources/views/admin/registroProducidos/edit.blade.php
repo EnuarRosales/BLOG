@@ -51,6 +51,7 @@
                         {!! Form::label('valorProducido', 'Valor Producido') !!}
                         {!! Form::number('valorProducido', null, [
                             'class' => 'form-control',
+                            'step' => '0.001', // Ajusta el paso para permitir decimales
                         ]) !!}
                         @error('valorProducido')
                             <br>

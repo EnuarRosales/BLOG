@@ -14,6 +14,8 @@
 @stop
 
 @section('styles')
+    {{-- token para guardar registros --}}
+    <meta name="csrf-token" content="{{ csrf_token() }}">
 
     <link rel="stylesheet" type="text/css" href="{{ asset('template/plugins/table/datatable/datatables.css') }}">
     <link rel="stylesheet" type="text/css" href="{{ asset('template/plugins/table/datatable/custom_dt_html5.css') }}">
@@ -22,6 +24,13 @@
     {{-- <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.13.4/css/jquery.dataTables.min.css" />
     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/buttons/2.3.6/css/buttons.dataTables.min.css" /> --}}
     <link rel="stylesheet" type="text/css" href="{{ asset('assets/libs/switchery/switchery.min.css') }}" />
+
+    {{-- estilo para centrar registros --}}
+    <style>
+        .centered {
+            text-align: center;
+        }
+    </style>
 @stop
 
 @section('content')
@@ -70,56 +79,36 @@
                             <th>ID</th>
                             <th>Fecha</th>
                             <th>Valor</th>
-
                             <th>Meta</th>
                             <th>Pagina</th>
                             <th>Usuario que registra</th>
-                            @can('admin.registroProduccion.edit')
+                            <th>Acciones</th>
+                            {{-- @can('admin.registroProduccion.edit')
                                 <th>Editar</th>
                             @endcan
                             @can('admin.registroProduccion.destroy')
                                 <th>Eliminar</th>
-                            @endcan
+                            @endcan --}}
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach ($registroProducidos as $registroProducido)
-                            <tr>
-                                <td>{{ $registroProducido->id }}</td>
-                                <td>{{ $registroProducido->fecha }}</td>
-                                <td>{{ $registroProducido->valorProducido }}</td>
 
-                                <td>{{ $registroProducido->meta->nombre }}</td>
-                                <td>{{ $registroProducido->pagina->nombre }}</td>
-                                <td>{{ $registroProducido->user->name }}</td>
-
-                                @if (auth()->user()->hasRole('Admin'))
-                                    @include('admin.registroProducidos.partials.buttons')
-                                @elseif($registroProducido->user->id == $userLogueado)
-                                    @include('admin.registroProducidos.partials.buttons')
-                                @else
-                                    <td class="text-center"> <i class="fas fa-eye-slash"> </i> </td>
-                                    <td class="text-center"> <i class="fas fa-eye-slash"> </i> </td>
-                                @endif
-
-                            </tr>
-                        @endforeach
                     </tbody>
                     <tfoot>
                         <tr>
                             <th>ID</th>
                             <th>Fecha</th>
                             <th>Valor</th>
-
                             <th>Meta</th>
                             <th>Pagina</th>
                             <th>Usuario que registra</th>
-                            @can('admin.registroProduccion.edit')
+                            <th>Acciones</th>
+                            {{-- @can('admin.registroProduccion.edit')
                                 <th>Editar</th>
                             @endcan
                             @can('admin.registroProduccion.destroy')
                                 <th>Eliminar</th>
-                            @endcan
+                            @endcan --}}
                         </tr>
                     </tfoot>
 
@@ -132,27 +121,38 @@
 
 
 @section('js')
+
     <script src="{{ asset('template/plugins/table/datatable/datatables.js') }}"></script>
+
     <!-- NOTE TO Use Copy CSV Excel PDF Print Options You Must Include These Files  -->
     <script src="{{ asset('template/plugins/table/datatable/button-ext/dataTables.buttons.min.js') }}"></script>
     <script src="{{ asset('template/plugins/table/datatable/button-ext/jszip.min.js') }}"></script>
     <script src="{{ asset('template/plugins/table/datatable/button-ext/buttons.html5.min.js') }}"></script>
     <script src="{{ asset('template/plugins/table/datatable/button-ext/buttons.print.min.js') }}"></script>
+
     <script>
         var table = $('#html5-extension').DataTable({
             dom: '<"row"<"col-md-12"<"row"<"col-md-6"B><"col-md-6"f> > ><"col-md-12"rt> <"col-md-12"<"row"<"col-md-5"i><"col-md-7"p>>> >',
             buttons: {
                 buttons: [{
-                        extend: 'copy',
-                        className: 'btn'
-                    },
-                    {
-                        extend: 'csv',
-                        className: 'btn'
-                    },
-                    {
                         extend: 'excel',
-                        className: 'btn'
+                        className: 'btn',
+                        exportOptions: {
+                            columns: [0, 1, 2],
+                            format: {
+                                body: function(data, rowIdx, colIdx, node) {
+                                    if (colIdx === 2 && typeof data === 'string') {
+                                        return data.replace('$', '') * 1;
+                                    } else {
+                                        return data;
+                                    }
+                                }
+                            }
+                        },
+                        customize: function(xlsx) {
+                            var sheet = xlsx.xl.worksheets['sheet1.xml'];
+                            // Personaliza el archivo Excel aquí si es necesario
+                        },
                     },
                     {
                         extend: 'print',
@@ -160,78 +160,89 @@
                     }
                 ]
             },
-            "oLanguage": {
-                "oPaginate": {
-                    "sPrevious": '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-arrow-left"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>',
-                    "sNext": '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-arrow-right"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>'
-                },
-                "sInfo": "Página _PAGE_ de _PAGES_",
-                "sSearch": '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-search"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>',
-                "sSearchPlaceholder": "Buscar...",
-                "sLengthMenu": "Mostrar _MENU_ resultados por página",
+            ajax: {
+                url: "{{ route('admin.registroProducidos.datatable') }}",
+                type: 'GET',
+                dataType: 'json',
             },
-            "stripeClasses": [],
-            "lengthMenu": [7, 10, 20, 50],
-            "pageLength": 7
-        });
+            columns: [{
+                    data: 'id',
+                    name: 'id'
+                },
+                {
+                    data: 'fecha',
+                    name: 'fecha',
+                },
+                {
+                    data: 'valorProducido',
+                    name: 'valorProducido',
+                    render: function(data, type, row) {
+                        return formatCurrency(data);
+                    }
+                },
+                {
+                    data: 'meta_nombre',
+                    name: 'meta_nombre'
+                },
+                {
+                    data: 'pagina_nombre',
+                    name: 'pagina_nombre'
+                },
+                {
+                    data: 'user_nombre',
+                    name: 'user_nombre'
+                },
+                {
+                    data: 'acciones',
+                    name: 'acciones',
+                },
 
-        // Vincular eventos de clic para eliminar
-        function bindDeleteEvents() {
-            document.querySelectorAll('.eliminar-registro').forEach(botonEliminar => {
-                botonEliminar.addEventListener('click', function(e) {
-                    e.preventDefault();
+            ],
+            language: {
+                "decimal": ",",
+                "emptyTable": "No hay datos disponibles en la tabla",
+                "info": "Mostrando _START_ a _END_ de _TOTAL_ registros",
+                "infoEmpty": "Mostrando 0 a 0 de 0 registros",
+                "infoFiltered": "(filtrado de _MAX_ registros en total)",
+                "infoPostFix": "",
+                "thousands": ".",
+                "lengthMenu": "Mostrar _MENU_ registros por página",
+                "loadingRecords": "Cargando...",
+                "processing": "Procesando...",
+                "search": "Buscar:",
+                "zeroRecords": "No se encontraron registros coincidentes",
+                "paginate": {
+                    "first": "Primero",
+                    "last": "Último",
+                    "next": '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-arrow-right"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>',
+                    "previous": '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-arrow-left"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>',
+                },
+                "aria": {
+                    "sortAscending": ": activar para ordenar la columna ascendente",
+                    "sortDescending": ": activar para ordenar la columna descendente"
+                },
+            },
+            initComplete: function() {
+                var api = this.api();
+                api.rows().every(function() {
+                    // Obtiene el valor de la columna "ID" en la fila actual
+                    var id = this.data().id;
 
-                    const registroProducidoId = this.getAttribute('data-registroProducido-id');
-
-
-
-
-                    Swal.fire({
-                        title: '¿Estás seguro?',
-                        text: '¡Este registro se eliminará definitivamente!',
-                        type: 'warning',
-                        showCancelButton: true,
-                        confirmButtonColor: '#3085d6',
-                        cancelButtonColor: '#d33',
-                        confirmButtonText: '¡Sí, eliminar!',
-                        cancelButtonText: '¡Cancelar!',
-                        preConfirm: () => {
-                            // Crear un formulario dinámicamente
-                            const formulario = document.createElement('form');
-                            formulario.action =
-                                `registroProducidos/${registroProducidoId}`; // Ruta de eliminación
-                            formulario.method = 'POST'; // Método POST
-                            formulario.style.display = 'none'; // Ocultar el formulario
-
-                            // Agregar el token CSRF al formulario
-                            const tokenField = document.createElement('input');
-                            tokenField.type = 'hidden';
-                            tokenField.name = '_token';
-                            tokenField.value = '{{ csrf_token() }}';
-                            formulario.appendChild(tokenField);
-
-                            // Agregar un campo oculto para indicar que es una solicitud de eliminación
-                            const methodField = document.createElement('input');
-                            methodField.type = 'hidden';
-                            methodField.name = '_method';
-                            methodField.value = 'DELETE';
-                            formulario.appendChild(methodField);
-
-                            // Adjuntar el formulario al documento y enviarlo
-                            document.body.appendChild(formulario);
-                            formulario.submit();
-
-                            return true;
-                        },
-                    });
+                    // Agrega el atributo data-id a la fila
+                    $(this.node()).attr('data-id', id);
                 });
-            });
-        }
-
-        // Volver a vincular eventos de clic después de cada redibujo
-        table.on('draw.dt', function() {
-            bindDeleteEvents();
+            },
+            order: [
+                [1, 'desc'] // 1 es el índice de la columna que contiene las fechas
+            ],
+            pageLength: 7, // Establece la cantidad de registros por página por defecto
         });
+
+        // Función para formatear el valorProducido como moneda
+        function formatCurrency(value) {
+            // Puedes personalizar esta función según tus necesidades
+            return '$' + parseFloat(value).toFixed(2); // Por ejemplo, formato: $123.45
+        }
 
         // Detectar cambios en el select
         $('#records-per-page').change(function() {
@@ -239,103 +250,69 @@
             table.page.len(newLength).draw();
         });
 
-        // Vincular eventos de clic para eliminar inicialmente
-        bindDeleteEvents();
-    </script>
-    <script src="{{ asset('assets/libs/switchery/switchery.min.js') }}"></script>
-    <script>
-        console.log('Hi!');
-    </script>
-    {{-- SWET ALERT --}}
-    @if (session('info') == 'delete')
-        <script>
-            Swal.fire(
-                '¡Eliminado!',
-                'El registro se elimino con exito',
-                'success'
-            )
-        </script>
-    @elseif(session('info') == 'store')
-        <script>
+        // Button eliminar
+        $('#html5-extension').on('click', '.feather-x-circle', function() {
+            var button = $(this); // El botón que se hizo clic
+            var row = button.closest('tr'); // La fila que contiene el botón
+            var table = $('#html5-extension').DataTable();
+            var currentPage = table.page(); // Guardar la página actual
+
             Swal.fire({
-                position: 'top-end',
-                type: 'success',
-                title: 'Producido registrado correctamente',
-                showConfirmButton: false,
-                timer: 2000
-            })
-        </script>
-    @elseif(session('info') == 'valorCero')
-        <script>
-            Swal.fire({
-                position: 'top-end',
+                title: '¿Estás seguro?',
+                text: '¡Este registro se eliminará definitivamente!',
                 type: 'warning',
-                title: 'No hay saldo que descontar',
-                showConfirmButton: false,
-                timer: 2000
-            })
-        </script>
-    @elseif(session('info') == 'update')
-        <script>
-            Swal.fire({
-                position: 'top-end',
-                type: 'success',
-                title: 'Descuento correctamente',
-                showConfirmButton: false,
-                timer: 2000
-            })
-        </script>
-    @endif
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: '¡Sí, eliminar!',
+                cancelButtonText: '¡Cancelar!',
+            }).then((result) => {
+                if (result.value) {
+                    $.ajax({
+                        url: `{{ route('admin.registroProducido.eliminar') }}`,
+                        type: 'POST',
+                        data: {
+                            id: row.data(
+                                'id'
+                            ), // Puedes usar data-* para almacenar el ID de la fila
+                            _token: "{{ csrf_token() }}"
+                        },
+                        success: function(response) {
+                            if (response.success) {
 
-    {{-- <script>
-        document.querySelectorAll('.eliminar-registro').forEach(botonEliminar => {
-            botonEliminar.addEventListener('click', function(e) {
-                e.preventDefault();
+                                // Swal.fire({
+                                //     title: '¡Eliminado!',
+                                //     text: 'El registro se eliminó con éxito',
+                                //     icon: 'success',
+                                //     // timer: 3000, // Establece el tiempo en milisegundos (2 segundos en este ejemplo)
+                                //     // showConfirmButton: true, // Oculta el botón de confirmación
+                                // });
+                                // setTimeout(function() {
+                                //     location
+                                // .reload(); // Recarga la página después de 2 segundos
+                                // }, 5000); // 2000 milisegundos (2 segundos)
+                                Swal.fire(
+                                    '¡Eliminado!',
+                                    'El registro se elimino con exito',
+                                    'success'
+                                );
 
-                const registroProducidoId = this.getAttribute('data-registroProducido-id');
-
-                Swal.fire({
-                    title: '¿Estás seguro?',
-                    text: '¡Este registro se eliminará definitivamente!',
-                    type: 'warning',
-                    showCancelButton: true,
-                    confirmButtonColor: '#3085d6',
-                    cancelButtonColor: '#d33',
-                    confirmButtonText: '¡Sí, eliminar!',
-                    cancelButtonText: '¡Cancelar!',
-                    preConfirm: () => {
-                        // Crear un formulario dinámicamente
-                        const formulario = document.createElement('form');
-                        formulario.action =
-                            `registroProducidos/${registroProducidoId}`; // Ruta de eliminación
-                        formulario.method = 'POST'; // Método POST
-                        formulario.style.display = 'none'; // Ocultar el formulario
-
-                        // Agregar el token CSRF al formulario
-                        const tokenField = document.createElement('input');
-                        tokenField.type = 'hidden';
-                        tokenField.name = '_token';
-                        tokenField.value = '{{ csrf_token() }}';
-                        formulario.appendChild(tokenField);
-
-                        // Agregar un campo oculto para indicar que es una solicitud de eliminación
-                        const methodField = document.createElement('input');
-                        methodField.type = 'hidden';
-                        methodField.name = '_method';
-                        methodField.value = 'DELETE';
-                        formulario.appendChild(methodField);
-
-                        // Adjuntar el formulario al documento y enviarlo
-                        document.body.appendChild(formulario);
-                        formulario.submit();
-
-                        return true;
-                    },
-                });
+                                setTimeout(function() {
+                                    Swal.close();
+                                }, 2000);
+                                setTimeout(function() {
+                                    // Elimina la fila sin recargar la tabla
+                                    var rowIndex = table.row(row).index();
+                                    table.row(rowIndex).remove().draw();
+                                    table.page(currentPage).draw('page');
+                                }, 2000);
+                            }
+                        }
+                    });
+                }
             });
         });
-    </script> --}}
-
+    </script>
 
 
 

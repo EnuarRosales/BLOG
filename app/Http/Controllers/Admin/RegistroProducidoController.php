@@ -8,10 +8,10 @@ use App\Models\Meta;
 use App\Models\Pagina;
 use App\Models\ResgistroProducido;
 use App\Models\User;
-use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
-use PhpParser\Node\Stmt\Echo_;
+use Spatie\Permission\Models\Permission;
+use Yajra\DataTables\DataTables;
 
 class RegistroProducidoController extends Controller
 {
@@ -22,17 +22,9 @@ class RegistroProducidoController extends Controller
      */
     public function index()
     {
-        $registroProducidos = ResgistroProducido::all();
-        $userLogueado = auth()->user()->id;
-        return view('admin.registroProducidos.index', compact('registroProducidos', 'userLogueado'));
+        return view('admin.registroProducidos.index');
     }
 
-
-    // public function filtrarFecha()
-    // {
-    //     $registroProducidos = ResgistroProducido::whereDay('fecha', 3);
-    //     echo  $registroProducidos;
-    // }
 
     /**
      * Show the form for creating a new resource.
@@ -61,7 +53,7 @@ class RegistroProducidoController extends Controller
         $request->validate([
             // 'user_id' => 'required',
             'fecha' => 'required',
-            'valorProducido' => 'required',
+            'valorProducido' => 'required|numeric',
             'meta_id' => 'required',
             'pagina_id' => 'required'
         ]);
@@ -136,6 +128,18 @@ class RegistroProducidoController extends Controller
         return redirect()->route('admin.registroProducidos.index')->with('info', 'delete');
     }
 
+    public function eliminar(Request $request)
+    {
+        $Descuento = ResgistroProducido::find($request->input('id'));
+
+        if ($Descuento) {
+            $Descuento->delete();
+            return response()->json(['success' => true]);
+        }
+
+        return response()->json(['success' => false, 'message' => 'No se encontró el registro.']);
+    }
+
     public function resumen()
     {
         $registroProducidos = ResgistroProducido::all();
@@ -159,7 +163,7 @@ class RegistroProducidoController extends Controller
         $total =  $registroProducidoss->sum('valorProducido');
 
         // echo $registroProducidoss;
-        return view('admin.registroProducidos.resumen', compact('registroProducidoss','metas'));
+        return view('admin.registroProducidos.resumen', compact('registroProducidoss', 'metas'));
     }
 
     public function resumen_ajax(Request $request)
@@ -222,8 +226,57 @@ class RegistroProducidoController extends Controller
             ->groupBy('meta_id')
             ->get();
 
-            $metas = Meta::orderBy('id', 'desc')->get();
+        $metas = Meta::orderBy('id', 'desc')->get();
 
-        return view('admin.registroProducidos.resumen', compact('fechas', 'fechas2', 'fechas3','metas'));
+        return view('admin.registroProducidos.resumen', compact('fechas', 'fechas2', 'fechas3', 'metas'));
+    }
+
+    public function datatable(Request $request)
+    {
+        $userLogueado = auth()->user();
+        // Llama al método getPermissionIds() con el objeto de usuario como argumento
+        $permissionIds = User::getPermissionIds($userLogueado);
+        $registroProducidos = ResgistroProducido::with(['meta', 'pagina', 'user'])->get();
+        $permission = Permission::select('id', 'name', 'description')->whereIn('id', $permissionIds)->get();
+        return DataTables::of($registroProducidos)
+        ->addColumn('meta_nombre', function ($row) {
+            return $row->meta->nombre; // Reemplaza 'nombre' con el nombre real de la columna
+        })
+        ->addColumn('pagina_nombre', function ($row) {
+            return $row->pagina->nombre; // Reemplaza 'nombre' con el nombre real de la columna
+        })
+        ->addColumn('user_nombre', function ($row) {
+            return $row->user->name; // Reemplaza 'nombre' con el nombre real de la columna
+        })
+        // ->addColumn('acciones', function ($row) {
+        //     $acciones = '';
+        //     return $acciones;
+        // })
+        ->addColumn('acciones', function ($row) use ($permission) {
+            $acciones = '';
+
+            if ($permission->where('id', 55)->isNotEmpty()) { // rol de editar descuentos
+                $acciones .= '<a href="' . route('admin.registroProducidos.edit', ['registroProducido' => $row->id]) . '">
+                                <svg class="mr-4" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-id="' . $row->id . '">
+                                    <path d="M12 20h9"></path>
+                                    <path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"></path>
+                                </svg>
+                            </a>';
+            }
+
+            if ($permission->where('id', 56)->isNotEmpty()) { // rol de eliminar descuentos
+                // $acciones .= '<button class="btn btn-danger action-button" data-id="' . $row->id . '">Eliminar</button>';
+                $acciones .= '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-id="' . $row->id . '" class="feather feather-x-circle table-cancel">
+                                <circle cx="12" cy="12" r="10"></circle>
+                                <line x1="15" y1="9" x2="9" y2="15"></line>
+                                <line x1="9" y1="9" x2="15" y2="15"></line>
+                            </svg>
+                        </button>';
+            }
+            return $acciones;
+        })
+
+            ->rawColumns(['acciones'])
+            ->make(true);
     }
 }

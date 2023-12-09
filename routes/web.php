@@ -4,6 +4,7 @@ use App\Http\Controllers\Admin\DescontadoController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Admin\HomeController;
 use App\Http\Controllers\Admin\RegistroDescuentoController;
+use App\Http\Controllers\Admin\RegistroProducidoController;
 use App\Http\Controllers\Admin\ReportePaginaController;
 use App\Http\Controllers\Admin\UserController;
 use Illuminate\Support\Facades\Auth;
@@ -32,6 +33,7 @@ use Illuminate\Support\Facades\Auth;
     Route::get('/', [HomeController::class, 'index'])->middleware(['auth', 'verified'])->name('dashboard');
 
     Route::get('registroDescuentos/datatable', [RegistroDescuentoController::class, 'datatable'])->middleware(['auth', 'verified'])->name('admin.registroDescuentos.datatable');
+    Route::get('registroProducidos/datatable', [RegistroProducidoController::class, 'datatable'])->middleware(['auth', 'verified'])->name('admin.registroProducidos.datatable');
 
     // Route::get('abonos/ajax', [DescontadoController::class, 'abono'])->middleware(['auth', 'verified'])->name('admin.abonos.abono.ajax');
     Route::put('abonos/{abonado}', [DescontadoController::class, 'abono'])->middleware(['auth', 'verified'])->name('admin.abonos.abono');

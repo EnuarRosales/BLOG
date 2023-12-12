@@ -156,7 +156,7 @@ class HomeController extends Controller
             $nombresPaginas[] = $nombrePagina;
             $totalNetaPesos[] = $totalNetaPesosPagina;
 
-             
+
 
             // dd($nombrePagina);
             $fechaQuincenas[] = $fechaQuincena;
@@ -180,7 +180,7 @@ class HomeController extends Controller
         if ($datoMasReciente != null) {
 
 
-            // if($datoMasReciente != null){ 
+            // if($datoMasReciente != null){
 
             // }
             $valorMeta = $datoMasReciente->valor;
@@ -200,14 +200,14 @@ class HomeController extends Controller
     public function dataHistorialMeta()
     {
         $datoMasRecientes = Meta::latest()->take(4)->get();
-        $miArray = array(); // Inicializar un array vacío       
+        $miArray = array(); // Inicializar un array vacío
         if ($datoMasRecientes->count() > 0) {
             foreach ($datoMasRecientes as $datoMasReciente) {
                 $registroProduccion = ResgistroProducido::where('meta_id', $datoMasReciente->id)
                     ->sum('valorProducido');
                 $porcentajeMeta = ($registroProduccion * 100) / $datoMasReciente->valor;
                 $miArray[] = $datoMasReciente->nombre; //0
-                $miArray[] = $porcentajeMeta == intval($porcentajeMeta) ? number_format($porcentajeMeta, 0, ',', '.') : number_format($porcentajeMeta, 2, ',', '.');    //1
+                $miArray[] = number_format($porcentajeMeta, 1);
                 $miArray[] = $registroProduccion == intval($registroProduccion) ? number_format($registroProduccion, 0, ',', '.') : number_format($registroProduccion, 2, ',', '.');   //2
                 $miArray[] = $datoMasReciente->valor == intval($datoMasReciente->valor) ? number_format($datoMasReciente->valor, 0, ',', '.') : number_format($datoMasReciente->valor, 2, ',', '.'); //3
             }
@@ -358,7 +358,7 @@ class HomeController extends Controller
     public function reporte_dia()
     {
         $datoMasReciente = Meta::latest()->first(); // O Dato::latest()->get() si deseas obtener varios registros
-        // Puedes hacer lo que desees con $datoMasReciente aquíecho  
+        // Puedes hacer lo que desees con $datoMasReciente aquíecho
         if ($datoMasReciente != null) {
             $idMeta = $datoMasReciente->id;
 
@@ -385,20 +385,20 @@ class HomeController extends Controller
             $fechas3 = ResgistroProducido::select(
                 DB::raw('COUNT(DISTINCT(DATE(fecha)))  as date_count'),
                 DB::raw('meta_id'),
-                // DB::raw('fecha'),           
+                // DB::raw('fecha'),
 
             )
                 ->groupBy('meta_id')
                 ->get();
 
-                    // FORMATEO DE NUMEROS
-                    // Formatea el número con o sin decimales según sea necesario
-        // $FormateadoFechas = ($fechas2 == intval($fechas2)) ? number_format($fechas2, 0, ',', '.') : number_format($fechas2, 2, ',', '.');
+            // FORMATEO DE NUMEROS
+            // Formatea el número con o sin decimales según sea necesario
+            // $FormateadoFechas = ($fechas2 == intval($fechas2)) ? number_format($fechas2, 0, ',', '.') : number_format($fechas2, 2, ',', '.');
 
 
-        // dd($fechas2);
+            // dd($fechas2);
 
-            return  array($fechas , $fechas2, $fechas3);
+            return  array($fechas, $fechas2, $fechas3);
         }
 
         // $noHayMetas = 1;
@@ -448,6 +448,16 @@ class HomeController extends Controller
         $fechaActual = Carbon::now()->toDateString();
         // Realiza la consulta para obtener los registros del día actual
         $registrosAsistencia = Asistencia::whereDate('fecha', $fechaActual)->get();
+        // echo ($registrosAsistencia);
+
+
+        // $horaTurnos = Asistencia::all();
+
+        // foreach ($horaTurnos as $horaTurno) {
+        //     echo ($horaTurno->asig);
+        // }
+
+
         return $registrosAsistencia;
     }
 
@@ -661,7 +671,6 @@ class HomeController extends Controller
         $datapaginas = $this->dataPaginas();
 
         $dataModelosQuincena = $this->dataModelosQuincena();
-
         // $this->dataModelosQuincena();
         // dd($dataModelosQuincena);
 

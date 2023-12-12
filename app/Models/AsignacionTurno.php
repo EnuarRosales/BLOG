@@ -22,10 +22,13 @@ class AsignacionTurno extends Model
         return $this->belongsTo('App\Models\User');
     }
 
-    public function turnos()
-    {
-        return $this->belongsTo(Turno::class, 'turno_id', 'id');
-    }
+
+
+    // OJO QUE ACABO DE BORRAR
+    // public function turnos()
+    // {
+    //     return $this->belongsTo(Turno::class, 'turno_id', 'id');
+    // }
 
 
 }

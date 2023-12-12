@@ -180,7 +180,7 @@ class HomeController extends Controller
         if ($datoMasReciente != null) {
 
 
-            // if($datoMasReciente != null){
+            // if($datoMasReciente != null){ 
 
             // }
             $valorMeta = $datoMasReciente->valor;
@@ -369,6 +369,7 @@ class HomeController extends Controller
 
             )
                 ->groupBy('fecha', 'meta_id')
+                ->orderBy('fecha', 'asc') // Ordenar por fecha de forma ascendente
                 ->get();
 
 

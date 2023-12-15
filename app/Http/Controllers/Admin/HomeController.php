@@ -446,8 +446,32 @@ class HomeController extends Controller
     {
         // Obtén la fecha actual
         $fechaActual = Carbon::now()->toDateString();
+        $horaActual = Carbon::now()->toTimeString();
+
+        // $asignaciones = DB::table('asignacion_turnos')
+        //     ->whereNull('deleted_at')  // Condición para asignaciones no eliminadas
+        //     ->get();
+
+        $registrosAsistencia = DB::table('asistencias')
+            ->join('users', 'users.id', '=', 'asistencias.user_id')
+            ->join('asignacion_turnos', 'asignacion_turnos.user_id', '=', 'users.id')
+            ->join('turnos', 'turnos.id', '=', 'asignacion_turnos.turno_id')
+            ->select('users.name', 'asistencias.fecha', 'asistencias.mi_hora', 'asistencias.multa_id', 'asistencias.control', 'turnos.horaTermino', 'turnos.nombre')
+            ->whereNull('asignacion_turnos.deleted_at')
+            ->whereNull('turnos.deleted_at')
+            ->whereNull('users.deleted_at')
+            ->whereNull('asistencias.deleted_at')
+            ->whereDate('asistencias.fecha', $fechaActual)
+            // ->where('turnos.horaTermino', '>', $horaActual)
+            ->get();
+
+        echo ($horaActual);
+
+        echo ($registrosAsistencia);
+
         // Realiza la consulta para obtener los registros del día actual
-        $registrosAsistencia = Asistencia::whereDate('fecha', $fechaActual)->get();
+        // $registrosAsistencia = Asistencia::whereDate('fecha', $fechaActual)->get();
+
         // echo ($registrosAsistencia);
 
 

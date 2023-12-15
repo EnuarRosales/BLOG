@@ -12,7 +12,7 @@
                                 <th>Usuario</th>
                                 <th>Fecha</th>
                                 <th>Hora</th>
-                                {{-- <th>Turno</th> --}}
+                                <th>Turno</th>
                                 <th>Multa</th>
                                 <th>Control</th>
                             </tr>
@@ -20,11 +20,13 @@
                         <tbody>
                             @foreach ($dataAsistencias as $dataAsistencia)
                                 <tr>
-                                    <td>{{ $dataAsistencia->user->name }}</td>
+                                    <td>{{ $dataAsistencia->name }}</td>
                                     <td>{{ $dataAsistencia->fecha }}</td>
                                     <td>
                                         {{ date('g:i a', strtotime($dataAsistencia->mi_hora)) }}
                                     </td>
+
+                                    <td>{{$dataAsistencia->nombre}}</td>
 
                                     {{-- <td>#</td> --}}
 

@@ -463,6 +463,13 @@ class HomeController extends Controller
             // ->where('turnos.horaTermino', '>', $horaActual)
             ->get();
 
+        // Modificar el valor de 'turnoHoraTermino' si 'turno.nombre' es 'Noche'
+        foreach ($registrosAsistencia as $registro) {
+            if ($registro->nombre === 'Noche') {
+                $registro->horaTermino = '24:00:00';
+            }
+        }
+
         // Decodificar JSON a un array de PHP
         $dataArray = json_decode($registrosAsistencia, true);
 
@@ -503,19 +510,11 @@ class HomeController extends Controller
                 $controles[] = $control;
                 $turnoHoraTerminos[] = $turnoHoraTermino;
                 $turnoNombres[] = $turnoNombre;
-            } elseif ($turnoNombre == "Noche") {
-                // Agregar el nombre al conjunto
-                $nombres[] = $name;
-                $fechas[] = $fecha;
-                $horas[] = $hora;
-                $turnos[] = $turno;
-                $multas[] = $multa;
-                $controles[] = $control;
-                $turnoHoraTerminos[] = $turnoHoraTermino;
-                $turnoNombres[] = $turnoNombre;
-            }
+            } 
+        }
 
-            // Combina los arrays en un solo arreglo asociativo
+        // Combina los arrays en un solo arreglo asociativo
+        if (!empty($nombres)) {
             $datosAsociativos = array_map(function ($nombres, $fechas, $horas, $turnoNombres, $multas, $controles) {
                 return [
                     'name' => $nombres,
@@ -523,14 +522,16 @@ class HomeController extends Controller
                     'mi_hora' => $horas,
                     'nombre' => $turnoNombres,
                     'multa_id' => $multas,
-                    'control' => $controles,                    
+                    'control' => $controles,
                     // ... otras claves y valores
                 ];
             }, $nombres, $fechas, $horas, $turnoNombres, $multas, $controles);
-        }
-      
-        return  $datosAsociativos;
 
+            // dd($registrosAsistencia );
+            return  $datosAsociativos;
+        } else {
+            echo "vacio";
+        }
     }
 
     public function dataQuincenas()

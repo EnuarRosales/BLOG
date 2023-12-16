@@ -446,12 +446,10 @@ class HomeController extends Controller
     {
         // Obtén la fecha actual
         $fechaActual = Carbon::now()->toDateString();
+        //hora  actual
         $horaActual = Carbon::now()->toTimeString();
 
-        // $asignaciones = DB::table('asignacion_turnos')
-        //     ->whereNull('deleted_at')  // Condición para asignaciones no eliminadas
-        //     ->get();
-
+        //consulta para recuperarinfomracion que  necessitamos ojo solo la de la fecha actual
         $registrosAsistencia = DB::table('asistencias')
             ->join('users', 'users.id', '=', 'asistencias.user_id')
             ->join('asignacion_turnos', 'asignacion_turnos.user_id', '=', 'users.id')
@@ -465,24 +463,74 @@ class HomeController extends Controller
             // ->where('turnos.horaTermino', '>', $horaActual)
             ->get();
 
-        echo ($horaActual);
+        // Decodificar JSON a un array de PHP
+        $dataArray = json_decode($registrosAsistencia, true);
 
-        echo ($registrosAsistencia);
+        //creacion  de listas para alamcenar informacion
+        $nombres = [];
+        $fechas = [];
+        $horas = [];
+        $turnos = [];
+        $multas = [];
+        $controles = [];
+        $turnoHoraTerminos = [];
+        $turnoNombres = [];
 
-        // Realiza la consulta para obtener los registros del día actual
-        // $registrosAsistencia = Asistencia::whereDate('fecha', $fechaActual)->get();
+        //logica
+        foreach ($dataArray as $item) {
+            $name = $item['name'];
+            $fecha = $item['fecha'];
+            $hora = $item['mi_hora'];
+            $turno = $item['nombre'];
+            $multa = $item['multa_id'];
+            $control = $item['control'];
+            $turnoHoraTermino = $item['horaTermino'];
+            $turnoNombre = $item['nombre'];
 
-        // echo ($registrosAsistencia);
+            // Verificar si el nombre ya ha sido visto
+            if (in_array($name, $nombres)) {
+                // El nombre está repetido, realiza acciones específicas o muestra un mensaje de error
+                echo " ";
 
+                //validamos el turno solo para que nos muestre informacion actual 
+            } elseif ($turnoHoraTermino > $horaActual) {
+                // Agregar el nombre al conjunto
+                $nombres[] = $name;
+                $fechas[] = $fecha;
+                $horas[] = $hora;
+                $turnos[] = $turno;
+                $multas[] = $multa;
+                $controles[] = $control;
+                $turnoHoraTerminos[] = $turnoHoraTermino;
+                $turnoNombres[] = $turnoNombre;
+            } elseif ($turnoNombre == "Noche") {
+                // Agregar el nombre al conjunto
+                $nombres[] = $name;
+                $fechas[] = $fecha;
+                $horas[] = $hora;
+                $turnos[] = $turno;
+                $multas[] = $multa;
+                $controles[] = $control;
+                $turnoHoraTerminos[] = $turnoHoraTermino;
+                $turnoNombres[] = $turnoNombre;
+            }
 
-        // $horaTurnos = Asistencia::all();
+            // Combina los arrays en un solo arreglo asociativo
+            $datosAsociativos = array_map(function ($nombres, $fechas, $horas, $turnoNombres, $multas, $controles) {
+                return [
+                    'name' => $nombres,
+                    'fecha' => $fechas,
+                    'mi_hora' => $horas,
+                    'nombre' => $turnoNombres,
+                    'multa_id' => $multas,
+                    'control' => $controles,                    
+                    // ... otras claves y valores
+                ];
+            }, $nombres, $fechas, $horas, $turnoNombres, $multas, $controles);
+        }
+      
+        return  $datosAsociativos;
 
-        // foreach ($horaTurnos as $horaTurno) {
-        //     echo ($horaTurno->asig);
-        // }
-
-
-        return $registrosAsistencia;
     }
 
     public function dataQuincenas()

@@ -76,13 +76,14 @@
                 <table id="html5-extension" class="table table-hover non-hover" style="width:100%">
                     <thead>
                         <tr>
-                            <th>ID</th>
-                            <th>Fecha</th>
-                            <th>Valor</th>
-                            <th>Meta</th>
-                            <th>Pagina</th>
-                            <th>Usuario que registra</th>
-                            <th>Acciones</th>
+                            <th class="">ID</th>
+                            <th class="">Fecha</th>
+                            <th class="">Valor</th>
+                            <th class="">Valor</th>
+                            <th class="">Meta</th>
+                            <th class="">Pagina</th>
+                            <th class="">Usuario que registra</th>
+                            <th class="">Acciones</th>
                             {{-- @can('admin.registroProduccion.edit')
                                 <th>Editar</th>
                             @endcan
@@ -96,13 +97,14 @@
                     </tbody>
                     <tfoot>
                         <tr>
-                            <th>ID</th>
-                            <th>Fecha</th>
-                            <th>Valor</th>
-                            <th>Meta</th>
-                            <th>Pagina</th>
-                            <th>Usuario que registra</th>
-                            <th>Acciones</th>
+                            <th class="">ID</th>
+                            <th class="">Fecha</th>
+                            <th class="">Valor</th>
+                            <th class="">Valor</th>
+                            <th class="">Meta</th>
+                            <th class="">Pagina</th>
+                            <th class="">Usuario que registra</th>
+                            <th class="">Acciones</th>
                             {{-- @can('admin.registroProduccion.edit')
                                 <th>Editar</th>
                             @endcan
@@ -130,28 +132,38 @@
     <script src="{{ asset('template/plugins/table/datatable/button-ext/buttons.html5.min.js') }}"></script>
     <script src="{{ asset('template/plugins/table/datatable/button-ext/buttons.print.min.js') }}"></script>
 
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/exceljs/4.1.1/exceljs.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js"></script>
+
+
     <script>
         var table = $('#html5-extension').DataTable({
             dom: '<"row"<"col-md-12"<"row"<"col-md-6"B><"col-md-6"f> > ><"col-md-12"rt> <"col-md-12"<"row"<"col-md-5"i><"col-md-7"p>>> >',
             buttons: {
-                buttons: [{
+                buttons: [
+                    //  formato numero
+                    {
                         extend: 'excel',
                         className: 'btn',
                         exportOptions: {
-                            columns: [0, 1, 2],
-                            format: {
-                                body: function(data, rowIdx, colIdx, node) {
-                                    if (colIdx === 2 && typeof data === 'string') {
-                                        return data.replace('$', '') * 1;
-                                    } else {
-                                        return data;
-                                    }
-                                }
-                            }
+                            columns: [0, 1, 3, {
+                                visible: false,
+                                columns: [3]
+                            }, 4, 5, 6]
                         },
                         customize: function(xlsx) {
                             var sheet = xlsx.xl.worksheets['sheet1.xml'];
-                            // Personaliza el archivo Excel aquí si es necesario
+
+                            // Aplicar formato numérico a la columna oculta (columna 3 en base 0)
+                            $('c[r^="D"]', sheet).each(function() {
+                                var numFmtId = $('numFmt', this).attr('numFmtId');
+                                if (!numFmtId) {
+                                    numFmtId =
+                                        2; // ID para el formato de número en Excel (puedes ajustar según tus necesidades)
+                                    $('numFmt', this).attr('numFmtId', numFmtId);
+                                }
+                                // $(this).attr('s', '2'); // Establecer el estilo de celda como número
+                            });
                         },
                     },
                     {
@@ -174,11 +186,26 @@
                     name: 'fecha',
                 },
                 {
+                    data: 'valorProducidoFormat',
+                    name: 'valorProducidoFormat',
+                    render: function(data, type, row) {
+                        if (type === 'display' || type === 'filter') {
+                            return formatCurrency(data);
+                        }
+                        return data;
+                    },
+                    // "createdCell": function(td, cellData, rowData, row, col) {
+                    //     if (col === 2) { // Ajusta el índice de la columna según tu estructura de datos
+                    //         // $(td).addClass('float-right'); // Agrega la clase solo a las celdas de datos
+                    //         $(td).addClass('text-center'); // Agrega la clase solo a las celdas de datos
+                    //     }
+                    // },
+                },
+
+                {
                     data: 'valorProducido',
                     name: 'valorProducido',
-                    render: function(data, type, row) {
-                        return formatCurrency(data);
-                    }
+                    visible: false,
                 },
                 {
                     data: 'meta_nombre',
@@ -238,10 +265,16 @@
             pageLength: 7, // Establece la cantidad de registros por página por defecto
         });
 
-        // Función para formatear el valorProducido como moneda
+        // 
         function formatCurrency(value) {
             // Puedes personalizar esta función según tus necesidades
-            return '$' + parseFloat(value).toFixed(2); // Por ejemplo, formato: $123.45
+            var options = {
+                style: 'currency',
+                currency: 'COP',
+                minimumFractionDigits: 2,
+            };
+
+            return new Intl.NumberFormat('es-CO', options).format(value);
         }
 
         // Detectar cambios en el select

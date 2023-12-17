@@ -321,6 +321,7 @@ return [
         // ], //ojo que aca inicia para modificar el menu
 
         ['header' => 'ADMINISTRADOR'],
+        
 
         [
             'text' => 'Estudios',
@@ -376,11 +377,12 @@ return [
                 ],
 
                 [
-                    'text' => 'Asignacion Turno',
+                    'text' => 'Asignacion Turnos',
                     'route'  => 'admin.asignacionTurnos.index',
                     'can' => 'admin.asignacionTurnos.index',
                     'icon' => '	far fa-address-book',
                 ],
+
                 [
                     'text' => 'Asignacion Room',
                     'route'  => 'admin.asignacionRooms.index',
@@ -399,6 +401,37 @@ return [
 
         ],
 
+        // [
+        //     'text' => 'Dashboard',
+        //     'url'  => '#',
+        //     'icon' => '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-user-plus"><path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="8.5" cy="7" r="4"></circle><line x1="20" y1="8" x2="20" y2="14"></line><line x1="23" y1="11" x2="17" y2="11"></line></svg>',
+        //     'can' => 'admin.roles.index',
+        //     'submenu' => [
+        //         [
+        //             'text'    => 'METAS',
+        //             'url'     => '#',
+        //             // 'can' => 'admin.metaModelos.index',
+        //             'submenu' => [
+        //                 [
+        //                     'text' => 'Metas Estudio',
+        //                     'url'     => '#',
+        //                     // 'can' => 'admin.metaModelos.index',
+        //                 ],
+        //                 [
+        //                     'text' => 'Metas Estudio',
+        //                     'url'     => '#',
+        //                     // 'can' => 'admin.metaModelos.index',
+        //                 ],
+
+
+        //             ],
+        //         ],
+        //     ],
+
+        // ],
+
+
+
         //MULTINIVEL
         [
             'text'    => 'Configuracion',
@@ -410,21 +443,25 @@ return [
                 [
                     'text'    => 'METAS',
                     'url'     => '#',
-                    'can' => 'admin.configuraciones.metas',
+                    'can' => 'admin.metaModelos.index',
                     'subsubmenu' => [
                         [
                             'text' => 'Metas Estudio',
                             'route'     => 'admin.tipoMetas.index',
-                            'can' => 'admin.tipoMetas',
+                            'can' => 'admin.configuraciones.tipoMetas',
                         ],
                         [
                             'text' => 'Metas Modelo',
                             'route'     => 'admin.metaModelos.index',
-                            'can' => 'admin.metasModelos',
+                            'can' => 'admin.metaModelos.index',
                         ],
 
                     ],
                 ],
+
+
+
+
 
                 [
                     'text' => 'Empresa',
@@ -472,42 +509,15 @@ return [
                     'can' => 'admin.paginas',
                 ],
 
-                // [
-                //     'text'    => 'Desplegable Pr',
-                //     'url'     => '#',
-                //     'submenu' => [
-                //         [
-                //             'text' => 'Tipo Moneda Paginassssssssssssssssssss',
-                //             'url'     => '#',
-                //         ],
-                //         [
-                //             'text' => 'Paginas',
-                //             'url'     => '#',
-                //         ],
-
-                //         [
-                //             'text'    => 'Paginas',
-                //             'url'     => '#',
-                //             'submenu' => [
-                //                 [
-                //                     'text' => 'level_three',
-                //                     'url'  => '#',
-                //                 ],
-                //                 [
-                //                     'text' => 'level_three',
-                //                     'url'  => '#',
-                //                 ],
-                //             ],
-                //         ],
-                //     ],
-                // ],
-
-                // [
-                //     'text' => 'level_one',
-                //     'url'  => '#',
-                // ]
             ],
         ],
+
+
+
+
+
+
+
 
         [
             'text'    => 'Certificaciones',
@@ -519,7 +529,13 @@ return [
                     'text' => 'Laboral',
                     'route'  => 'admin.users.userCertificacion',
                     'can' => 'admin.certificacion.laboral',
+
                 ],
+
+
+
+
+
                 [
                     'text' => 'Tiempo',
                     'route'  => 'admin.users.certificacionTiempo',
@@ -576,6 +592,8 @@ return [
             'can' => 'admin.reportePaginas.index',
         ],
     ],
+
+
 
     /*
     |--------------------------------------------------------------------------

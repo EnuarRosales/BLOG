@@ -147,7 +147,11 @@
 
                     </div>
                     {!! Form::submit('Actualizar Usuario', ['class' => 'btn btn-primary']) !!}
+
+                    @can('admin.users.asignarRol')
                     <a class="btn btn-info" href="{{ route('admin.users.rol', $user) }}">Asignar Rol</a>
+                    @endcan
+
                     {!! Form::close() !!}
                 {{-- </div>
             </div> --}}

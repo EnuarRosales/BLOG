@@ -36,7 +36,8 @@ class UserController extends Controller
     public function index()
     {
         try {
-            $users = User::all();
+            // $users = User::all();
+            $users = User::with('tipoUsuario')->get();
             return view('admin.users.index', compact('users'));
         } catch (\Exception $exception) {
             Log::error("Error UC index: {$exception->getMessage()}, File: {$exception->getFile()}, Line: {$exception->getLine()}");
@@ -46,7 +47,7 @@ class UserController extends Controller
     public function userCertificacion()
     {
         try {
-            $users = User::all();
+            $users = User::with('tipoUsuario')->get();
             $date = Carbon::now()->locale('es');
             $userLogueado = auth()->user()->id;
 

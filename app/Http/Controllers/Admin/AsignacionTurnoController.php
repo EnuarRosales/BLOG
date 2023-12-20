@@ -7,7 +7,7 @@ use App\Http\Controllers\Controller;
 use App\Models\AsignacionTurno;
 use App\Models\Turno;
 use App\Models\User;
-use Illuminate\Http\Request; 
+use Illuminate\Http\Request;
 
 class AsignacionTurnoController extends Controller
 {
@@ -18,8 +18,9 @@ class AsignacionTurnoController extends Controller
      */
     public function index()
     {
-        $asignacionTurnos = AsignacionTurno::all();   
-        return view('admin.asignacionTurnos.index', compact('asignacionTurnos'));  
+        // $asignacionTurnos = AsignacionTurno::all();
+        $asignacionTurnos = AsignacionTurno::with('turno','user.tipoUsuario')->get();
+        return view('admin.asignacionTurnos.index', compact('asignacionTurnos'));
     }
 
     /**
@@ -30,8 +31,8 @@ class AsignacionTurnoController extends Controller
     public function create()
     {
         // $asignacionTurnos = AsignacionTurno::pluck('created_at','id')->toArray();
-        $users = User::orderBy('id','desc'); 
-        $turnos = Turno::orderBy('id','desc'); 
+        $users = User::orderBy('id','desc');
+        $turnos = Turno::orderBy('id','desc');
         return view('admin.asignacionTurnos.create', compact('users','turnos'));
     }
 
@@ -43,18 +44,18 @@ class AsignacionTurnoController extends Controller
      */
     public function store(Request $request)
     {
-        //VALiDACION FORMULARIO 
+        //VALiDACION FORMULARIO
         $request->validate([
             'user_id'=>'required',
-            'turno_id'=>'required',         
+            'turno_id'=>'required',
         ]);
- 
+
         $asignacionTurno = AsignacionTurno::create($request->all());
         event(new control_turnos());
 
         return redirect()->route('admin.asignacionTurnos.index',$asignacionTurno->id)->with('info','store');
 
-        
+
     }
 
     /**
@@ -68,20 +69,20 @@ class AsignacionTurnoController extends Controller
         //
     }
 
-    /** 
+    /**
      * Show the form for editing the specified resource.
      *
      * @param  int  $id
-     * @return \Illuminate\Http\Response 
+     * @return \Illuminate\Http\Response
      */
     public function edit(AsignacionTurno $asignacionTurno)
-    {     
-        $users = User::orderBy('id','desc'); 
-        $turnos = Turno::orderBy('id','desc');  
+    {
+        $users = User::orderBy('id','desc');
+        $turnos = Turno::orderBy('id','desc');
 
         return view('admin.asignacionTurnos.edit',compact('asignacionTurno','users','turnos'));
     }
- 
+
     /**
      * Update the specified resource in storage.
      *
@@ -91,10 +92,10 @@ class AsignacionTurnoController extends Controller
      */
     public function update(Request $request, AsignacionTurno $asignacionTurno)
     {
-        //VALiDACION FORMULARIO 
+        //VALiDACION FORMULARIO
         $request->validate([
             'user_id'=>'required',
-            'turno_id'=>'required',         
+            'turno_id'=>'required',
         ]);
         //ASINACION MASIVA DE VARIABLES A LOS CAMPOS
         $asignacionTurno->update($request->all());

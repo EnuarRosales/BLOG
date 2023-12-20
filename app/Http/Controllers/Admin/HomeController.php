@@ -362,7 +362,7 @@ class HomeController extends Controller
         if ($datoMasReciente != null) {
             $idMeta = $datoMasReciente->id;
 
-            $fechas = ResgistroProducido::where('meta_id', $idMeta)->select(
+            $fechas = ResgistroProducido::with('user.registroProducido')->where('meta_id', $idMeta)->select(
                 DB::raw('sum(valorProducido) as suma'),
                 DB::raw('meta_id'),
                 DB::raw('fecha'),
@@ -499,7 +499,7 @@ class HomeController extends Controller
                 // El nombre está repetido, realiza acciones específicas o muestra un mensaje de error
                 echo " ";
 
-                //validamos el turno solo para que nos muestre informacion actual 
+                //validamos el turno solo para que nos muestre informacion actual
             } elseif ($turnoHoraTermino > $horaActual) {
                 // Agregar el nombre al conjunto
                 $nombres[] = $name;
@@ -510,7 +510,7 @@ class HomeController extends Controller
                 $controles[] = $control;
                 $turnoHoraTerminos[] = $turnoHoraTermino;
                 $turnoNombres[] = $turnoNombre;
-            } 
+            }
         }
 
         // Combina los arrays en un solo arreglo asociativo

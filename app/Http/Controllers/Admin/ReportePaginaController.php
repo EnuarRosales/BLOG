@@ -35,7 +35,7 @@ class ReportePaginaController extends Controller
         $registroDatos->ponerMeta();
         $registroDatos->poblarPorcentajeTotal();
         $registroDatos->actualizarPorcentaje();
-        $reportePaginas = ReportePagina::with('user', 'pagina')->where('verificado', 0)->get();
+        $reportePaginas = ReportePagina::with('user', 'pagina','reportePagina')->where('verificado', 0)->get();
         return view('admin.reportePaginas.index', compact('reportePaginas'));
     }
 
@@ -141,6 +141,7 @@ class ReportePaginaController extends Controller
 
     public function actualizarPorcentaje()
     {
+        // $reportePaginas = ReportePagina::with('user', 'reportePagina')->where('verificado', 0)->get();
         $reportePaginas = ReportePagina::where('verificado', 0)->get();
         foreach ($reportePaginas as $reportePagina) {
             if ($reportePagina->verificado == 0) {
@@ -308,8 +309,8 @@ class ReportePaginaController extends Controller
         $meta = 0;
 
 
-
-        $reportePaginas = ReportePagina::all();
+        $reportePaginas = ReportePagina::with('user', 'pagina','reportePagina')->get();
+        // $reportePaginas = ReportePagina::all();
 
         foreach ($reportePaginas as $reportePagina) {
             foreach ($reporteQuincenas as $reporteQuincena) {
@@ -319,7 +320,7 @@ class ReportePaginaController extends Controller
                         // $meta = $metaModelo->porcentaje;
                         if ($reporteQuincena->user_id == $reportePagina->user_id && $reporteQuincena->fecha == $reportePagina->fecha && $reportePagina->enviarPago == 0) {
 
-                            $reportePagina->metaModelo = $meta;
+                            // $reportePagina->metaModelo = $meta;
                             $reportePagina->save();
                         }
                         break;
@@ -339,7 +340,7 @@ class ReportePaginaController extends Controller
 
     public function poblarPorcentajeTotal()
     {
-        // $reportePaginas = ReportePagina::with('user', 'metaModelo')->get();
+        // $reportePaginas = ReportePagina::with('user', 'reportePaginas')->get();
         $reportePaginas = ReportePagina::all();
         foreach ($reportePaginas as $reportePagina) {
             if ($reportePagina->user->tipoUsuario->nombre == "Modelo") {

@@ -248,6 +248,10 @@ class RegistroProducidoController extends Controller
         ->addColumn('user_nombre', function ($row) {
             return $row->user->name; // Reemplaza 'nombre' con el nombre real de la columna
         })
+        ->addColumn('valorProducidoFormat', function ($row) {
+            // dd($row);
+            return $row->valorProducido;
+        })
         // ->addColumn('acciones', function ($row) {
         //     $acciones = '';
         //     return $acciones;

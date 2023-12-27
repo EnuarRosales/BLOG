@@ -35,7 +35,7 @@
             </div>
 
             <div>
-                {{-- @include('admin.index.partials.tablaAsistenciaPersonal') --}}
+                @include('admin.index.partials.tablaAsistenciaPersonal')
             </div>
 
             <div>

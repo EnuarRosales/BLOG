@@ -297,42 +297,49 @@ class HomeController extends Controller
             ->whereMonth('fechaIngreso', $cuartoMes)
             ->whereDay('fechaIngreso', '<=', 15)
             ->where('active', true) // Asume que tienes una columna 'activo' en tu tabla
+            ->where('tipoUsuario_id', 2)
             ->count();
 
         $segundaQuincenaCuartoMes = User::whereYear('fechaIngreso', $cuartoMes)
             ->whereMonth('fechaIngreso', $cuartoMes)
             ->whereDay('fechaIngreso', '>', 15)
             ->where('active', true) // Asume que tienes una columna 'activo' en tu tabla
+            ->where('tipoUsuario_id', 2)
             ->count();
 
         $primeraQuincenaTercerMes = User::whereYear('fechaIngreso', $tercerMes)
             ->whereMonth('fechaIngreso', $tercerMes)
             ->whereDay('fechaIngreso', '<=', 15)
             ->where('active', true) // Asume que tienes una columna 'activo' en tu tabla
+            ->where('tipoUsuario_id', 2)
             ->count();
 
         $segundaQuincenaTercerMes = User::whereYear('fechaIngreso', $tercerMes)
             ->whereMonth('fechaIngreso', $tercerMes)
             ->whereDay('fechaIngreso', '>', 15)
             ->where('active', true) // Asume que tienes una columna 'activo' en tu tabla
+            ->where('tipoUsuario_id', 2)
             ->count();
 
         $primeraQuincenaSegundoMes = User::whereYear('fechaIngreso', $segundoMes)
             ->whereMonth('fechaIngreso', $segundoMes)
             ->whereDay('fechaIngreso', '<=', 15)
             ->where('active', true) // Asume que tienes una columna 'activo' en tu tabla
+            ->where('tipoUsuario_id', 2)
             ->count();
 
         $segundaQuincenaSegundoMes = User::whereYear('fechaIngreso', $segundoMes)
             ->whereMonth('fechaIngreso', $segundoMes)
             ->whereDay('fechaIngreso', '>', 15)
             ->where('active', true) // Asume que tienes una columna 'activo' en tu tabla
+            ->where('tipoUsuario_id', 2)
             ->count();
 
         $segundaQuincenaPrimerMes = User::whereYear('fechaIngreso', $primerMes)
             ->whereMonth('fechaIngreso', $primerMes)
             ->whereDay('fechaIngreso', '>', 15)
             ->where('active', true) // Asume que tienes una columna 'activo' en tu tabla
+            ->where('tipoUsuario_id', 2)
             ->count();
 
         $dataUsuariosJS = '[' . $segundaQuincenaPrimerMes . ', ' . $segundaQuincenaSegundoMes . ', ' . $primeraQuincenaSegundoMes . ',  ' . $segundaQuincenaTercerMes . ', ' . $primeraQuincenaTercerMes . ', ' . $segundaQuincenaCuartoMes . ', ' . $primeraQuincenaCuartoMes . ']';

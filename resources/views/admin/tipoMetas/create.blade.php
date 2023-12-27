@@ -55,6 +55,8 @@
 
                     </div>
 
+                    
+
                     {!! Form::submit('Crear Tipo Meta', ['class' => 'btn btn-primary']) !!}
 
                     {!! Form::close() !!}

@@ -6,7 +6,6 @@
 
 @section('page-title')
     <a href="{{ route('admin.reportePaginas.index') }}">Reporte de paginas</a>
-
 @endsection
 
 @section('content_header')
@@ -15,7 +14,6 @@
 
 
 @section('content')
-
     {{-- CONFIRMACION SI HAY ALGO MAL --}}
     @if (isset($errors) && $errors->any())
         @include('admin.reportePaginas.partials.modal-error')

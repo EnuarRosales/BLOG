@@ -188,7 +188,7 @@ class RolSeeder extends Seeder
             'description' => 'Eliminar meta estudio'
         ])->syncRoles([$role_admin]);
 
-
+ 
         //METAS MODELOS 
         Permission::create([
             'name' => 'admin.metaModelos.index',

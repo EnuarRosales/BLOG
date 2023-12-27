@@ -11,7 +11,6 @@
     <!-- BEGIN GLOBAL MANDATORY STYLES -->
     @include('template.head')
     @yield('styles')
-
     <!-- END GLOBAL MANDATORY STYLES -->
 
     <!-- BEGIN PAGE LEVEL PLUGINS/CUSTOM STYLES -->
@@ -57,12 +56,7 @@
 
 
                 <!-- CONTENT AREA -->
-
-
                 @yield('content')
-
-
-
                 <!-- CONTENT AREA -->
 
             </div>

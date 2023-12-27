@@ -1,5 +1,13 @@
 @extends('template.index')
 
+@section('tittle-tab')
+    DASHBOARD
+@endsection
+
+@section('page-title')
+    DASHBOARD
+@endsection
+
 @section('styles')
     <link href="{{ asset('template/plugins/apex/apexcharts.css') }}" rel="stylesheet" type="text/css">
     <link href="{{ asset('template/assets/css/dashboard/dash_1.css') }}" rel="stylesheet" type="text/css" />
@@ -13,6 +21,8 @@
         type="text/css">
 @endsection
 
+
+
 @section('content')
     @can('admin.home')
         <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 layout-spacing">
@@ -20,13 +30,12 @@
                 @include('admin.index.partials.usuario_widget')
                 @include('admin.index.partials.multas_widget')
                 @include('admin.index.partials.prestamo_widget')
-
                 @include('admin.index.partials.meta_widget')
 
             </div>
 
             <div>
-                @include('admin.index.partials.tablaAsistenciaPersonal')
+                {{-- @include('admin.index.partials.tablaAsistenciaPersonal') --}}
             </div>
 
             <div>
@@ -91,9 +100,6 @@
                 @include('admin.index.partials.facturado_quincena_widget')
             </div>
         </div>
-
-
-
         <div class="row">
 
             <div id="chartColumn" class="col-xl-12 layout-spacing">
@@ -139,8 +145,9 @@
                                                 @php
                                                     $color = $dataModelosQuincena['coloresPorUsuario'][$userId][$fecha] ?? 'rojo'; // Color predeterminado
                                                 @endphp
-                                                <td> <span class="badge badge-{{ $color }}">$ {{ $total['sumatoriaNetoPesos'] }} COP</span>
-                                                    </td>
+                                                <td> <span class="badge badge-{{ $color }}">$
+                                                        {{ $total['sumatoriaNetoPesos'] }} COP</span>
+                                                </td>
 
                                                 {{-- <td>{{ $total['sumatoriaDolarers'] }}</td> --}}
                                             @endforeach

@@ -21,7 +21,7 @@
                     <p class="w-value"><span
                             style="color: red; font-weight: bold;">{{ $dataUsuarios[1] }}</span>
                     </p>
-                    <h5 class="">Usuarios</h5>
+                    <h5 class="">Usuarios pp</h5>
                 @endif
             </div>
         </div>

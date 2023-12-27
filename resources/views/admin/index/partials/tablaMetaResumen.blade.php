@@ -7,7 +7,7 @@
                 </div>
                 <div class="widget-content">
                     <div class="table-responsive">
-                        <table class="table"  id="table_resumenmeta">
+                        <table class="table" id="table_resumenmeta">
 
                             <thead>
                                 <tr>
@@ -29,17 +29,18 @@
                                         <td>{{ $fecha->fecha }}</td>
                                         <td>{{ $fecha->meta->nombre }}</td>
                                         <td>
-                                            {{ "$ " }}{{ ($fecha->meta->valor / $fecha->meta->dias== intval($fecha->meta->valor / $fecha->meta->dias)) ? number_format($fecha->meta->valor / $fecha->meta->dias, 0, ',', '.') : number_format($fecha->meta->valor / $fecha->meta->dias, 2, ',', '.')}}
+                                            {{ "$ " }}{{ $fecha->meta->valor / $fecha->meta->dias == intval($fecha->meta->valor / $fecha->meta->dias) ? number_format($fecha->meta->valor / $fecha->meta->dias, 0, ',', '.') : number_format($fecha->meta->valor / $fecha->meta->dias, 2, ',', '.') }}
                                         </td>
-                                        <td>{{ "$ " }}{{ ($fecha->suma== intval($fecha->suma)) ? number_format($fecha->suma, 0, ',', '.') : number_format($fecha->suma, 2, ',', '.') }}</td>
+                                        <td>{{ "$ " }}{{ $fecha->suma == intval($fecha->suma) ? number_format($fecha->suma, 0, ',', '.') : number_format($fecha->suma, 2, ',', '.') }}
+                                        </td>
 
-                                        
+
 
                                         <td
                                             @if ($fecha->suma - $fecha->meta->valor / $fecha->meta->dias > 0) class="badge badge-success mt-2"
                                     @else
                                     class="badge badge-danger mt-2" @endif>
-                                            {{ "$ " }}{{  ($fecha->suma - $fecha->meta->valor / $fecha->meta->dias == intval($fecha->suma - $fecha->meta->valor / $fecha->meta->dias)) ? number_format($fecha->suma - $fecha->meta->valor / $fecha->meta->dias, 0, ',', '.') : number_format($fecha->suma - $fecha->meta->valor / $fecha->meta->dias, 2, ',', '.')}}
+                                            {{ "$ " }}{{ $fecha->suma - $fecha->meta->valor / $fecha->meta->dias == intval($fecha->suma - $fecha->meta->valor / $fecha->meta->dias) ? number_format($fecha->suma - $fecha->meta->valor / $fecha->meta->dias, 0, ',', '.') : number_format($fecha->suma - $fecha->meta->valor / $fecha->meta->dias, 2, ',', '.') }}
                                         </td>
 
                                         <td>
@@ -68,11 +69,11 @@
                                             @endif
                                         @endforeach
                                         <td>
-                                            {{ "$ " }}{{ ($saldoIdeal== intval($saldoIdeal)) ? number_format($saldoIdeal, 0, ',', '.') : number_format($saldoIdeal, 2, ',', '.')}}
+                                            {{ "$ " }}{{ $saldoIdeal == intval($saldoIdeal) ? number_format($saldoIdeal, 0, ',', '.') : number_format($saldoIdeal, 2, ',', '.') }}
 
                                         </td>
                                         <td>
-                                            {{ "$ " }}{{ ($sumaFecha== intval($sumaFecha)) ? number_format($sumaFecha, 0, ',', '.') : number_format($sumaFecha, 2, ',', '.') }}
+                                            {{ "$ " }}{{ $sumaFecha == intval($sumaFecha) ? number_format($sumaFecha, 0, ',', '.') : number_format($sumaFecha, 2, ',', '.') }}
 
                                         </td>
                                         <td
@@ -80,7 +81,7 @@
                     
                                     @else
                                     class="badge badge-danger mt-3" @endif>
-                                            {{ "$ " }}{{ ($saldo== intval($saldo)) ? number_format($saldo, 0, ',', '.') : number_format($saldo, 2, ',', '.')  }}
+                                            {{ "$ " }}{{ $saldo == intval($saldo) ? number_format($saldo, 0, ',', '.') : number_format($saldo, 2, ',', '.') }}
 
                                         </td>
                                     </tr>

@@ -738,16 +738,20 @@ class HomeController extends Controller
         $dataUsuarios = $this->dataUsuario();
         $dataResumenMeta = $this->reporte_dia();
         $dataTurnos = $this->dataTurno();
-        $dataAsistencias = $this->dataAsistencia();
-        // $dataQuincenas = $this->dataQuincenas2();
+        $dataAsistencias = $this->dataAsistencia();       
         list($fechasArray, $totalPagosPorFecha) = $this->dataQuincenas2();
         $datapaginas = $this->dataPaginas();
 
         $dataModelosQuincena = $this->dataModelosQuincena();
-        // $this->dataModelosQuincena();
-        // dd($dataModelosQuincena);
+     
 
 
         return view('admin.index.index', compact('multas', 'descuentos', 'dataDescuentos', 'dataMetas', 'dataMultas', 'dataHistorialMetas', 'dataUsuarios', 'dataResumenMeta', 'dataTurnos', 'dataAsistencias', 'configAsistencia', 'fechasArray', 'totalPagosPorFecha', 'datapaginas', 'dataModelosQuincena'));
     }
+
+
+    // public function index()
+    // {
+    //     return view('admin.index.index');
+    // }
 }

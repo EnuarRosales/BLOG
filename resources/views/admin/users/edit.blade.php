@@ -38,7 +38,7 @@
                             <br>
                             <span class="text-danger">{{ $message }}</span>
                             <br>
-                        @enderror 
+                        @enderror
 
                         {!! Form::label('name', 'Nombre') !!}
                         {{-- ojo que en la linea siguiente va el nombre de la columa =( --}}
@@ -115,7 +115,7 @@
 
 
                         <div class="n-chk mt-3">
-                            <label class="new-control new-radio new-radio-text radio-primary">
+                            <label class="new-control new-radio new-radio-text radio-success">
                                 <input type="radio" class="new-control-input" name="active" id="active_yes"
                                     value="1" {{ old('active', $user->active) ? 'checked' : '' }}>
                                 <span class="new-control-indicator"></span><span class="new-radio-content">Activo</span>

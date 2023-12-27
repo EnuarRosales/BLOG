@@ -61,9 +61,12 @@
                             <th>Direccion</th>
                             <th>Email</th>
                             <th>Tipo Usuario</th>
+                            <th>Activo</th>
+
+
                             @can('admin.users.edit')
                                 <th>Editar</th>
-                            @endcan 
+                            @endcan
                             @can('admin.users.destroy')
                                 <th>Eliminar</th>
                             @endcan
@@ -73,43 +76,56 @@
                         @foreach ($users as $usuario)
                             <tr>
                                 <td>{{ $usuario->id }}</td>
-                                <td>{{ $usuario->fechaIngreso}}</td>
+                                <td>{{ $usuario->fechaIngreso }}</td>
                                 <td>{{ $usuario->name }}</td>
                                 <td>{{ $usuario->cedula }}</td>
                                 <td>{{ $usuario->celular }}</td>
                                 <td>{{ $usuario->direccion }}</td>
                                 <td>{{ $usuario->email }}</td>
-                                <td> {{ $usuario->tipoUsuario->nombre ?? 'Vacio' }}
-                                                                        
-                                    {{-- {{ $usuario->tipoUsuario->nombre}}</td> --}}
-        
+
+                                <td> {{ $usuario->tipoUsuario->nombre ?? 'Vacio' }}</td>
+
+                                @if ($usuario->active == 1)
+                                    <td style="text-align: center">
+                                        <div class="t-dot bg-success " data-toggle="tooltip" data-placement="top"
+                                            title=""></div>Si
+                                    </td>
+                                @else
+                                    <td style="text-align: center">
+                                        <div class="t-dot bg-danger" data-toggle="tooltip" data-placement="top"
+                                            title=""></div>No
+                                    </td>
+                                @endif
+
+                                {{-- {{ $usuario->tipoUsuario->nombre}}</td> --}}
+
                                 @can('admin.users.edit')
                                     <td width="10px">
                                         <a href="{{ route('admin.users.edit', $usuario) }}" class=" bs-tooltip"
-                                        data-placement="top" title="Editar">
-                                        <svg class="rounded mr-2" xmlns="http://www.w3.org/2000/svg" width="24"
-                                            height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                                            stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-                                            class="feather feather-edit-3">
-                                            <path d="M12 20h9"></path>
-                                            <path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"></path>
-                                        </svg>
-                                    </a>
+                                            data-placement="top" title="Editar">
+                                            <svg class="rounded mr-2" xmlns="http://www.w3.org/2000/svg" width="24"
+                                                height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                                stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                                                class="feather feather-edit-3">
+                                                <path d="M12 20h9"></path>
+                                                <path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"></path>
+                                            </svg>
+                                        </a>
                                     </td>
                                 @endcan
                                 @can('admin.users.destroy')
                                     <td width="10px">
                                         <a href="javascript:void(0);" class="ml-2 eliminar-registro rounded bs-tooltip"
-                                        data-placement="top" title="Eliminar" data-usuario-id="{{ $usuario->id }}">
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
-                                            viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-                                            stroke-linecap="round" stroke-linejoin="round"
-                                            class="feather feather-x-circle table-cancel">
-                                            <circle cx="12" cy="12" r="10"></circle>
-                                            <line x1="15" y1="9" x2="9" y2="15"></line>
-                                            <line x1="9" y1="9" x2="15" y2="15"></line>
-                                        </svg>
-                                    </a>
+                                            data-placement="top" title="Eliminar" data-usuario-id="{{ $usuario->id }}">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                                viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                                stroke-linecap="round" stroke-linejoin="round"
+                                                class="feather feather-x-circle table-cancel">
+                                                <circle cx="12" cy="12" r="10"></circle>
+                                                <line x1="15" y1="9" x2="9" y2="15"></line>
+                                                <line x1="9" y1="9" x2="15" y2="15"></line>
+                                            </svg>
+                                        </a>
                                     </td>
                                 @endcan
                             </tr>
@@ -127,7 +143,7 @@
                             <th>Tipo Usuario</th>
                             @can('admin.users.edit')
                                 <th>Editar</th>
-                            @endcan 
+                            @endcan
                             @can('admin.users.destroy')
                                 <th>Eliminar</th>
                             @endcan

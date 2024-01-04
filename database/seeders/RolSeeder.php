@@ -20,6 +20,10 @@ class RolSeeder extends Seeder
      */
     public function run()
     {
+
+        
+
+
         //CREACION DE ROLES OJO IMPORTAR EL MODELO DESDE LA UBICACION DE SPATIE
         $role_admin = Role::create(['name' => 'Administrador']);
         $role_modelo = Role::create(['name' => 'Modelo']);
@@ -188,7 +192,7 @@ class RolSeeder extends Seeder
             'description' => 'Eliminar meta estudio'
         ])->syncRoles([$role_admin]);
 
- 
+
         //METAS MODELOS 
         Permission::create([
             'name' => 'admin.metaModelos.index',
@@ -219,7 +223,7 @@ class RolSeeder extends Seeder
             'name' => 'admin.impuestos',
             'description' => 'Ver, crear, editar, eliminar, menu impuesto'
         ])->syncRoles([$role_admin]);
-       
+
         //TIPOUSUARIOS
         Permission::create([
             'name' => 'admin.tipoUsuarios',

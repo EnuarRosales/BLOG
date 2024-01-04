@@ -443,17 +443,17 @@ return [
                 [
                     'text'    => 'METAS',
                     'url'     => '#',
-                    'can' => 'admin.metaModelos.index',
+                    // 'can' => 'admin.metaModelos.index',
                     'subsubmenu' => [
                         [
                             'text' => 'Metas Estudio',
                             'route'     => 'admin.tipoMetas.index',
-                            'can' => 'admin.configuraciones.tipoMetas',
+                            // 'can' => 'admin.configuraciones.tipoMetas',
                         ],
                         [
                             'text' => 'Metas Modelo',
                             'route'     => 'admin.metaModelos.index',
-                            'can' => 'admin.metaModelos.index',
+                            // 'can' => 'admin.metaModelos.index',
                         ],
 
                     ],

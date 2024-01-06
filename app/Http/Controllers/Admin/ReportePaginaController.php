@@ -320,7 +320,7 @@ class ReportePaginaController extends Controller
                         // $meta = $metaModelo->porcentaje;
                         if ($reporteQuincena->user_id == $reportePagina->user_id && $reporteQuincena->fecha == $reportePagina->fecha && $reportePagina->enviarPago == 0) {
 
-                            // $reportePagina->metaModelo = $meta;
+                            $reportePagina->metaModelo = $meta;
                             $reportePagina->save();
                         }
                         break;

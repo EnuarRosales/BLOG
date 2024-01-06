@@ -309,8 +309,8 @@ class ReportePaginaController extends Controller
         $meta = 0;
 
 
-        $reportePaginas = ReportePagina::with('user', 'pagina')->get();
-        // $reportePaginas = ReportePagina::all();
+        // $reportePaginas = ReportePagina::with('user', 'pagina')->get();
+        $reportePaginas = ReportePagina::all();
 
         foreach ($reportePaginas as $reportePagina) {
             foreach ($reporteQuincenas as $reporteQuincena) {

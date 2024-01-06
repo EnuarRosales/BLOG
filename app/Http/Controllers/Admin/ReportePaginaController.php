@@ -35,7 +35,7 @@ class ReportePaginaController extends Controller
         $registroDatos->ponerMeta();
         $registroDatos->poblarPorcentajeTotal();
         $registroDatos->actualizarPorcentaje();
-        $reportePaginas = ReportePagina::with('user', 'pagina','reportePagina')->where('verificado', 0)->get();
+        $reportePaginas = ReportePagina::with('user', 'pagina')->where('verificado', 0)->get();
         return view('admin.reportePaginas.index', compact('reportePaginas'));
     }
 
@@ -309,8 +309,8 @@ class ReportePaginaController extends Controller
         $meta = 0;
 
 
-        $reportePaginas = ReportePagina::with('user', 'pagina','reportePagina')->get();
-        // $reportePaginas = ReportePagina::all();
+        // $reportePaginas = ReportePagina::with('user', 'pagina')->get();
+        $reportePaginas = ReportePagina::all();
 
         foreach ($reportePaginas as $reportePagina) {
             foreach ($reporteQuincenas as $reporteQuincena) {

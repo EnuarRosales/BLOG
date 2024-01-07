@@ -7,6 +7,24 @@ use Throwable;
 
 class Handler extends ExceptionHandler
 {
+
+    // // app/Exceptions/Handler.php
+    // public function render($request, Throwable $exception)
+    // {
+    //     if ($this->isHttpException($exception)) {
+    //         return $this->renderHttpException($exception);
+    //     } elseif ($exception instanceof \Throwable) {
+    //         return response()->view('errors.500', [], 500);
+    //     }
+
+    //     return parent::render($request, $exception);
+    // }
+
+
+
+
+
+
     /**
      * A list of the exception types that are not reported.
      *

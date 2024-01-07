@@ -16,16 +16,16 @@ return [
      * Only relevant if you're using the domain or subdomain identification middleware.
      */
     'central_domains' => [
-        'blog-studio.test',
+        // 'pp.test',
         // 'pp.blog-studio.test'
-        // 'siaewc.com',
+        'siaewc.com',
         // 'fo.blog-studio.test',
         // 'localhost',S
         // 'blum.com',
         // 'studio.artisandev.co'
     ],
 
-    /**
+    /** 
      * Tenancy bootstrappers are executed when tenancy is initialized.
      * Their responsibility is making Laravel features tenant-aware.
      *

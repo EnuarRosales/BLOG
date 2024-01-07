@@ -128,7 +128,7 @@ class HomeController extends Controller
                     ->pluck('totalNetaPesos')
                     ->first() ?? 0; // Valor predeterminado si no hay datos para esta página en esta fecha
 
-                $serie['data'][] = $totalNetaPesosPorPagina;
+                $serie['data'][] =  $totalNetaPesosPorPagina;
             }
 
             // Agregar la serie al array de series
@@ -155,6 +155,10 @@ class HomeController extends Controller
             // Almacenar los valores en los arreglos respectivos
             $nombresPaginas[] = $nombrePagina;
             $totalNetaPesos[] = $totalNetaPesosPagina;
+
+
+
+            // dd($nombrePagina);
             $fechaQuincenas[] = $fechaQuincena;
 
             $fechaQuincenas = array_unique($fechaQuincenas);
@@ -196,19 +200,18 @@ class HomeController extends Controller
     public function dataHistorialMeta()
     {
         $datoMasRecientes = Meta::latest()->take(4)->get();
-        $miArray = array(); // Inicializar un array vacío       
+        $miArray = array(); // Inicializar un array vacío
         if ($datoMasRecientes->count() > 0) {
             foreach ($datoMasRecientes as $datoMasReciente) {
                 $registroProduccion = ResgistroProducido::where('meta_id', $datoMasReciente->id)
                     ->sum('valorProducido');
                 $porcentajeMeta = ($registroProduccion * 100) / $datoMasReciente->valor;
                 $miArray[] = $datoMasReciente->nombre; //0
-                $miArray[] = $porcentajeMeta;          //1
-                $miArray[] = $registroProduccion;      //2
-                $miArray[] = $datoMasReciente->valor;  //3
+                $miArray[] = number_format($porcentajeMeta, 1);
+                $miArray[] = $registroProduccion == intval($registroProduccion) ? number_format($registroProduccion, 0, ',', '.') : number_format($registroProduccion, 2, ',', '.');   //2
+                $miArray[] = $datoMasReciente->valor == intval($datoMasReciente->valor) ? number_format($datoMasReciente->valor, 0, ',', '.') : number_format($datoMasReciente->valor, 2, ',', '.'); //3
             }
         }
-
 
         if ($datoMasRecientes->count() < 4) {
             $datos = 4 - $datoMasRecientes->count();
@@ -293,36 +296,50 @@ class HomeController extends Controller
         $primeraQuincenaCuartoMes = User::whereYear('fechaIngreso', $cuartoMes)
             ->whereMonth('fechaIngreso', $cuartoMes)
             ->whereDay('fechaIngreso', '<=', 15)
+            ->where('active', true) // Asume que tienes una columna 'activo' en tu tabla
+            ->where('tipoUsuario_id', 2)
             ->count();
 
         $segundaQuincenaCuartoMes = User::whereYear('fechaIngreso', $cuartoMes)
             ->whereMonth('fechaIngreso', $cuartoMes)
             ->whereDay('fechaIngreso', '>', 15)
+            ->where('active', true) // Asume que tienes una columna 'activo' en tu tabla
+            ->where('tipoUsuario_id', 2)
             ->count();
 
         $primeraQuincenaTercerMes = User::whereYear('fechaIngreso', $tercerMes)
             ->whereMonth('fechaIngreso', $tercerMes)
             ->whereDay('fechaIngreso', '<=', 15)
+            ->where('active', true) // Asume que tienes una columna 'activo' en tu tabla
+            ->where('tipoUsuario_id', 2)
             ->count();
 
         $segundaQuincenaTercerMes = User::whereYear('fechaIngreso', $tercerMes)
             ->whereMonth('fechaIngreso', $tercerMes)
             ->whereDay('fechaIngreso', '>', 15)
+            ->where('active', true) // Asume que tienes una columna 'activo' en tu tabla
+            ->where('tipoUsuario_id', 2)
             ->count();
 
         $primeraQuincenaSegundoMes = User::whereYear('fechaIngreso', $segundoMes)
             ->whereMonth('fechaIngreso', $segundoMes)
             ->whereDay('fechaIngreso', '<=', 15)
+            ->where('active', true) // Asume que tienes una columna 'activo' en tu tabla
+            ->where('tipoUsuario_id', 2)
             ->count();
 
         $segundaQuincenaSegundoMes = User::whereYear('fechaIngreso', $segundoMes)
             ->whereMonth('fechaIngreso', $segundoMes)
             ->whereDay('fechaIngreso', '>', 15)
+            ->where('active', true) // Asume que tienes una columna 'activo' en tu tabla
+            ->where('tipoUsuario_id', 2)
             ->count();
 
         $segundaQuincenaPrimerMes = User::whereYear('fechaIngreso', $primerMes)
             ->whereMonth('fechaIngreso', $primerMes)
             ->whereDay('fechaIngreso', '>', 15)
+            ->where('active', true) // Asume que tienes una columna 'activo' en tu tabla
+            ->where('tipoUsuario_id', 2)
             ->count();
 
         $dataUsuariosJS = '[' . $segundaQuincenaPrimerMes . ', ' . $segundaQuincenaSegundoMes . ', ' . $primeraQuincenaSegundoMes . ',  ' . $segundaQuincenaTercerMes . ', ' . $primeraQuincenaTercerMes . ', ' . $segundaQuincenaCuartoMes . ', ' . $primeraQuincenaCuartoMes . ']';
@@ -354,19 +371,19 @@ class HomeController extends Controller
     public function reporte_dia()
     {
         $datoMasReciente = Meta::latest()->first(); // O Dato::latest()->get() si deseas obtener varios registros
-        // Puedes hacer lo que desees con $datoMasReciente aquíecho  
+        // Puedes hacer lo que desees con $datoMasReciente aquíecho
         if ($datoMasReciente != null) {
             $idMeta = $datoMasReciente->id;
 
-            $fechas = ResgistroProducido::where('meta_id', $idMeta)->select(
+            $fechas = ResgistroProducido::with('user.registroProducido')->where('meta_id', $idMeta)->select(
                 DB::raw('sum(valorProducido) as suma'),
                 DB::raw('meta_id'),
                 DB::raw('fecha'),
 
             )
                 ->groupBy('fecha', 'meta_id')
+                ->orderBy('fecha', 'asc') // Ordenar por fecha de forma ascendente
                 ->get();
-
 
             $fechas2 = ResgistroProducido::select(
                 DB::raw('sum(valorProducido) as suma'),
@@ -380,7 +397,7 @@ class HomeController extends Controller
             $fechas3 = ResgistroProducido::select(
                 DB::raw('COUNT(DISTINCT(DATE(fecha)))  as date_count'),
                 DB::raw('meta_id'),
-                // DB::raw('fecha'),           
+                // DB::raw('fecha'),
 
             )
                 ->groupBy('meta_id')
@@ -388,7 +405,6 @@ class HomeController extends Controller
             return  array($fechas, $fechas2, $fechas3);
         }
 
-        // $noHayMetas = 1;
         return 0;
     }
 
@@ -433,15 +449,96 @@ class HomeController extends Controller
     {
         // Obtén la fecha actual
         $fechaActual = Carbon::now()->toDateString();
-        // Realiza la consulta para obtener los registros del día actual
-        $registrosAsistencia = Asistencia::whereDate('fecha', $fechaActual)->get();
-        return $registrosAsistencia;
+        //hora  actual
+        $horaActual = Carbon::now()->toTimeString();
+
+        //consulta para recuperarinfomracion que  necessitamos ojo solo la de la fecha actual
+        $registrosAsistencia = DB::table('asistencias')
+            ->join('users', 'users.id', '=', 'asistencias.user_id')
+            ->join('asignacion_turnos', 'asignacion_turnos.user_id', '=', 'users.id')
+            ->join('turnos', 'turnos.id', '=', 'asignacion_turnos.turno_id')
+            ->select('users.name', 'asistencias.fecha', 'asistencias.mi_hora', 'asistencias.multa_id', 'asistencias.control', 'turnos.horaTermino', 'turnos.nombre')
+            ->whereNull('asignacion_turnos.deleted_at')
+            ->whereNull('turnos.deleted_at')
+            ->whereNull('users.deleted_at')
+            ->whereNull('asistencias.deleted_at')
+            ->whereDate('asistencias.fecha', $fechaActual)
+            // ->where('turnos.horaTermino', '>', $horaActual)
+            ->get();
+
+        // Modificar el valor de 'turnoHoraTermino' si 'turno.nombre' es 'Noche'
+        foreach ($registrosAsistencia as $registro) {
+            if ($registro->nombre === 'Noche') {
+                $registro->horaTermino = '24:00:00';
+            }
+        }
+
+        // Decodificar JSON a un array de PHP
+        $dataArray = json_decode($registrosAsistencia, true);
+
+        //creacion  de listas para alamcenar informacion
+        $nombres = [];
+        $fechas = [];
+        $horas = [];
+        $turnos = [];
+        $multas = [];
+        $controles = [];
+        $turnoHoraTerminos = [];
+        $turnoNombres = [];
+
+        //logica
+        foreach ($dataArray as $item) {
+            $name = $item['name'];
+            $fecha = $item['fecha'];
+            $hora = $item['mi_hora'];
+            $turno = $item['nombre'];
+            $multa = $item['multa_id'];
+            $control = $item['control'];
+            $turnoHoraTermino = $item['horaTermino'];
+            $turnoNombre = $item['nombre'];
+
+            // Verificar si el nombre ya ha sido visto
+            if (in_array($name, $nombres)) {
+                // El nombre está repetido, realiza acciones específicas o muestra un mensaje de error
+                echo " ";
+
+                //validamos el turno solo para que nos muestre informacion actual
+            } elseif ($turnoHoraTermino > $horaActual) {
+                // Agregar el nombre al conjunto
+                $nombres[] = $name;
+                $fechas[] = $fecha;
+                $horas[] = $hora;
+                $turnos[] = $turno;
+                $multas[] = $multa;
+                $controles[] = $control;
+                $turnoHoraTerminos[] = $turnoHoraTermino;
+                $turnoNombres[] = $turnoNombre;
+            }
+        }
+
+        // Combina los arrays en un solo arreglo asociativo
+        if (!empty($nombres)) {
+            $datosAsociativos = array_map(function ($nombres, $fechas, $horas, $turnoNombres, $multas, $controles) {
+                return [
+                    'name' => $nombres,
+                    'fecha' => $fechas,
+                    'mi_hora' => $horas,
+                    'nombre' => $turnoNombres,
+                    'multa_id' => $multas,
+                    'control' => $controles,
+                    // ... otras claves y valores
+                ];
+            }, $nombres, $fechas, $horas, $turnoNombres, $multas, $controles);
+
+            // dd($registrosAsistencia );
+            return  $datosAsociativos;
+        } else {
+            echo "vacio";
+        }
     }
 
     public function dataQuincenas()
     {
-
-
         $pagosAgrupados = ReportePagina::orderBy('fecha', 'desc')
             ->get()
             ->groupBy(function ($date) {
@@ -454,29 +551,16 @@ class HomeController extends Controller
             $fechasArray = [];
             foreach ($pagosAgrupados as $fecha => $pagos) {
                 $fechasArray[] = $fecha;
-                $totalPagosPorFecha[$fecha] = $pagos->sum('dolares');
-
-                // echo $pagos->sum('devengado');
+                $totalPagosPorFecha[$fecha] = ($pagos->sum('dolares') == intval($pagos->sum('dolares'))) ? number_format($pagos->sum('dolares'), 0, ',', '.') : number_format($pagos->sum('dolares'), 2, ',', '.');
             }
-
 
             $fechasArrayString = json_encode($fechasArray);
             $totalPagosString = json_encode(array_values($totalPagosPorFecha));
-
-
-            // $fechasEscapadas = htmlspecialchars_decode($fechasString, ENT_QUOTES);
-            // $fechasEscapadas = str_replace('"', " ", $fechasEscapadas);
             $totalPagosEscapados = htmlspecialchars($totalPagosString, ENT_QUOTES, 'UTF-8');
-
-            //dd($fechasEscapadas);
         } else {
             $fechasArray[] = 0;
             $totalPagosEscapados[] = 0;
         }
-
-
-        // dd($fechasArray);
-
         return response()->json([
             'fechas' => $fechasArrayString,
             'totalPagos' => $totalPagosString,
@@ -497,17 +581,12 @@ class HomeController extends Controller
             $fechasArray = [];
             foreach ($pagosAgrupados as $fecha => $pagos) {
                 $fechasArray[] = $fecha;
-                $totalPagosPorFecha[$fecha] = $pagos->sum('dolares');
+                $totalPagosPorFecha[$fecha] = ($pagos->sum('dolares') == intval($pagos->sum('dolares'))) ? number_format($pagos->sum('dolares'), 0, ',', '.') : number_format($pagos->sum('dolares'), 2, ',', '.');
             }
         } else {
             $fechasArray[] = 0;
             $totalPagosEscapados[] = 0;
         }
-        // echo $fechasArrayString."hola";
-
-        // dd($totalPagosString);
-
-        // dd($fechasArray);
 
         return [$fechasArray, $totalPagosPorFecha];
     }
@@ -560,7 +639,6 @@ class HomeController extends Controller
             return $registrosUsuario->pluck('fecha');
         })->unique()->toArray();
 
-
         $maximoValor = 0;
 
         foreach ($sumatoriasPorFechaPorUsuario as $userId => $sumatoriasPorFecha) {
@@ -571,7 +649,6 @@ class HomeController extends Controller
                 }
             }
         }
-
         // Calcular los porcentajes
         $intervalos = [
             1.0, // 100%
@@ -616,8 +693,6 @@ class HomeController extends Controller
             }
         }
 
-        // dd($coloresPorUsuario);
-
         return [
             'sumatoriasPorFechaPorUsuario' => $sumatoriasPorFechaPorUsuario,
             'nombresModelosPorUsuario' => $nombresModelosPorUsuario,
@@ -643,16 +718,15 @@ class HomeController extends Controller
         $dataResumenMeta = $this->reporte_dia();
         $dataTurnos = $this->dataTurno();
         $dataAsistencias = $this->dataAsistencia();
-        // $dataQuincenas = $this->dataQuincenas2();
         list($fechasArray, $totalPagosPorFecha) = $this->dataQuincenas2();
         $datapaginas = $this->dataPaginas();
-
         $dataModelosQuincena = $this->dataModelosQuincena();
-
-        // $this->dataModelosQuincena();
-        // dd($dataModelosQuincena);
-
-
         return view('admin.index.index', compact('multas', 'descuentos', 'dataDescuentos', 'dataMetas', 'dataMultas', 'dataHistorialMetas', 'dataUsuarios', 'dataResumenMeta', 'dataTurnos', 'dataAsistencias', 'configAsistencia', 'fechasArray', 'totalPagosPorFecha', 'datapaginas', 'dataModelosQuincena'));
     }
+
+
+    // public function index()
+    // {
+    //     return view('admin.index.index');
+    // }
 }

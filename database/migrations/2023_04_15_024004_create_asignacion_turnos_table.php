@@ -15,9 +15,7 @@ class CreateAsignacionTurnosTable extends Migration
     {
         Schema::create('asignacion_turnos', function (Blueprint $table) {
             $table->id();
-
             $table->unsignedBigInteger('user_id')->nullable(); //campo para relacion
-
             $table->unsignedBigInteger('turno_id'); //campo para relacion
 
             $table->foreign('user_id')

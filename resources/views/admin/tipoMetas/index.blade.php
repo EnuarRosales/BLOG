@@ -37,11 +37,14 @@
                         </select>
                         <span class="ml-2 mt-2"></span>
                     </div>
-                    <div class="mq-960">
-                        <a class="btn btn-primary float-right mr-4" href="{{ route('admin.tipoMetas.create') }}">Agregar
-                            tipo
-                            meta</a>
-                    </div>
+                    {{-- @can('admin.metaModelos.create') --}}
+                        <div class="mq-960">
+                            <a class="btn btn-primary float-right mr-4" href="{{ route('admin.tipoMetas.create') }}">Agregar
+                                tipo
+                                meta</a>
+                        </div>
+                    {{-- @endcan --}}
+
                 </div>
             </div>
             <div class="table-responsive mb-4 mt-4">

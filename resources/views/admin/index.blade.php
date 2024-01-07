@@ -3,7 +3,6 @@
 @section('styles')
     <link href="{{ asset('template/plugins/apex/apexcharts.css') }}" rel="stylesheet" type="text/css">
     <link href="{{ asset('template/assets/css/dashboard/dash_1.css') }}" rel="stylesheet" type="text/css" />
-
     <link href="{{ asset('template/assets/css/dashboard/dash_2.css') }}" rel="stylesheet" type="text/css" />
     <link href="{{ asset('template/plugins/flatpickr/flatpickr.css') }}" rel="stylesheet" type="text/css">
     <link href="{{ asset('template/plugins/noUiSlider/nouislider.min.css') }}" rel="stylesheet" type="text/css">
@@ -211,14 +210,9 @@
                                     <div class="w-browser-details">
 
                                         <div class="w-browser-info">
-<<<<<<< HEAD
-                                             <h6>{{ $dataHistorialMetas[12] }} - Proyectado $ {{$dataHistorialMetas[15]}} - Generado $ {{number_format($dataHistorialMetas[14], 2)}}</h6>
-                                            <p class="browser-count">{{number_format($dataHistorialMetas[13], 1) }}%</p>
-=======
                                             <h6>{{ $dataHistorialMetas[12] }} - Proyectado $ {{ $dataHistorialMetas[15] }} -
                                                 Generado $ {{ number_format($dataHistorialMetas[14], 2) }}</h6>
                                             <p class="browser-count">{{ number_format($dataHistorialMetas[13], 1) }}%</p>
->>>>>>> 4b7241d1e311cb10f56e8b4f0fcbe0afb94409a6
                                         </div>
 
                                         <div class="w-browser-stats">
@@ -348,13 +342,7 @@
                     </div>
                 </div>
             </div>
-<<<<<<< HEAD
-
-            {{-- INICI TABLA --}}
-
-=======
             {{-- tabla --}}
->>>>>>> 4b7241d1e311cb10f56e8b4f0fcbe0afb94409a6
             <div class="row">
                 <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 layout-spacing">
                     <div class="widget widget-table-three">

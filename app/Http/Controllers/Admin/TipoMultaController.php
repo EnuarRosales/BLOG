@@ -16,6 +16,7 @@ class TipoMultaController extends Controller
     public function index()
     {
         $tipoMultas = TipoMulta::orderBy('id', 'desc')->paginate();
+        
         return view('admin.tipoMultas.index', compact('tipoMultas'));
     }
 

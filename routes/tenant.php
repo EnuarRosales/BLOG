@@ -82,6 +82,8 @@ Route::middleware([
 
     //ROUTES --RegistroProducidoController-- Corresponden a las rutas que administran las tablas de registro producido
     Route::resource('registroProducidos', RegistroProducidoController::class)->middleware(['auth', 'verified'])->names('admin.registroProducidos');
+    Route::post('registroProducidos/eliminar', [RegistroProducidoController::class, 'eliminar'])->middleware(['auth', 'verified'])->name('admin.registroProducido.eliminar');
+    Route::get('registroProducidos/datatable', [RegistroProducidoController::class, 'datatable'])->middleware(['auth', 'verified'])->name('admin.registroProducidos.datatable');
     Route::get('registroProducidoss', [RegistroProducidoController::class, 'resumen'])->middleware(['auth', 'verified'])->name('admin.registroProducidoss.resumen');
     // Route::get('registroProducidos_ajax', [RegistroProducidoController::class, 'resumen_ajax'])->middleware(['auth', 'verified'])->name('admin.registroProducidos.resumen_ajax');
     Route::get('registroProducidoss', [RegistroProducidoController::class, 'reporte_dia'])->middleware(['auth', 'verified'])->name('admin.registroProducidoss.reporte_dia');
@@ -120,7 +122,7 @@ Route::middleware([
     Route::resource('asignacionMultas', AsignacionMultaController::class)->middleware(['auth', 'verified'])->names('admin.asignacionMultas');
     Route::resource('metaModelos', MetaModeloController::class)->middleware(['auth', 'verified'])->names('admin.metaModelos');
 
-
+ 
 
 
     Route::resource('reportePaginas', ReportePaginaController::class)->middleware(['auth', 'verified'])->names('admin.reportePaginas');

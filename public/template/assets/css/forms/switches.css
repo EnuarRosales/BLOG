@@ -14,6 +14,11 @@
 ==================
 */
 /* The switch - the box around the slider */
+
+.prueba{
+  color: red !important;
+}
+
 .switch {
   position: relative;
   display: inline-block;

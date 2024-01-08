@@ -7,59 +7,184 @@
 @section('title', 'Dashboard')
 
 @section('content_header')
-    <h1>Pasarella de pagos</h1>
+    <h1>Pasarela de pagos</h1>
 @stop
 
+@section('styles')
+
+    {{-- <link rel="stylesheet" type="text/css" href="{{ asset('template/plugins/table/datatable/datatables.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ asset('template/plugins/table/datatable/custom_dt_html5.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ asset('template/plugins/table/datatable/dt-global_style.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ asset('assets/libs/switchery/switchery.min.css') }}" /> --}}
+
+
+
+    {{-- <link rel="stylesheet" type="text/css" href="{{ asset('https://fonts.googleapis.com/css?family=Nunito:400,600,700') }}" />
+    <link rel="stylesheet" type="text/css" href="{{ asset('bootstrap/css/bootstrap.min.css') }}" />
+    <link rel="stylesheet" type="text/css" href="{{ asset('assets/css/plugins.css') }}" />
+
+    <link rel="stylesheet" type="text/css" href="{{ asset('template/assets/css/forms/switches.css') }}" /> --}}
+    {{-- <link rel="stylesheet" type="text/css" href="{{ asset('plugins/pricing-table/css/component.css') }}" /> --}}
+
+    <link rel="stylesheet" type="text/css" href="{{ asset('template/plugins/pricing-table/css/component.css') }}">
+
+    {{-- <style>
+        .prueba {
+            color: red;
+        }
+    </style> --}}
+
+
+@stop
+
+
+
+
 @section('content')
-    <p>Welcome to this beautiful admin panel.</p>
-
-    <div class="py-12">
-        <div class="max-w-3xl mx-auto sm:px-6 lg:px-8">
-            <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg">
-                {{-- <x-jet-welcome /> --}}
-                <div>
-                    <p class="mb-2"> Monto a Pagar</p>
-                    <div class="alert alert-outline-primary mb-4" role="alert">
-                        <button type="button" class="close" data-dismiss="alert" aria-label="Close"><svg> ... </svg></button>
-                        <strong>Primary!</strong> 140.000 COT
-                    </div> 
-                    <div>
-                        <p class="mb-4">Seleccione un metodo de pago</p>
-                        <ul class="space-y-4">
-                            <ul>
-                                {{-- Pay U --}}
-
-                                <button>
-                                    <img src="https://www.klipartz.com/es/sticker-png-rmtov" alt="">
-                                </button>
-                            </ul>
-                            <ul>
-                                Nequi
-                            </ul>
-
+    <p>Planes ajustados al tamano de tu estudio</p>
+    <div class="row">
+        <div class="col-lg-12">
+            <section class="pricing-section bg-7 mt-10">
+                <div class="pricing pricing--norbu">
+                    <div class="pricing__item">
+                        <h3 class="pricing__title prueba" >30 Modelos</h3>
+                        <p class="pricing__sentence">Para estudios que están iniciando </p>
+                        <div class="pricing__price"><span class="pricing__currency">$</span>35<span
+                                class="pricing__period"> USD/ month</span></div>
+                        <ul class="pricing__feature-list text-center">
+                            <li class="pricing__feature"><svg> ... </svg> Sin costos de instalación </li>
+                            <li class="pricing__feature"><svg> ... </svg> Sin cláusulas de permanencia </li>
+                            <li class="pricing__feature"><svg> ... </svg> Configuración del sistema adaptable para cada estudio </li>
+                            <li class="pricing__feature"><svg> ... </svg> Adaptable y configurable para los diferentes roles dentro del estudio </li>
+                            <li class="pricing__feature"><svg> ... </svg> Módulo de dashboard </li>
+                            <li class="pricing__feature"><svg> ... </svg> Módulo de usuarios </li>
+                            <li class="pricing__feature"><svg> ... </svg> Módulo de asignación de turnos </li>
+                            <li class="pricing__feature"><svg> ... </svg> Módulo de asignación de rooms </li>
+                            <li class="pricing__feature"><svg> ... </svg> Módulo de metas estudios </li>
+                            <li class="pricing__feature"><svg> ... </svg> Modulo de metas modelos </li>
+                            <li class="pricing__feature"><svg> ... </svg> Módulo de certificaciones laboral, tiempo, impuesto y pago </li>
+                            <li class="pricing__feature"><svg> ... </svg> Módulo de multas</li>
+                            <li class="pricing__feature"><svg> ... </svg> Módulo de asistencias</li>
+                            <li class="pricing__feature"><svg> ... </svg> Módulo de producción</li>
+                            <li class="pricing__feature"><svg> ... </svg> Módulo de descuentos</li>
+                            <li class="pricing__feature"><svg> ... </svg> Módulo de nomina</li>
                         </ul>
+                        <button class="pricing__action mx-auto mb-4">Comprar</button>
                     </div>
-
+                    <div class="pricing__item pricing__item--featured">
+                        <h3 class="pricing__title">50 Modelos</h3>
+                        <p class="pricing__sentence">Para estudios experimentados que desean superar sus limites</p>
+                        <div class="pricing__price"><span class="pricing__currency">$</span>55<span
+                                class="pricing__period">USD/ month</span></div>
+                        <ul class="pricing__feature-list text-center">
+                            <li class="pricing__feature"><svg> ... </svg> Sin costos de instalación </li>
+                            <li class="pricing__feature"><svg> ... </svg> Sin cláusulas de permanencia </li>
+                            <li class="pricing__feature"><svg> ... </svg> Configuración del sistema adaptable para cada estudio </li>
+                            <li class="pricing__feature"><svg> ... </svg> Adaptable y configurable para los diferentes roles dentro del estudio </li>
+                            <li class="pricing__feature"><svg> ... </svg> Módulo de dashboard </li>
+                            <li class="pricing__feature"><svg> ... </svg> Módulo de usuarios </li>
+                            <li class="pricing__feature"><svg> ... </svg> Módulo de asignación de turnos </li>
+                            <li class="pricing__feature"><svg> ... </svg> Módulo de asignación de rooms </li>
+                            <li class="pricing__feature"><svg> ... </svg> Módulo de metas estudios </li>
+                            <li class="pricing__feature"><svg> ... </svg> Modulo de metas modelos </li>
+                            <li class="pricing__feature"><svg> ... </svg> Módulo de certificaciones laboral, tiempo, impuesto y pago </li>
+                            <li class="pricing__feature"><svg> ... </svg> Módulo de multas</li>
+                            <li class="pricing__feature"><svg> ... </svg> Módulo de asistencias</li>
+                            <li class="pricing__feature"><svg> ... </svg> Módulo de producción</li>
+                            <li class="pricing__feature"><svg> ... </svg> Módulo de descuentos</li>
+                            <li class="pricing__feature"><svg> ... </svg> Módulo de nomina</li>
+                        </ul>
+                        <button class="pricing__action mx-auto mb-4">Comprar</button>
+                    </div>
+                    <div class="pricing__item">
+                        <h3 class="pricing__title">100 Modelos</h3>
+                        <p class="pricing__sentence">Para estudios exitosos que han superado sus limites</p>
+                        <div class="pricing__price"><span class="pricing__currency">$</span>75<span
+                                class="pricing__period">USD/ month</span></div>
+                        <ul class="pricing__feature-list text-center">
+                            <li class="pricing__feature"><svg> ... </svg> Sin costos de instalación </li>
+                            <li class="pricing__feature"><svg> ... </svg> Sin cláusulas de permanencia </li>
+                            <li class="pricing__feature"><svg> ... </svg> Configuración del sistema adaptable para cada estudio </li>
+                            <li class="pricing__feature"><svg> ... </svg> Adaptable y configurable para los diferentes roles dentro del estudio </li>
+                            <li class="pricing__feature"><svg> ... </svg> Módulo de dashboard </li>
+                            <li class="pricing__feature"><svg> ... </svg> Módulo de usuarios </li>
+                            <li class="pricing__feature"><svg> ... </svg> Módulo de asignación de turnos </li>
+                            <li class="pricing__feature"><svg> ... </svg> Módulo de asignación de rooms </li>
+                            <li class="pricing__feature"><svg> ... </svg> Módulo de metas estudios </li>
+                            <li class="pricing__feature"><svg> ... </svg> Modulo de metas modelos </li>
+                            <li class="pricing__feature"><svg> ... </svg> Módulo de certificaciones laboral, tiempo, impuesto y pago </li>
+                            <li class="pricing__feature"><svg> ... </svg> Módulo de multas</li>
+                            <li class="pricing__feature"><svg> ... </svg> Módulo de asistencias</li>
+                            <li class="pricing__feature"><svg> ... </svg> Módulo de producción</li>
+                            <li class="pricing__feature"><svg> ... </svg> Módulo de descuentos</li>
+                            <li class="pricing__feature"><svg> ... </svg> Módulo de nomina</li>
+                        </ul>
+                        <button class="pricing__action mx-auto mb-4">Comprar</button>
+                    </div>
                 </div>
-            </div>
+            </section>
+        </div>
+    </div>
+
+    <div class="card component-card_2">
+        <img src="assets/img/400x300.jpg" class="card-img-top" alt="widget-card-2">
+        <div class="card-body">
+            <a href="#" class="btn btn-primary">Explore More</a>
+
+            <form method="post" action="https://sandbox.checkout.payulatam.com/ppp-web-gateway-payu/">
+                <input name="merchantId" type="hidden" value="{{ config('services.payU.merchant_id') }}">
+                <input name="accountId" type="hidden" value="{{ config('services.payU.account_id') }}">
+                <input name="description" type="hidden" value="Pago suscripcion siaewc">
+                <input name="referenceCode" type="hidden" value="{{ $payU['referenceCode'] }}">
+                <input name="amount" type="hidden" value="140000">
+                <input name="tax" type="hidden" value="0">
+                <input name="taxReturnBase" type="hidden" value="0">
+                <input name="currency" type="hidden" value="{{ config('services.payU.currency') }}">
+                <input name="signature" type="hidden" value="{{ $payU['signature'] }}">
+                <input name="test" type="hidden" value="1">
+                <input name="buyerEmail" type="hidden" value="{{ auth()->user()->email }}">
+                <input name="responseUrl" type="hidden" value="http://www.test.com/response">
+                <input name="confirmationUrl" type="hidden" value="http://www.test.com/confirmation">
+                <input name="Submit" type="submit" value="Enviar">
+            </form>
+
+
+
+
+
+
+
         </div>
     </div>
 
 
+
 @endsection
 
-@section('styles')
-    <link rel="stylesheet" type="text/css" href="{{ asset('template/plugins/table/datatable/datatables.css') }}">
-    <link rel="stylesheet" type="text/css" href="{{ asset('template/plugins/table/datatable/custom_dt_html5.css') }}">
-    <link rel="stylesheet" type="text/css" href="{{ asset('template/plugins/table/datatable/dt-global_style.css') }}">   
-
-    {{-- <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.13.4/css/jquery.dataTables.min.css" />
-    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/buttons/2.3.6/css/buttons.dataTables.min.css" /> --}}
-    <link rel="stylesheet" type="text/css" href="{{ asset('assets/libs/switchery/switchery.min.css') }}" />
-@stop
-
-
-
 @section('js')
+
+<script src="{{ asset('assets/js/libs/jquery-3.1.1.min.js') }}"></script>
+<script src="{{ asset('bootstrap/js/popper.min.js') }}"></script>
+<script src="{{ asset('bootstrap/js/bootstrap.min.js') }}"></script>
+<script src="{{ asset('plugins/perfect-scrollbar/perfect-scrollbar.min.js') }}"></script>
+
+<script src="{{ asset('plugins/blockui/jquery.blockUI.min.js') }}"></script>
+<script src="{{ asset('template/plugins/table/datatable/datatables.js') }}"></script>
+<script src="{{ asset('assets/js/app.js') }}"></script>
+<script src="{{ asset('plugins/highlight/highlight.pack.js') }}"></script>
+<script src="{{ asset('assets/js/custom.jss') }}"></script>
+
+   
+   
+  
+
+    <script>
+        $(document).ready(function() {
+            App.init();
+        });
+    </script>
+    
+
+
 
 @stop

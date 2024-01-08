@@ -94,7 +94,7 @@ Route::middleware([
 
 
     Route::resource('registroDescuentos', RegistroDescuentoController::class)->middleware(['auth', 'verified'])->names('admin.registroDescuentos');
-    Route::post('admin/registroDescuentos/eliminar', [RegistroDescuentoController::class,'eliminar'])->name('admin.registroDescuentos.eliminar');
+    Route::post('admin/registroDescuentos/eliminar', [RegistroDescuentoController::class, 'eliminar'])->name('admin.registroDescuentos.eliminar');
     Route::get('registroDescuentos/datatable', [RegistroDescuentoController::class, 'datatable'])->middleware(['auth', 'verified'])->name('admin.registroDescuentos.datatable');
     Route::resource('tipoUsuarios', TipoUsuarioController::class)->middleware(['auth', 'verified'])->names('admin.tipoUsuarios');
     Route::resource('users', UserController::class)->middleware(['auth', 'verified'])->names('admin.users');
@@ -120,9 +120,12 @@ Route::middleware([
     Route::resource('paginas', PaginaController::class)->middleware(['auth', 'verified'])->names('admin.paginas');
     Route::resource('asignacionRooms', AsignacionRoomController::class)->middleware(['auth', 'verified'])->names('admin.asignacionRooms');
     Route::resource('asignacionMultas', AsignacionMultaController::class)->middleware(['auth', 'verified'])->names('admin.asignacionMultas');
+    Route::get('asignacionMulta/datatable', [AsignacionMultaController::class, 'datatable'])->middleware(['auth', 'verified'])->name('admin.asignacionMulta.datatable');
+    Route::get('generarDescuentoMulta/{id}',  [AsignacionMultaController::class, 'generarDescuentoMulta'])->middleware(['auth', 'verified'])->name('admin.generar.descuento');
+    Route::get('asignacionMulta/eliminar', [AsignacionMultaController::class, 'eliminar'])->middleware(['auth', 'verified'])->name('admin.asignacionMulta.eliminar');
     Route::resource('metaModelos', MetaModeloController::class)->middleware(['auth', 'verified'])->names('admin.metaModelos');
 
- 
+
 
 
     Route::resource('reportePaginas', ReportePaginaController::class)->middleware(['auth', 'verified'])->names('admin.reportePaginas');
@@ -149,14 +152,14 @@ Route::middleware([
     // Route::get('posts', Index::class)->middleware(['auth', 'verified'])->name('admin.posts.index');
     // Route::get('posts/create', Create::class)->middleware(['auth', 'verified'])->name('admin.posts.create');
 
-    Route::get('/table', function() {
+    Route::get('/table', function () {
         event(new App\Events\ReloadTable());
-        dd ('Evento publico enviado satisfactoriamente');
+        dd('Evento publico enviado satisfactoriamente');
     });
 
-    Route::get('/private-table', function() {
+    Route::get('/private-table', function () {
         event(new App\Events\PrivateEvent(auth()->user()));
-        dd ('Evento privado enviado satisfactoriamente');
+        dd('Evento privado enviado satisfactoriamente');
     });
 
     require __DIR__ . '/auth.php';

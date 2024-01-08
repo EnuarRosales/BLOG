@@ -1,12 +1,9 @@
 @extends('template.index')
 
-@section('tittle-tab')
-    Registro Multas
-@endsection
+@section('tittle-tab', 'Registro Multas')
 
 @section('page-title')
     <a href="{{ route('admin.asignacionMultas.index') }}"> Registro Multas</a>
-
 @endsection
 
 @section('content_header')
@@ -14,7 +11,6 @@
 @stop
 
 @section('styles')
-
     <link rel="stylesheet" type="text/css" href="{{ asset('template/plugins/table/datatable/datatables.css') }}">
     <link rel="stylesheet" type="text/css" href="{{ asset('template/plugins/table/datatable/custom_dt_html5.css') }}">
     <link rel="stylesheet" type="text/css" href="{{ asset('template/plugins/table/datatable/dt-global_style.css') }}">
@@ -29,7 +25,6 @@
                     <div style="display: flex;">
                         <label class="mt-2 ml-3 mr-1">Registros :</label>
                         <select id="records-per-page" class="form-control custom-width-20">
-                            <!-- Agregamos la clase form-control-sm -->
                             <option value="7">7</option>
                             <option value="10">10</option>
                             <option value="20">20</option>
@@ -42,7 +37,6 @@
                         <a class="btn btn-primary float-right mr-4" href="{{ route('admin.asignacionMultas.create') }}">Agregar
                             Multa</a>
                     @endcan
-
                 </div>
             </div>
             <div class="table-responsive mb-4 mt-4">
@@ -53,26 +47,16 @@
                             <th>Usuario</th>
                             <th>Tipo multa</th>
                             <th>Valor Multa</th>
+                            <th>Valor Multa</th>
                             <th>Fecha</th>
+                            <th>Descontar</th>
                             @can('admin.registroMultas.edit')
-                                <th>Editar</th>
-                            @endcan
-                            @can('admin.registroMultas.destroy')
-                                <th>Eliminar</th>
+                                <th>Acciones</th>
                             @endcan
                         </tr>
                     </thead>
                     <tbody>
 
-                        @foreach ($asignacionMultas as $asignacionMulta)
-                            @if (auth()->user()->hasRole('Administrador'))
-                                @include('admin.asignacionMultas.partials.table')
-                            @elseif (auth()->user()->hasRole('Monitor'))
-                                @include('admin.asignacionMultas.partials.table')
-                            @elseif($asignacionMulta->user->id == $userLogueado)
-                                @include('admin.asignacionMultas.partials.table')
-                            @endif
-                        @endforeach
                     </tbody>
                     <tfoot>
                         <tr>
@@ -80,22 +64,20 @@
                             <th>Usuario</th>
                             <th>Tipo multa</th>
                             <th>Valor Multa</th>
+                            <th>Valor Multa</th>
                             <th>Fecha</th>
+                            <th>Descontar</th>
                             @can('admin.registroMultas.edit')
-                                <th>Editar</th>
+                                <th>Acciones</th>
                             @endcan
-                            @can('admin.registroMultas.destroy')
-                                <th>Eliminar</th>
-                            @endcan
+
                         </tr>
                     </tfoot>
                 </table>
             </div>
         </div>
     </div>
-
 @stop
-
 
 @section('js')
 
@@ -110,17 +92,29 @@
             dom: '<"row"<"col-md-12"<"row"<"col-md-6"B><"col-md-6"f> > ><"col-md-12"rt> <"col-md-12"<"row"<"col-md-5"i><"col-md-7"p>>> >',
             buttons: {
                 buttons: [
-                    // {
-                    //     extend: 'copy',
-                    //     className: 'btn'
-                    // },
-                    // {
-                    //     extend: 'csv',
-                    //     className: 'btn'
-                    // },
                     {
                         extend: 'excel',
-                        className: 'btn'
+                        className: 'btn',
+                        exportOptions: {
+                            columns: [0, 1, 2, 4, {
+                                visible: false,
+                                columns: [4]
+                            }, 5]
+                        },
+                        customize: function(xlsx) {
+                            var sheet = xlsx.xl.worksheets['sheet1.xml'];
+
+                            // Aplicar formato numérico a la columna oculta (columna 3 en base 0)
+                            $('c[r^="D"]', sheet).each(function() {
+                                var numFmtId = $('numFmt', this).attr('numFmtId');
+                                if (!numFmtId) {
+                                    numFmtId =
+                                        2; // ID para el formato de número en Excel (puedes ajustar según tus necesidades)
+                                    $('numFmt', this).attr('numFmtId', numFmtId);
+                                }
+                                // $(this).attr('s', '2'); // Establecer el estilo de celda como número
+                            });
+                        },
                     },
                     {
                         extend: 'print',
@@ -128,6 +122,52 @@
                     }
                 ]
             },
+            ajax: {
+                url: "{{ route('admin.asignacionMulta.datatable') }}",
+                type: 'GET',
+                dataType: 'json',
+            },
+            columns: [{
+                    data: 'id',
+                    name: 'id'
+                },
+                {
+                    data: 'usuario_name',
+                    name: 'usuario_name',
+                },
+                {
+                    data: 'multa_name',
+                    name: 'multa_name',
+                },
+                {
+                    data: 'multa_valor_format',
+                    name: 'multa_valor_format',
+                    render: function(data, type, row) {
+                        if (type === 'display' || type === 'filter') {
+                            return formatCurrency(data);
+                        }
+                        return data;
+                    },
+
+                },
+                {
+                    data: 'multa_valor',
+                    name: 'multa_valor',
+                    visible: false,
+                },
+                {
+                    data: 'fecha',
+                    name: 'fecha',
+                },
+                {
+                    data: 'generar_descuento',
+                    name: 'generar_descuento',
+                },
+                {
+                    data: 'acciones',
+                    name: 'acciones'
+                },
+            ],
             "oLanguage": {
                 "oPaginate": {
                     "sPrevious": '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-arrow-left"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>',
@@ -140,64 +180,120 @@
             },
             "stripeClasses": [],
             "lengthMenu": [7, 10, 20, 50],
-            "pageLength": 7
+            "pageLength": 7,
+            initComplete: function() {
+                var api = this.api();
+                api.rows().every(function() {
+                    // Obtiene el valor de la columna "ID" en la fila actual
+                    var id = this.data().id;
+
+                    // Agrega el atributo data-id a la fila
+                    $(this.node()).attr('data-id', id);
+                });
+            },
+            order: [
+                [5, 'desc'] // 1 es el índice de la columna que contiene las fechas
+            ],
         });
 
-        // Vincular eventos de clic para eliminar
-        function bindDeleteEvents() {
-            document.querySelectorAll('.eliminar-registro').forEach(botonEliminar => {
-                botonEliminar.addEventListener('click', function(e) {
-                    e.preventDefault();
+        // Button eliminar
+        $('#html5-extension').on('click', '.feather-x-circle', function() {
+            var button = $(this); // El botón que se hizo clic
+            var row = button.closest('tr'); // La fila que contiene el botón
+            var table = $('#html5-extension').DataTable();
+            var currentPage = table.page(); // Guardar la página actual
 
-                    const asignacionMultaId = this.getAttribute('data-asignacionMulta-id');
-
-
-
-                    Swal.fire({
-                        title: '¿Estás seguro?',
-                        text: '¡Este registro se eliminará definitivamente!',
-                        type: 'warning',
-                        showCancelButton: true,
-                        confirmButtonColor: '#3085d6',
-                        cancelButtonColor: '#d33',
-                        confirmButtonText: '¡Sí, eliminar!',
-                        cancelButtonText: '¡Cancelar!',
-                        preConfirm: () => {
-                            // Crear un formulario dinámicamente
-                            const formulario = document.createElement('form');
-                            formulario.action =
-                                `asignacionMultas/${asignacionMultaId}`; // Ruta de eliminación
-                            formulario.method = 'POST'; // Método POST
-                            formulario.style.display = 'none'; // Ocultar el formulario
-
-                            // Agregar el token CSRF al formulario
-                            const tokenField = document.createElement('input');
-                            tokenField.type = 'hidden';
-                            tokenField.name = '_token';
-                            tokenField.value = '{{ csrf_token() }}';
-                            formulario.appendChild(tokenField);
-
-                            // Agregar un campo oculto para indicar que es una solicitud de eliminación
-                            const methodField = document.createElement('input');
-                            methodField.type = 'hidden';
-                            methodField.name = '_method';
-                            methodField.value = 'DELETE';
-                            formulario.appendChild(methodField);
-
-                            // Adjuntar el formulario al documento y enviarlo
-                            document.body.appendChild(formulario);
-                            formulario.submit();
-
-                            return true;
+            Swal.fire({
+                title: '¿Estás seguro?',
+                text: '¡Este registro se eliminará definitivamente!',
+                type: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: '¡Sí, eliminar!',
+                cancelButtonText: '¡Cancelar!',
+            }).then((result) => {
+                if (result.value) {
+                    $.ajax({
+                        url: `{{ route('admin.asignacionMulta.eliminar') }}`,
+                        type: 'GET',
+                        data: {
+                            id: row.data(
+                                'id'
+                            ), // Puedes usar data-* para almacenar el ID de la fila
+                            _token: "{{ csrf_token() }}"
                         },
+                        success: function(response) {
+                            if (response.success) {
+
+                                Swal.fire(
+                                    '¡Eliminado!',
+                                    'El registro se elimino con exito',
+                                    'success'
+                                );
+
+                                setTimeout(function() {
+                                    Swal.close();
+                                }, 2000);
+                                setTimeout(function() {
+                                    // Elimina la fila sin recargar la tabla
+                                    var rowIndex = table.row(row).index();
+                                    table.row(rowIndex).remove().draw();
+                                    table.page(currentPage).draw('page');
+                                }, 2000);
+                            }
+                        }
                     });
-                });
+                }
             });
+        });
+
+        function formatCurrency(value) {
+            // Puedes personalizar esta función según tus necesidades
+            var options = {
+                style: 'currency',
+                currency: 'COP',
+                minimumFractionDigits: 2,
+            };
+
+            return new Intl.NumberFormat('es-CO', options).format(value);
         }
 
-        // Volver a vincular eventos de clic después de cada redibujo
-        table.on('draw.dt', function() {
-            bindDeleteEvents();
+        // En tu script JavaScript
+
+        $(document).on('change', '.toggle-switch', function() {
+            var id = $(this).data('id');
+            var status = $(this).prop('checked') ? 1 : 0;
+            // Realiza la llamada Ajax
+            $.ajax({
+                url: "{{ route('admin.generar.descuento', ['id' => 'id']) }}".replace(
+                    'id', id),
+                type: 'GET',
+                data: {
+                    status: status
+                },
+                
+                success: function(data) {
+                    // Muestra un mensaje de éxito con SweetAlert
+                    Swal.fire({
+                        position: 'top-end',
+                        type: 'success',
+                        title: 'Estado actualizado con éxito',
+                        text: 'Descuento actual: ' + data.estado,
+                        showConfirmButton: false,
+                        timer: 2500
+                    });
+                },
+                error: function(error) {
+                    // Muestra un mensaje de error con SweetAlert
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Error',
+                        text: 'Error al actualizar el estado'
+                    });
+                }
+            });
+
         });
 
         // Detectar cambios en el select
@@ -205,12 +301,6 @@
             var newLength = $(this).val();
             table.page.len(newLength).draw();
         });
-
-        // Vincular eventos de clic para eliminar inicialmente
-        bindDeleteEvents();
-    </script>
-    <script>
-        console.log('Hi!');
     </script>
 
 

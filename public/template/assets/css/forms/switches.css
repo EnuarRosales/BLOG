@@ -198,7 +198,7 @@
     box-shadow: 0 0 1px #3b3f5c; }
   .switch.s-icons {
     width: 57px;
-    height: 30px; }
+    height: 15px; }   /* Personalización para el switch con íconos */
     .switch.s-icons .slider {
       width: 48px;
       height: 25px; }

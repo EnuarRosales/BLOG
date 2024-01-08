@@ -7,9 +7,12 @@ use App\Models\Tenant;
 use App\Models\TipoUsuario;
 use App\Models\User;
 use Database\Seeders\DatabaseSeeder;
+use Doctrine\DBAL\Query\QueryException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Artisan;
+
+
 
 class TenantController extends Controller
 {

@@ -52,7 +52,7 @@ class TenantController extends Controller
         $tenant = Tenant::create($request->all());
 
         $tenant->domains()->create([
-            'domain' => $request->get('id') . '.' . 'siaewc.com',
+            'domain' => $request->get('id') . '.' . 'blog-studio.test',
             // 'domain' => $request->get('id') . '.' . 'blog-studio.test',
         ]);
 

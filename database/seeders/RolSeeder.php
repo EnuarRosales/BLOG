@@ -211,6 +211,11 @@ class RolSeeder extends Seeder
             'description' => 'Eliminar meta modelos'
         ])->syncRoles([$role_admin]);
 
+        Permission::firstOrCreate([
+            'name' => 'admin.prueba',
+            'description' => 'prueba'
+        ])->syncRoles([$role_admin]);
+
 
         //EMPRESA
         Permission::firstOrCreate([

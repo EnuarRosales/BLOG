@@ -10,10 +10,14 @@ class AsistenciaTiempoConfigSeeder extends Seeder
 {
     public function run()
     {
-        $AsistenciaTiempoConfig = new AsistenciaTiempoConfig();
-        $AsistenciaTiempoConfig->nombre = 'Sobre el Tiempo';
-        $AsistenciaTiempoConfig->clase = 'btn btn-warning';
-        $AsistenciaTiempoConfig->tiempo = 900;
-        $AsistenciaTiempoConfig->save();
+        $asistenciaTiempoConfigExistente = AsistenciaTiempoConfig::where('nombre', 'Sobre el Tiempo')->first();
+
+        if (!$asistenciaTiempoConfigExistente) {
+            $asistenciaTiempoConfig = new AsistenciaTiempoConfig();
+            $asistenciaTiempoConfig->nombre = 'Sobre el Tiempo';
+            $asistenciaTiempoConfig->clase = 'btn btn-warning';
+            $asistenciaTiempoConfig->tiempo = 900;
+            $asistenciaTiempoConfig->save();
+        }
     }
 }

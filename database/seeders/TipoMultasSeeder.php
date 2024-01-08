@@ -15,7 +15,6 @@ class TipoMultasSeeder extends Seeder
      */
     public function run()
     {
-        // Definir los datos que deseas insertar en la base de datos
         $data = [
             [
                 'nombre' => 'Llega Tarde',
@@ -24,9 +23,12 @@ class TipoMultasSeeder extends Seeder
             // Puedes agregar más registros aquí si es necesario
         ];
 
-        // Insertar los datos en la base de datos utilizando Eloquent
         foreach ($data as $item) {
-            TipoMulta::create($item);
+            $tipoMulta = TipoMulta::where('nombre', $item['nombre'])->first();
+
+            if (!$tipoMulta) {
+                TipoMulta::create($item);
+            }
         }
     }
 }

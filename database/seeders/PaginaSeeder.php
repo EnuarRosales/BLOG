@@ -15,28 +15,35 @@ class PaginaSeeder extends Seeder
      */
     public function run()
     {
-        $pagina = new Pagina();
-        $pagina->nombre ="CHATURBATE";
-        $pagina->moneda ="dolar";
-        $pagina->valor =0.05;
-        $pagina->save();
+        $paginas = [
+            [
+                'nombre' => 'CHATURBATE',
+                'moneda' => 'dolar',
+                'valor' => 0.05,
+            ],
+            [
+                'nombre' => 'STRIPCHAT',
+                'moneda' => 'dolar',
+                'valor' => 0.05,
+            ],
+            [
+                'nombre' => 'CAMSODA',
+                'moneda' => 'dolar',
+                'valor' => 1,
+            ],
+            [
+                'nombre' => 'BONGA',
+                'moneda' => 'dolar',
+                'valor' => 1,
+            ],
+        ];
 
-        $pagina1 = new Pagina();
-        $pagina1->nombre ="STRIPCHAT";
-        $pagina1->moneda ="dolar";
-        $pagina1->valor =0.05;
-        $pagina1->save();
+        foreach ($paginas as $paginaData) {
+            $pagina = Pagina::where('nombre', $paginaData['nombre'])->first();
 
-        $pagina2 = new Pagina();
-        $pagina2->nombre ="CAMSODA";
-        $pagina2->moneda ="dolar";
-        $pagina2->valor =1;
-        $pagina2->save();
-
-        $pagina3 = new Pagina();
-        $pagina3->nombre ="BONGA";
-        $pagina3->moneda ="dolar";
-        $pagina3->valor =1;
-        $pagina3->save();
+            if (!$pagina) {
+                Pagina::create($paginaData);
+            }
+        }
     }
 }

@@ -15,12 +15,15 @@ class ImpuestoSeeder extends Seeder
      */
     public function run()
     {
-        $impuesto= new Impuesto();
-        $impuesto->nombre="Retencion Fuente";
-        $impuesto->porcentaje=4;
-        $impuesto->estado=1;
-        $impuesto->mayorQue=100000;
-        $impuesto->save();
-        
+        $impuestoExistente = Impuesto::where('nombre', 'Retencion Fuente')->first();
+
+        if (!$impuestoExistente) {
+            $impuesto = new Impuesto();
+            $impuesto->nombre = "Retencion Fuente";
+            $impuesto->porcentaje = 4;
+            $impuesto->estado = 1;
+            $impuesto->mayorQue = 100000;
+            $impuesto->save();
+        }
     }
 }

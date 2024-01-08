@@ -14,10 +14,15 @@ class MetaModeloSeeder extends Seeder
      * @return void
      */
     public function run()
-    {
+{
+    $metaModeloExistente = MetaModelo::first();
+
+    if (!$metaModeloExistente) {
         $metaModelo = new MetaModelo();
-        $metaModelo->porcentaje=0;
-        $metaModelo->mayorQue=0;
+        $metaModelo->porcentaje = 0;
+        $metaModelo->mayorQue = 0;
         $metaModelo->save();
     }
+}
+
 }

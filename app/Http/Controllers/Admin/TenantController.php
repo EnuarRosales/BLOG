@@ -9,6 +9,7 @@ use App\Models\User;
 use Database\Seeders\DatabaseSeeder;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Artisan;
 
 class TenantController extends Controller
 {
@@ -52,6 +53,7 @@ class TenantController extends Controller
 
         $tenant->domains()->create([
             'domain' => $request->get('id') . '.' . 'siaewc.com',
+            // 'domain' => $request->get('id') . '.' . 'blog-studio.test',
         ]);
 
         return redirect()->route('admin.tenants.index', $tenant->id)->with('info', 'store');
@@ -90,7 +92,8 @@ class TenantController extends Controller
     {
         //VALLIDACION DE FORMULARIOS
         $request->validate([
-            'id' => 'required|unique:tenants,id,', $tenant->id,
+            // 'id' => 'required|unique:tenants,id,', $tenant->id,
+            'domain' => $request->get('id') . '.' . 'blog-studio.test',
         ]);
 
 
@@ -123,11 +126,42 @@ class TenantController extends Controller
 
     public function agrgarUsuarioDominio(Request $request, Tenant $tenant)
     {
-        tenancy()->initialize($tenant->id);
-        $seeder = new DatabaseSeeder();
-        $seeder->run();
-        tenancy()->end();
-        return redirect()->route('admin.tenants.index')->with('info', 'delete');
+        // tenancy()->initialize($tenant->id);
+        // $seeder = new DatabaseSeeder();
+        // $seeder->run();
+        // tenancy()->end();
+        // return redirect()->route('admin.tenants.index')->with('info', 'delete');
+        $tenantId = $tenant->id;
+
+        // Configurar la base de datos del inquilino
+        config(['database.connections.tenant.database' => 'tenant_database_' . $tenantId]);
+
+        try {
+            // Ejecutar las migraciones solo si hay migraciones pendientes
+            tenancy()->initialize($tenantId);
+
+            Artisan::call('migrate', [
+                '--path' => 'database/migrations',
+                '--database' => 'tenant',
+            ]);
+
+            $seeder = new DatabaseSeeder();
+            $seeder->run();
+
+            tenancy()->end();
+
+            return redirect()->route('admin.tenants.index')->with('info', 'delete');
+        } catch (QueryException $e) {
+            // Capturar la excepción y verificar si es específicamente sobre el rol existente
+            if (strpos($e->getMessage(), 'A role `Administrador` already exists') !== false) {
+                // El rol ya existe, puedes manejarlo según tus necesidades
+                // Por ejemplo, puedes omitir este error y continuar con otras migraciones
+                return redirect()->route('admin.tenants.index')->with('info', 'other_migrations');
+            }
+
+            // Si es una excepción diferente, puedes manejarla o lanzarla nuevamente
+            throw $e;
+        }
     }
 
 

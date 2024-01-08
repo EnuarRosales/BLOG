@@ -15,22 +15,31 @@ class TipoTurnoSeeder extends Seeder
      */
     public function run()
     {
-        $manana = new Turno();
-        $manana->nombre = "Mañana";
-        $manana->horaIngreso = "07:00:00";
-        $manana->horaTermino = "14:00:00";
-        $manana->save();
+        $turnoManana = Turno::where('nombre', 'Mañana')->first();
+        if (!$turnoManana) {
+            $manana = new Turno();
+            $manana->nombre = "Mañana";
+            $manana->horaIngreso = "07:00:00";
+            $manana->horaTermino = "14:00:00";
+            $manana->save();
+        }
 
-        $tarde = new Turno();
-        $tarde->nombre = "Tarde";
-        $tarde->horaIngreso = "14:00:00";
-        $tarde->horaTermino = "21:00:00";
-        $tarde->save();
+        $turnoTarde = Turno::where('nombre', 'Tarde')->first();
+        if (!$turnoTarde) {
+            $tarde = new Turno();
+            $tarde->nombre = "Tarde";
+            $tarde->horaIngreso = "14:00:00";
+            $tarde->horaTermino = "21:00:00";
+            $tarde->save();
+        }
 
-        $noche = new Turno();
-        $noche->nombre = "Noche";
-        $noche->horaIngreso = "21:00:00";
-        $noche->horaTermino = "07:00:00";
-        $noche->save();
+        $turnoNoche = Turno::where('nombre', 'Noche')->first();
+        if (!$turnoNoche) {
+            $noche = new Turno();
+            $noche->nombre = "Noche";
+            $noche->horaIngreso = "21:00:00";
+            $noche->horaTermino = "07:00:00";
+            $noche->save();
+        }
     }
 }

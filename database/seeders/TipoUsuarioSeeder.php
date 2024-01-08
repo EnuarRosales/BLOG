@@ -14,13 +14,13 @@ class TipoUsuarioSeeder extends Seeder
      * @return void
      */
     public function run()
-    {      
+    {
 
 
-        TipoUsuario::create(['nombre'=> 'Administrador']);
-        TipoUsuario::create(['nombre'=> 'Modelo']);
-        TipoUsuario::create(['nombre'=> 'Modelo Satélite']);
-        TipoUsuario::create(['nombre'=> 'Monitor']);
-        TipoUsuario::create(['nombre'=> 'Contador']);
+        TipoUsuario::firstOrCreate(['nombre'=> 'Administrador']);
+        TipoUsuario::firstOrCreate(['nombre'=> 'Modelo']);
+        TipoUsuario::firstOrCreate(['nombre'=> 'Modelo Satélite']);
+        TipoUsuario::firstOrCreate(['nombre'=> 'Monitor']);
+        TipoUsuario::firstOrCreate(['nombre'=> 'Contador']);
     }
 }

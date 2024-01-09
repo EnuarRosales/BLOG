@@ -2,7 +2,8 @@
     <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 layout-spacing">
         <div class="widget widget-table-three">
             <div class="widget-heading">
-                <h5 class="">Control de asistencia</h5>
+                <a class="w-icon" href="{{ route('admin.registroAsistencias.index') }}">
+                <h5 class="">Control de asistencia</h5> </a>
             </div>
             <div class="widget-content">
                 <div class="table-responsive">

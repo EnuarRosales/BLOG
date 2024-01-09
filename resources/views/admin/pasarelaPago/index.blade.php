@@ -28,6 +28,12 @@
 
     <link rel="stylesheet" type="text/css" href="{{ asset('template/plugins/pricing-table/css/component.css') }}">
 
+    <link rel="stylesheet" type="text/css" href="{{ asset('assets/css/scrollspyNav.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ asset('template/plugins/font-icons/fontawesome/css/regular.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ asset('template/plugins/font-icons/fontawesome/css/fontawesome.css') }}">
+
+
+
     {{-- <style>
         .prueba {
             color: red;
@@ -36,6 +42,18 @@
 
 
 @stop
+
+
+<!-- Use SVG code directly -->
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+    stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-activity">
+    <polyline points="22 12 18 12 15 21 9 3 6 12 2 12"></polyline>
+</svg>
+
+<!-- OR -->
+
+<!-- Use it inside <i> tag  -->
+<i data-feather="activity"></i>
 
 
 
@@ -47,27 +65,32 @@
             <section class="pricing-section bg-7 mt-10">
                 <div class="pricing pricing--norbu">
                     <div class="pricing__item">
-                        <h3 class="pricing__title prueba" >30 Modelos</h3>
+                        <h3 class="pricing__title prueba">30 Modelos</h3>
                         <p class="pricing__sentence">Para estudios que están iniciando </p>
-                        <div class="pricing__price"><span class="pricing__currency">$</span>35<span
-                                class="pricing__period"> USD/ month</span></div>
+                        <div class="pricing__price"><span class="pricing__currency">$</span>35<span class="pricing__period">
+                                USD/ mes</span></div>
                         <ul class="pricing__feature-list text-center">
-                            <li class="pricing__feature"><svg> ... </svg> Sin costos de instalación </li>
-                            <li class="pricing__feature"><svg> ... </svg> Sin cláusulas de permanencia </li>
-                            <li class="pricing__feature"><svg> ... </svg> Configuración del sistema adaptable para cada estudio </li>
-                            <li class="pricing__feature"><svg> ... </svg> Adaptable y configurable para los diferentes roles dentro del estudio </li>
-                            <li class="pricing__feature"><svg> ... </svg> Módulo de dashboard </li>
-                            <li class="pricing__feature"><svg> ... </svg> Módulo de usuarios </li>
-                            <li class="pricing__feature"><svg> ... </svg> Módulo de asignación de turnos </li>
-                            <li class="pricing__feature"><svg> ... </svg> Módulo de asignación de rooms </li>
-                            <li class="pricing__feature"><svg> ... </svg> Módulo de metas estudios </li>
-                            <li class="pricing__feature"><svg> ... </svg> Modulo de metas modelos </li>
-                            <li class="pricing__feature"><svg> ... </svg> Módulo de certificaciones laboral, tiempo, impuesto y pago </li>
-                            <li class="pricing__feature"><svg> ... </svg> Módulo de multas</li>
-                            <li class="pricing__feature"><svg> ... </svg> Módulo de asistencias</li>
-                            <li class="pricing__feature"><svg> ... </svg> Módulo de producción</li>
-                            <li class="pricing__feature"><svg> ... </svg> Módulo de descuentos</li>
-                            <li class="pricing__feature"><svg> ... </svg> Módulo de nomina</li>
+
+
+                        <li class="pricing__feature"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-check"><polyline points="20 6 9 17 4 12"></polyline></svg> Sin costos de instalación </li>
+                            <li class="pricing__feature"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-check"><polyline points="20 6 9 17 4 12"></polyline></svg>Sin cláusulas de permanencia </li>
+                            <li class="pricing__feature"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-check"><polyline points="20 6 9 17 4 12"></polyline></svg> Configuración del sistema adaptable para cada
+                                estudio </li>
+                            <li class="pricing__feature"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-check"><polyline points="20 6 9 17 4 12"></polyline></svg> Adaptable y configurable para los diferentes roles
+                                dentro del estudio </li>
+                            <li class="pricing__feature"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-check"><polyline points="20 6 9 17 4 12"></polyline></svg> Módulo de dashboard </li>
+                            <li class="pricing__feature"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-check"><polyline points="20 6 9 17 4 12"></polyline></svg> Módulo de usuarios </li>
+                            <li class="pricing__feature"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-check"><polyline points="20 6 9 17 4 12"></polyline></svg> Módulo de asignación de turnos </li>
+                            <li class="pricing__feature"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-check"><polyline points="20 6 9 17 4 12"></polyline></svg> Módulo de asignación de rooms </li>
+                            <li class="pricing__feature"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-check"><polyline points="20 6 9 17 4 12"></polyline></svg> Módulo de metas estudios </li>
+                            <li class="pricing__feature"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-check"><polyline points="20 6 9 17 4 12"></polyline></svg> Modulo de metas modelos </li>
+                            <li class="pricing__feature"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-check"><polyline points="20 6 9 17 4 12"></polyline></svg> Módulo de certificaciones laboral, tiempo,
+                                impuesto y pago </li>
+                            <li class="pricing__feature"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-check"><polyline points="20 6 9 17 4 12"></polyline></svg> Módulo de multas</li>
+                            <li class="pricing__feature"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-check"><polyline points="20 6 9 17 4 12"></polyline></svg> Módulo de asistencias</li>
+                            <li class="pricing__feature"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-check"><polyline points="20 6 9 17 4 12"></polyline></svg> Módulo de producción</li>
+                            <li class="pricing__feature"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-check"><polyline points="20 6 9 17 4 12"></polyline></svg> Módulo de descuentos</li>
+                            <li class="pricing__feature"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-check"><polyline points="20 6 9 17 4 12"></polyline></svg> Módulo de nomina</li>
                         </ul>
                         <button class="pricing__action mx-auto mb-4">Comprar</button>
                     </div>
@@ -75,24 +98,27 @@
                         <h3 class="pricing__title">50 Modelos</h3>
                         <p class="pricing__sentence">Para estudios experimentados que desean superar sus limites</p>
                         <div class="pricing__price"><span class="pricing__currency">$</span>55<span
-                                class="pricing__period">USD/ month</span></div>
+                                class="pricing__period">USD/ mes</span></div>
                         <ul class="pricing__feature-list text-center">
-                            <li class="pricing__feature"><svg> ... </svg> Sin costos de instalación </li>
-                            <li class="pricing__feature"><svg> ... </svg> Sin cláusulas de permanencia </li>
-                            <li class="pricing__feature"><svg> ... </svg> Configuración del sistema adaptable para cada estudio </li>
-                            <li class="pricing__feature"><svg> ... </svg> Adaptable y configurable para los diferentes roles dentro del estudio </li>
-                            <li class="pricing__feature"><svg> ... </svg> Módulo de dashboard </li>
-                            <li class="pricing__feature"><svg> ... </svg> Módulo de usuarios </li>
-                            <li class="pricing__feature"><svg> ... </svg> Módulo de asignación de turnos </li>
-                            <li class="pricing__feature"><svg> ... </svg> Módulo de asignación de rooms </li>
-                            <li class="pricing__feature"><svg> ... </svg> Módulo de metas estudios </li>
-                            <li class="pricing__feature"><svg> ... </svg> Modulo de metas modelos </li>
-                            <li class="pricing__feature"><svg> ... </svg> Módulo de certificaciones laboral, tiempo, impuesto y pago </li>
-                            <li class="pricing__feature"><svg> ... </svg> Módulo de multas</li>
-                            <li class="pricing__feature"><svg> ... </svg> Módulo de asistencias</li>
-                            <li class="pricing__feature"><svg> ... </svg> Módulo de producción</li>
-                            <li class="pricing__feature"><svg> ... </svg> Módulo de descuentos</li>
-                            <li class="pricing__feature"><svg> ... </svg> Módulo de nomina</li>
+                            <li class="pricing__feature"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-check"><polyline points="20 6 9 17 4 12"></polyline></svg> Sin costos de instalación </li>
+                            <li class="pricing__feature"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-check"><polyline points="20 6 9 17 4 12"></polyline></svg> Sin cláusulas de permanencia </li>
+                            <li class="pricing__feature"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-check"><polyline points="20 6 9 17 4 12"></polyline></svg> Configuración del sistema adaptable para cada
+                                estudio </li>
+                            <li class="pricing__feature"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-check"><polyline points="20 6 9 17 4 12"></polyline></svg> Adaptable y configurable para los diferentes roles
+                                dentro del estudio </li>
+                            <li class="pricing__feature"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-check"><polyline points="20 6 9 17 4 12"></polyline></svg> Módulo de dashboard </li>
+                            <li class="pricing__feature"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-check"><polyline points="20 6 9 17 4 12"></polyline></svg> Módulo de usuarios </li>
+                            <li class="pricing__feature"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-check"><polyline points="20 6 9 17 4 12"></polyline></svg> Módulo de asignación de turnos </li>
+                            <li class="pricing__feature"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-check"><polyline points="20 6 9 17 4 12"></polyline></svg> Módulo de asignación de rooms </li>
+                            <li class="pricing__feature"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-check"><polyline points="20 6 9 17 4 12"></polyline></svg> Módulo de metas estudios </li>
+                            <li class="pricing__feature"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-check"><polyline points="20 6 9 17 4 12"></polyline></svg> Modulo de metas modelos </li>
+                            <li class="pricing__feature"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-check"><polyline points="20 6 9 17 4 12"></polyline></svg> Módulo de certificaciones laboral, tiempo,
+                                impuesto y pago </li>
+                            <li class="pricing__feature"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-check"><polyline points="20 6 9 17 4 12"></polyline></svg> Módulo de multas</li>
+                            <li class="pricing__feature"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-check"><polyline points="20 6 9 17 4 12"></polyline></svg> Módulo de asistencias</li>
+                            <li class="pricing__feature"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-check"><polyline points="20 6 9 17 4 12"></polyline></svg> Módulo de producción</li>
+                            <li class="pricing__feature"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-check"><polyline points="20 6 9 17 4 12"></polyline></svg> Módulo de descuentos</li>
+                            <li class="pricing__feature"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-check"><polyline points="20 6 9 17 4 12"></polyline></svg> Módulo de nomina</li>
                         </ul>
                         <button class="pricing__action mx-auto mb-4">Comprar</button>
                     </div>
@@ -100,24 +126,27 @@
                         <h3 class="pricing__title">100 Modelos</h3>
                         <p class="pricing__sentence">Para estudios exitosos que han superado sus limites</p>
                         <div class="pricing__price"><span class="pricing__currency">$</span>75<span
-                                class="pricing__period">USD/ month</span></div>
+                                class="pricing__period">USD/ mes</span></div>
                         <ul class="pricing__feature-list text-center">
-                            <li class="pricing__feature"><svg> ... </svg> Sin costos de instalación </li>
-                            <li class="pricing__feature"><svg> ... </svg> Sin cláusulas de permanencia </li>
-                            <li class="pricing__feature"><svg> ... </svg> Configuración del sistema adaptable para cada estudio </li>
-                            <li class="pricing__feature"><svg> ... </svg> Adaptable y configurable para los diferentes roles dentro del estudio </li>
-                            <li class="pricing__feature"><svg> ... </svg> Módulo de dashboard </li>
-                            <li class="pricing__feature"><svg> ... </svg> Módulo de usuarios </li>
-                            <li class="pricing__feature"><svg> ... </svg> Módulo de asignación de turnos </li>
-                            <li class="pricing__feature"><svg> ... </svg> Módulo de asignación de rooms </li>
-                            <li class="pricing__feature"><svg> ... </svg> Módulo de metas estudios </li>
-                            <li class="pricing__feature"><svg> ... </svg> Modulo de metas modelos </li>
-                            <li class="pricing__feature"><svg> ... </svg> Módulo de certificaciones laboral, tiempo, impuesto y pago </li>
-                            <li class="pricing__feature"><svg> ... </svg> Módulo de multas</li>
-                            <li class="pricing__feature"><svg> ... </svg> Módulo de asistencias</li>
-                            <li class="pricing__feature"><svg> ... </svg> Módulo de producción</li>
-                            <li class="pricing__feature"><svg> ... </svg> Módulo de descuentos</li>
-                            <li class="pricing__feature"><svg> ... </svg> Módulo de nomina</li>
+                            <li class="pricing__feature"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-check"><polyline points="20 6 9 17 4 12"></polyline></svg> Sin costos de instalación </li>
+                            <li class="pricing__feature"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-check"><polyline points="20 6 9 17 4 12"></polyline></svg> Sin cláusulas de permanencia </li>
+                            <li class="pricing__feature"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-check"><polyline points="20 6 9 17 4 12"></polyline></svg> Configuración del sistema adaptable para cada
+                                estudio </li>
+                            <li class="pricing__feature"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-check"><polyline points="20 6 9 17 4 12"></polyline></svg> Adaptable y configurable para los diferentes roles
+                                dentro del estudio </li>
+                            <li class="pricing__feature"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-check"><polyline points="20 6 9 17 4 12"></polyline></svg> Módulo de dashboard </li>
+                            <li class="pricing__feature"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-check"><polyline points="20 6 9 17 4 12"></polyline></svg> Módulo de usuarios </li>
+                            <li class="pricing__feature"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-check"><polyline points="20 6 9 17 4 12"></polyline></svg> Módulo de asignación de turnos </li>
+                            <li class="pricing__feature"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-check"><polyline points="20 6 9 17 4 12"></polyline></svg> Módulo de asignación de rooms </li>
+                            <li class="pricing__feature"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-check"><polyline points="20 6 9 17 4 12"></polyline></svg> Módulo de metas estudios </li>
+                            <li class="pricing__feature"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-check"><polyline points="20 6 9 17 4 12"></polyline></svg> Modulo de metas modelos </li>
+                            <li class="pricing__feature"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-check"><polyline points="20 6 9 17 4 12"></polyline></svg> Módulo de certificaciones laboral, tiempo,
+                                impuesto y pago </li>
+                            <li class="pricing__feature"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-check"><polyline points="20 6 9 17 4 12"></polyline></svg> Módulo de multas</li>
+                            <li class="pricing__feature"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-check"><polyline points="20 6 9 17 4 12"></polyline></svg> Módulo de asistencias</li>
+                            <li class="pricing__feature"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-check"><polyline points="20 6 9 17 4 12"></polyline></svg> Módulo de producción</li>
+                            <li class="pricing__feature"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-check"><polyline points="20 6 9 17 4 12"></polyline></svg> Módulo de descuentos</li>
+                            <li class="pricing__feature"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-check"><polyline points="20 6 9 17 4 12"></polyline></svg> Módulo de nomina</li>
                         </ul>
                         <button class="pricing__action mx-auto mb-4">Comprar</button>
                     </div>
@@ -163,27 +192,33 @@
 
 @section('js')
 
-<script src="{{ asset('assets/js/libs/jquery-3.1.1.min.js') }}"></script>
-<script src="{{ asset('bootstrap/js/popper.min.js') }}"></script>
-<script src="{{ asset('bootstrap/js/bootstrap.min.js') }}"></script>
-<script src="{{ asset('plugins/perfect-scrollbar/perfect-scrollbar.min.js') }}"></script>
+    <script src="{{ asset('assets/js/libs/jquery-3.1.1.min.js') }}"></script>
+    <script src="{{ asset('bootstrap/js/popper.min.js') }}"></script>
+    <script src="{{ asset('bootstrap/js/bootstrap.min.js') }}"></script>
+    <script src="{{ asset('plugins/perfect-scrollbar/perfect-scrollbar.min.js') }}"></script>
 
-<script src="{{ asset('plugins/blockui/jquery.blockUI.min.js') }}"></script>
-<script src="{{ asset('template/plugins/table/datatable/datatables.js') }}"></script>
-<script src="{{ asset('assets/js/app.js') }}"></script>
-<script src="{{ asset('plugins/highlight/highlight.pack.js') }}"></script>
-<script src="{{ asset('assets/js/custom.jss') }}"></script>
+    <script src="{{ asset('plugins/blockui/jquery.blockUI.min.js') }}"></script>
+    <script src="{{ asset('template/plugins/table/datatable/datatables.js') }}"></script>
+    <script src="{{ asset('assets/js/app.js') }}"></script>
+    <script src="{{ asset('plugins/highlight/highlight.pack.js') }}"></script>
+    <script src="{{ asset('assets/js/custom.jss') }}"></script>
 
-   
-   
-  
+
+
+
 
     <script>
         $(document).ready(function() {
             App.init();
         });
     </script>
-    
+
+    <!-- with js code  -->
+    <script type="text/javascript">
+        feather.replace();
+    </script>
+
+
 
 
 

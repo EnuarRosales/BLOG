@@ -16,30 +16,23 @@ class ReportePagina extends Model
 
 
     //RELACION UNO A MUCHOS  INVERSA
-    public function user(){
-        return $this->belongsTo('App\Models\User','user_id');
+    public function user()
+    {
+        return $this->belongsTo('App\Models\User', 'user_id');
     }
 
-    
+
 
 
 
     //RELACION UNO A MUCHOS  INVERSA
-    public function pagina(){
-        return $this->belongsTo('App\Models\Pagina','pagina_id');
+    public function pagina()
+    {
+        return $this->belongsTo('App\Models\Pagina', 'pagina_id');
     }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
+    public function metaModelo()
+    {
+        return $this->belongsTo(MetaModelo::class, 'metaModelo'); // Ajusta el nombre de la clave foránea según tu estructura de base de datos
+    }
 }

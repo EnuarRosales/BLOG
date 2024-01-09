@@ -5,19 +5,16 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Imports\ReportePaginasImport;
 use App\Models\AsignacionMulta;
-use App\Models\Descontado;
-use App\Models\Descuento;
 use App\Models\Impuesto;
 use App\Models\MetaModelo;
 use App\Models\Pagina;
-use App\Models\Pago;
 use App\Models\ReportePagina;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Validator;
-use Illuminate\Validation\Rule;
 use Maatwebsite\Excel\Facades\Excel;
+use Spatie\Permission\Models\Permission;
+use Yajra\DataTables\Facades\DataTables;
 
 use function PHPUnit\Framework\returnSelf;
 
@@ -31,12 +28,7 @@ class ReportePaginaController extends Controller
 
     public function index()
     {
-        $registroDatos = new ReportePaginaController;
-        $registroDatos->ponerMeta();
-        $registroDatos->poblarPorcentajeTotal();
-        $registroDatos->actualizarPorcentaje();
-        $reportePaginas = ReportePagina::with('user', 'pagina')->where('verificado', 0)->get();
-        return view('admin.reportePaginas.index', compact('reportePaginas'));
+        return view('admin.reportePaginas.index');
     }
 
 
@@ -137,24 +129,6 @@ class ReportePaginaController extends Controller
         $asignarMeta->actualizarPorcentaje();
         return redirect()->route('admin.reportePaginas.index')->with('info', 'storeExcel');
     }
-
-
-    public function actualizarPorcentaje()
-    {
-        // $reportePaginas = ReportePagina::with('user', 'reportePagina')->where('verificado', 0)->get();
-        $reportePaginas = ReportePagina::where('verificado', 0)->get();
-        foreach ($reportePaginas as $reportePagina) {
-            if ($reportePagina->verificado == 0) {
-                $reportePagina->porcentaje = $reportePagina->user->tipoUsuario->porcentaje;
-                $reportePagina->save();
-            }
-        }
-    }
-
-
-
-
-
 
     public function storeIndividual(Request $request)
     {
@@ -290,7 +264,6 @@ class ReportePaginaController extends Controller
      * 3.MEDIANTE CICLOS Y CONDICIONES ASIGNA VALOR A LA TABLA $reportePagina->metaModelo_id
      *
      */
-
     public function ponerMeta()
     {
         // with('user', 'pagina', 'metaModelo')
@@ -330,14 +303,6 @@ class ReportePaginaController extends Controller
         }
     }
 
-
-
-
-
-
-
-
-
     public function poblarPorcentajeTotal()
     {
         // $reportePaginas = ReportePagina::with('user', 'reportePaginas')->get();
@@ -353,6 +318,18 @@ class ReportePaginaController extends Controller
 
             $reportePagina->netoPesos = (($reportePagina->pesos) * ($reportePagina->porcentajeTotal)) / 100;
             $reportePagina->save();
+        }
+    }
+
+    public function actualizarPorcentaje()
+    {
+        // $reportePaginas = ReportePagina::with('user', 'reportePagina')->where('verificado', 0)->get();
+        $reportePaginas = ReportePagina::where('verificado', 0)->get();
+        foreach ($reportePaginas as $reportePagina) {
+            if ($reportePagina->verificado == 0) {
+                $reportePagina->porcentaje = $reportePagina->user->tipoUsuario->porcentaje;
+                $reportePagina->save();
+            }
         }
     }
 
@@ -441,5 +418,189 @@ class ReportePaginaController extends Controller
             // \Log::error("Error updateStatus VU: {$exception->getMessage()} File: {$exception->getFile()} Line: {$exception->getLine()}");
             return response()->json(null, 500);
         }
+    }
+
+    // public function datatable()
+    // {
+    //     $userLogueado = auth()->user();
+    //     // Llama al método getPermissionIds() con el objeto de usuario como argumento
+    //     $permissionIds = User::getPermissionIds($userLogueado);
+    //     // Comprueba si el permiso con ID 63 permiso para ver todos los registros existe en la lista de permisos
+    //     $reportePaginas = ReportePagina::with('user', 'pagina')->where('verificado', 0)->get();
+    //     // if (in_array(44, $permissionIds)) {
+    //     //     // Si existe el permiso, obtén todos los registros de AsignacionMulta donde descontado == 0
+    //     //     $asignacionMultas = AsignacionMulta::where('descontado', 0)->get();
+    //     // } else {
+    //     //     // Si el permiso no existe, obtén mis registros de AsignacionMulta donde user_id == $userLogueado->id y descontado == 0
+    //     //     $asignacionMultas = AsignacionMulta::where('user_id', $userLogueado->id)
+    //     //                                         ->where('descontado', 0)
+    //     //                                         ->get();
+    //     // }
+    //     // Obtén los permisos relacionados con los IDs de permisos obtenidos anteriormente
+    //     $permission = Permission::select('id', 'name', 'description')->whereIn('id', $permissionIds)->get();
+
+    //     return DataTables::of($reportePaginas)
+    //         ->addColumn('acciones', function ($row) use ($permission) {
+    //             $acciones = '';
+
+    //             if ($permission->where('id', 55)->isNotEmpty()) { // rol de editar descuentos
+    //                 $acciones .= '<a href="' . route('admin.reportePaginas.edit', ['reportePagina' => $row->id]) . '">
+    //                                 <svg class="mr-4" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-id="' . $row->id . '">
+    //                                     <path d="M12 20h9"></path>
+    //                                     <path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"></path>
+    //                                 </svg>
+    //                             </a>';
+    //             }
+
+    //             if ($permission->where('id', 56)->isNotEmpty()) { // rol de eliminar descuentos
+    //                 // $acciones .= '<button class="btn btn-danger action-button" data-id="' . $row->id . '">Eliminar</button>';
+    //                 $acciones .= '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-id="' . $row->id . '" class="feather feather-x-circle table-cancel">
+    //                                 <circle cx="12" cy="12" r="10"></circle>
+    //                                 <line x1="15" y1="9" x2="9" y2="15"></line>
+    //                                 <line x1="9" y1="9" x2="15" y2="15"></line>
+    //                             </svg>
+    //                         </button>';
+    //             }
+    //             return $acciones;
+    //         })
+    //         ->addColumn('usuario_name', function ($row) {
+    //             $usuario = User::find($row->user_id);
+    //             return $usuario->name;
+    //         })
+    //         ->addColumn('pagina_name', function ($row) {
+    //             $usuario = Pagina::find($row->pagina_id);
+    //             return $usuario->nombre;
+    //         })
+
+
+    //         ->rawColumns(['acciones',])
+    //         ->make(true);
+    // }
+
+    public function datatable()
+    {
+        $userLogueado = auth()->user();
+        $permissionIds = User::getPermissionIds($userLogueado);
+        $permission = Permission::select('id', 'name', 'description')->whereIn('id', $permissionIds)->get();
+
+        // Obtén los reportes que necesitan actualización
+        $reportePaginas = ReportePagina::with('user.tipoUsuario', 'metaModelo')
+            ->where('verificado', 0)
+            ->orWhere('enviarPago', 0)
+            ->get();
+
+        $metaModelos = MetaModelo::orderByDesc('mayorQue')->get();
+
+        // Itera sobre los reportes y actualiza la información según las condiciones
+        foreach ($reportePaginas as $reportePagina) {
+            // Actualizar porcentaje en caso de no estar verificado
+            if ($reportePagina->verificado == 0) {
+                $reportePagina->porcentaje = $reportePagina->user->tipoUsuario->porcentaje;
+                $reportePagina->save();
+            }
+
+            // Actualizar metaModelo en caso de no haber enviado pago
+            if ($reportePagina->enviarPago == 0) {
+                $reporteQuincena = ReportePagina::select(
+                    DB::raw('sum(dolares) as suma'),
+                    'user_id',
+                    'fecha'
+                )
+                    ->where('user_id', $reportePagina->user_id)
+                    ->where('fecha', $reportePagina->fecha)
+                    ->groupBy('user_id', 'fecha')
+                    ->first();
+
+                if ($reporteQuincena) {
+                    $metaModelo = $metaModelos
+                        ->where('mayorQue', '<=', $reporteQuincena->suma)
+                        ->first();
+
+                    if ($metaModelo) {
+                        $reportePagina->metaModelo = $metaModelo->porcentaje;
+                        $reportePagina->save();
+                    }
+                }
+            }
+
+            // Calcular y actualizar porcentajeTotal y netoPesos
+            $tipoUsuario = $reportePagina->user->tipoUsuario;
+            $metaPorcentaje = $reportePagina->metaModelo ?? 0.0;
+            $porcentajeTotal = ($tipoUsuario->nombre == "Modelo") ? ($tipoUsuario->porcentaje + $metaPorcentaje) : $tipoUsuario->porcentaje;
+
+            $reportePagina->porcentajeTotal = $porcentajeTotal;
+            $reportePagina->netoPesos = ($reportePagina->pesos * $porcentajeTotal) / 100;
+
+            $reportePagina->save();
+        }
+
+        return DataTables::of($reportePaginas)
+            ->addColumn('acciones', function ($row) use ($permission) {
+                $acciones = '';
+
+                if ($permission->where('id', 55)->isNotEmpty()) { // rol de editar descuentos
+                    $acciones .= '<a href="' . route('admin.reportePaginas.edit', ['reportePagina' => $row->id]) . '">
+                                    <svg class="mr-4" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-id="' . $row->id . '">
+                                        <path d="M12 20h9"></path>
+                                        <path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"></path>
+                                    </svg>
+                                </a>';
+                }
+
+                if ($permission->where('id', 56)->isNotEmpty()) { // rol de eliminar descuentos
+                    // $acciones .= '<button class="btn btn-danger action-button" data-id="' . $row->id . '">Eliminar</button>';
+                    $acciones .= '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-id="' . $row->id . '" class="feather feather-x-circle table-cancel">
+                                    <circle cx="12" cy="12" r="10"></circle>
+                                    <line x1="15" y1="9" x2="9" y2="15"></line>
+                                    <line x1="9" y1="9" x2="15" y2="15"></line>
+                                </svg>
+                            </button>';
+                }
+                return $acciones;
+            })
+            ->addColumn('usuario_name', function ($row) {
+                $usuario = User::find($row->user_id);
+                return $usuario->name;
+            })
+            ->addColumn('pagina_name', function ($row) {
+                $usuario = Pagina::find($row->pagina_id);
+                return $usuario->nombre;
+            })
+            ->addColumn('netoPesos_format', function ($row) {
+                $neto = ($row->netoPesos);
+                return $neto;
+            })
+            ->addColumn('pesos_format', function ($row) {
+                $pesos = ($row->pesos);
+                return $pesos;
+            })
+            ->addColumn('TRM_format', function ($row) {
+                $TRM = ($row->TRM);
+                return $TRM;
+            })
+            ->addColumn('dolares_format', function ($row) {
+                $dolares = ($row->dolares);
+                return $dolares;
+            })
+            // ->addColumn('pagina_name', function ($row) {
+            //     $usuario = Pagina::find($row->pagina_id);
+            //     return $usuario->nombre;
+            // })
+
+
+            ->rawColumns(['acciones',])
+            ->make(true);
+    }
+
+    public function eliminar(Request $request)
+    {
+        $reportePaginas = ReportePagina::find($request->input('id'));
+
+        if ($reportePaginas) {
+            $reportePaginas->delete();
+            return response()->json(['success' => true]);
+        }
+
+        return response()->json(['success' => false, 'message' => 'No se encontró el registro.']);
     }
 }

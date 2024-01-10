@@ -333,9 +333,11 @@ class ReportePaginaController extends Controller
         }
     }
 
-    public function verificadoMasivo()
+    public function verificadoMasivo(Request $request)
     {
-        $reportePaginas = ReportePagina::where('verificado', 0)->get();
+        $reportePaginas = ReportePagina::whereIn('id', $request->ids)
+            ->where('verificado', 0)
+            ->get();
         foreach ($reportePaginas as $reportePagina) {
             $reportePagina->verificado = 1;
             $reportePagina->save();
@@ -534,6 +536,8 @@ class ReportePaginaController extends Controller
             $reportePagina->save();
         }
 
+        $reportePaginas = ReportePagina::with('user', 'pagina')->where('verificado', 0)->get();
+
         return DataTables::of($reportePaginas)
             ->addColumn('acciones', function ($row) use ($permission) {
                 $acciones = '';
@@ -582,13 +586,16 @@ class ReportePaginaController extends Controller
                 $dolares = ($row->dolares);
                 return $dolares;
             })
-            // ->addColumn('pagina_name', function ($row) {
-            //     $usuario = Pagina::find($row->pagina_id);
-            //     return $usuario->nombre;
-            // })
+            ->addColumn('verificado', function ($row) {
+                $checked = $row->verificado == 1 ? 'checked' : '';
+                return '<label class="switch s-icons s-outline s-outline-success mr-2" title="Validar Info">
+                            <input type="checkbox" class="toggle-switch" data-id="' . $row->id . '" data-status="' . $row->verificado . '" ' . $checked . '>
+                            <span class="slider round"></span>
+                        </label>';
+            })
 
 
-            ->rawColumns(['acciones',])
+            ->rawColumns(['acciones', 'verificado'])
             ->make(true);
     }
 

@@ -38,9 +38,9 @@
                     </div>
                     <div class="mq-960">
 
-                        <a class="btn btn-info float-right mr-3"
-                            href="{{ route('admin.reportePaginas.verificadoMasivo') }}">Verificado
-                            Masivo</a>
+                        <a id="verificadoMasivoBtn" class="btn btn-info float-right mr-3"
+                            href="{{ route('admin.reportePaginas.verificadoMasivo') }}">Verificado Masivo</a>
+
 
                         <a class="btn btn-primary float-right"
                             href="{{ route('admin.reportePaginas.reporteQuincena') }}">Porcentajes</a>
@@ -332,6 +332,62 @@
                 //     [5, 'desc'] // 1 es el índice de la columna que contiene las fechas
                 // ],
             });
+
+            // Escucha el evento de cambio en los interruptores de clase 'toggle-switch'
+            $(document).on('change', '.toggle-switch', function() {
+                // Obtiene el valor actual del atributo data-status
+                var currentStatus = $(this).data('status');
+
+                // Cambia el valor del atributo data-status a su inverso (0 a 1 o 1 a 0)
+                $(this).data('status', currentStatus == 0 ? 1 : 0);
+
+                // Agrega o quita la clase 'excluido' según el nuevo valor de data-status
+                if ($(this).data('status') == 1) {
+                    $(this).closest('tr').addClass('excluido');
+                } else {
+                    $(this).closest('tr').removeClass('excluido');
+                }
+            });
+
+            // Evento click en el botón "Verificado Masivo"
+            $('#verificadoMasivoBtn').on('click', function(e) {
+                e.preventDefault();
+
+                // Obtener todos los datos en el DataTable donde 'verificado' no está checkeado y no tiene la clase 'excluido'
+                var unverifiedData = [];
+                table.rows().every(function(index, element) {
+                    var data = this.data();
+                    var $rowNode = $(this.node());
+
+                    if (data.verificado !== 1 && !$rowNode.hasClass('excluido')) {
+                        unverifiedData.push(data);
+                    }
+                });
+
+                // Crear un array con los IDs de los elementos no checkeados
+                var unverifiedIds = unverifiedData.map(function(item) {
+                    return item.id;
+                });
+
+                // Realizar la petición AJAX
+                $.ajax({
+                    url: "{{ route('admin.reportePaginas.verificadoMasivo') }}",
+                    type: 'GET',
+                    data: {
+                        ids: unverifiedIds
+                    },
+                    success: function(response) {
+                        // Recargar la página
+                        window.location.reload();
+                    },
+                    error: function(error) {
+                        // Manejar errores
+                        console.error(error);
+                    }
+                });
+            });
+
+
 
             // Button eliminar
             $('#html5-extension').on('click', '.feather-x-circle', function() {

@@ -159,7 +159,7 @@
                                 var numFmtId = $('numFmt', this).attr('numFmtId');
                                 if (!numFmtId) {
                                     numFmtId =
-                                        2; // ID para el formato de número en Excel (puedes ajustar según tus necesidades)
+                                        3; // ID para el formato de número en Excel (puedes ajustar según tus necesidades)
                                     $('numFmt', this).attr('numFmtId', numFmtId);
                                 }
                                 // $(this).attr('s', '2'); // Establecer el estilo de celda como número
@@ -194,12 +194,6 @@
                         }
                         return data;
                     },
-                    // "createdCell": function(td, cellData, rowData, row, col) {
-                    //     if (col === 2) { // Ajusta el índice de la columna según tu estructura de datos
-                    //         // $(td).addClass('float-right'); // Agrega la clase solo a las celdas de datos
-                    //         $(td).addClass('text-center'); // Agrega la clase solo a las celdas de datos
-                    //     }
-                    // },
                 },
 
                 {
@@ -265,7 +259,7 @@
             pageLength: 7, // Establece la cantidad de registros por página por defecto
         });
 
-        // 
+        //
         function formatCurrency(value) {
             // Puedes personalizar esta función según tus necesidades
             var options = {
@@ -313,17 +307,6 @@
                         success: function(response) {
                             if (response.success) {
 
-                                // Swal.fire({
-                                //     title: '¡Eliminado!',
-                                //     text: 'El registro se eliminó con éxito',
-                                //     icon: 'success',
-                                //     // timer: 3000, // Establece el tiempo en milisegundos (2 segundos en este ejemplo)
-                                //     // showConfirmButton: true, // Oculta el botón de confirmación
-                                // });
-                                // setTimeout(function() {
-                                //     location
-                                // .reload(); // Recarga la página después de 2 segundos
-                                // }, 5000); // 2000 milisegundos (2 segundos)
                                 Swal.fire(
                                     '¡Eliminado!',
                                     'El registro se elimino con exito',

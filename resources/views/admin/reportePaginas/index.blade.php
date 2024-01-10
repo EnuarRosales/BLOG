@@ -81,85 +81,22 @@
                                 <th>Cantidad Tokens</th>
                                 <th>Valor Pagina</th>
                                 <th>Dolares</th>
+                                <th>Dolares</th>
                                 <th>TRM</th>
+                                <th>TRM</th>
+                                <th>Pesos</th>
                                 <th>Pesos</th>
                                 <th>Porcentaje</th>
                                 <th>Meta Porcentaje</th>
                                 <th>Porcentaje Total</th>
                                 <th>Total Pesos</th>
+                                <th>Total Pesos</th>
                                 <th>Estado</th>
-                                <th>Editar</th>
-                                <th>Eliminar</th>
+                                <th>Acciones</th>
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach ($reportePaginas as $reportePagina)
-                                <tr>
-                                    <td>{{ $reportePagina->id }}</td>
-                                    <td>{{ $reportePagina->fecha }}</td>
-                                    <td>{{ $reportePagina->user->name }}</td>
-                                    <td>{{ $reportePagina->pagina->nombre }}</td>
-                                    <td>{{ number_format($reportePagina->Cantidad) }}</td>
-                                    <td>{{ $reportePagina->valorPagina }}</td>
-                                    <td>{{ number_format($reportePagina->dolares, 2, '.', ',') }}</td>
-                                    <td>{{ number_format($reportePagina->TRM, 2, '.', ',') }}</td>
-                                    <td>{{ number_format($reportePagina->pesos, 2, '.', ',') }}</td>
-                                    <td>{{ $reportePagina->user->tipoUsuario->porcentaje }}{{ ' %' }}</td>
-                                    <td>{{ number_format($reportePagina->metaModelo) }}</td>
-                                    <td>{{ number_format($reportePagina->porcentajeTotal) }}</td>
-                                    <td>{{ number_format($reportePagina->netoPesos, 2, '.', ',') }}</td>
-                                    <td id={{ $reportePagina->verificado }}>
 
-
-                                        <label class="switch s-icons s-outline s-outline-success mr-2">
-                                            <input type="checkbox" {{ $reportePagina->verificado ? 'checked' : '' }}>
-                                            <span class="slider round"></span>
-                                        </label>
-                                        {{-- <label class="new-control new-checkbox new-checkbox-rounded checkbox-primary">
-                                            <input type="checkbox"
-                                                class="new-control-input">
-                                            <span class="new-control-indicator"></span> Estatus
-                                        </label> --}}
-                                        {{-- <input type="checkbox" class="new-control-input"
-
-                                        data-id="{{ $reportePagina->id }}">
-                                    <span class="new-control-indicator"></span> --}}
-                                        {{-- <input type="checkbox" data-plugin="switchery" data-color="#77dd77"
-                                        {{ $reportePagina->verificado ? 'checked' : '' }}
-                                        data-id="{{ $reportePagina->id }}" data-secondary-color="#ff6961"
-                                        data-size="small" /> --}}
-                                    </td>
-
-                                    <td width="10px">
-
-                                        <a href="{{ route('admin.reportePaginas.edit', $reportePagina) }}"
-                                            class="ml-4 rounded bs-tooltip" data-placement="top" title="Editar">
-                                            <svg class="mr-4" xmlns="http://www.w3.org/2000/svg" width="24"
-                                                height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                                                stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-                                                class="feather feather-edit-3">
-                                                <path d="M12 20h9"></path>
-                                                <path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"></path>
-                                            </svg>
-                                        </a>
-                                    </td>
-                                    <td width="10px">
-                                        <a href="javascript:void(0);" class="ml-2 eliminar-registro rounded bs-tooltip"
-                                            data-placement="top" title="Eliminar"
-                                            data-reportePagina-id="{{ $reportePagina->id }}">
-                                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
-                                                viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-                                                stroke-linecap="round" stroke-linejoin="round"
-                                                class="feather feather-x-circle table-cancel">
-                                                <circle cx="12" cy="12" r="10"></circle>
-                                                <line x1="15" y1="9" x2="9" y2="15"></line>
-                                                <line x1="9" y1="9" x2="15" y2="15"></line>
-                                            </svg>
-                                        </a>
-                                    </td>
-
-                                </tr>
-                            @endforeach
                         </tbody>
                         <tfoot>
                             <tr>
@@ -170,15 +107,18 @@
                                 <th>Cantidad Tokens</th>
                                 <th>Valor Pagina</th>
                                 <th>Dolares</th>
+                                <th>Dolares</th>
                                 <th>TRM</th>
+                                <th>TRM</th>
+                                <th>Pesos</th>
                                 <th>Pesos</th>
                                 <th>Porcentaje</th>
                                 <th>Meta Porcentaje</th>
                                 <th>Porcentaje Total</th>
                                 <th>Total Pesos</th>
+                                <th>Total Pesos</th>
                                 <th>Estado</th>
-                                <th>Editar</th>
-                                <th>Eliminar</th>
+                                <th>Acciones</th>
                             </tr>
                         </tfoot>
                     </table>
@@ -216,16 +156,28 @@
                 dom: '<"row"<"col-md-12"<"row"<"col-md-6"B><"col-md-6"f> > ><"col-md-12"rt> <"col-md-12"<"row"<"col-md-5"i><"col-md-7"p>>> >',
                 buttons: {
                     buttons: [{
-                            extend: 'copy',
-                            className: 'btn'
-                        },
-                        {
-                            extend: 'csv',
-                            className: 'btn'
-                        },
-                        {
                             extend: 'excel',
-                            className: 'btn'
+                            className: 'btn',
+                            exportOptions: {
+                                columns: [0, 1, 2, 3, 4, 5, 7, 9, 11, {
+                                    visible: false,
+                                    columns: [7, 9, 11, 16]
+                                }, 12, 13, 14, 16]
+                            },
+                            customize: function(xlsx) {
+                                var sheet = xlsx.xl.worksheets['sheet1.xml'];
+
+                                // Aplicar formato numérico a la columna oculta (columna 3 en base 0)
+                                $('c[r^="D"]', sheet).each(function() {
+                                    var numFmtId = $('numFmt', this).attr('numFmtId');
+                                    if (!numFmtId) {
+                                        numFmtId =
+                                            2; // ID para el formato de número en Excel (puedes ajustar según tus necesidades)
+                                        $('numFmt', this).attr('numFmtId', numFmtId);
+                                    }
+                                    // $(this).attr('s', '2'); // Establecer el estilo de celda como número
+                                });
+                            },
                         },
                         {
                             extend: 'print',
@@ -233,6 +185,126 @@
                         }
                     ]
                 },
+                ajax: {
+                    url: "{{ route('admin.reportePagina.datatable') }}",
+                    type: 'GET',
+                    dataType: 'json',
+                },
+                columns: [{
+                        data: 'id',
+                        name: 'id'
+                    },
+                    {
+                        data: 'fecha',
+                        name: 'fecha',
+                    },
+                    {
+                        data: 'usuario_name',
+                        name: 'usuario_name',
+                    },
+                    {
+                        data: 'pagina_name',
+                        name: 'pagina_name',
+                    },
+                    {
+                        data: 'Cantidad',
+                        name: 'Cantidad',
+                    },
+                    {
+                        data: 'valorPagina',
+                        name: 'valorPagina',
+                    },
+                    {
+                        data: 'dolares_format',
+                        name: 'dolares_format',
+                        render: function(data, type, row) {
+                            if (type === 'display' || type === 'filter') {
+                                return formatCurrency(data);
+                            }
+                            return data;
+                        },
+                    },
+                    {
+                        data: 'dolares',
+                        name: 'dolares',
+                        visible: false,
+                    },
+                    {
+                        data: 'TRM_format',
+                        name: 'TRM_format',
+                        render: function(data, type, row) {
+                            if (type === 'display' || type === 'filter') {
+                                return formatCurrency(data);
+                            }
+                            return data;
+                        },
+
+                    },
+                    {
+                        data: 'TRM',
+                        name: 'TRM',
+                        visible: false,
+                    },
+                    {
+                        data: 'pesos_format',
+                        name: 'pesos_format',
+                        render: function(data, type, row) {
+                            if (type === 'display' || type === 'filter') {
+                                return formatCurrency(data);
+                            }
+                            return data;
+                        },
+                    },
+                    {
+                        data: 'pesos',
+                        name: 'pesos',
+                        visible: false,
+                    },
+                    {
+                        data: 'porcentaje',
+                        name: 'porcentaje',
+                        render: function(data, type, row) {
+                            return type === 'display' ? data + '%' : data;
+                        }
+                    },
+                    {
+                        data: 'metaModelo',
+                        name: 'metaModelo',
+                        render: function(data, type, row) {
+                            return type === 'display' ? data + '%' : data;
+                        }
+                    },
+                    {
+                        data: 'porcentajeTotal',
+                        name: 'porcentajeTotal',
+                        render: function(data, type, row) {
+                            return type === 'display' ? data + '%' : data;
+                        }
+                    },
+                    {
+                        data: 'netoPesos_format',
+                        name: 'netoPesos_format',
+                        render: function(data, type, row) {
+                            if (type === 'display' || type === 'filter') {
+                                return formatCurrency(data);
+                            }
+                            return data;
+                        },
+                    },
+                    {
+                        data: 'netoPesos',
+                        name: 'netoPesos',
+                        visible: false,
+                    },
+                    {
+                        data: 'verificado',
+                        name: 'verificado',
+                    },
+                    {
+                        data: 'acciones',
+                        name: 'acciones'
+                    },
+                ],
                 "oLanguage": {
                     "oPaginate": {
                         "sPrevious": '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-arrow-left"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>',
@@ -245,81 +317,92 @@
                 },
                 "stripeClasses": [],
                 "lengthMenu": [7, 10, 20, 50],
-                "pageLength": 7
-            });
+                "pageLength": 7,
+                initComplete: function() {
+                    var api = this.api();
+                    api.rows().every(function() {
+                        // Obtiene el valor de la columna "ID" en la fila actual
+                        var id = this.data().id;
 
-            // Vincular eventos de clic para eliminar
-            function bindDeleteEvents() {
-                document.querySelectorAll('.eliminar-registro').forEach(botonEliminar => {
-                    botonEliminar.addEventListener('click', function(e) {
-                        e.preventDefault();
-
-                        const reportePaginaId = this.getAttribute('data-reportePagina-id');
-
-
-
-
-                        Swal.fire({
-                            title: '¿Estás seguro?',
-                            text: '¡Este registro se eliminará definitivamente!',
-                            type: 'warning',
-                            showCancelButton: true,
-                            confirmButtonColor: '#3085d6',
-                            cancelButtonColor: '#d33',
-                            confirmButtonText: '¡Sí, eliminar!',
-                            cancelButtonText: '¡Cancelar!',
-                            preConfirm: () => {
-                                // Crear un formulario dinámicamente
-                                const formulario = document.createElement('form');
-                                formulario.action =
-                                    `reportePaginas/${reportePaginaId}`; // Ruta de eliminación
-                                formulario.method = 'POST'; // Método POST
-                                formulario.style.display = 'none'; // Ocultar el formulario
-
-                                // Agregar el token CSRF al formulario
-                                const tokenField = document.createElement('input');
-                                tokenField.type = 'hidden';
-                                tokenField.name = '_token';
-                                tokenField.value = '{{ csrf_token() }}';
-                                formulario.appendChild(tokenField);
-
-                                // Agregar un campo oculto para indicar que es una solicitud de eliminación
-                                const methodField = document.createElement('input');
-                                methodField.type = 'hidden';
-                                methodField.name = '_method';
-                                methodField.value = 'DELETE';
-                                formulario.appendChild(methodField);
-
-                                // Adjuntar el formulario al documento y enviarlo
-                                document.body.appendChild(formulario);
-                                formulario.submit();
-
-                                return true;
-                            },
-                        });
+                        // Agrega el atributo data-id a la fila
+                        $(this.node()).attr('data-id', id);
                     });
-                });
-            }
-
-            // Volver a vincular eventos de clic después de cada redibujo
-            table.on('draw.dt', function() {
-                bindDeleteEvents();
+                },
+                // order: [
+                //     [5, 'desc'] // 1 es el índice de la columna que contiene las fechas
+                // ],
             });
+
+            // Button eliminar
+            $('#html5-extension').on('click', '.feather-x-circle', function() {
+                var button = $(this); // El botón que se hizo clic
+                var row = button.closest('tr'); // La fila que contiene el botón
+                var table = $('#html5-extension').DataTable();
+                var currentPage = table.page(); // Guardar la página actual
+
+                Swal.fire({
+                    title: '¿Estás seguro?',
+                    text: '¡Este registro se eliminará definitivamente!',
+                    type: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: '¡Sí, eliminar!',
+                    cancelButtonText: '¡Cancelar!',
+                }).then((result) => {
+                    if (result.value) {
+                        $.ajax({
+                            url: `{{ route('admin.reportePagina.eliminar') }}`,
+                            type: 'GET',
+                            data: {
+                                id: row.data(
+                                    'id'
+                                ), // Puedes usar data-* para almacenar el ID de la fila
+                                _token: "{{ csrf_token() }}"
+                            },
+                            success: function(response) {
+                                if (response.success) {
+
+                                    Swal.fire(
+                                        '¡Eliminado!',
+                                        'El registro se elimino con exito',
+                                        'success'
+                                    );
+
+                                    setTimeout(function() {
+                                        Swal.close();
+                                    }, 2000);
+                                    setTimeout(function() {
+                                        // Elimina la fila sin recargar la tabla
+                                        var rowIndex = table.row(row).index();
+                                        table.row(rowIndex).remove().draw();
+                                        table.page(currentPage).draw('page');
+                                    }, 2000);
+                                }
+                            }
+                        });
+                    }
+                });
+            });
+
+            function formatCurrency(value) {
+                // Puedes personalizar esta función según tus necesidades
+                var options = {
+                    style: 'currency',
+                    currency: 'COP',
+                    minimumFractionDigits: 2,
+                };
+
+                return new Intl.NumberFormat('es-CO', options).format(value);
+            }
 
             // Detectar cambios en el select
             $('#records-per-page').change(function() {
                 var newLength = $(this).val();
                 table.page.len(newLength).draw();
             });
-
-            // Vincular eventos de clic para eliminar inicialmente
-            bindDeleteEvents();
         </script>
         <script src="{{ asset('assets/libs/switchery/switchery.min.js') }}"></script>
-        {{-- <script src="https://code.jquery.com/jquery-3.5.1.js"></script> --}}
-        {{-- <script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
-    <script src="https://cdn.datatables.net/1.13.4/js/dataTables.bootstrap5.min.js"></script> --}}
-        {{-- <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script> --}}
 
         {{-- SWET ALERT --}}
         @if (session('info') == 'delete')

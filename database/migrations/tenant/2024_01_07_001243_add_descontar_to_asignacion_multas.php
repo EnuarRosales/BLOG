@@ -14,7 +14,7 @@ return new class extends Migration
     public function up()
     {
         Schema::table('asignacion_multas', function (Blueprint $table) {
-            $table->boolean('descontar')->default(false);
+            $table->boolean('asignacion_multas')->default(false);
         });
     }
 
@@ -26,7 +26,7 @@ return new class extends Migration
     public function down()
     {
         Schema::table('asignacion_multas', function (Blueprint $table) {
-            $table->dropColumn('descontar');
+            $table->dropColumn('asignacion_multas');
         });
     }
 };

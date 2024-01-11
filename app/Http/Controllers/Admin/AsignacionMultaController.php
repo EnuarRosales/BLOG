@@ -211,8 +211,9 @@ class AsignacionMultaController extends Controller
 
     public function generarDescuentoMulta($id)
     {
+        
         $asignacionMulta = AsignacionMulta::findOrFail($id);
-
+        // dd($asignacionMulta);
         // Invierte el valor de generar_descuento
         $asignacionMulta->generar_descuento = $asignacionMulta->generar_descuento == 0 ? 1 : 0;
 

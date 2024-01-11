@@ -342,6 +342,8 @@ class ReportePaginaController extends Controller
         }
         return redirect()->route('admin.reportePaginas.index')->with('info', 'verificadoMasivo');
     }
+
+    
     public function pagos()
     {
 

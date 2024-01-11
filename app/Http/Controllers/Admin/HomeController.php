@@ -22,6 +22,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use LaravelDaily\LaravelCharts\Classes\LaravelChart;
 
+
 class HomeController extends Controller
 {
     public function dataDescuentos()

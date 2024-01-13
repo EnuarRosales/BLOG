@@ -135,6 +135,7 @@ Route::middleware([
     Route::get('verificadoMasivo', [ReportePaginaController::class, 'verificadoMasivo'])->middleware(['auth', 'verified'])->name('admin.reportePaginas.verificadoMasivo');
     Route::post('reportePaginas/updateStatus', [ReportePaginaController::class, 'updateStatus'])->middleware(['auth', 'verified'])->name('admin.reportePaginas.updateStatus');
     Route::get('reportePagina/datatable', [reportePaginaController::class, 'datatable'])->middleware(['auth', 'verified'])->name('admin.reportePagina.datatable');
+    Route::get('reportePagina/porcentajes/datatable', [reportePaginaController::class, 'porcentaje_datatable'])->middleware(['auth', 'verified'])->name('admin.reportePagina.porcentaje.datatable');
     Route::get('reportePagina/eliminar', [reportePaginaController::class, 'eliminar'])->middleware(['auth', 'verified'])->name('admin.reportePagina.eliminar');
     // Route::get('', [ReportePaginaController::class,'pagos'])->name('admin.reportePaginas.pagos');
     //RUTAS INDIVIDUALES

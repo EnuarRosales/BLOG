@@ -88,6 +88,7 @@
                                 <th>Pesos</th>
                                 <th>Porcentaje</th>
                                 <th>Meta Porcentaje</th>
+                                <th>Modicar Porcentaje</th>
                                 <th>Porcentaje Total</th>
                                 <th>Total Pesos</th>
                                 <th>Total Pesos</th>
@@ -114,6 +115,7 @@
                                 <th>Pesos</th>
                                 <th>Porcentaje</th>
                                 <th>Meta Porcentaje</th>
+                                <th>Modicar Porcentaje</th>
                                 <th>Porcentaje Total</th>
                                 <th>Total Pesos</th>
                                 <th>Total Pesos</th>
@@ -135,9 +137,6 @@
         <link rel="stylesheet" type="text/css" href="{{ asset('template/plugins/table/datatable/datatables.css') }}">
         <link rel="stylesheet" type="text/css" href="{{ asset('template/plugins/table/datatable/custom_dt_html5.css') }}">
         <link rel="stylesheet" type="text/css" href="{{ asset('template/plugins/table/datatable/dt-global_style.css') }}">
-
-        {{-- <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.13.4/css/jquery.dataTables.min.css" />
-    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/buttons/2.3.6/css/buttons.dataTables.min.css" /> --}}
         <link rel="stylesheet" type="text/css" href="{{ asset('assets/libs/switchery/switchery.min.css') }}" />
     @stop
 
@@ -162,7 +161,7 @@
                                 columns: [0, 1, 2, 3, 4, 5, 7, 9, 11, {
                                     visible: false,
                                     columns: [7, 9, 11, 16]
-                                }, 12, 13, 14, 16]
+                                }, 12, 13, 14, 16, 17]
                             },
                             customize: function(xlsx) {
                                 var sheet = xlsx.xl.worksheets['sheet1.xml'];
@@ -270,6 +269,13 @@
                     {
                         data: 'metaModelo',
                         name: 'metaModelo',
+                        render: function(data, type, row) {
+                            return type === 'display' ? data + '%' : data;
+                        }
+                    },
+                    {
+                        data: 'porcentaje_ad',
+                        name: 'porcentaje_ad',
                         render: function(data, type, row) {
                             return type === 'display' ? data + '%' : data;
                         }

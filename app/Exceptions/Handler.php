@@ -6,9 +6,9 @@ use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 use Throwable;
 
 class Handler extends ExceptionHandler
-{
+{ 
 
-    // // app/Exceptions/Handler.php
+    // app/Exceptions/Handler.php
     // public function render($request, Throwable $exception)
     // {
     //     if ($this->isHttpException($exception)) {

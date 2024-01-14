@@ -19,8 +19,8 @@ return new class extends Migration
             $table->float('porcentaje_add', 12, 2)->nullable();
 
             // Resto del código de la migración actual
-            $table->timestamps();
-            $table->softDeletes(); // Agregar esta línea para habilitar eliminación suave
+            // $table->timestamps();
+            // $table->softDeletes(); // Agregar esta línea para habilitar eliminación suave
         });
     }
 

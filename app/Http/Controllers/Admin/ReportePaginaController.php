@@ -115,11 +115,13 @@ class ReportePaginaController extends Controller
         $modelo = Excel::import(new ReportePaginasImport, $file);
         $hoy = Carbon::today('America/Bogota');
         $reportePaginas = ReportePagina::where('verificado', 0)
+            ->where('fecha', '=', $request->fecha) //ENUAR AGREGUE ESTA LINEA
             ->whereDate('created_at', $hoy)->get();
 
         foreach ($reportePaginas as $reportePagina) {
             if ($reportePagina->valorPagina == null) {
-                $user = ReportePagina::where('user_id', $reportePagina->user_id)->where('verificado', 0)->first();
+                $user = ReportePagina::where('user_id', $reportePagina->user_id)
+                ->where('verificado', 0)->first();
                 $reportePagina->operacion = $user->operacion;
                 $reportePagina->porcentaje_add = $user->porcentaje_add;
                 $reportePagina->valorPagina = $reportePagina->pagina->valor;
@@ -149,6 +151,7 @@ class ReportePaginaController extends Controller
 
         $reporteUser = ReportePagina::where('user_id', $request->user_id)
             ->where('verificado', 0)
+            ->where('fecha', '=', $request->fecha) //ENUAR AGREGUE ESTE CONDICION
             ->whereNotNull('porcentaje_add')
             ->first();
 
@@ -222,11 +225,16 @@ class ReportePaginaController extends Controller
         ]);
         if ($request->porcentaje_add != $reportePagina->porcentaje_add || $request->operacion != $reportePagina->operacion) {
             $reporteUser = ReportePagina::where('user_id', $request->user_id)
+                ->where('fecha', '=', $request->fecha) //ENUAR AGREGUE ESTA LINEA
                 ->where('verificado', 0)->get();
+            // dd($reporteUser);
+
             foreach ($reporteUser as $item) {
                 $item->operacion = $request->operacion;
+
                 $item->porcentaje_add = $request->porcentaje_add;
                 $item->update();
+                echo ("entro");
             }
         }
 
@@ -343,7 +351,7 @@ class ReportePaginaController extends Controller
         return redirect()->route('admin.reportePaginas.index')->with('info', 'verificadoMasivo');
     }
 
-    
+
     public function pagos()
     {
         $pagos = ReportePagina::with('user', 'pagina')->select(

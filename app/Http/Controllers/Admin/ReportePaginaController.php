@@ -121,7 +121,7 @@ class ReportePaginaController extends Controller
         foreach ($reportePaginas as $reportePagina) {
             if ($reportePagina->valorPagina == null) {
                 $user = ReportePagina::where('user_id', $reportePagina->user_id)
-                ->where('verificado', 0)->first();
+                    ->where('verificado', 0)->first();
                 $reportePagina->operacion = $user->operacion;
                 $reportePagina->porcentaje_add = $user->porcentaje_add;
                 $reportePagina->valorPagina = $reportePagina->pagina->valor;
@@ -227,26 +227,24 @@ class ReportePaginaController extends Controller
             $reporteUser = ReportePagina::where('user_id', $request->user_id)
                 ->where('fecha', '=', $request->fecha) //ENUAR AGREGUE ESTA LINEA
                 ->where('verificado', 0)->get();
-            // dd($reporteUser);
 
             foreach ($reporteUser as $item) {
                 $item->operacion = $request->operacion;
-
                 $item->porcentaje_add = $request->porcentaje_add;
                 $item->update();
-                echo ("entro");
             }
         }
 
         //ASINACION MASIVA DE VARIABLES A LOS CAMPOS
         $reportePagina->update($request->all());
-
-        $reportePagina->valorPagina = $reportePagina->pagina->valor;
-        $reportePagina->dolares = ($reportePagina->Cantidad) * ($reportePagina->pagina->valor);
-        $reportePagina->pesos = ($reportePagina->TRM) * ($reportePagina->Cantidad) * ($reportePagina->pagina->valor);
-        $reportePagina->porcentaje = $reportePagina->user->tipoUsuario->porcentaje;
-        $reportePagina->netoPesos = (($reportePagina->TRM) * ($reportePagina->Cantidad) * ($reportePagina->pagina->valor)) * ($reportePagina->user->tipoUsuario->porcentaje) / 100;
-        $reportePagina->save();
+        if ($reportePagina->valorPagina == null) {
+            $reportePagina->valorPagina = $reportePagina->pagina->valor;
+            $reportePagina->dolares = ($reportePagina->Cantidad) * ($reportePagina->pagina->valor);
+            $reportePagina->pesos = ($reportePagina->TRM) * ($reportePagina->Cantidad) * ($reportePagina->pagina->valor);
+            $reportePagina->porcentaje = $reportePagina->user->tipoUsuario->porcentaje;
+            $reportePagina->netoPesos = (($reportePagina->TRM) * ($reportePagina->Cantidad) * ($reportePagina->pagina->valor)) * ($reportePagina->user->tipoUsuario->porcentaje) / 100;
+            $reportePagina->save();
+        }
 
         return redirect()->route('admin.reportePaginas.index', $reportePagina->id)->with('info', 'update'); //with mensaje de sesion
     }

@@ -235,7 +235,8 @@
             var options = {
                 style: 'currency',
                 currency: 'COP',
-                minimumFractionDigits: 2,
+                minimumFractionDigits: value % 1 === 0 ? 0 :
+                2, // 0 decimales si es un número entero, 2 decimales en caso contrario
             };
 
             return new Intl.NumberFormat('es-CO', options).format(value);

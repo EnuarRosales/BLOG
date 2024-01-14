@@ -259,13 +259,13 @@
             pageLength: 7, // Establece la cantidad de registros por página por defecto
         });
 
-        //
         function formatCurrency(value) {
             // Puedes personalizar esta función según tus necesidades
             var options = {
                 style: 'currency',
                 currency: 'COP',
-                minimumFractionDigits: 2,
+                minimumFractionDigits: value % 1 === 0 ? 0 :
+                2, // 0 decimales si es un número entero, 2 decimales en caso contrario
             };
 
             return new Intl.NumberFormat('es-CO', options).format(value);
@@ -329,6 +329,109 @@
             });
         });
     </script>
+
+    {{-- SWET ALERT --}}
+    @if (session('info') == 'delete')
+        <script>
+            Swal.fire(
+                '¡Eliminado!',
+                'El registro se elimino con exito',
+                'success'
+            )
+        </script>
+    @elseif(session('info') == 'store')
+        <script>
+            Swal.fire({
+                position: 'top-end',
+                type: 'success',
+                title: 'Descuento registrado correctamente',
+                showConfirmButton: false,
+                timer: 2000
+            })
+        </script>
+    @elseif(session('info') == 'storeExcel')
+        <script>
+            Swal.fire({
+                position: 'top-end',
+                type: 'success',
+                title: 'Datos cargados con exito',
+                showConfirmButton: false,
+                timer: 2000
+            })
+        </script>
+    @elseif(session('info') && strpos(session('info'), 'error,modelo') === 0)
+        @php
+            $parts = explode(',', session('info'));
+            $errorMessage = $parts[2];
+        @endphp
+        <script>
+            Swal.fire({
+                position: 'top-end',
+                type: 'error',
+                title: 'Errores en las filas: <br> {{ $errorMessage }} <br> Los modelos no existen en la base de datos.',
+                // html: true, // Habilita HTML en el mensaje
+                showConfirmButton: true, // Mostrar el botón "Aceptar"
+                allowOutsideClick: false, // Evitar que se cierre al hacer clic fuera
+                confirmButtonText: 'Aceptar', // Texto personalizado para el botón
+            })
+        </script>
+    @elseif(session('info') && strpos(session('info'), 'error,pagina') === 0)
+        @php
+            $parts = explode(',', session('info'));
+            $errorMessage = $parts[2];
+        @endphp
+        <script>
+            Swal.fire({
+                position: 'top-end',
+                type: 'error',
+                title: 'Errores en las filas: <br> {{ $errorMessage }} <br> Las paginas no existen en la base de datos.',
+                // html: true, // Habilita HTML en el mensaje
+                showConfirmButton: true, // Mostrar el botón "Aceptar"
+                allowOutsideClick: false, // Evitar que se cierre al hacer clic fuera
+                confirmButtonText: 'Aceptar', // Texto personalizado para el botón
+            })
+        </script>
+    @elseif(session('info') == 'verificadoMasivo')
+        <script>
+            Swal.fire({
+                position: 'top-end',
+                type: 'success',
+                title: 'Datos verificados con exito',
+                showConfirmButton: false,
+                timer: 2000
+            })
+        </script>
+    @elseif(session('info') == 'enviarPagos')
+        <script>
+            Swal.fire({
+                position: 'top-end',
+                type: 'success',
+                title: 'Pagos enviados exitosamente',
+                showConfirmButton: false,
+                timer: 2000
+            })
+        </script>
+    @elseif(session('info') == 'valorCero')
+        <script>
+            Swal.fire({
+                position: 'top-end',
+                type: 'warning',
+                title: 'No hay saldo que descontar',
+                showConfirmButton: false,
+                timer: 2000
+            })
+        </script>
+    @elseif(session('info') == 'update')
+        <script>
+            Swal.fire({
+                position: 'top-end',
+                type: 'success',
+                title: 'Descuento Actualizado correctamente',
+                showConfirmButton: false,
+                timer: 2000
+            })
+        </script>
+    @endif
 
 
 

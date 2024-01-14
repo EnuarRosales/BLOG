@@ -160,8 +160,8 @@
                             exportOptions: {
                                 columns: [0, 1, 2, 3, 4, 5, 7, 9, 11, {
                                     visible: false,
-                                    columns: [7, 9, 11, 16]
-                                }, 12, 13, 14, 16, 17]
+                                    columns: [7, 9, 11, 15]
+                                }, 12, 13, 14, 15, 17]
                             },
                             customize: function(xlsx) {
                                 var sheet = xlsx.xl.worksheets['sheet1.xml'];

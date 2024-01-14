@@ -15,6 +15,7 @@ use Illuminate\Support\Facades\DB;
 use Maatwebsite\Excel\Facades\Excel;
 use Spatie\Permission\Models\Permission;
 use Yajra\DataTables\Facades\DataTables;
+use Illuminate\Support\Carbon;
 
 use function PHPUnit\Framework\returnSelf;
 
@@ -112,10 +113,15 @@ class ReportePaginaController extends Controller
 
 
         $modelo = Excel::import(new ReportePaginasImport, $file);
-        $reportePaginas = ReportePagina::where('verificado', 0)->get();
+        $hoy = Carbon::today('America/Bogota');
+        $reportePaginas = ReportePagina::where('verificado', 0)
+            ->whereDate('created_at', $hoy)->get();
 
         foreach ($reportePaginas as $reportePagina) {
             if ($reportePagina->valorPagina == null) {
+                $user = ReportePagina::where('user_id', $reportePagina->user_id)->where('verificado', 0)->first();
+                $reportePagina->operacion = $user->operacion;
+                $reportePagina->porcentaje_add = $user->porcentaje_add;
                 $reportePagina->valorPagina = $reportePagina->pagina->valor;
                 $reportePagina->dolares = ($reportePagina->Cantidad) * ($reportePagina->pagina->valor);
                 $reportePagina->pesos = ($reportePagina->TRM) * ($reportePagina->Cantidad) * ($reportePagina->pagina->valor);
@@ -139,47 +145,40 @@ class ReportePaginaController extends Controller
             'pagina_id' => 'required',
             'Cantidad' => 'required',
             'TRM' => 'required',
-
         ]);
-        $reportePagina = ReportePagina::create($request->all());
+
+        $reporteUser = ReportePagina::where('user_id', $request->user_id)
+            ->where('verificado', 0)
+            ->whereNotNull('porcentaje_add')
+            ->first();
+
+        $reportePagina = ReportePagina::create([
+            'fecha' => $request->fecha,
+            'user_id' => $request->user_id,
+            "pagina_id" => $request->pagina_id,
+            "Cantidad" => $request->Cantidad,
+            "TRM" => $request->TRM,
+            "operacion" => $reporteUser->operacion ?? null,
+            "porcentaje_add" => $reporteUser->porcentaje_add ?? null,
+        ]);
+
         if ($reportePagina->valorPagina == null) {
             $reportePagina->valorPagina = $reportePagina->pagina->valor;
             $reportePagina->dolares = ($reportePagina->Cantidad) * ($reportePagina->pagina->valor);
             $reportePagina->pesos = ($reportePagina->TRM) * ($reportePagina->Cantidad) * ($reportePagina->pagina->valor);
             $reportePagina->porcentaje = $reportePagina->user->tipoUsuario->porcentaje;
             $reportePagina->netoPesos = (($reportePagina->TRM) * ($reportePagina->Cantidad) * ($reportePagina->pagina->valor)) * ($reportePagina->user->tipoUsuario->porcentaje) / 100;
-
             $reportePagina->save();
         }
-
-
-
         return redirect()->route('admin.reportePaginas.index', $reportePagina->id)->with('info', 'store');
     }
 
 
     public function reporteQuincena()
     {
-        // $reporteQuincenas = ReportePagina::with('user', 'pagina')->select(
-        //     DB::raw('sum(dolares) as suma'),
-        //     DB::raw('user_id'),
-        //     DB::raw('fecha'),
-        //     DB::raw('porcentaje'),
-        //     DB::raw('operacion'),
-        //     DB::raw('porcentaje_add'),
-        //     DB::raw('porcentajeTotal'),
-        // )
-        //     ->where('verificado', 0)
-        //     ->groupBy('fecha', 'user_id', 'porcentaje', 'porcentajeTotal', 'operacion', 'porcentaje_add')
-        //     ->get();
-        // $metaModeloss = DB::table('meta_modelos')
-        //     ->orderBy('mayorQue', 'desc')
-        //     ->get();
-        // $meta = 0;
-
-        // return view('admin.reportePaginas.nomina', compact('reporteQuincenas', 'metaModeloss', 'meta'));
         return view('admin.reportePaginas.nomina');
     }
+
     /**
      * Display the specified resource.
      *
@@ -256,7 +255,6 @@ class ReportePaginaController extends Controller
         return redirect()->route('admin.reportePaginas.index')->with('info', 'delete');
     }
 
-
     /*
      * function ponerMeta()
      * 1. ESTA FUNCION INICIALEMNTE REALIZA UNA CONSULTA A LA BASE DE DATOS EN DONDE AGRUPA LOS DOLARES Y LOS SUMA
@@ -281,7 +279,6 @@ class ReportePaginaController extends Controller
             ->get();
 
         $meta = 0;
-
 
         // $reportePaginas = ReportePagina::with('user', 'pagina')->get();
         $reportePaginas = ReportePagina::all();
@@ -347,7 +344,6 @@ class ReportePaginaController extends Controller
     }
     public function pagos()
     {
-
         $pagos = ReportePagina::with('user', 'pagina')->select(
             DB::raw('sum(netoPesos) as suma'),
             DB::raw('user_id'),
@@ -358,7 +354,6 @@ class ReportePaginaController extends Controller
             ->groupBy('fecha', 'user_id')
             ->get();
 
-
         $descuentos = DB::table('descuentos')
             ->join('descontados', 'descontados.descuento_id', '=', 'descuentos.id')
             ->select(
@@ -366,10 +361,8 @@ class ReportePaginaController extends Controller
                 DB::raw('user_id'),
             )
             ->where('descontado', 0)
-
             ->whereNull('descuentos.deleted_at')  // Condición para descuentos no eliminados
             ->whereNull('descontados.deleted_at') // Condición para descontados no eliminados
-
             ->groupBy('user_id')
             ->get();
 
@@ -383,7 +376,6 @@ class ReportePaginaController extends Controller
         $impuestos = Impuesto::where('estado', 1)->get();
         $multas = AsignacionMulta::where('descontado', 0)->get();
 
-
         $multas = DB::table('asignacion_multas')
             ->join('tipo_multas', 'tipo_multas.id', '=', 'asignacion_multas.tipoMulta_id')
             ->select(
@@ -391,21 +383,13 @@ class ReportePaginaController extends Controller
                 DB::raw('user_id'),
             )
             ->where('asignacion_multas.descontado', 0)
-
             ->whereNull('asignacion_multas.deleted_at')  // Condición para asignacion_multas no eliminadas
             ->whereNull('tipo_multas.deleted_at')        // Condición para tipo_multas no eliminadas
-
-
             ->groupBy('user_id')
             ->get();
 
-
-
-
         return view('admin.reportePaginas.pago', compact('pagos', 'descuentos', 'array', 'impuestos', 'variableImpuesto', 'multas'));
     }
-
-
 
     public function updateStatus(Request $request)
     {
@@ -548,9 +532,6 @@ class ReportePaginaController extends Controller
                 $porcentaje .= $row->porcentaje_add;
                 return $porcentaje;
             })
-
-
-
             ->rawColumns(['acciones', 'verificado'])
             ->make(true);
     }
@@ -571,7 +552,7 @@ class ReportePaginaController extends Controller
     {
         $userLogueado = auth()->user();
         $permissionIds = User::getPermissionIds($userLogueado);
-        $permission = Permission::select('id', 'name', 'description')->whereIn('id', $permissionIds)->get();
+        // $permission = Permission::select('id', 'name', 'description')->whereIn('id', $permissionIds)->get();
 
         // Obtén los reportes que necesitan actualización
         $reporteQuincenas = ReportePagina::with('user', 'pagina')->select(
@@ -585,12 +566,11 @@ class ReportePaginaController extends Controller
             DB::raw('metaModelo'),
         )
             ->where('verificado', 0)
-            ->groupBy('fecha', 'user_id', 'porcentaje', 'porcentajeTotal', 'operacion', 'porcentaje_add','metaModelo')
+            ->groupBy('fecha', 'user_id', 'porcentaje', 'porcentajeTotal', 'operacion', 'porcentaje_add', 'metaModelo')
             ->get();
 
-            // $reporteQuincenas= ReportePagina::all();
+        // $reporteQuincenas= ReportePagina::all();
         return DataTables::of($reporteQuincenas)
-
             ->addColumn('usuario_name', function ($row) {
                 $usuario = User::find($row->user_id);
                 return $usuario->name;
@@ -620,7 +600,7 @@ class ReportePaginaController extends Controller
                 $porcentajeTotal = ($row->porcentajeTotal);
                 return $porcentajeTotal;
             })
-            ->rawColumns(['suma','usuario_name'])
+            ->rawColumns(['suma', 'usuario_name'])
             ->make(true);
     }
 }

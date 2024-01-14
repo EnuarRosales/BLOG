@@ -562,7 +562,7 @@
                 Swal.fire({
                     position: 'top-end',
                     type: 'success',
-                    title: 'Descuento correctamente',
+                    title: 'Descuento Actualizado correctamente',
                     showConfirmButton: false,
                     timer: 2000
                 })

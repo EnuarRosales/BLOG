@@ -77,17 +77,20 @@
                         <br>
                     @enderror
 
-                    <div class="form-group col-12" id="porcentaje" style="display: none;">
-                        <label for="operacion">Operación</label>
-                        <select name="operacion" class="form-control">
-                            <option value="" {{ $reportePagina->operacion == '' ? 'selected' : '' }}>Selecciona una opción</option>
-                            <option value="-" {{ $reportePagina->operacion == '-' ? 'selected' : '' }}>-</option>
-                            <option value="+" {{ $reportePagina->operacion == '+' ? 'selected' : '' }}>+</option>
-                        </select>
+                    <div class="form-group row">
+                        <div class="form-group col-12" id="porcentaje" style="display: none;">
+                            <label for="operacion">Operación</label>
+                            <select name="operacion" class="form-control">
+                                <option value="" {{ $reportePagina->operacion == '' ? 'selected' : '' }}>Selecciona
+                                    una opción</option>
+                                <option value="-" {{ $reportePagina->operacion == '-' ? 'selected' : '' }}>-</option>
+                                <option value="+" {{ $reportePagina->operacion == '+' ? 'selected' : '' }}>+</option>
+                            </select>
 
-                        <label for="porcentaje_add">Procentaje a Modioficar</label>
-                        <input type="number" name="porcentaje_add" value="{{ $reportePagina->porcentaje_add }}"
-                            class="form-control">
+                            <label for="porcentaje_add">Procentaje a Modioficar</label>
+                            <input type="number" name="porcentaje_add" value="{{ $reportePagina->porcentaje_add }}"
+                                class="form-control">
+                        </div>
                     </div>
                 </div>
             </form>
@@ -95,7 +98,10 @@
             <div class="form-group row">
 
                 <div class="col-2">
-                    <button class="btn btn-secondary" id="togglePorcentaje">Modificar Porcentaje</button>
+                    <button class="btn btn-secondary" id="togglePorcentaje">
+                        Modificar Porcentaje
+                        <i class="fas fa-chevron-circle-down ml-2"></i>
+                    </button>
                 </div>
 
                 <div class="col-2">
@@ -108,6 +114,8 @@
 @stop
 
 @section('js')
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css" />
+
     <script>
         $(document).ready(function() {
             $("#togglePorcentaje").click(function() {

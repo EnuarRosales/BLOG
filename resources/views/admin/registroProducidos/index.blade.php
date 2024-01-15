@@ -344,7 +344,7 @@
             Swal.fire({
                 position: 'top-end',
                 type: 'success',
-                title: 'Descuento registrado correctamente',
+                title: 'Producido registrado correctamente',
                 showConfirmButton: false,
                 timer: 2000
             })
@@ -426,7 +426,7 @@
             Swal.fire({
                 position: 'top-end',
                 type: 'success',
-                title: 'Descuento Actualizado correctamente',
+                title: 'Producido Actualizado correctamente',
                 showConfirmButton: false,
                 timer: 2000
             })

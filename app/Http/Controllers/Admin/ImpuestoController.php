@@ -105,7 +105,7 @@ class ImpuestoController extends Controller
                 $item->update();
             }
             // volvemos activo el seleccionado en la pantalla
-            $impuesto->update($request->all());
+            $impuesto->update($request->except('radio'));
             return response()->json(['success' => true]);
         }
 
@@ -143,7 +143,7 @@ class ImpuestoController extends Controller
         foreach ($empresas as $empresa) {
             $nombreEmpresa = $empresa->name;
             $nitEmpresa = $empresa->nit;
-            $logoEmpresa =$empresa->logo;
+            $logoEmpresa = $empresa->logo;
         }
 
         $codigoQR = QrCode::size(80)->generate(
@@ -159,8 +159,8 @@ class ImpuestoController extends Controller
 
         // $pagos = Pago::where('user_id', $pago->id)->get();
         $date = Carbon::now()->locale('es');
-        try{
-        $pdf = Pdf::loadView('admin.impuestos.comprobanteImpuestoPDF', compact('pago', 'date', 'nombreEmpresa', 'nitEmpresa', 'codigoQR','logoEmpresa'));
+        try {
+            $pdf = Pdf::loadView('admin.impuestos.comprobanteImpuestoPDF', compact('pago', 'date', 'nombreEmpresa', 'nitEmpresa', 'codigoQR', 'logoEmpresa'));
         } catch (\Exception $e) {
             $errorMessage = $e->getMessage();
             $message = substr($errorMessage, strpos($errorMessage, '$') + 1);

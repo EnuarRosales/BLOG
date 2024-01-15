@@ -26,11 +26,7 @@
         <div class="widget-content widget-content-area br-6">
             <div class="row">
 
-                <div class="col">
-                    <a class="btn btn-dark float-right mr-4" href="{{ route('admin.reportePaginas.index') }}">Volver</a>
 
-
-                </div>
 
             </div> --}}
 
@@ -47,7 +43,14 @@
                             <option value="20">20</option>
                             <option value="50">50</option>
                         </select>
+
+                        <div class="col">
+                            <a class="btn btn-dark float-right mr-4" href="{{ route('admin.reportePaginas.index') }}">Volver</a>
+                        </div>
+                        
                     </div>
+
+
 
                     <div class="table-responsive mb-4 mt-4">
 

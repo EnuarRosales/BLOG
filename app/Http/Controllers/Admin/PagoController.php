@@ -187,17 +187,13 @@ class PagoController extends Controller
                 DB::raw('user_id'),
             )
             ->where('asignacion_multas.descontado', 0)
-
+            ->where('generar_descuento', 1)
             ->whereNull('asignacion_multas.deleted_at')  // Condición para asignacion_multas no eliminadas
             ->whereNull('tipo_multas.deleted_at')        // Condición para tipo_multas no eliminadas
-
             ->groupBy('user_id')
             ->get();
 
-
-
         foreach ($pagos as $pago) {
-
             DB::table('pagos')->insert([
                 'fecha' => $pago->fecha,
                 'devengado' => $pago->suma,
@@ -208,7 +204,6 @@ class PagoController extends Controller
                 'created_at' => now(),
                 'updated_at' => now()
             ]);
-
 
             $iten = 0;
 
@@ -223,14 +218,6 @@ class PagoController extends Controller
                             'neto' => $pago->suma - $descuento->suma - $pago->impuestoDescuento,
                         ]);
                     $iten = $descuento->suma;
-
-
-                    // DB::table('descontados')
-                    //     ->where('descuento_id', $descuento->descuento_id)
-                    //     ->update([
-                    //         'descontado' => 1,
-                    //         'fechaDescontado' => $pago->fecha,
-                    //     ]);
                 }
             }
 
@@ -247,6 +234,7 @@ class PagoController extends Controller
 
                     DB::table('asignacion_multas')
                         ->where('user_id', $descuentoMulta->user_id)
+                        ->where('generar_descuento', 1)
                         ->update([
                             'descontado' => true,
                             'fechaDescontado' => $pago->fecha,

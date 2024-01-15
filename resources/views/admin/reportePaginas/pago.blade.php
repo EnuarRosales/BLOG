@@ -56,6 +56,7 @@
                     <tbody>
 
                         @foreach ($pagos as $pago)
+                        
                             @foreach ($impuestos as $impuesto)
                                 <tr>
                                     <td>{{ $pago->fecha }}</td>

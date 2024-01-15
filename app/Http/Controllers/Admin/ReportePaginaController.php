@@ -78,7 +78,7 @@ class ReportePaginaController extends Controller
         $data = Excel::toArray(new ReportePaginasImport, $file);
         $errorRowsModel = []; // Inicializamos un arreglo para rastrear las filas con errores
         $errorRowsPage = []; // Inicializamos un arreglo para rastrear las filas con errores
-        // dd($data);
+        $fechas = [];
 
         foreach ($data as  $rows) {
             foreach ($rows as $index => $row) {
@@ -90,6 +90,12 @@ class ReportePaginaController extends Controller
                 if (empty($pagina)) {
                     $errorRowsPage[] = ($index + 2); // Registramos el índice de fila del error
                     // $errorRowsModel[] = 'Error en la fila ' . ($index + 2) . ': el modelo con cédula ' . $row['modelo'] . ' no existe en la base de datos.';
+                }
+
+                $fecha = $row['fecha'];
+                // Agregar la fecha al arreglo solo si no existe aún
+                if (!in_array($fecha, $fechas)) {
+                    $fechas[] = $fecha;
                 }
             }
         }
@@ -110,20 +116,22 @@ class ReportePaginaController extends Controller
             return redirect()->route('admin.reportePaginas.index')->with('info', $mensaje);
         }
 
-
-
         $modelo = Excel::import(new ReportePaginasImport, $file);
         $hoy = Carbon::today('America/Bogota');
         $reportePaginas = ReportePagina::where('verificado', 0)
-            ->where('fecha', '=', $request->fecha) //ENUAR AGREGUE ESTA LINEA
-            ->whereDate('created_at', $hoy)->get();
+            ->whereIn('fecha', $fechas) //ENUAR AGREGUE ESTA LINEA
+            ->whereDate('created_at', $hoy)
+            ->get();
 
         foreach ($reportePaginas as $reportePagina) {
+            $user = ReportePagina::where('user_id', $reportePagina->user_id)
+                ->where('verificado', 0)
+                ->first();
+
+            $reportePagina->operacion = $user->operacion;
+            $reportePagina->porcentaje_add = $user->porcentaje_add;
+
             if ($reportePagina->valorPagina == null) {
-                $user = ReportePagina::where('user_id', $reportePagina->user_id)
-                    ->where('verificado', 0)->first();
-                $reportePagina->operacion = $user->operacion;
-                $reportePagina->porcentaje_add = $user->porcentaje_add;
                 $reportePagina->valorPagina = $reportePagina->pagina->valor;
                 $reportePagina->dolares = ($reportePagina->Cantidad) * ($reportePagina->pagina->valor);
                 $reportePagina->pesos = ($reportePagina->TRM) * ($reportePagina->Cantidad) * ($reportePagina->pagina->valor);
@@ -131,6 +139,7 @@ class ReportePaginaController extends Controller
                 $reportePagina->save();
             }
         }
+
         // OJO DE ACA INICIA EL PROECSOOOOOOOOOOOOOOOOOOOOOOOOOOOO
         $asignarMeta = new ReportePaginaController;
         $asignarMeta->ponerMeta();
@@ -237,14 +246,14 @@ class ReportePaginaController extends Controller
 
         //ASINACION MASIVA DE VARIABLES A LOS CAMPOS
         $reportePagina->update($request->all());
-        if ($reportePagina->valorPagina == null) {
-            $reportePagina->valorPagina = $reportePagina->pagina->valor;
-            $reportePagina->dolares = ($reportePagina->Cantidad) * ($reportePagina->pagina->valor);
-            $reportePagina->pesos = ($reportePagina->TRM) * ($reportePagina->Cantidad) * ($reportePagina->pagina->valor);
-            $reportePagina->porcentaje = $reportePagina->user->tipoUsuario->porcentaje;
-            $reportePagina->netoPesos = (($reportePagina->TRM) * ($reportePagina->Cantidad) * ($reportePagina->pagina->valor)) * ($reportePagina->user->tipoUsuario->porcentaje) / 100;
-            $reportePagina->save();
-        }
+        // if ($reportePagina->valorPagina == null) {
+        $reportePagina->valorPagina = $reportePagina->pagina->valor;
+        $reportePagina->dolares = ($reportePagina->Cantidad) * ($reportePagina->pagina->valor);
+        $reportePagina->pesos = ($reportePagina->TRM) * ($reportePagina->Cantidad) * ($reportePagina->pagina->valor);
+        $reportePagina->porcentaje = $reportePagina->user->tipoUsuario->porcentaje;
+        $reportePagina->netoPesos = (($reportePagina->TRM) * ($reportePagina->Cantidad) * ($reportePagina->pagina->valor)) * ($reportePagina->user->tipoUsuario->porcentaje) / 100;
+        $reportePagina->save();
+        // }
 
         return redirect()->route('admin.reportePaginas.index', $reportePagina->id)->with('info', 'update'); //with mensaje de sesion
     }
@@ -382,7 +391,7 @@ class ReportePaginaController extends Controller
 
         $variableImpuesto = 0;
         $impuestos = Impuesto::where('estado', 1)->get();
-        $multas = AsignacionMulta::where('descontado', 0)->get();
+        $multas = AsignacionMulta::where('descontado', 0)->where('generar_descuento', 1)->get();
 
         $multas = DB::table('asignacion_multas')
             ->join('tipo_multas', 'tipo_multas.id', '=', 'asignacion_multas.tipoMulta_id')
@@ -391,6 +400,7 @@ class ReportePaginaController extends Controller
                 DB::raw('user_id'),
             )
             ->where('asignacion_multas.descontado', 0)
+            ->where('generar_descuento', 1)
             ->whereNull('asignacion_multas.deleted_at')  // Condición para asignacion_multas no eliminadas
             ->whereNull('tipo_multas.deleted_at')        // Condición para tipo_multas no eliminadas
             ->groupBy('user_id')

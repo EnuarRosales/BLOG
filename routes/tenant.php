@@ -132,6 +132,7 @@ Route::middleware([
     Route::get('reportePaginass', [ReportePaginaController::class, 'nomina'])->middleware(['auth', 'verified'])->name('admin.reportePaginas.nomina');
     Route::get('reportePaginasss', [ReportePaginaController::class, 'reporteQuincena'])->middleware(['auth', 'verified'])->name('admin.reportePaginas.reporteQuincena');
     Route::get('pagos', [ReportePaginaController::class, 'pagos'])->middleware(['auth', 'verified'])->name('admin.reportePaginas.pagos');
+    Route::get('pagos/pagosDatatable', [ReportePaginaController::class, 'pagosDatatable'])->middleware(['auth', 'verified'])->name('admin.pagos.pagosDatatable');
     Route::get('verificadoMasivo', [ReportePaginaController::class, 'verificadoMasivo'])->middleware(['auth', 'verified'])->name('admin.reportePaginas.verificadoMasivo');
     Route::post('reportePaginas/updateStatus', [ReportePaginaController::class, 'updateStatus'])->middleware(['auth', 'verified'])->name('admin.reportePaginas.updateStatus');
     Route::get('reportePagina/datatable', [reportePaginaController::class, 'datatable'])->middleware(['auth', 'verified'])->name('admin.reportePagina.datatable');

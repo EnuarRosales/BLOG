@@ -37,7 +37,8 @@ class DescontadoController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)    {
+    public function store(Request $request)
+    {
 
         // parametro para tomar texto de error
         $error = 0;
@@ -130,68 +131,6 @@ class DescontadoController extends Controller
        donde se toma informacion valiosa que nos envia la vista como lo es el saldo y el id del credito
 
        */
-    //     public function abono(Request $request, Descuento $abonado)
-    //     {
-    // dd('H');
-    //         if ($abonado->saldo > 0) {
-
-    //             $abono = Descontado::create([
-    //                 'valor' => $abonado->saldo,
-    //                 'descripcion' => 'pago total',
-    //                 'descuento_id' => $abonado->id,
-    //             ]);
-    //             $abono->save();
-    //         } else {
-
-    //             echo "No hay que descontar";
-    //             return redirect()->route('admin.registroDescuentos.index', $abonado->id)->with('info', 'valorCero');
-    //         }
-    //         /*EN ESTA SEGUNDA PARTE DEL METODO, APROVECHANDO LA INFORMACION ENVIADA POR LA VISTA
-    //         LO QUE SE REALIZA ES UN LLAMADO A LA TABLA descontados y se filtra descuento_id que tiene que ser igual $abonado->id
-    //         que es id del credito ojo que aca nos suma todos los abonos que se le haya realizado a ese credito y se lo asignamos
-    //         al atributo montoDescontado  DE LA TABLA Descuentos  */
-    //         $abonos = DB::table('descontados')
-    //             ->where('descuento_id', '=', $abonado->id)
-    //             ->select('valor')
-    //             ->get()
-    //             ->sum('valor');
-    //         $abonado->montoDescontado = $abonos;
-    //         $abonado->save();
-    //         echo $abonado->saldo;
-
-    //         return redirect()->route('admin.registroDescuentos.index', $abonado->id)->with('info', 'store');
-    //     }
-    // !!
-    // public function abono(Request $request, Descuento $abonado)
-    // {
-    //     if ($abonado->saldo > 0) {
-
-    //         $abono = Descontado::create([
-    //             'valor' => $abonado->saldo,
-    //             'descripcion' => 'pago total',
-    //             'descuento_id' => $abonado->id,
-    //         ]);
-    //         $abono->save();
-    //     } else {
-
-    //         echo "No hay que descontar";
-    //         return redirect()->route('admin.registroDescuentos.index', $abonado->id)->with('info', 'valorCero');
-    //     }
-    //     /*EN ESTA SEGUNDA PARTE DEL METODO, APROVECHANDO LA INFORMACION ENVIADA POR LA VISTA
-    //     LO QUE SE REALIZA ES UN LLAMADO A LA TABLA descontados y se filtra descuento_id que tiene que ser igual $abonado->id
-    //     que es id del credito ojo que aca nos suma todos los abonos que se le haya realizado a ese credito y se lo asignamos
-    //     al atributo montoDescontado  DE LA TABLA Descuentos  */
-    //     $abonos = DB::table('descontados')
-    //         ->where('descuento_id', '=', $abonado->id)
-    //         ->select('valor')
-    //         ->get()
-    //         ->sum('valor');
-    //     $abonado->montoDescontado = $abonos;
-    //     $abonado->save();
-    //     echo $abonado->saldo;
-
-    //     return redirect()->route('admin.registroDescuentos.index', $abonado->id)->with('info', 'store');
-    // }
 
     //funcion para registrar abonos
     public function abono(Request $request, Descuento $abonado)
@@ -223,7 +162,6 @@ class DescontadoController extends Controller
 
     public function datatable(Request $request)
     {
-        // dd($request->all());
         $descuento_id = $request->rowId;
         $descontado = Descontado::where('descuento_id', $descuento_id)
             ->orderBy('created_at', 'desc')
@@ -250,15 +188,5 @@ class DescontadoController extends Controller
     Y FILTRA EL descuento_id DONDE SEA IGUAL AL $abonoParcial->id ESTA ULTIMA VARIBLE ES EL REGISTRO QUE TRAEMOS EN
     REQUEST */
     //3. RETORNA UNA VISTA Y ENVIA LA VARIABLE ANTES CONSUTADA CON EL FIN QUE TRAIGA SOLO LOS ABONOS QUE SE LE HA REALZADO A MENCIOANADO CREDITO
-    // public function abonoParcial(Request $request, Descuento $abonoParcial)
-    // {
-    //     // dd($abonoParcial);
-    //     // $abonos = DB::table('descontados')
-    //     $abonos = Descontado::where('descuento_id', '=', $abonoParcial->id)
-    //         ->get();
 
-    //     // echo $abonoParcial->id;
-    //     return view('admin.abonos.index', compact('abonos', 'abonoParcial'));
-    // return response()->json(['success' => true,'abonos' => $abonos,]);
-    // }
 }

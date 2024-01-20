@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Imports\ReportePaginasImport;
 use App\Models\AsignacionMulta;
+use App\Models\Descontado;
 use App\Models\Impuesto;
 use App\Models\MetaModelo;
 use App\Models\Pagina;
@@ -89,7 +90,6 @@ class ReportePaginaController extends Controller
                 $pagina = Pagina::where('nombre', $row['pagina'])->first();
                 if (empty($pagina)) {
                     $errorRowsPage[] = ($index + 2); // Registramos el índice de fila del error
-                    // $errorRowsModel[] = 'Error en la fila ' . ($index + 2) . ': el modelo con cédula ' . $row['modelo'] . ' no existe en la base de datos.';
                 }
 
                 $fecha = $row['fecha'];
@@ -246,14 +246,12 @@ class ReportePaginaController extends Controller
 
         //ASINACION MASIVA DE VARIABLES A LOS CAMPOS
         $reportePagina->update($request->all());
-        // if ($reportePagina->valorPagina == null) {
         $reportePagina->valorPagina = $reportePagina->pagina->valor;
         $reportePagina->dolares = ($reportePagina->Cantidad) * ($reportePagina->pagina->valor);
         $reportePagina->pesos = ($reportePagina->TRM) * ($reportePagina->Cantidad) * ($reportePagina->pagina->valor);
         $reportePagina->porcentaje = $reportePagina->user->tipoUsuario->porcentaje;
         $reportePagina->netoPesos = (($reportePagina->TRM) * ($reportePagina->Cantidad) * ($reportePagina->pagina->valor)) * ($reportePagina->user->tipoUsuario->porcentaje) / 100;
         $reportePagina->save();
-        // }
 
         return redirect()->route('admin.reportePaginas.index', $reportePagina->id)->with('info', 'update'); //with mensaje de sesion
     }
@@ -295,7 +293,6 @@ class ReportePaginaController extends Controller
 
         $meta = 0;
 
-        // $reportePaginas = ReportePagina::with('user', 'pagina')->get();
         $reportePaginas = ReportePagina::all();
 
         foreach ($reportePaginas as $reportePagina) {
@@ -303,7 +300,6 @@ class ReportePaginaController extends Controller
                 foreach ($metaModeloss as $metaModelo) {
                     if ($reporteQuincena->suma >= $metaModelo->mayorQue) {
                         $meta = $metaModelo->porcentaje;
-                        // $meta = $metaModelo->porcentaje;
                         if ($reporteQuincena->user_id == $reportePagina->user_id && $reporteQuincena->fecha == $reportePagina->fecha && $reportePagina->enviarPago == 0) {
 
                             $reportePagina->metaModelo = $meta;
@@ -318,7 +314,6 @@ class ReportePaginaController extends Controller
 
     public function poblarPorcentajeTotal()
     {
-        // $reportePaginas = ReportePagina::with('user', 'reportePaginas')->get();
         $reportePaginas = ReportePagina::all();
         foreach ($reportePaginas as $reportePagina) {
             if ($reportePagina->user->tipoUsuario->nombre == "Modelo") {
@@ -336,7 +331,6 @@ class ReportePaginaController extends Controller
 
     public function actualizarPorcentaje()
     {
-        // $reportePaginas = ReportePagina::with('user', 'reportePagina')->where('verificado', 0)->get();
         $reportePaginas = ReportePagina::where('verificado', 0)->get();
         foreach ($reportePaginas as $reportePagina) {
             if ($reportePagina->verificado == 0) {
@@ -361,52 +355,87 @@ class ReportePaginaController extends Controller
 
     public function pagos()
     {
-        $pagos = ReportePagina::with('user', 'pagina')->select(
-            DB::raw('sum(netoPesos) as suma'),
-            DB::raw('user_id'),
-            DB::raw('fecha'),
-        )
+        return view('admin.reportePaginas.pago');
+    }
+
+    public function pagosDatatable()
+    {
+        $impuestos = Impuesto::where('estado', 1)->first();
+
+        $pagos = ReportePagina::with('user', 'pagina')
+            ->selectRaw('SUM(netoPesos) as suma, user_id, fecha')
             ->where('verificado', 1)
             ->where('enviarPago', 0)
             ->groupBy('fecha', 'user_id')
             ->get();
 
-        $descuentos = DB::table('descuentos')
-            ->join('descontados', 'descontados.descuento_id', '=', 'descuentos.id')
-            ->select(
-                DB::raw('sum(valor) as suma'),
-                DB::raw('user_id'),
-            )
-            ->where('descontado', 0)
-            ->whereNull('descuentos.deleted_at')  // Condición para descuentos no eliminados
-            ->whereNull('descontados.deleted_at') // Condición para descontados no eliminados
-            ->groupBy('user_id')
-            ->get();
+        $fechas = $pagos->pluck('fecha')->unique();
+        $dias = [];
 
-        if (count($descuentos) == "0") {
-            $array = "vacio";
-        } else {
-            $array = "lleno";
+        foreach ($fechas as $key => $value) {
+            $diferencia = $key > 0 ? strtotime($value) - strtotime($fechas[$key - 1]) : 15 * 24 * 60 * 60;
+            $dias[] = ['dias' => $diferencia / (60 * 60 * 24), 'fecha' => $value];
         }
 
-        $variableImpuesto = 0;
-        $impuestos = Impuesto::where('estado', 1)->get();
-        $multas = AsignacionMulta::where('descontado', 0)->where('generar_descuento', 1)->get();
+        $colecciónDias = collect($dias);
 
-        $multas = DB::table('asignacion_multas')
-            ->join('tipo_multas', 'tipo_multas.id', '=', 'asignacion_multas.tipoMulta_id')
-            ->select(
-                DB::raw('sum(tipo_multas.costo) as suma'),
-                DB::raw('user_id'),
-            )
-            ->where('asignacion_multas.descontado', 0)
-            ->where('generar_descuento', 1)
-            ->whereNull('asignacion_multas.deleted_at')  // Condición para asignacion_multas no eliminadas
-            ->whereNull('tipo_multas.deleted_at')        // Condición para tipo_multas no eliminadas
-            ->groupBy('user_id')
-            ->get();
+        foreach ($pagos as $item) {
+            $dias = $colecciónDias->where('fecha', $item->fecha)->values();
 
-        return view('admin.reportePaginas.pago', compact('pagos', 'descuentos', 'array', 'impuestos', 'variableImpuesto', 'multas'));
+            $descontado = Descontado::with('descuento')
+                ->where('descontado', 0)
+                ->whereHas('descuento', function ($query) use ($item) {
+                    $query->where('user_id', $item->user_id);
+                })
+                ->whereDate('created_at', '>', date('Y-m-d', strtotime("-{$dias->first()['dias']} days", strtotime($item->fecha))))
+                ->whereDate('created_at', '<=', $item->fecha)
+                ->get();
+
+            $item->sumaDescuentos = $descontado->sum('valor');
+
+            $multas = AsignacionMulta::with('tipoMulta')
+                ->where('descontado', 0)
+                ->where('generar_descuento', 1)
+                ->where('user_id', $item->user_id)
+                ->whereDate('updated_at', '>', date('Y-m-d', strtotime("-{$dias->first()['dias']} days", strtotime($item->fecha))))
+                ->whereDate('updated_at', '<=', $item->fecha)
+                ->get();
+
+            if ($item->suma > $impuestos->mayorQue) {
+                $item->impuesto = ($impuestos->porcentaje / 100) * $item->suma;
+            } else {
+                $item->impuesto = 0;
+            }
+
+            $item->multas = $multas->sum('tipoMulta.costo');
+            $item->pagoNeto = $item->suma - $item->sumaDescuentos - $item->multas - $item->impuesto;
+        }
+
+        return DataTables::of($pagos)
+            ->addColumn('acciones', function ($row) {
+                $acciones = '';
+                return $acciones;
+            })
+            ->addColumn('user_nombre', function ($row) {
+                return $row->user->name;
+            })
+            ->addColumn('sum_format', function ($row) {
+                return $row->suma;
+            })
+            ->addColumn('sumaDescuentos_format', function ($row) {
+                return $row->sumaDescuentos;
+            })
+            ->addColumn('impuesto_format', function ($row) {
+                return $row->impuesto;
+            })
+            ->addColumn('multas_format', function ($row) {
+                return $row->multas;
+            })
+            ->addColumn('pagoNeto_format', function ($row) {
+                return $row->pagoNeto;
+            })
+            ->rawColumns(['acciones'])
+            ->make(true);
     }
 
     public function updateStatus(Request $request)

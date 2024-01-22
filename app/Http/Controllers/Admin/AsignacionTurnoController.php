@@ -99,6 +99,7 @@ class AsignacionTurnoController extends Controller
         ]);
         //ASINACION MASIVA DE VARIABLES A LOS CAMPOS
         $asignacionTurno->update($request->all());
+        event(new control_turnos());
         return redirect()->route('admin.asignacionTurnos.index', $asignacionTurno->id)->with('info', 'update'); //with mensaje de sesion
 
     }
@@ -113,6 +114,7 @@ class AsignacionTurnoController extends Controller
 
     {
         $asignacionTurno->delete();
+        event(new control_turnos());
         return redirect()->route('admin.asignacionTurnos.index')->with('info','delete');
     }
 }

@@ -126,7 +126,7 @@
                     </div>
                     <div class="widget-content">
                         <div class="table-responsive">
-                            <table class="table" id="table_controlasistencia">
+                            <table class="table" id="table_controlasistencia1">
                                 <thead>
                                     <tr>
                                         <th>Modelo</th>

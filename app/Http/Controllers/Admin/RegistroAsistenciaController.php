@@ -163,7 +163,7 @@ class RegistroAsistenciaController extends Controller
             $registroAsistencia->update($request->except('multa'));
         }
 
-
+        event(new control_asistencia);
         return redirect()->route('admin.registroAsistencias.index', $registroAsistencia->id)->with('info', 'update'); //with mensaje de sesion
     }
 
@@ -191,6 +191,7 @@ class RegistroAsistenciaController extends Controller
             $multa->delete();
         }
         $registroAsistencia->delete();
+        event(new control_asistencia);
         return redirect()->route('admin.registroAsistencias.index')->with('info', 'delete');
     }
 }

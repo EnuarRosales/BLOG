@@ -113,6 +113,7 @@ class RegistroProducidoController extends Controller
 
         //ASINACION MASIVA DE VARIABLES A LOS CAMPOS
         $registroProducido->update($request->all());
+        event(new metas_widget);
         return redirect()->route('admin.registroProducidos.index', $registroProducido->id)->with('info', 'update'); //with mensaje de sesion
     }
 
@@ -125,6 +126,7 @@ class RegistroProducidoController extends Controller
     public function destroy(ResgistroProducido $registroProducido)
     {
         $registroProducido->delete();
+        event(new metas_widget);
         return redirect()->route('admin.registroProducidos.index')->with('info', 'delete');
     }
 

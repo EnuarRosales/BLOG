@@ -371,6 +371,7 @@ class UserController extends Controller
 
 
         $user->update($request->all());
+        event(new usuarios_widget);
         return redirect()->route('admin.users.index', $user->id)->with('info', 'update'); //with mensaje de sesion
     }
 
@@ -410,6 +411,7 @@ class UserController extends Controller
             DB::beginTransaction();
             $user->delete();
             DB::commit();
+            event(new usuarios_widget);
             return redirect()->route('admin.users.index')->with('info', 'delete');
         } catch (\Exception $exception) {
             DB::rollBack();

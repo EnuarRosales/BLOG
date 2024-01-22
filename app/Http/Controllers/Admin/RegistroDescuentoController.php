@@ -201,6 +201,7 @@ class RegistroDescuentoController extends Controller
         ]);
         //ASINACION MASIVA DE VARIABLES A LOS CAMPOS
         $registroDescuento->update($request->all());
+        event(new descuentos_widget);
         return redirect()->route('admin.registroDescuentos.index', $registroDescuento->id)->with('info', 'update'); //with mensaje de sesion
 
     }
@@ -224,6 +225,8 @@ class RegistroDescuentoController extends Controller
 
         if ($Descuento) {
             $Descuento->delete();
+            event(new descuentos_widget);
+
             return response()->json(['success' => true]);
         }
         return response()->json(['success' => false, 'message' => 'No se encontró el registro.']);

@@ -99,6 +99,7 @@ class AsignacionMultaController extends Controller
         ]);
         //ASINACION MASIVA DE VARIABLES A LOS CAMPOS
         $asignacionMulta->update($request->all());
+        event(new multas_widget());
         return redirect()->route('admin.asignacionMultas.index', $asignacionMulta->id)->with('info', 'update'); //with mensaje de sesion
 
     }
@@ -117,6 +118,7 @@ class AsignacionMultaController extends Controller
         }
 
         $asignacionMulta->delete();
+        event(new multas_widget());
         return redirect()->route('admin.asignacionMultas.index')->with('info', 'delete');
     }
 }

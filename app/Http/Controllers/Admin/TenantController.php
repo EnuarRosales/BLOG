@@ -55,7 +55,7 @@ class TenantController extends Controller
         $tenant = Tenant::create($request->all());
 
         $tenant->domains()->create([
-            'domain' => $request->get('id') . '.' . 'blog-studio.test',
+            'domain' => $request->get('id') . '.' . 'siaewc.com',
             // 'domain' => $request->get('id') . '.' . 'blog-studio.test',
         ]);
 
@@ -96,7 +96,7 @@ class TenantController extends Controller
         //VALLIDACION DE FORMULARIOS
         $request->validate([
             // 'id' => 'required|unique:tenants,id,', $tenant->id,
-            'domain' => $request->get('id') . '.' . 'blog-studio.test',
+            'domain' => $request->get('id') . '.' . 'siaewc.com',
         ]);
 
 

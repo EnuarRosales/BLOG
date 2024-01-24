@@ -17,6 +17,7 @@ use App\Http\Controllers\Admin\ImpuestoController;
 use App\Http\Controllers\Admin\MetaModeloController;
 use App\Http\Controllers\Admin\PaginaController;
 use App\Http\Controllers\Admin\PagoController;
+use App\Http\Controllers\Admin\PasarellaPagoController;
 use App\Http\Controllers\Admin\RegistroAsistenciaController;
 use App\Http\Controllers\Admin\RegistroDescuentoController;
 use App\Http\Controllers\Admin\RegistroProducidoController;
@@ -30,6 +31,7 @@ use App\Http\Controllers\Admin\TipoRoomController;
 use App\Http\Controllers\Admin\TipoTurnoController;
 use App\Http\Controllers\Admin\TipoUsuarioController;
 use App\Http\Controllers\Admin\UserController;
+
 use App\Http\Controllers\PostController;
 use App\Http\Livewire\Admin\Posts\Index;
 use App\Http\Livewire\Admin\Posts\Create;
@@ -54,6 +56,8 @@ Route::middleware([
     PreventAccessFromCentralDomains::class, // ESTE AYUDA QUE SI ESTAMOS DESDE UN SUBDOMINIO NO NOS CONECTEMOS A LA BASE DE DATOS PRINCIPAL
 
 ])->group(function () {
+
+    Route::get('pasarelaPago', [PasarellaPagoController::class, 'index'])->middleware(['auth', 'verified'])->name('admin.pasarelaPago');
 
     Route::get('/', [HomeController::class, 'index'])->middleware(['auth', 'verified'])->name('home');
     Route::get('/getdatamultas', [HomeController::class, 'dataMultas'])->middleware(['auth', 'verified'])->name('getdatamultas');

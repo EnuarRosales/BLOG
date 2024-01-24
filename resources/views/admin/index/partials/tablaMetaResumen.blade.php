@@ -3,7 +3,9 @@
         <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 layout-spacing">
             <div class="widget widget-table-three">
                 <div class="widget-heading">
-                    <h5 class="">Control de meta</h5>
+                    <a class="w-icon" href="{{ route('admin.registroProducidos.index') }}">
+                        <h5 class="">Control de meta</h5>
+                    </a>
                 </div>
                 <div class="widget-content">
                     <div class="table-responsive">
@@ -78,7 +80,7 @@
                                         </td>
                                         <td
                                             @if ($saldo > 0) class="badge badge-success mt-2"
-                    
+
                                     @else
                                     class="badge badge-danger mt-3" @endif>
                                             {{ "$ " }}{{ $saldo == intval($saldo) ? number_format($saldo, 0, ',', '.') : number_format($saldo, 2, ',', '.') }}

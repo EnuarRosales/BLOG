@@ -2,7 +2,9 @@
     <div class="col-xl-8 col-lg-6 col-md-6 col-sm-12 col-12 layout-spacing">
         <div class="widget-four">
             <div class="widget-heading">
-                <h5 class="">Control historial metas del estudio</h5>
+                <a class="w-icon" href="{{ route('admin.registroProducidoss.reporte_dia') }}">
+                    <h5 class="">Control historial metas del estudio</h5>
+                </a>
             </div>
             <div class="widget-content">
                 <div class="vistorsBrowser">
@@ -10,12 +12,9 @@
                         <div class="w-icon">
                             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
                                 fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                                stroke-linejoin="round" class="feather feather-chrome">
-                                <circle cx="12" cy="12" r="10"></circle>
-                                <circle cx="12" cy="12" r="4"></circle>
-                                <line x1="21.17" y1="8" x2="12" y2="8"></line>
-                                <line x1="3.95" y1="6.06" x2="8.54" y2="14"></line>
-                                <line x1="10.88" y1="21.94" x2="15.46" y2="14"></line>
+                                stroke-linejoin="round" class="feather feather-trending-up">
+                                <polyline points="23 6 13.5 15.5 8.5 10.5 1 18"></polyline>
+                                <polyline points="17 6 23 6 23 12"></polyline>
                             </svg>
                         </div>
 
@@ -40,9 +39,9 @@
                         <div class="w-icon">
                             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
                                 fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                                stroke-linejoin="round" class="feather feather-compass">
-                                <circle cx="12" cy="12" r="10"></circle>
-                                <polygon points="16.24 7.76 14.12 14.12 7.76 16.24 9.88 9.88 16.24 7.76"></polygon>
+                                stroke-linejoin="round" class="feather feather-trending-up">
+                                <polyline points="23 6 13.5 15.5 8.5 10.5 1 18"></polyline>
+                                <polyline points="17 6 23 6 23 12"></polyline>
                             </svg>
                         </div>
                         <div class="w-browser-details">
@@ -68,11 +67,9 @@
                         <div class="w-icon">
                             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
                                 fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                                stroke-linejoin="round" class="feather feather-globe">
-                                <circle cx="12" cy="12" r="10"></circle>
-                                <line x1="2" y1="12" x2="22" y2="12"></line>
-                                <path d="M82.949,1559c3.826,30.183,27.577,54.084,57.577,57.91v-57.91H82">
-                                </path>
+                                stroke-linejoin="round" class="feather feather-trending-up">
+                                <polyline points="23 6 13.5 15.5 8.5 10.5 1 18"></polyline>
+                                <polyline points="17 6 23 6 23 12"></polyline>
                             </svg>
                         </div>
                         <div class="w-browser-details">
@@ -101,8 +98,11 @@
     <div class="col-xl-4 col-lg-6 col-md-6 col-sm-6 col-12 layout-spacing">
         <div class="widget-three">
             <div class="widget-heading">
-                <h5 class=""> Control turnos <span
-                        style="color: red; font-weight: bold;">{{ $dataTurnos[6] }}</span> </h5>
+                <a class="w-icon" href="{{ route('admin.asignacionTurnos.index') }}">
+                    <h5 class=""> Control turnos <span
+                            style="color: red; font-weight: bold;">{{ $dataTurnos[6] }}</span> </h5>
+                </a>
+
             </div>
             <div class="widget-content">
                 <div class="order-summary">
@@ -110,10 +110,9 @@
                         <div class="w-icon">
                             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
                                 viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-                                stroke-linecap="round" stroke-linejoin="round" class="feather feather-shopping-bag">
-                                <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path>
-                                <line x1="3" y1="6" x2="21" y2="6"></line>
-                                <path d="M16 10a4 4 0 0 1-8 0"></path>
+                                stroke-linecap="round" stroke-linejoin="round" class="feather feather-home">
+                                <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+                                <polyline points="9 22 9 12 15 12 15 22"></polyline>
                             </svg>
                         </div>
                         <div class="w-summary-details">
@@ -138,11 +137,9 @@
                         <div class="w-icon">
                             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
                                 viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-                                stroke-linecap="round" stroke-linejoin="round" class="feather feather-tag">
-                                <path
-                                    d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z">
-                                </path>
-                                <line x1="7" y1="7" x2="7" y2="7"></line>
+                                stroke-linecap="round" stroke-linejoin="round" class="feather feather-home">
+                                <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+                                <polyline points="9 22 9 12 15 12 15 22"></polyline>
                             </svg>
                         </div>
                         <div class="w-summary-details">
@@ -164,10 +161,9 @@
                         <div class="w-icon">
                             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
                                 viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-                                stroke-linecap="round" stroke-linejoin="round" class="feather feather-credit-card">
-                                <rect x="1" y="4" width="22" height="16" rx="2" ry="2">
-                                </rect>
-                                <line x1="1" y1="10" x2="23" y2="10"></line>
+                                stroke-linecap="round" stroke-linejoin="round" class="feather feather-home">
+                                <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+                                <polyline points="9 22 9 12 15 12 15 22"></polyline>
                             </svg>
                         </div>
                         <div class="w-summary-details">

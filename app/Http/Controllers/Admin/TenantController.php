@@ -146,6 +146,7 @@ class TenantController extends Controller
             Artisan::call('migrate', [
                 '--path' => 'database/migrations',
                 '--database' => 'tenant',
+                '--force' => 'verdadero',
             ]);
 
             $seeder = new DatabaseSeeder();

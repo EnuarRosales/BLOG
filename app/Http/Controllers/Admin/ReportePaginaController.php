@@ -373,7 +373,7 @@ class ReportePaginaController extends Controller
         $dias = [];
 
         foreach ($fechas as $key => $value) {
-            $diferencia = $key > 0 ? strtotime($value) - strtotime($fechas[$key - 1]) : 15 * 24 * 60 * 60;
+            $diferencia = $key > 0 ? strtotime($value) - strtotime($fechas[$key - 1]) : 30 * 24 * 60 * 60;
             $dias[] = ['dias' => $diferencia / (60 * 60 * 24), 'fecha' => $value];
         }
 

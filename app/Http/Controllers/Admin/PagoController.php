@@ -136,11 +136,15 @@ class PagoController extends Controller
                     $query->where('user_id', $item->user_id);
                 })
                 ->whereDate('created_at', '>', date('Y-m-d', strtotime("-{$dias->first()['dias']} days", strtotime($item->fecha))))
-                ->whereDate('created_at', '<=', $item->fecha)
-                ->get();
+                ->whereDate('created_at', '<=', $item->fecha);
 
 
             $item->sumaDescuentos = $descontado->sum('valor');
+
+            $descontado->update([
+                'descontado' => 1,
+                'fechaDescontado' => $item->fecha,
+            ]);
 
             $multas = AsignacionMulta::with('tipoMulta')
                 ->where('descontado', 0)
@@ -150,6 +154,8 @@ class PagoController extends Controller
                 ->whereDate('updated_at', '<=', $item->fecha)
                 ->get();
 
+
+
             if ($item->suma > $impuestos->mayorQue) {
                 $item->impuesto = ($impuestos->porcentaje / 100) * $item->suma;
             } else {
@@ -157,6 +163,18 @@ class PagoController extends Controller
             }
 
             $item->multas = $multas->sum('tipoMulta.costo');
+
+            $multas = AsignacionMulta::with('tipoMulta')
+                ->where('descontado', 0)
+                ->where('generar_descuento', 1)
+                ->where('user_id', $item->user_id)
+                ->whereDate('updated_at', '>', date('Y-m-d', strtotime("-{$dias->first()['dias']} days", strtotime($item->fecha))))
+                ->whereDate('updated_at', '<=', $item->fecha)
+                ->update([
+                    'descontado' => 1,
+                    'fechaDescontado' => $item->fecha,
+                ]);
+
             $item->pagoNeto = $item->suma - $item->sumaDescuentos - $item->multas - $item->impuesto;
 
             Pago::create([
@@ -169,129 +187,9 @@ class PagoController extends Controller
                 'user_id' => $item->user_id,
             ]);
         }
-        // /*
-        //  *
-        //  * EN LA TERCERO PARTE ES UNA COSNSULTA A DOS TABLAS EN DONDE TRAEMOS INFORMACION QUE NOS INTERESA LA CUAL
-        //  * MAS ADELANTE SE USA  EN LOS CICLOS
-        //  *
-        //  */
-
-        // $descuentos = DB::table('descuentos')
-        //     ->join('descontados', 'descontados.descuento_id', '=', 'descuentos.id')
-        //     ->select(
-        //         // 'descontados.descuento_id',
-        //         DB::raw('sum(valor) as suma'),
-        //         DB::raw('user_id'),
-        //         // DB::raw('descuento_id'),
-        //     )
-        //     ->where('descontado', 0)
-        //     ->whereNull('descuentos.deleted_at')  // Condición para descuentos no eliminados
-        //     ->whereNull('descontados.deleted_at') // Condición para descontados no eliminados
-
-        //     ->groupBy('user_id')
-        //     ->get();
-
-
-        // $descuentoss = DB::table('descuentos')
-        //     ->join('descontados', 'descontados.descuento_id', '=', 'descuentos.id')
-        //     ->select(
-        //         // 'descontados.descuento_id',
-        //         DB::raw('sum(valor) as suma'),
-        //         DB::raw('user_id'),
-        //         DB::raw('descuento_id'),
-        //     )
-        //     ->where('descontado', 0)
-
-        //     ->groupBy('user_id', 'descuento_id')
-        //     ->get();
-
-        // // return $descuentos;
-
-        // /*
-        //  *
-        //  * EN LA CUARTA PARTE CON LA AYUDA DE IN CICLO ITERAMOS LOS DATOS, LUEGO SE INSERTAN EN LA TABLA,
-        //  * ASI MISMO UN SEGUNDO CICLO ITERA LOS DATOS DE LAS CONSULTAS ANTERIORES Y ACTUALZA SUS DATOS
-        //  * DE ACUERDO A  DOS CONDICIONES
-        //  *
-        //  */
-        // foreach ($pagos as $pago) {
-        //     foreach ($descuentoss as $descuento) {
-        //         if ($pago->user_id == $descuento->user_id) {
-        //             DB::table('descontados')
-        //                 ->where('descuento_id', $descuento->descuento_id)
-        //                 ->update([
-        //                     'descontado' => 1,
-        //                     'fechaDescontado' => $pago->fecha,
-        //                 ]);
-        //         }
-        //     }
-        // }
-
-        // $descuentoMultas = DB::table('asignacion_multas')
-        //     ->join('tipo_multas', 'tipo_multas.id', '=', 'asignacion_multas.tipoMulta_id')
-        //     ->select(
-        //         DB::raw('sum(tipo_multas.costo) as suma'),
-        //         DB::raw('user_id'),
-        //     )
-        //     ->where('asignacion_multas.descontado', 0)
-        //     ->where('generar_descuento', 1)
-        //     ->whereNull('asignacion_multas.deleted_at')  // Condición para asignacion_multas no eliminadas
-        //     ->whereNull('tipo_multas.deleted_at')        // Condición para tipo_multas no eliminadas
-        //     ->groupBy('user_id')
-        //     ->get();
-
-        // foreach ($pagos as $pago) {
-        //     DB::table('pagos')->insert([
-        //         'fecha' => $pago->fecha,
-        //         'devengado' => $pago->suma,
-        //         'descuento' => 0,
-        //         'pagado' => 1,
-        //         'neto' => $pago->suma,
-        //         'user_id' => $pago->user_id,
-        //         'created_at' => now(),
-        //         'updated_at' => now()
-        //     ]);
-
-        //     $iten = 0;
-
-        //     foreach ($descuentos as $descuento) {
-        //         if ($pago->user_id == $descuento->user_id) {
-        //             $iten = $descuento->suma;
-        //             DB::table('pagos')
-        //                 ->where('user_id', $pago->user_id)
-        //                 ->where('fecha', $pago->fecha)
-        //                 ->update([
-        //                     'descuento' => $descuento->suma,
-        //                     'neto' => $pago->suma - $descuento->suma - $pago->impuestoDescuento,
-        //                 ]);
-        //             $iten = $descuento->suma;
-        //         }
-        //     }
-
-        //     foreach ($descuentoMultas  as $descuentoMulta) {
-
-        //         if ($pago->user_id == $descuentoMulta->user_id) {
-        //             // $descuento =  $descuento - $descuentoMulta->suma;
-        //             DB::table('pagos')
-        //                 ->where('user_id', $descuentoMulta->user_id)
-        //                 ->update([
-        //                     'multaDescuento' => $descuentoMulta->suma,
-        //                     'neto' => $pago->suma -  $descuentoMulta->suma - $iten,
-        //                 ]);
-
-        //             DB::table('asignacion_multas')
-        //                 ->where('user_id', $descuentoMulta->user_id)
-        //                 ->where('generar_descuento', 1)
-        //                 ->update([
-        //                     'descontado' => true,
-        //                     'fechaDescontado' => $pago->fecha,
-        //                 ]);
-        //         }
-        //     }
-        // }
 
         $cambiarEstados->enviarPagoCambiarEstado();
-        $cambiarEstados->aplicarImpuesto();//!!!verificar este metodo esta restando doble el impuesto
+        $cambiarEstados->aplicarImpuesto(); //!!!verificar este metodo esta restando doble el impuesto
         return redirect()->route('admin.reportePaginas.pagos')->with('info', 'enviarPagos');
     }
 

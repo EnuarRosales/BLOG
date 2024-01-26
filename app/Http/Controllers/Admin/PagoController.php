@@ -168,8 +168,6 @@ class PagoController extends Controller
                 ->where('descontado', 0)
                 ->where('generar_descuento', 1)
                 ->where('user_id', $item->user_id)
-                ->whereDate('updated_at', '>', date('Y-m-d', strtotime("-{$dias->first()['dias']} days", strtotime($item->fecha))))
-                ->whereDate('updated_at', '<=', $item->fecha)
                 ->update([
                     'descontado' => 1,
                     'fechaDescontado' => $item->fecha,

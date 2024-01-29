@@ -7,6 +7,13 @@ use App\Models\AsignacionRoom;
 use App\Models\Room;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+
+use Spatie\Permission\Traits\HasRoles;
+
+
+use Spatie\Permission\Models\Role;
+use Spatie\Permission\Models\Permission;
 
 class AsignacionRoomController extends Controller
 {
@@ -17,9 +24,53 @@ class AsignacionRoomController extends Controller
      */
     public function index()
     {
-        $asignacionRooms = AsignacionRoom::orderBy('id','desc')->paginate();       
-        return view('admin.asignacionRooms.index', compact('asignacionRooms'));  
+
+        // Obtén el usuario autenticado
+        $user = Auth::user();
+        //Obtén el ID del usuario autenticado
+        $userId = Auth::id();
+
+        // dd($user->id);
+
+        // Verifica si el usuario tiene el permiso "editar_posts"
+        if ($user->hasPermissionTo('admin.asignacionRooms.index')) {
+            if ($user->hasPermissionTo('asignacionRooms.personal')) {
+                // El usuario no tiene el permiso "editar_posts"
+                $asignacionRooms = AsignacionRoom::where('user_id', $user->id)
+                    ->orderBy('id', 'desc')
+                    ->paginate();
+                return view('admin.asignacionRooms.index', compact('asignacionRooms'));
+            }
+            // El usuario tiene el permiso "editar_posts"
+            $asignacionRooms = AsignacionRoom::orderBy('id', 'desc')->paginate();
+            return view('admin.asignacionRooms.index', compact('asignacionRooms'));
+        }
     }
+        // } else {
+        //     // El usuario no tiene el permiso "editar_posts"
+        //     $asignacionRooms = AsignacionRoom::where('user_id', $user->id)
+        //         ->orderBy('id', 'desc')
+        //         ->paginate();
+        //     return view('admin.asignacionRooms.index', compact('asignacionRooms'));
+        // }
+        // $user = Auth::user();
+
+        // // $user = new User();
+        // // $user->syncRoles([$role_admin]);
+        // // dd($user);
+        // if($user->hasAnyRole(['admin.users', 'admin.asignacionTurnos.index'])){
+
+        //     dd("si");
+        // }
+        // else(dd("no"));
+        // $user->hasAnyRole(['writer', 'reader']);
+
+        // $userLogueado = auth()->user()->getPermissionNames();       
+
+
+    //     $asignacionRooms = AsignacionRoom::orderBy('id', 'desc')->paginate();
+    //     return view('admin.asignacionRooms.index', compact('asignacionRooms'));
+    // }
 
     /**
      * Show the form for creating a new resource.
@@ -28,9 +79,9 @@ class AsignacionRoomController extends Controller
      */
     public function create()
     {
-        $users = User::orderBy('id','desc'); 
-        $rooms = Room::orderBy('id','desc'); 
-        return view('admin.asignacionRooms.create', compact('users','rooms'));
+        $users = User::orderBy('id', 'desc');
+        $rooms = Room::orderBy('id', 'desc');
+        return view('admin.asignacionRooms.create', compact('users', 'rooms'));
     }
 
     /** 
@@ -40,15 +91,15 @@ class AsignacionRoomController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
-    {//VALiDACION FORMULARIO 
+    { //VALiDACION FORMULARIO 
         $request->validate([
-            'user_id'=>'required',
-            'room_id'=>'required',         
+            'user_id' => 'required',
+            'room_id' => 'required',
         ]);
- 
+
         $asignacionRoom = AsignacionRoom::create($request->all());
-        return redirect()->route('admin.asignacionRooms.index',$asignacionRoom->id)->with('info','store');
-//
+        return redirect()->route('admin.asignacionRooms.index', $asignacionRoom->id)->with('info', 'store');
+        //
     }
 
     /**
@@ -68,12 +119,12 @@ class AsignacionRoomController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit( AsignacionRoom $asignacionRoom)
+    public function edit(AsignacionRoom $asignacionRoom)
     {
-        $users = User::orderBy('id','desc'); 
-        $rooms = Room::orderBy('id','desc');  
+        $users = User::orderBy('id', 'desc');
+        $rooms = Room::orderBy('id', 'desc');
 
-        return view('admin.asignacionRooms.edit',compact('asignacionRoom','users','rooms'));
+        return view('admin.asignacionRooms.edit', compact('asignacionRoom', 'users', 'rooms'));
     }
 
     /**
@@ -87,12 +138,12 @@ class AsignacionRoomController extends Controller
     {
         //VALiDACION FORMULARIO 
         $request->validate([
-            'user_id'=>'required',
-            'room_id'=>'required',         
+            'user_id' => 'required',
+            'room_id' => 'required',
         ]);
         //ASINACION MASIVA DE VARIABLES A LOS CAMPOS
         $asignacionRoom->update($request->all());
-        return redirect()->route('admin.asignacionRooms.index', $asignacionRoom->id)->with('info','update'); //with mensaje de sesion
+        return redirect()->route('admin.asignacionRooms.index', $asignacionRoom->id)->with('info', 'update'); //with mensaje de sesion
 
     }
 
@@ -105,6 +156,6 @@ class AsignacionRoomController extends Controller
     public function destroy(AsignacionRoom $asignacionRoom)
     {
         $asignacionRoom->delete();
-        return redirect()->route('admin.asignacionRooms.index')->with('info','delete');
+        return redirect()->route('admin.asignacionRooms.index')->with('info', 'delete');
     }
 }

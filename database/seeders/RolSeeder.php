@@ -127,10 +127,18 @@ class RolSeeder extends Seeder
         ])->syncRoles([$role_admin, $role_monitor]);
 
         //PERMISOS ASIGNACION ROOM
+
         Permission::firstOrCreate([
             'name' => 'admin.asignacionRooms.index',
             'description' => 'Ver listado de asignación de rooms'
         ])->syncRoles([$role_admin, $role_monitor, $role_modelo]);
+
+        Permission::firstOrCreate([
+            'name' => 'asignacionRooms.personal',
+            'description' => 'Ver solo la asignación de rooms pesonal'
+        ])->syncRoles([$role_modelo]);
+
+        
         Permission::firstOrCreate([
             'name' => 'admin.asignacionRooms.create',
             'description' => 'Crear asignación de rooms'
@@ -423,6 +431,8 @@ class RolSeeder extends Seeder
             $user_soporte->password = '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi'; //password
             $user_soporte->syncRoles([$role_admin]);
             $user_soporte->save();
+
+            $user_soporte->hasAnyRole('writer', 'reader');
         }
     }
 }

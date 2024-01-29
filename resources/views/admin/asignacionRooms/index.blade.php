@@ -59,9 +59,9 @@
                             @can('admin.asignacionRooms.edit')
                                 <th>Editar</th>
                             @endcan
-                            {{-- @can('admin.asignacionRooms.destroy') --}}
+                            @can('admin.asignacionRooms.destroy')
                             <th>Eliminar</th>
-                            {{-- @endcan --}}
+                            @endcan
                         </tr>
                     </thead>
                     <tbody>
@@ -85,7 +85,7 @@
                                         </a>
                                     </td>
                                 @endcan
-                                {{-- @can('admin.asignacionRooms.destroy') --}}
+                                @can('admin.asignacionRooms.destroy')
                                 <td width="10px">
                                     <a href="javascript:void(0);" class="ml-2 eliminar-registro rounded bs-tooltip"
                                         data-placement="top" title="Eliminar"
@@ -100,7 +100,7 @@
                                         </svg>
                                     </a>
                                 </td>
-                                {{-- @endcan --}}
+                                @endcan
                             </tr>
                         @endforeach
                     </tbody>
@@ -113,9 +113,9 @@
                             @can('admin.asignacionRooms.edit')
                                 <th>Editar</th>
                             @endcan
-                            {{-- @can('admin.asignacionRooms.destroy') --}}
+                            @can('admin.asignacionRooms.destroy')
                             <th>Eliminar</th>
-                            {{-- @endcan --}}
+                            @endcan
                         </tr>
                     </tfoot>
                 </table>

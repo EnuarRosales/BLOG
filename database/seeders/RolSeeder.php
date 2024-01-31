@@ -71,14 +71,15 @@ class RolSeeder extends Seeder
 
 
         //PERMISOS USERS
-        Permission::firstOrCreate([
-            'name' => 'admin.home',
-            'description' => 'Ver el dashboard'
-        ])->syncRoles([$role_admin]);
+
+        // Permission::firstOrCreate([
+        //     'name' => 'admin.home',
+        //     'description' => 'Ver el dashboard ENUAR'
+        // ])->syncRoles([$role_admin]);
 
         Permission::firstOrCreate([
             'name' => 'admin.users',
-            'description' => 'Ver ruta usuarios'
+            'description' => 'Ver modulo de usuarios'
         ])->syncRoles([$role_admin]);
 
         Permission::firstOrCreate([
@@ -145,7 +146,7 @@ class RolSeeder extends Seeder
             'description' => 'limitar vista de la asignación de rooms a pesonal'
         ])->syncRoles([$role_modelo]);
 
-        
+
         Permission::firstOrCreate([
             'name' => 'admin.asignacionRooms.create',
             'description' => 'Crear asignación de rooms'
@@ -408,6 +409,12 @@ class RolSeeder extends Seeder
             'name' => 'admin.reportePaginas.index',
             'description' => 'Ver listado de produccion'
         ])->syncRoles([$role_admin, $role_monitor]);
+
+        //PERMISOS MODULO DE SUSCRIPCIONES
+        Permission::firstOrCreate([
+            'name' => 'admin.suscripciones.index',
+            'description' => 'Ver modulo de suscripciones'
+        ])->syncRoles([$role_super_admin]);
 
 
 

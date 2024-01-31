@@ -8,6 +8,7 @@ use App\Models\AsignacionTurno;
 use App\Models\Turno;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class AsignacionTurnoController extends Controller
 {
@@ -18,9 +19,31 @@ class AsignacionTurnoController extends Controller
      */
     public function index()
     {
+
+
         // $asignacionTurnos = AsignacionTurno::all();
-        $asignacionTurnos = AsignacionTurno::with('turno','user.tipoUsuario')->get();
-        return view('admin.asignacionTurnos.index', compact('asignacionTurnos'));
+        // $asignacionTurnos = AsignacionTurno::with('turno','user.tipoUsuario')->get();
+        // return view('admin.asignacionTurnos.index', compact('asignacionTurnos'));
+
+
+        // Obtén el usua rio autenticado
+        $user = Auth::user();
+        //Obtén el ID del usuario autenticado
+        $userId = Auth::id();
+        // dd($user->id);
+        // Verifica si el usuario tiene el permiso "editar_posts"
+        if ($user->hasPermissionTo('admin.asignacionTurnos.index')) {
+            if ($user->hasPermissionTo('asignacionTurnos.personal')) {
+                // El usuario no tiene el permiso "editar_posts"
+                $asignacionTurnos = AsignacionTurno::where('user_id', $user->id)
+                    ->orderBy('id', 'desc')
+                    ->paginate();
+                return view('admin.asignacionTurnos.index', compact('asignacionTurnos'));
+            }
+            // El usuario tiene el permiso "editar_posts"
+            $asignacionTurnos = AsignacionTurno::with('turno', 'user.tipoUsuario')->get();
+            return view('admin.asignacionTurnos.index', compact('asignacionTurnos'));
+        }
     }
 
     /**
@@ -31,9 +54,9 @@ class AsignacionTurnoController extends Controller
     public function create()
     {
         // $asignacionTurnos = AsignacionTurno::pluck('created_at','id')->toArray();
-        $users = User::orderBy('id','desc');
-        $turnos = Turno::orderBy('id','desc');
-        return view('admin.asignacionTurnos.create', compact('users','turnos'));
+        $users = User::orderBy('id', 'desc');
+        $turnos = Turno::orderBy('id', 'desc');
+        return view('admin.asignacionTurnos.create', compact('users', 'turnos'));
     }
 
     /**
@@ -46,16 +69,14 @@ class AsignacionTurnoController extends Controller
     {
         //VALiDACION FORMULARIO
         $request->validate([
-            'user_id'=>'required',
-            'turno_id'=>'required',
+            'user_id' => 'required',
+            'turno_id' => 'required',
         ]);
 
         $asignacionTurno = AsignacionTurno::create($request->all());
         event(new control_turnos());
 
-        return redirect()->route('admin.asignacionTurnos.index',$asignacionTurno->id)->with('info','store');
-
-
+        return redirect()->route('admin.asignacionTurnos.index', $asignacionTurno->id)->with('info', 'store');
     }
 
     /**
@@ -77,10 +98,10 @@ class AsignacionTurnoController extends Controller
      */
     public function edit(AsignacionTurno $asignacionTurno)
     {
-        $users = User::orderBy('id','desc');
-        $turnos = Turno::orderBy('id','desc');
+        $users = User::orderBy('id', 'desc');
+        $turnos = Turno::orderBy('id', 'desc');
 
-        return view('admin.asignacionTurnos.edit',compact('asignacionTurno','users','turnos'));
+        return view('admin.asignacionTurnos.edit', compact('asignacionTurno', 'users', 'turnos'));
     }
 
     /**
@@ -94,8 +115,8 @@ class AsignacionTurnoController extends Controller
     {
         //VALiDACION FORMULARIO
         $request->validate([
-            'user_id'=>'required',
-            'turno_id'=>'required',
+            'user_id' => 'required',
+            'turno_id' => 'required',
         ]);
         //ASINACION MASIVA DE VARIABLES A LOS CAMPOS
         $asignacionTurno->update($request->all());
@@ -113,6 +134,6 @@ class AsignacionTurnoController extends Controller
 
     {
         $asignacionTurno->delete();
-        return redirect()->route('admin.asignacionTurnos.index')->with('info','delete');
+        return redirect()->route('admin.asignacionTurnos.index')->with('info', 'delete');
     }
 }

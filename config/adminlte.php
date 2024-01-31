@@ -289,40 +289,16 @@ return [
     |
     */
 
+   
+
+
     'menu' => [
-        // Navbar items:
-        // [
-        //     'type'         => 'navbar-search',
-        //     'text'         => 'search',
-        //     'topnav_right' => true,
-        // ],
-        // [
-        //     'type'         => 'fullscreen-widget',
-        //     'topnav_right' => true,
-        // ],
+        'MAIN NAVIGATION',
 
-        // Sidebar items:
-        // [
-        //     'type' => 'sidebar-menu-search',
-        //     'text' => 'search',
-        // ],
-
-        // [
-        //     'text' => 'blog',
-        //     'url'  => 'admin/blog',
-        //     'can'  => 'manage-blog',
-        // ],
-        // [
-        //     'text'        => 'Dashborad',
-        //     'url'         => '/',
-        //     'can'         => 'admin.dashboard',
-        //     'icon'        => 'far fa-fw fa-file',
 
         // ], //ojo que aca inicia para modificar el menu
 
-        ['header' => 'ADMINISTRADOR'],
-
-
+        // ['header' => 'ADMINISTRADOR'],
         [
             'text' => 'Estudios',
             'route'  => 'admin.tenants.index',
@@ -344,22 +320,22 @@ return [
                     'can' => 'admin.asignacionTurnos.index',
                     'icon' => '	far fa-address-book',
                 ],
-                [
-                    'text' => 'Asignacion Room',
-                    'route'  => 'admin.asignacionRooms.index',
-                    'can' => 'admin.asignacionRooms.index',
-                    'icon' => ' fas fa-house-user',
-                ],
+                // [
+                //     'text' => 'Asignacion Room',
+                //     'route'  => 'admin.asignacionRooms.index',
+                //     'can' => 'admin.asignacionRooms.index',                   
+                //     'icon' => ' fas fa-house-user',
+                // ],
 
-                [
-                    'text' => 'Asignacion Dominio',
-                    'route'  => 'admin.asignacionRooms.index',
-                    'can' => 'admin.asignacionRooms.index',
-                    'icon' => ' fas fa-house-user',
-                ],
+                // [
+                //     'text' => 'Asignacion Dominio',
+                //     'route'  => 'admin.asignacionRooms.index',
+                //     'can' => 'admin.asignacionRooms.index',
+                //     'icon' => ' fas fa-house-user',
+                // ],
 
 
-            ]
+            ],
         ],
 
         [
@@ -380,23 +356,18 @@ return [
                     'text' => 'Asignacion Turnos',
                     'route'  => 'admin.asignacionTurnos.index',
                     'can' => 'admin.asignacionTurnos.index',
-                    
                     'icon' => '	far fa-address-book',
                 ],
 
                 [
                     'text' => 'Asignacion Room',
-                    'route'  => 'admin.asignacionRooms.index',                            
-                    // 'can' => ['admin.asignacionRooms.index', 'asignacionRooms.personal'],                         
-                    'can'=> [
-                        'can' => 'admin.asignacionRooms.index',
-                        'can' => 'asignacionRooms.personal',
-                    ],
-
+                    'route'  => 'admin.asignacionRooms.index',
+                    'can' => 'admin.asignacionRooms.index', 
+                    // 'can' => 'asignacionRooms.personal',     
                     'icon' => ' fas fa-house-user',
                 ],
 
-            ]
+            ],
         ],
 
         [
@@ -406,6 +377,9 @@ return [
             'can' => 'admin.roles.index'
 
         ],
+
+
+
 
         // [
         //     'text' => 'Dashboard',
@@ -605,6 +579,8 @@ return [
             // 'can' => 'admin.reportePaginas.index',
         ],
     ],
+
+
 
 
 

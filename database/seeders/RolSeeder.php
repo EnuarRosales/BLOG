@@ -113,6 +113,13 @@ class RolSeeder extends Seeder
             'name' => 'admin.asignacionTurnos.index',
             'description' => 'Ver listado de asignacion de Turno'
         ])->syncRoles([$role_admin, $role_monitor, $role_modelo]);
+
+        Permission::firstOrCreate([
+            'name' => 'asignacionTurnos.personal',
+            'description' => 'limitar vista de la asignación de turnos a pesonal'
+        ])->syncRoles([$role_modelo]);
+
+
         Permission::firstOrCreate([
             'name' => 'admin.asignacionTurnos.create',
             'description' => 'Crear una asignación de Turno'
@@ -135,7 +142,7 @@ class RolSeeder extends Seeder
 
         Permission::firstOrCreate([
             'name' => 'asignacionRooms.personal',
-            'description' => 'Ver solo la asignación de rooms pesonal'
+            'description' => 'limitar vista de la asignación de rooms a pesonal'
         ])->syncRoles([$role_modelo]);
 
         
@@ -367,6 +374,13 @@ class RolSeeder extends Seeder
             'name' => 'admin.registroDescuentos.index',
             'description' => 'Ver listado de descuentos'
         ])->syncRoles([$role_admin, $role_monitor, $role_modelo]);
+
+        Permission::firstOrCreate([
+            'name' => 'registroDescuentos.personal',
+            'description' => 'limitar vista de descuentos a pesonal'
+        ])->syncRoles([$role_admin, $role_monitor, $role_modelo]);
+
+
         Permission::firstOrCreate([
             'name' => 'admin.registroDescuentos.create',
             'description' => 'Crear descuentos'

@@ -24,14 +24,11 @@ class AsignacionRoomController extends Controller
      */
     public function index()
     {
-
         // Obtén el usuario autenticado
         $user = Auth::user();
         //Obtén el ID del usuario autenticado
         $userId = Auth::id();
-
         // dd($user->id);
-
         // Verifica si el usuario tiene el permiso "editar_posts"
         if ($user->hasPermissionTo('admin.asignacionRooms.index')) {
             if ($user->hasPermissionTo('asignacionRooms.personal')) {

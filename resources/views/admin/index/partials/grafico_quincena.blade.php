@@ -4,7 +4,7 @@
         <div class="widget-header">
             <div class="row">
                 <div class="col-xl-12 col-md-12 col-sm-12 col-12">
-                    <h4>Estadistca de produccion quincenal</h4>
+                    <h4>Estadistica de produccion por peridos</h4>
                 </div>
             </div>
         </div>

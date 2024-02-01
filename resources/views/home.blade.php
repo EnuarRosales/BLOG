@@ -4,10 +4,6 @@
     <h1>bienvenido a la pagina principal</h1>
 
 
-  
-
-
-
 
 @endsection
 

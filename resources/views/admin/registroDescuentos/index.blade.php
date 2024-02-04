@@ -34,13 +34,9 @@
 @stop
 
 @section('content')
-
-
     <div class="col-xl-12 col-lg-12 col-sm-12  layout-spacing">
         <div class="widget-content widget-content-area br-6">
-
             <div class="row">
-
                 <div class="col">
                     <div style="display: flex;">
                         <label class="mt-2 ml-3 mr-1">Registros :</label>
@@ -92,7 +88,9 @@
                             <th style="text-align: center;">Saldo</th>
                             <th style="text-align: center;">Tipo Descuento</th>
                             <th style="text-align: center;">Usuario</th>
+                            {{-- @can('admin.registroDescuentos.edit') --}}
                             <th style="text-align: center;">Pago</th>
+                            {{-- @endcan --}}
                             <th style="text-align: center;">Acciones</th>
                         </tr>
                     </tfoot>
@@ -105,51 +103,13 @@
     </div>
 
     {{-- modal para abono parcial --}}
-    <div class="modal fade" id="abonoModal" tabindex="-1" role="dialog" aria-labelledby="abonoModalLabel"
-        aria-hidden="true">
-        <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="abonoModalLabel">Pago Parcial</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
+    @if (auth()->user()->hasPermissionTo('registroDescuentos.personal'))
+        <div class="modal fade" id="abonoModal" tabindex="-1" role="dialog" aria-labelledby="abonoModalLabel"
+            aria-hidden="true">
+            <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
                 <div class="modal-body">
-                    <div id="modal-content">
-                        <div class="form-group">
-                            <label for="descuento_id">ID Descuento</label>
-                            <input class="form-control" readonly="" name="descuento_id" type="number" value=""
-                                id="descuento_id">
-                            <label for="valor">Valor</label>
-                            <input class="form-control" placeholder="Favor ingrese un valor" name="valor" type="number"
-                                id="valor">
-                            <label for="descripcion">Descripcion</label>
-                            <input class="form-control" placeholder="Favor ingrese una descripcion" name="descripcion"
-                                type="text" id="descripcion">
-
-                        </div>
-                        <div>
-                            <button type="button" class="btn btn-success abono-button">Realizar Abono</button>
-                        </div>
-
-
-                        <div class="col" style="margin-top: 30px;">
-                            <div style="display: flex;">
-                                <br>
-                                <label class="mt-2 ml-3 mr-1">Registros :</label>
-                                <select id="records-per-page-modal" class="form-control custom-width-20">
-                                    <!-- Agregamos la clase form-control-sm -->
-                                    <option value="7">7</option>
-                                    <option value="10">10</option>
-                                    <option value="20">20</option>
-                                    <option value="50">50</option>
-                                </select>
-                            </div>
-                        </div>
-
+                    <div class="modal-content">
                         <div class="table-responsive mb-4 mt-4">
-
                             <table id="decuentoDatatableModal" class="table table-hover non-hover" style="width:100%">
                                 <thead>
                                     <tr>
@@ -171,16 +131,91 @@
 
                             </table>
                         </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-danger" id="cerrarModalButton">Cerrar</button>
+                        </div>
                     </div>
                 </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-danger" id="cerrarModalButton">Cerrar</button>
+            </div>
+
+        </div>
+    @else
+        <div class="modal fade" id="abonoModal" tabindex="-1" role="dialog" aria-labelledby="abonoModalLabel"
+            aria-hidden="true">
+            <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="abonoModalLabel">Pago Parcial</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <div id="modal-content">
+                            <div class="form-group">
+                                <label for="descuento_id">ID Descuento</label>
+                                <input class="form-control" readonly="" name="descuento_id" type="number"
+                                    value="" id="descuento_id">
+                                <label for="valor">Valor</label>
+                                <input class="form-control" placeholder="Favor ingrese un valor" name="valor"
+                                    type="number" id="valor">
+                                <label for="descripcion">Descripcion</label>
+                                <input class="form-control" placeholder="Favor ingrese una descripcion"
+                                    name="descripcion" type="text" id="descripcion">
+
+                            </div>
+                            <div>
+                                <button type="button" class="btn btn-success abono-button">Realizar Abono</button>
+                            </div>
+
+
+                            <div class="col" style="margin-top: 30px;">
+                                <div style="display: flex;">
+                                    <br>
+                                    <label class="mt-2 ml-3 mr-1">Registros :</label>
+                                    <select id="records-per-page-modal" class="form-control custom-width-20">
+                                        <!-- Agregamos la clase form-control-sm -->
+                                        <option value="7">7</option>
+                                        <option value="10">10</option>
+                                        <option value="20">20</option>
+                                        <option value="50">50</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="table-responsive mb-4 mt-4">
+
+                                <table id="decuentoDatatableModal" class="table table-hover non-hover"
+                                    style="width:100%">
+                                    <thead>
+                                        <tr>
+                                            <th style="text-align: center;">Valor</th>
+                                            <th style="text-align: center;">Descripcion</th>
+                                            <th style="text-align: center;">Fecha</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="table-body">
+                                        <!-- Aquí se llenará la tabla con datos aleatorios -->
+                                    </tbody>
+                                    <tfoot>
+                                        <tr>
+                                            <th style="text-align: center;">Valor</th>
+                                            <th style="text-align: center;">Descripcion</th>
+                                            <th style="text-align: center;">Fecha</th>
+                                        </tr>
+                                    </tfoot>
+
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-danger" id="cerrarModalButton">Cerrar</button>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
-
-
+    @endif
 @stop
 
 

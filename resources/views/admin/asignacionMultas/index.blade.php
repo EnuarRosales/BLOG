@@ -50,9 +50,9 @@
                             <th>Valor Multa</th>
                             <th>Fecha</th>
                             <th>Descontar</th>
-                            @can('admin.registroMultas.edit')
+                            {{-- @can('admin.registroMultas.edit') --}}
                                 <th>Acciones</th>
-                            @endcan
+                            {{-- @endcan --}}
                         </tr>
                     </thead>
                     <tbody>
@@ -67,9 +67,9 @@
                             <th>Valor Multa</th>
                             <th>Fecha</th>
                             <th>Descontar</th>
-                            @can('admin.registroMultas.edit')
+                            {{-- @can('admin.registroMultas.edit') --}}
                                 <th>Acciones</th>
-                            @endcan
+                            {{-- @endcan --}}
 
                         </tr>
                     </tfoot>
@@ -161,7 +161,7 @@
                 {
                     data: 'generar_descuento',
                     name: 'generar_descuento',
-                    @can('admin.registroMultas.create')
+                    @can('admin.registroMultas.descontar')
                         visible: true,
                     @else
                         visible: false,
@@ -169,7 +169,12 @@
                 },
                 {
                     data: 'acciones',
-                    name: 'acciones'
+                    name: 'acciones',
+                    @can('admin.registroMultas.edit')
+                        visible: true,
+                    @else
+                        visible: false,
+                    @endcan
                 },
             ],
             "oLanguage": {

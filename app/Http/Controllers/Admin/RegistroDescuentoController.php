@@ -40,27 +40,43 @@ class RegistroDescuentoController extends Controller
 
     public function datatable()
     {
-         // Obtén el usua rio autenticado
-         $user = Auth::user();
-         //Obtén el ID del usuario autenticado
-         $userId = Auth::id();
+        //SE PREGUNTA SI EL USUARIO LOGUEADO TIENE ESTOS DOS PERSMISOS
+        // Obtén el usuario autenticado
+        // $userLogueado = Auth::user();   
+        $userLogueado = auth()->user();
 
-        $userLogueado = auth()->user(); 
-        // Llama al método getPermissionIds() con el objeto de usuario como argumento
-        $permissionIds = User::getPermissionIds($userLogueado);
-        // Comprueba si el permiso con ID 63 permiso para ver todos los registros existe en la lista de permisos
-        if (($user->hasPermissionTo('admin.registroDescuentos.index'))) {
-            // Si existe, obtén todos los registros de Descuento
-            $registroDescuentos = Descuento::all();
-        } else {
-            // Si el rol no existe, obtén mis registros de Descuento
-            $registroDescuentos = Descuento::where('user_id', $userLogueado->id)->get();
+        if ($userLogueado->hasPermissionTo('admin.registroDescuentos.index')) {
+            if ($userLogueado->hasPermissionTo('registroDescuentos.personal')) {
+                // El usuario no tiene el permiso "editar_posts"
+                $registroDescuentos = Descuento::where('user_id', $userLogueado->id)->get();
+            } else {
+                // El usuario tiene el permiso "editar_posts"
+                $registroDescuentos = Descuento::all();
+                // dd($asignacionMultas);
+            }
         }
 
+        //  // Obtén el usua rio autenticado
+        //  $user = Auth::user();
+        //  //Obtén el ID del usuario autenticado
+        //  $userId = Auth::id();
 
-        
+        // $userLogueado = auth()->user(); 
+        // // Llama al método getPermissionIds() con el objeto de usuario como argumento
+        // $permissionIds = User::getPermissionIds($userLogueado);
+        // // Comprueba si el permiso con ID 63 permiso para ver todos los registros existe en la lista de permisos
+        // if (($user->hasPermissionTo('admin.registroDescuentos.index'))) {
+        //     // Si existe, obtén todos los registros de Descuento
+        //     $registroDescuentos = Descuento::all();
+        // } else {
+        //     // Si el rol no existe, obtén mis registros de Descuento
+        //     $registroDescuentos = Descuento::where('user_id', $userLogueado->id)->get();
+        // }
+
         // Obtén los permisos relacionados con los IDs de permisos obtenidos anteriormente
-        $permission = Permission::select('id', 'name', 'description')->whereIn('id', $permissionIds)->get();
+        // $permission = Permission::select('id', 'name', 'description')->whereIn('id', $permissionIds)->get();
+
+
         foreach ($registroDescuentos as $registroDescuento) {
             $registroDescuento->saldo = $registroDescuento->montoDescuento - $registroDescuento->montoDescontado;
             $registroDescuento->save();
@@ -77,10 +93,10 @@ class RegistroDescuentoController extends Controller
         }
 
         return DataTables::of($registroDescuentos)
-            ->addColumn('acciones', function ($row) use ($permission) {
+            ->addColumn('acciones', function ($row) use ($userLogueado) {
                 $acciones = '';
 
-                if ($permission->where('id', 59)->isNotEmpty()) { // rol de editar descuentos
+                if ($userLogueado->hasPermissionTo('admin.registroDescuentos.edit')) { // rol de editar descuentos
                     $acciones .= '<a href="' . route('admin.registroDescuentos.edit', ['registroDescuento' => $row->id]) . '">
                                     <svg class="mr-4" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-id="' . $row->id . '">
                                         <path d="M12 20h9"></path>
@@ -89,7 +105,7 @@ class RegistroDescuentoController extends Controller
                                 </a>';
                 }
 
-                if ($permission->where('id', 60)->isNotEmpty()) { // rol de eliminar descuentos
+                if ($userLogueado->hasPermissionTo('admin.registroDescuentos.destroy')) { // rol de eliminar descuentos
                     // $acciones .= '<button class="btn btn-danger action-button" data-id="' . $row->id . '">Eliminar</button>';
                     $acciones .= '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-id="' . $row->id . '" class="feather feather-x-circle table-cancel">
                                     <circle cx="12" cy="12" r="10"></circle>
@@ -100,15 +116,19 @@ class RegistroDescuentoController extends Controller
                 }
                 return $acciones;
             })
-            ->addColumn('pago', function ($row) use ($permission) {
+            ->addColumn('pago', function ($row) use ($userLogueado) {
                 $pago = '';
 
-                if ($permission->where('id', 61)->isNotEmpty()) { // rol de pago total descuentos
+                if ($userLogueado->hasPermissionTo('admin.registroDescuentos.total')) { // rol de pago total descuentos
                     $pago .= '<button class="btn btn-success btn-sm total-button" data-id="' . $row->id . '" data-action="total">Total</button>';
                 }
 
-                if ($permission->where('id', 62)->isNotEmpty()) {
-                    $pago .= '<button class="btn btn-info btn-sm parcial-button" data-id="' . $row->id . '">Parcial</button>';
+                if ($userLogueado->hasPermissionTo('admin.registroDescuentos.parcial')) { // rol de pago parcial  
+                    if ($userLogueado->hasPermissionTo('registroDescuentos.personal'))
+                        $pago .= '<button class="btn btn-info btn-sm parcial-button" data-id="' . $row->id . '">Historial</button>';
+                    else {
+                        $pago .= '<button class="btn btn-info btn-sm parcial-button" data-id="' . $row->id . '">Parcial</button>';
+                    }
                 }
                 return $pago;
             })

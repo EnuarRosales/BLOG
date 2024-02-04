@@ -28,7 +28,7 @@
 
 
 
-    {{-- @can('admin.home') --}}
+    @can('admin.dashboard')
         <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 layout-spacing">
             <div class="row widget-statistic">
                 @include('admin.index.partials.usuario_widget')
@@ -165,7 +165,7 @@
                 </div>
             </div>
         </div>
-    {{-- @endcan --}}
+    @endcan
 @endsection
 
 @section('js')

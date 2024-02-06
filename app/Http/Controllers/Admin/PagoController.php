@@ -134,10 +134,9 @@ class PagoController extends Controller
                 ->where('descontado', 0)
                 ->whereHas('descuento', function ($query) use ($item) {
                     $query->where('user_id', $item->user_id);
-                })
-                ->whereDate('created_at', '>', date('Y-m-d', strtotime("-{$dias->first()['dias']} days", strtotime($item->fecha))))
-                ->whereDate('created_at', '<=', $item->fecha);
-
+                });
+                // ->whereDate('created_at', '>', date('Y-m-d', strtotime("-{$dias->first()['dias']} days", strtotime($item->fecha))))
+                // ->whereDate('created_at', '<=', $item->fecha);
 
             $item->sumaDescuentos = $descontado->sum('valor');
 
@@ -150,8 +149,8 @@ class PagoController extends Controller
                 ->where('descontado', 0)
                 ->where('generar_descuento', 1)
                 ->where('user_id', $item->user_id)
-                ->whereDate('updated_at', '>', date('Y-m-d', strtotime("-{$dias->first()['dias']} days", strtotime($item->fecha))))
-                ->whereDate('updated_at', '<=', $item->fecha)
+                // ->whereDate('updated_at', '>', date('Y-m-d', strtotime("-{$dias->first()['dias']} days", strtotime($item->fecha))))
+                // ->whereDate('updated_at', '<=', $item->fecha)
                 ->get();
 
 

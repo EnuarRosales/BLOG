@@ -79,10 +79,22 @@ class ReportePaginaController extends Controller
         $data = Excel::toArray(new ReportePaginasImport, $file);
         $errorRowsModel = []; // Inicializamos un arreglo para rastrear las filas con errores
         $errorRowsPage = []; // Inicializamos un arreglo para rastrear las filas con errores
+        $errorRowsFecha = []; // Inicializamos un arreglo para rastrear las filas con errores
         $fechas = [];
+        $fechaPrimera = null; // Almacenará la fecha del primer registro
 
         foreach ($data as  $rows) {
             foreach ($rows as $index => $row) {
+
+                if ($fechaPrimera === null) {
+                    $fechaPrimera = $row['fecha'];
+                } else {
+                    if ($row['fecha'] !== $fechaPrimera) {
+                        // En este ejemplo, solo imprimo un mensaje de error.
+                        $errorRowsFecha[] = ($index + 2); // Registramos el índice de fila del error
+                    }
+                }
+
                 $modelo = User::where('cedula', $row['modelo'])->first();
                 if (empty($modelo)) {
                     $errorRowsModel[] = ($index + 2); // Registramos el índice de fila del error
@@ -114,6 +126,26 @@ class ReportePaginaController extends Controller
             }
             $mensaje = "error,pagina," . implode(" - ", $errorRowsPage);
             return redirect()->route('admin.reportePaginas.index')->with('info', $mensaje);
+        }
+
+        if (!empty($errorRowsFecha)) {
+            if (count($errorRowsFecha) > 27) {
+                $errorRowsFecha = array_slice($errorRowsFecha, 0, 27); // Limita el arreglo a los primeros 30 elementos
+            }
+            $mensaje = "error,fecha," . implode(" - ", $errorRowsFecha);
+            return redirect()->route('admin.reportePaginas.index')->with('info', $mensaje);
+        }
+
+        $reportePagina = ReportePagina::where('enviarPago', 0)->first();
+
+        $fechaPrimera = \Carbon\Carbon::parse($fechaPrimera);
+        $fechaPrimera = $fechaPrimera->toDateString();
+        if ($reportePagina) {
+            if ($fechaPrimera !== $reportePagina->fecha) {
+                $mensaje = "error,fecha," . "La Fecha de la plantilla a cargar es: " . $fechaPrimera . " y la Fecha pendiente a Verificar y Pagar en la Base de Datos es: " . $reportePagina->fecha;
+
+                return redirect()->route('admin.reportePaginas.index')->with('info', $mensaje);
+            }
         }
 
         $modelo = Excel::import(new ReportePaginasImport, $file);
@@ -387,8 +419,8 @@ class ReportePaginaController extends Controller
                 ->whereHas('descuento', function ($query) use ($item) {
                     $query->where('user_id', $item->user_id);
                 })
-                ->whereDate('created_at', '>', date('Y-m-d', strtotime("-{$dias->first()['dias']} days", strtotime($item->fecha))))
-                ->whereDate('created_at', '<=', $item->fecha)
+                // ->whereDate('created_at', '>', date('Y-m-d', strtotime("-{$dias->first()['dias']} days", strtotime($item->fecha))))
+                // ->whereDate('created_at', '<=', $item->fecha)
                 ->get();
 
             $item->sumaDescuentos = $descontado->sum('valor');
@@ -397,8 +429,8 @@ class ReportePaginaController extends Controller
                 ->where('descontado', 0)
                 ->where('generar_descuento', 1)
                 ->where('user_id', $item->user_id)
-                ->whereDate('updated_at', '>', date('Y-m-d', strtotime("-{$dias->first()['dias']} days", strtotime($item->fecha))))
-                ->whereDate('updated_at', '<=', $item->fecha)
+                // ->whereDate('updated_at', '>', date('Y-m-d', strtotime("-{$dias->first()['dias']} days", strtotime($item->fecha))))
+                // ->whereDate('updated_at', '<=', $item->fecha)
                 ->get();
 
             if ($item->suma > $impuestos->mayorQue) {

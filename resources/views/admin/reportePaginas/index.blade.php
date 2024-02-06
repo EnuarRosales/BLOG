@@ -528,6 +528,22 @@
                     confirmButtonText: 'Aceptar', // Texto personalizado para el botón
                 })
             </script>
+        @elseif(session('info') && strpos(session('info'), 'error,fecha') === 0)
+            @php
+                $parts = explode(',', session('info'));
+                $errorMessage = $parts[2];
+            @endphp
+            <script>
+                Swal.fire({
+                    position: 'top-end',
+                    type: 'error',
+                    title: 'Errores en las Fechas: <br> {{ $errorMessage }} <br>',
+                    // html: true, // Habilita HTML en el mensaje
+                    showConfirmButton: true, // Mostrar el botón "Aceptar"
+                    allowOutsideClick: false, // Evitar que se cierre al hacer clic fuera
+                    confirmButtonText: 'Aceptar', // Texto personalizado para el botón
+                })
+            </script>
         @elseif(session('info') == 'verificadoMasivo')
             <script>
                 Swal.fire({

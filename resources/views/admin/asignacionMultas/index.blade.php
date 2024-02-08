@@ -50,6 +50,7 @@
                             <th>Valor Multa</th>
                             <th>Fecha</th>
                             <th>Descontar</th>
+                            <th>Observacion</th>
                             {{-- @can('admin.registroMultas.edit') --}}
                                 <th>Acciones</th>
                             {{-- @endcan --}}
@@ -67,6 +68,7 @@
                             <th>Valor Multa</th>
                             <th>Fecha</th>
                             <th>Descontar</th>
+                            <th>Observacion</th>
                             {{-- @can('admin.registroMultas.edit') --}}
                                 <th>Acciones</th>
                             {{-- @endcan --}}
@@ -158,6 +160,12 @@
                     data: 'fecha',
                     name: 'fecha',
                 },
+
+                {
+                    data: 'observacion',
+                    name: 'observacion',
+                },
+                
                 {
                     data: 'generar_descuento',
                     name: 'generar_descuento',
@@ -167,6 +175,9 @@
                         visible: false,
                     @endcan
                 },
+
+                
+
                 {
                     data: 'acciones',
                     name: 'acciones',

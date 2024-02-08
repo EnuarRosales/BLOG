@@ -59,6 +59,7 @@ class AsignacionMultaController extends Controller
         $request->validate([
             'user_id' => 'required',
             'tipoMulta_id' => 'required',
+            'observacion' => 'required',
         ]);
 
 
@@ -208,19 +209,22 @@ class AsignacionMultaController extends Controller
                 $multa = TipoMulta::find($row->tipoMulta_id);
                 return $multa->costo;
             })
-
             ->addColumn('multa_valor_format', function ($row) {
                 $multa = TipoMulta::find($row->tipoMulta_id);
                 return $multa->costo;
+            })
+            ->addColumn('observacion', function ($row) {
+                $asignacionMulta = AsignacionMulta::find($row->asignacionMulta_id);
+                return $asignacionMulta->observacion;
             })
 
             ->addColumn('fecha', function ($row) {
                 $fechaOriginal = $row->created_at;
                 // Crear un objeto Carbon desde la fecha original
                 $fechaCarbon = Carbon::parse($fechaOriginal)->setTimezone('America/Bogota');
-
                 // Extraer el año, mes y día en formato deseado
                 $anioMesDia = $fechaCarbon->format('Y-m-d');
+
 
                 // Imprimir el resultado
                 return $anioMesDia;

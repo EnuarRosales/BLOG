@@ -1,5 +1,5 @@
 <div class="row layout-top-spacing">
-    <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 layout-spacing">
+    <div class="col-xl-9 col-lg-9 col-md-9 col-sm-9 col-9 layout-spacing">
         <div class="widget widget-table-three">
             <div class="widget-heading">
                 <a class="w-icon" href="{{ route('admin.registroAsistencias.index') }}">
@@ -77,6 +77,44 @@
 
                         </tbody>
                     </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="col-xl-3 col-lg-3 col-md-3 col-sm-3 col-3 layout-spacing">
+        <div class="widget widget-table-one" style=" height: 22.0rem;">
+            <div class="widget-heading">
+                <h5 class="">Control de Inasistencias</h5>
+            </div>
+            <div style="max-height: 400px; overflow-y: auto;">
+                <div class="widget-content">
+                    @foreach ($totalPagosPorFecha as $index => $dataQuincena)
+                        <div class="transactions-list">
+                            <div class="t-item">
+                                <div class="t-company-name">
+                                    <div class="t-icon">
+                                        <div class="icon">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                                viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                                stroke-linecap="round" stroke-linejoin="round" class="feather feather-home">
+                                                <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+                                                <polyline points="9 22 9 12 15 12 15 22"></polyline>
+                                            </svg>
+                                        </div>
+                                    </div>
+                                    <div class="t-name">
+                                        <h4>{{ $index }}</h4>
+                                        <p class="meta-date">Quincena</p>
+                                    </div>
+                                </div>
+                                <div class="t-name">
+                                    <h4> $ {{ $dataQuincena }} </h4>
+                                </div>
+                            </div>
+                        </div>
+                    @endforeach
                 </div>
             </div>
         </div>

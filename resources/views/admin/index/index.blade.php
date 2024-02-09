@@ -4,8 +4,10 @@
     DASHBOARD
 @endsection
 
+
 @section('page-title')
-    DASHBOARD
+    <a href="{{ route('admin.impuestos.index') }}"> DASHBOARD </a>
+
 @endsection
 
 @section('styles')

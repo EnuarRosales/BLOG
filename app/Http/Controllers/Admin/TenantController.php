@@ -51,7 +51,7 @@ class TenantController extends Controller
         $tenant = Tenant::create($request->all());
 
         $tenant->domains()->create([
-            'domain' => $request->get('id') . '.' . 'siaewc.com',
+            'domain' => $request->get('id') . '.' . 'pp.test',
         ]);
 
         return redirect()->route('admin.tenants.index', $tenant->id)->with('info', 'store');

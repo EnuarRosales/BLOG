@@ -256,10 +256,10 @@ class RegistroProducidoController extends Controller
         //     $acciones = '';
         //     return $acciones;
         // })
-        ->addColumn('acciones', function ($row) use ($permission) {
+        ->addColumn('acciones', function ($row) use ($userLogueado) {
             $acciones = '';
 
-            if ($permission->where('id', 55)->isNotEmpty()) { // rol de editar descuentos
+            if ($userLogueado->hasPermissionTo('admin.registroProduccion.edit')) { // rol de editar descuentos 
                 $acciones .= '<a href="' . route('admin.registroProducidos.edit', ['registroProducido' => $row->id]) . '">
                                 <svg class="mr-4" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-id="' . $row->id . '">
                                     <path d="M12 20h9"></path>
@@ -268,7 +268,7 @@ class RegistroProducidoController extends Controller
                             </a>';
             }
 
-            if ($permission->where('id', 56)->isNotEmpty()) { // rol de eliminar descuentos
+            if ($userLogueado->hasPermissionTo('admin.registroProduccion.destroy')) { // rol de eliminar descuentos
                 // $acciones .= '<button class="btn btn-danger action-button" data-id="' . $row->id . '">Eliminar</button>';
                 $acciones .= '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-id="' . $row->id . '" class="feather feather-x-circle table-cancel">
                                 <circle cx="12" cy="12" r="10"></circle>

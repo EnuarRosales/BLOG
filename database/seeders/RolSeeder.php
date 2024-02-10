@@ -364,7 +364,7 @@ class RolSeeder extends Seeder
             'description' => 'Crear produccion'
         ])->syncRoles([$role_admin, $role_monitor]);
         Permission::firstOrCreate([
-            'name' => 'admin.registroProduccion.edit',
+            'name' => 'admin.registroProduccion.edit', 
             'description' => 'Editar produccion'
         ])->syncRoles([$role_admin, $role_monitor]);
         Permission::firstOrCreate([
@@ -408,8 +408,15 @@ class RolSeeder extends Seeder
         //PERMISOS REPORTE APGINAS
         Permission::firstOrCreate([
             'name' => 'admin.reportePaginas.index',
-            'description' => 'Ver listado de produccion'
+            'description' => 'Ver y operar modulo de reporte paginas'
         ])->syncRoles([$role_admin, $role_monitor]);
+
+
+
+
+
+
+
 
         //PERMISOS MODULO DE SUSCRIPCIONES
         Permission::firstOrCreate([

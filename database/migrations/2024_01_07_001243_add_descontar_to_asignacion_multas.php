@@ -15,6 +15,7 @@ return new class extends Migration
     {
         Schema::table('asignacion_multas', function (Blueprint $table) {
             $table->boolean('generar_descuento')->default(false);
+            
         });
     }
 

@@ -43,7 +43,8 @@ class AsignacionMultaController extends Controller
      */
     public function create()
     {
-        $users = User::orderBy('id', 'desc');
+        $users = User::where('active', 1)
+        ->orderBy('id', 'desc');
         $tipoMultas = TipoMulta::orderBy('id', 'desc');
         return view('admin.asignacionMultas.create', compact('users', 'tipoMultas'));
     }
@@ -83,7 +84,8 @@ class AsignacionMultaController extends Controller
      */
     public function edit(AsignacionMulta $asignacionMulta)
     {
-        $users = User::orderBy('id', 'desc');
+        $users = User::where('active', 1)
+        ->orderBy('id', 'desc');
         $tipoMultas = TipoMulta::orderBy('id', 'desc');
 
         return view('admin.asignacionMultas.edit', compact('asignacionMulta', 'users', 'tipoMultas'));

@@ -42,6 +42,7 @@ class AsignacionTurnoController extends Controller
             }
             // El usuario tiene el permiso "editar_posts"
             $asignacionTurnos = AsignacionTurno::with('turno', 'user.tipoUsuario')->get();
+
             return view('admin.asignacionTurnos.index', compact('asignacionTurnos'));
         }
     }
@@ -54,7 +55,8 @@ class AsignacionTurnoController extends Controller
     public function create()
     {
         // $asignacionTurnos = AsignacionTurno::pluck('created_at','id')->toArray();
-        $users = User::orderBy('id', 'desc');
+        $users = User::where('active', 1)
+        ->orderBy('id', 'desc');
         $turnos = Turno::orderBy('id', 'desc');
         return view('admin.asignacionTurnos.create', compact('users', 'turnos'));
     }
@@ -98,7 +100,9 @@ class AsignacionTurnoController extends Controller
      */
     public function edit(AsignacionTurno $asignacionTurno)
     {
-        $users = User::orderBy('id', 'desc');
+        $users = User::where('active', 1)
+        ->orderBy('id', 'desc');
+
         $turnos = Turno::orderBy('id', 'desc');
 
         return view('admin.asignacionTurnos.edit', compact('asignacionTurno', 'users', 'turnos'));

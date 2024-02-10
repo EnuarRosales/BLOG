@@ -73,7 +73,8 @@ class AsignacionRoomController extends Controller
      */
     public function create()
     {
-        $users = User::orderBy('id', 'desc');
+        $users = User::where('active', 1)
+        ->orderBy('id', 'desc');
         $rooms = Room::orderBy('id', 'desc');
         return view('admin.asignacionRooms.create', compact('users', 'rooms'));
     }
@@ -115,7 +116,8 @@ class AsignacionRoomController extends Controller
      */
     public function edit(AsignacionRoom $asignacionRoom)
     {
-        $users = User::orderBy('id', 'desc');
+        $users = User::where('active', 1)
+        ->orderBy('id', 'desc');
         $rooms = Room::orderBy('id', 'desc');
 
         return view('admin.asignacionRooms.edit', compact('asignacionRoom', 'users', 'rooms'));

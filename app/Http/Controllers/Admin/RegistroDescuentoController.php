@@ -161,7 +161,8 @@ class RegistroDescuentoController extends Controller
      */
     public function create()
     {
-        $users = User::orderBy('id', 'desc');
+        $users = User::where('active', 1)
+            ->orderBy('id', 'desc');
         $tipoDescuentos = TipoDescuento::orderBy('id', 'desc');
         return view('admin.registroDescuentos.create', compact('users', 'tipoDescuentos'));
     }
@@ -208,7 +209,8 @@ class RegistroDescuentoController extends Controller
      */
     public function edit(Descuento $registroDescuento)
     {
-        $users = User::orderBy('id', 'desc');
+        $users = User::where('active', 1)
+        ->orderBy('id', 'desc');
         $tipoDescuentos = TipoDescuento::orderBy('id', 'desc');
         return view('admin.registroDescuentos.edit', compact('registroDescuento', 'users', 'tipoDescuentos'));
     }

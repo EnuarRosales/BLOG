@@ -46,7 +46,9 @@ class RegistroAsistenciaController extends Controller
      */
     public function create()
     {
-        $users = User::with('asignacionTurnos', 'asignacionTurnos.turno')->orderBy('id', 'desc')->get();
+        $users = User::with('asignacionTurnos', 'asignacionTurnos.turno')
+        ->where('active', 1)
+        ->orderBy('id', 'desc')->get();
         $asistencia = AsistenciaTiempoConfig::all();
         return view('admin.registroAsistencias.create', compact('users', 'asistencia'));
     }
@@ -118,7 +120,10 @@ class RegistroAsistenciaController extends Controller
      */
     public function edit(Asistencia $registroAsistencia)
     {
-        $users = User::with('asignacionTurnos', 'asignacionTurnos.turno')->orderBy('id', 'desc')->get();
+        $users = User::with('asignacionTurnos', 'asignacionTurnos.turno')
+        ->where('active', 1)
+        ->orderBy('id', 'desc')->get();
+        
         $asistencia = AsistenciaTiempoConfig::all();
         return view('admin.registroAsistencias.edit', compact('registroAsistencia', 'users', 'asistencia'));
     }

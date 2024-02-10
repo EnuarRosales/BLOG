@@ -28,7 +28,7 @@ use App\Http\Controllers\Admin\UserController;
 Route::get('/',[HomeController::class,'index'])->middleware(['auth','verified']);
 
 // Route::resource('users', UserController::class)->middleware(['auth', 'verified'])->names('admin.users');
-Route::resource('tenants',TenantController::class)->middleware(['auth','verified'])->names('admin.tenants');
+Route::resource('tenants',TenantController::class)->middleware(['auth','verified'])->names('admin.tenants'); 
 Route::get('tenantAsignacionDominio/{tenant}', [TenantController::class, 'agrgarUsuarioDominio'])->middleware(['auth', 'verified'])->name('admin.tenants.tenantAsignacionDominio');
 
 

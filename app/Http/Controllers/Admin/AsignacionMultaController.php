@@ -59,7 +59,7 @@ class AsignacionMultaController extends Controller
         $request->validate([
             'user_id' => 'required',
             'tipoMulta_id' => 'required',
-            'observacion' => 'required',
+            // 'observacion' => 'required',
         ]);
 
 
@@ -148,28 +148,7 @@ class AsignacionMultaController extends Controller
                 $asignacionMultas = AsignacionMulta::where('descontado', 0)->get();
                 // dd($asignacionMultas);
             }
-        }
-
-
-
-        // $userLogueado = auth()->user();
-        // // Llama al método getPermissionIds() con el objeto de usuario como argumento
-        // $permissionIds = User::getPermissionIds($userLogueado);
-        // // Comprueba si el permiso con ID 63 permiso para ver todos los registros existe en la lista de permisos
-        // if (in_array(44, $permissionIds)) {
-        //     // Si existe el permiso, obtén todos los registros de AsignacionMulta donde descontado == 0
-        //     $asignacionMultas = AsignacionMulta::where('descontado', 0)->get();
-        // } else {
-        //     // Si el permiso no existe, obtén mis registros de AsignacionMulta donde user_id == $userLogueado->id y descontado == 0
-        //     $asignacionMultas = AsignacionMulta::where('user_id', $userLogueado->id)
-        //         ->where('descontado', 0)
-        //         ->get();
-        // }
-
-
-        // Obtén los permisos relacionados con los IDs de permisos obtenidos anteriormente
-        // $permission = Permission::select('id', 'name', 'description')->whereIn('id', $permissionIds)->get();
-
+        }       
 
         return DataTables::of($asignacionMultas)
             ->addColumn('acciones', function ($row) use ($userLogueado) {
@@ -213,10 +192,13 @@ class AsignacionMultaController extends Controller
                 $multa = TipoMulta::find($row->tipoMulta_id);
                 return $multa->costo;
             })
-            ->addColumn('observacion', function ($row) {
-                $asignacionMulta = AsignacionMulta::find($row->asignacionMulta_id);
-                return $asignacionMulta->observacion;
-            })
+            // ->addColumn('observacion', function ($row) {
+            //     $asignacionMulta = AsignacionMulta::find($row->asignacionMulta_id);
+            //     return $asignacionMulta->observacion;
+            //     dd($asignacionMulta->observacion);
+
+                
+            // })
 
             ->addColumn('fecha', function ($row) {
                 $fechaOriginal = $row->created_at;
@@ -239,9 +221,6 @@ class AsignacionMultaController extends Controller
                             <span class="slider round"></span>
                         </label>';
             })
-
-
-
             ->rawColumns(['acciones', 'generar_descuento'])
             ->make(true);
     }

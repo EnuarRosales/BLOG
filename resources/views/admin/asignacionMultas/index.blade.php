@@ -7,7 +7,7 @@
 @endsection
 
 @section('content_header')
-    <h2 class="ml-3">Lista multas</h2>
+    <h2 class="ml-3">Lista multas</h2> 
 @stop
 
 @section('styles')
@@ -48,9 +48,9 @@
                             <th>Tipo multa</th>
                             <th>Valor Multa</th>
                             <th>Valor Multa</th>
-                            <th>Fecha</th>
-                            <th>Descontar</th>
+                            <th>Fecha</th>                            
                             <th>Observacion</th>
+                            <th>Descontar</th>
                             {{-- @can('admin.registroMultas.edit') --}}
                                 <th>Acciones</th>
                             {{-- @endcan --}}
@@ -66,9 +66,9 @@
                             <th>Tipo multa</th>
                             <th>Valor Multa</th>
                             <th>Valor Multa</th>
-                            <th>Fecha</th>
-                            <th>Descontar</th>
+                            <th>Fecha</th>                            
                             <th>Observacion</th>
+                            <th>Descontar</th>
                             {{-- @can('admin.registroMultas.edit') --}}
                                 <th>Acciones</th>
                             {{-- @endcan --}}
@@ -161,6 +161,7 @@
                     name: 'fecha',
                 },
 
+                //NO ENTIENDO PORQUE TRAE ESTOS DATOS
                 {
                     data: 'observacion',
                     name: 'observacion',

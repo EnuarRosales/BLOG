@@ -202,7 +202,6 @@ class ReportePaginaController extends Controller
             if ($request->fecha != $reporteUser->fecha ) {
                return redirect()->route('admin.reportePaginas.index')->with('info', 'error');
             }
-        dd($reporteUser);
 
         $reportePagina = ReportePagina::create([
             'fecha' => $request->fecha,

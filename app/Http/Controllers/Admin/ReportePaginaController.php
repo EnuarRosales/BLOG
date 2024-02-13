@@ -57,7 +57,6 @@ class ReportePaginaController extends Controller
     {
         $users = User::orderBy('id', 'desc');
         $paginas = Pagina::orderBy('id', 'desc');
-        // $turnos = Turno::orderBy('id','desc');
         return view('admin.reportePaginas.create', compact('users', 'paginas'));
     }
 
@@ -190,11 +189,20 @@ class ReportePaginaController extends Controller
             'TRM' => 'required',
         ]);
 
+        // $reporteUser = ReportePagina::where('user_id', $request->user_id)
+        //     ->where('verificado', 0)
+        //     ->where('fecha', '=', $request->fecha) //ENUAR AGREGUE ESTE CONDICION
+        //     ->whereNotNull('porcentaje_add')
+        //     ->first();
+
         $reporteUser = ReportePagina::where('user_id', $request->user_id)
-            ->where('verificado', 0)
-            ->where('fecha', '=', $request->fecha) //ENUAR AGREGUE ESTE CONDICION
-            ->whereNotNull('porcentaje_add')
+            ->where('enviarPago', 0)
             ->first();
+
+            if ($request->fecha != $reporteUser->fecha ) {
+               return redirect()->route('admin.reportePaginas.index')->with('info', 'error');
+            }
+        dd($reporteUser);
 
         $reportePagina = ReportePagina::create([
             'fecha' => $request->fecha,

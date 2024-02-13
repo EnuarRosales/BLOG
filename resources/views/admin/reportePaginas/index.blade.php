@@ -476,6 +476,14 @@
                     'success'
                 )
             </script>
+        @elseif (session('info') == 'error')
+            <script>
+                Swal.fire(
+                    '¡Guardado!',
+                    'Aun tiene fechas sin Generar Pago',
+                    'error'
+                )
+            </script>
         @elseif(session('info') == 'store')
             <script>
                 Swal.fire({

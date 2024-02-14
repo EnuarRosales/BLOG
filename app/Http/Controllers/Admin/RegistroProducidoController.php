@@ -136,9 +136,10 @@ class RegistroProducidoController extends Controller
 
         if ($Descuento) {
             $Descuento->delete();
+            event(new metas_widget);
             return response()->json(['success' => true]);
         }
-
+        
         return response()->json(['success' => false, 'message' => 'No se encontró el registro.']);
     }
 

@@ -9,6 +9,7 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Yajra\DataTables\Facades\DataTables;
+use App\Events\descuentos_widget;
 
 class DescontadoController extends Controller
 {
@@ -67,6 +68,7 @@ class DescontadoController extends Controller
         $descuentos->montoDescontado = $abonos;
         $descuentos->saldo = $descuentos->montoDescuento - $abonos;
         $descuentos->save();
+        event(new descuentos_widget);
 
         //retornamos Json
         return response()->json(['success' => true, 'error' => $error, 'descuentos' => $descuentos]);
@@ -217,7 +219,8 @@ class DescontadoController extends Controller
         $abonado->saldo = 0;
         $abonado->save();
 
-        // Si todo está correcto, devuelve true
+        event(new descuentos_widget);
+
         return response()->json(['success' => true, 'abonado' => $abonado]);
     }
 

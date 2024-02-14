@@ -17,8 +17,8 @@ return [
      */
     'central_domains' => [
         // 'pp.test',
-        // 'blog-studio.test',
-        'siaewc.com',
+        'blog-studio.test',
+        // 'siaewc.com',
         // 'fo.blog-studio.test',
         // 'localhost',S
         // 'blum.com',

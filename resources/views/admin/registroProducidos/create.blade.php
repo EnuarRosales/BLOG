@@ -6,7 +6,6 @@
 
 @section('page-title')
     <a href="{{ route('admin.registroProducidos.index') }}">Reporte de Producidos</a>
-
 @endsection
 
 @section('content_header')
@@ -14,80 +13,58 @@
 @stop
 
 @section('content')
-    <div class="col-xl-12 col-lg-12 col-sm-12  layout-spacing">
+    <div class="col-xl-12 col-lg-12 col-sm-12 layout-spacing">
         <div class="widget-content widget-content-area br-6">
-            {{-- <div class="card">
-                <div class="card-header">
-                    @yield('content_header')
+            <form method="POST" action="{{ route('admin.registroProducidos.store') }}">
+                @csrf
+                <div class="form-group">
+                    <label for="fecha">Fecha</label>
+                    <input type="date" name="fecha" id="fecha" value="{{ now()->format('Y-m-d') }}"
+                        class="form-control">
+                    @error('fecha')
+                        <br>
+                        <span class="text-danger">{{ $message }}</span>
+                        <br>
+                    @enderror
+
+
+                    <label for="valorProducido">Valor Producido</label>
+                    <input type="number" name="valorProducido" id="valorProducido" step="0.001" class="form-control">
+                    @error('valorProducido')
+                        <br>
+                        <span class="text-danger">{{ $message }}</span>
+                        <br>
+                    @enderror
+
+                    <label for="pagina_id">Pagina</label>
+                    <select name="pagina_id" id="pagina_id" class="form-control">
+                        <option value="">Selecciona una página</option>
+                        @foreach ($paginas as $pagina)
+                            <option value="{{ $pagina->id }}">{{ $pagina->nombre }}</option>
+                        @endforeach
+                    </select>
+                    @error('pagina_id')
+                        <br>
+                        <span class="text-danger">{{ $message }}</span>
+                        <br>
+                    @enderror
+
+                    <label for="meta_id">Meta</label>
+                    <select name="meta_id" id="meta_id" class="form-control">
+                        <option value="">Selecciona una meta</option>
+                        {{-- @foreach ($metas as $meta) --}}
+                        <option value="{{ $meta->id }}">{{ $meta->nombre }}</option>
+                        {{-- @endforeach --}}
+                    </select>
+                    @error('meta_id')
+                        <br>
+                        <span class="text-danger">{{ $message }}</span>
+                        <br>
+                    @enderror
+
                 </div>
-                <div class="card-body"> --}}
-                    {!! Form::open(['route' => 'admin.registroProducidos.store']) !!}
-                    <div class="form-group">
-                        {{-- {!! Form::label('user_id', 'Usuario') !!}
-                {!! Form::select('user_id', $users->pluck('name', 'id'), null, [
-                    'class' => 'form-control',
-                    'placeholder' => 'Seleccione Un Usuario',
-                ]) !!}
-                @error('user_id')
-                    <br>
-                    <span class="text-danger">{{ $message }}</span>
-                    <br>
-                @enderror --}}
-
-
-                        {!! Form::label('fecha', 'Fecha') !!}
-                        {!! Form::date('fecha', now(), [
-                            'class' => 'form-control',
-                        ]) !!}
-                        @error('fecha')
-                            <br>
-                            <span class="text-danger">{{ $message }}</span>
-                            <br>
-                        @enderror
-
-                        {!! Form::label('valorProducido', 'Valor Producido') !!}
-                        {!! Form::number('valorProducido', null, [
-                            'class' => 'form-control',
-                            'step' => '0.001', // Ajusta el paso para permitir decimales
-                        ]) !!}
-                        @error('valorProducido')
-                            <br>
-                            <span class="text-danger">{{ $message }}</span>
-                            <br>
-                        @enderror
-
-
-                        {!! Form::label('pagina_id', 'Pagina') !!}
-                        {!! Form::select('pagina_id', $paginas->pluck('nombre', 'id'), null, [
-                            'class' => 'form-control',
-                            'placeholder' => 'Seleccione Una Pagina',
-                        ]) !!}
-                        @error('pagina_id')
-                            <br>
-                            <span class="text-danger">{{ $message }}</span>
-                            <br>
-                        @enderror
-
-                        {!! Form::label('meta_id', 'Meta') !!}
-                        {!! Form::select('meta_id', $metas->pluck('nombre', 'id'), null, [
-                            'class' => 'form-control',
-                            'placeholder' => 'Seleccione Una Meta',
-                        ]) !!}
-                        @error('meta_id')
-                            <br>
-                            <span class="text-danger">{{ $message }}</span>
-                            <br>
-                        @enderror
-
-                    </div>
-                    {!! Form::submit('Registrar Producido', ['class' => 'btn btn-primary']) !!}
-                    {!! Form::close() !!}
-
-                {{-- </div>
-
-            </div> --}}
+                <button type="submit" class="btn btn-primary">Registrar Producido</button>
+            </form>
         </div>
     </div>
-
-
 @stop

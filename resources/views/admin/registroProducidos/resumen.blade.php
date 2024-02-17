@@ -282,8 +282,8 @@
                 buttons: [{
                         extend: 'excel',
                         className: 'btn',
-
                         exportOptions: {
+                            rows: '.exportable', // Selecciona las filas con la clase 'exportable'
                             columns: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9], // Incluye las columnas necesarias
                             format: {
                                 body: function(data, rowIdx, colIdx, node) {
@@ -305,8 +305,12 @@
                     },
                     {
                         extend: 'print',
-                        className: 'btn'
+                        className: 'btn',
+                        exportOptions: {
+                            rows: '.exportable'
+                        }
                     }
+
                 ]
             },
             language: {
@@ -375,6 +379,20 @@
             }
         }
 
+        // Define una función para mostrar todas las filas y marcarlas como exportables
+        function mostrarTodasLasFilas() {
+            $('table tbody tr').show();
+            $('table tbody tr').addClass('exportable'); // Marcar todas las filas como exportables
+        }
+
+        // Llama a la función para mostrar todas las filas cuando se cargue el formulario
+        $(document).ready(function() {
+            mostrarTodasLasFilas();
+
+            // Otro código de inicialización del formulario...
+        });
+
+
         $(document).ready(function() {
 
             var rowsShowFecha = 0;
@@ -397,6 +415,7 @@
             $('#filtrar').on('click', function() {
                 // Cambiar la longitud de página a 50 (o tu valor deseado)
                 table.page.len(100).draw();
+                $('table tbody tr').removeClass('exportable');
                 ejecutarFiltro();
             });
 
@@ -410,6 +429,8 @@
 
 
             function ejecutarFiltro() {
+
+
                 var fechaInicial = new Date($('#fecha-inicial').val());
                 var fechaFinal = new Date($('#fecha-final').val());
                 var selectedMetaId = $("#metaSelect").val(); // Obtener la meta seleccionada en el select
@@ -422,6 +443,7 @@
                 // Reiniciar las variables antes de contar
                 rowsShowMeta = 0;
                 rowsHideMeta = 0;
+
 
                 if (radio_meta.checked == true && radio_fecha.checked == true) {
 
@@ -565,6 +587,8 @@
                         }
                     });
                 }
+
+                $('table tbody tr:visible').addClass('exportable');
 
             }
 

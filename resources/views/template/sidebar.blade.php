@@ -3,7 +3,7 @@
                 <ul class="navbar-nav theme-brand flex-row  text-center">
                     <li class="nav-item theme-logo">
                         <a href="{{ route('home') }}">
-                            <img src="{{asset('template/assets/img/SIAEWC.jpeg')}}" class="navbar-logo" alt="logo">
+                            <img src="{{ asset('template/assets/img/SIAEWC.jpeg') }}" class="navbar-logo" alt="logo">
                         </a>
                     </li>
                     <li class="nav-item theme-text">

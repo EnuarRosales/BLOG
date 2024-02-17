@@ -534,7 +534,7 @@ class HomeController extends Controller
             // dd($registrosAsistencia );
             return  $datosAsociativos;
         } else {
-            echo "vacio";
+            // echo "vacio";
         }
     }
 

@@ -14,64 +14,36 @@
 
 
 @section('content')
-    {{-- CONFIRMACION SI HAY ALGO MAL --}}
     @if (isset($errors) && $errors->any())
         @include('admin.reportePaginas.partials.modal-error')
     @endif
 
     <div class="col-xl-12 col-lg-12 col-sm-12  layout-spacing">
         <div class="widget-content widget-content-area br-6">
-            {{-- <div class="card">
-
-                <div class="card-body"> --}}
             <div class="row">
                 <div class="col ">
-                    <div style="display: flex;">
-                        <label class="mt-2 ml-3 mr-1">Registros :</label>
-                        <select id="records-per-page" class="form-control custom-width-20">
-                            <!-- Agregamos la clase form-control-sm -->
-                            <option value="7">7</option>
-                            <option value="10">10</option>
-                            <option value="20">20</option>
-                            <option value="50">50</option>
-                        </select>
-                    </div>
                     <div class="mq-960">
-
                         <a id="verificadoMasivoBtn" class="btn btn-info float-right mr-3"
                             href="{{ route('admin.reportePaginas.verificadoMasivo') }}">Verificado Masivo</a>
-
-
                         <a class="btn btn-primary float-right"
                             href="{{ route('admin.reportePaginas.reporteQuincena') }}">Porcentajes</a>
-
                         <a class="btn btn-primary float-right" href="{{ route('admin.reportePaginas.pagos') }}">Pagos</a>
-
-
-
                         <button class="btn btn-primary dropdown-toggle float-right" type="button" id="dropdownMenuButton"
                             data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             Cargar datos
                         </button>
                         <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-
                             <a data-toggle="modal" data-target="#exampleModal" class="dropdown-item"
                                 href="{{ route('admin.reportePaginas.cargarExcel') }}">
                                 Cargar Excel
                             </a>
                             <a class="dropdown-item" href="{{ route('admin.reportePaginas.create') }}">Cargar individual</a>
-
                         </div>
                         @include('admin.reportePaginas.partials.import-excel')
-
                     </div>
                 </div>
-
-                {{-- </div> --}}
                 <div class="table-responsive mb-4 mt-4">
-
                     <table id="html5-extension" class="table table-hover non-hover" style="width:100%">
-
                         <thead>
                             <tr>
                                 <th>ID</th>
@@ -126,14 +98,11 @@
                     </table>
 
                 </div>
-                {{-- </div> --}}
             </div>
         </div>
-
     @stop
 
     @section('styles')
-
         <link rel="stylesheet" type="text/css" href="{{ asset('template/plugins/table/datatable/datatables.css') }}">
         <link rel="stylesheet" type="text/css" href="{{ asset('template/plugins/table/datatable/custom_dt_html5.css') }}">
         <link rel="stylesheet" type="text/css" href="{{ asset('template/plugins/table/datatable/dt-global_style.css') }}">
@@ -142,13 +111,10 @@
 
     @section('js')
         <script src="{{ asset('template/plugins/table/datatable/datatables.js') }}"></script>
-        <!-- NOTE TO Use Copy CSV Excel PDF Print Options You Must Include These Files  -->
         <script src="{{ asset('template/plugins/table/datatable/button-ext/dataTables.buttons.min.js') }}"></script>
         <script src="{{ asset('template/plugins/table/datatable/button-ext/jszip.min.js') }}"></script>
         <script src="{{ asset('template/plugins/table/datatable/button-ext/buttons.html5.min.js') }}"></script>
         <script src="{{ asset('template/plugins/table/datatable/button-ext/buttons.print.min.js') }}"></script>
-
-
 
         <script>
             var table = $('#html5-extension').DataTable({
@@ -165,16 +131,13 @@
                             },
                             customize: function(xlsx) {
                                 var sheet = xlsx.xl.worksheets['sheet1.xml'];
-
-                                // Aplicar formato numérico a la columna oculta (columna 3 en base 0)
                                 $('c[r^="D"]', sheet).each(function() {
                                     var numFmtId = $('numFmt', this).attr('numFmtId');
                                     if (!numFmtId) {
                                         numFmtId =
-                                            2; // ID para el formato de número en Excel (puedes ajustar según tus necesidades)
+                                            2;
                                         $('numFmt', this).attr('numFmtId', numFmtId);
                                     }
-                                    // $(this).attr('s', '2'); // Establecer el estilo de celda como número
                                 });
                             },
                         },
@@ -321,33 +284,18 @@
                     "sSearchPlaceholder": "Buscar...",
                     "sLengthMenu": "Mostrar _MENU_ resultados por página",
                 },
-                "stripeClasses": [],
-                "lengthMenu": [7, 10, 20, 50],
-                "pageLength": 7,
+                "pageLength": 300,
                 initComplete: function() {
                     var api = this.api();
                     api.rows().every(function() {
-                        // Obtiene el valor de la columna "ID" en la fila actual
                         var id = this.data().id;
-
-                        // Agrega el atributo data-id a la fila
                         $(this.node()).attr('data-id', id);
                     });
                 },
-                // order: [
-                //     [5, 'desc'] // 1 es el índice de la columna que contiene las fechas
-                // ],
             });
-
-            // Escucha el evento de cambio en los interruptores de clase 'toggle-switch'
             $(document).on('change', '.toggle-switch', function() {
-                // Obtiene el valor actual del atributo data-status
                 var currentStatus = $(this).data('status');
-
-                // Cambia el valor del atributo data-status a su inverso (0 a 1 o 1 a 0)
                 $(this).data('status', currentStatus == 0 ? 1 : 0);
-
-                // Agrega o quita la clase 'excluido' según el nuevo valor de data-status
                 if ($(this).data('status') == 1) {
                     $(this).closest('tr').addClass('excluido');
                 } else {
@@ -355,27 +303,20 @@
                 }
             });
 
-            // Evento click en el botón "Verificado Masivo"
             $('#verificadoMasivoBtn').on('click', function(e) {
                 e.preventDefault();
-
-                // Obtener todos los datos en el DataTable donde 'verificado' no está checkeado y no tiene la clase 'excluido'
                 var unverifiedData = [];
                 table.rows().every(function(index, element) {
                     var data = this.data();
                     var $rowNode = $(this.node());
-
                     if (data.verificado !== 1 && !$rowNode.hasClass('excluido')) {
                         unverifiedData.push(data);
                     }
                 });
-
-                // Crear un array con los IDs de los elementos no checkeados
                 var unverifiedIds = unverifiedData.map(function(item) {
                     return item.id;
                 });
 
-                // Realizar la petición AJAX
                 $.ajax({
                     url: "{{ route('admin.reportePaginas.verificadoMasivo') }}",
                     type: 'GET',
@@ -383,25 +324,19 @@
                         ids: unverifiedIds
                     },
                     success: function(response) {
-                        // Recargar la página
                         window.location.reload();
                     },
                     error: function(error) {
-                        // Manejar errores
                         console.error(error);
                     }
                 });
             });
 
-
-
-            // Button eliminar
             $('#html5-extension').on('click', '.feather-x-circle', function() {
-                var button = $(this); // El botón que se hizo clic
-                var row = button.closest('tr'); // La fila que contiene el botón
+                var button = $(this);
+                var row = button.closest('tr');
                 var table = $('#html5-extension').DataTable();
-                var currentPage = table.page(); // Guardar la página actual
-
+                var currentPage = table.page();
                 Swal.fire({
                     title: '¿Estás seguro?',
                     text: '¡Este registro se eliminará definitivamente!',
@@ -419,23 +354,20 @@
                             data: {
                                 id: row.data(
                                     'id'
-                                ), // Puedes usar data-* para almacenar el ID de la fila
+                                ),
                                 _token: "{{ csrf_token() }}"
                             },
                             success: function(response) {
                                 if (response.success) {
-
                                     Swal.fire(
                                         '¡Eliminado!',
                                         'El registro se elimino con exito',
                                         'success'
                                     );
-
                                     setTimeout(function() {
                                         Swal.close();
                                     }, 2000);
                                     setTimeout(function() {
-                                        // Elimina la fila sin recargar la tabla
                                         var rowIndex = table.row(row).index();
                                         table.row(rowIndex).remove().draw();
                                         table.page(currentPage).draw('page');
@@ -448,18 +380,14 @@
             });
 
             function formatCurrency(value) {
-                // Puedes personalizar esta función según tus necesidades
                 var options = {
                     style: 'currency',
                     currency: 'COP',
                     minimumFractionDigits: value % 1 === 0 ? 0 :
-                    2, // 0 decimales si es un número entero, 2 decimales en caso contrario
+                    2,
                 };
-
                 return new Intl.NumberFormat('es-CO', options).format(value);
             }
-
-            // Detectar cambios en el select
             $('#records-per-page').change(function() {
                 var newLength = $(this).val();
                 table.page.len(newLength).draw();
@@ -514,10 +442,9 @@
                     position: 'top-end',
                     type: 'error',
                     title: 'Errores en las filas: <br> {{ $errorMessage }} <br> Los modelos no existen en la base de datos.',
-                    // html: true, // Habilita HTML en el mensaje
-                    showConfirmButton: true, // Mostrar el botón "Aceptar"
-                    allowOutsideClick: false, // Evitar que se cierre al hacer clic fuera
-                    confirmButtonText: 'Aceptar', // Texto personalizado para el botón
+                    showConfirmButton: true,
+                    allowOutsideClick: false,
+                    confirmButtonText: 'Aceptar',
                 })
             </script>
         @elseif(session('info') && strpos(session('info'), 'error,pagina') === 0)
@@ -530,10 +457,9 @@
                     position: 'top-end',
                     type: 'error',
                     title: 'Errores en las filas: <br> {{ $errorMessage }} <br> Las paginas no existen en la base de datos.',
-                    // html: true, // Habilita HTML en el mensaje
-                    showConfirmButton: true, // Mostrar el botón "Aceptar"
-                    allowOutsideClick: false, // Evitar que se cierre al hacer clic fuera
-                    confirmButtonText: 'Aceptar', // Texto personalizado para el botón
+                    showConfirmButton: true,
+                    allowOutsideClick: false,
+                    confirmButtonText: 'Aceptar',
                 })
             </script>
         @elseif(session('info') && strpos(session('info'), 'error,fecha') === 0)
@@ -546,10 +472,9 @@
                     position: 'top-end',
                     type: 'error',
                     title: 'Errores en las Fechas: <br> {{ $errorMessage }} <br>',
-                    // html: true, // Habilita HTML en el mensaje
-                    showConfirmButton: true, // Mostrar el botón "Aceptar"
-                    allowOutsideClick: false, // Evitar que se cierre al hacer clic fuera
-                    confirmButtonText: 'Aceptar', // Texto personalizado para el botón
+                    showConfirmButton: true,
+                    allowOutsideClick: false,
+                    confirmButtonText: 'Aceptar',
                 })
             </script>
         @elseif(session('info') == 'verificadoMasivo')
@@ -593,6 +518,4 @@
                 })
             </script>
         @endif
-
-
     @stop

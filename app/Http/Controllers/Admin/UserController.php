@@ -47,7 +47,8 @@ class UserController extends Controller
     public function userCertificacion()
     {
         try {
-            $users = User::with('tipoUsuario')->get();
+            $users = User::with('tipoUsuario')
+            ->where('active', 1)->get(); 
             $date = Carbon::now()->locale('es');
             $userLogueado = auth()->user()->id;
 

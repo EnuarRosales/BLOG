@@ -5,7 +5,7 @@
 @endsection
 
 @section('page-title')
-    DASHBOARD
+    DASHBOAR
 @endsection
 
 @section('styles')
@@ -24,7 +24,11 @@
 
 
 @section('content')
-    @can('admin.home')
+
+
+
+
+    @can('admin.dashboard')
         <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 layout-spacing">
             <div class="row widget-statistic">
                 @include('admin.index.partials.usuario_widget')
@@ -107,7 +111,7 @@
                     <div class="widget-header">
                         <div class="row">
                             <div class="col-xl-12 col-md-12 col-sm-12 col-12">
-                                <h4>Estadisticas de Paginas por Quincenas</h4>
+                                <h4>Estadisticas de Paginas por Periodos</h4>
                             </div>
                         </div>
                     </div>
@@ -122,7 +126,7 @@
             <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 layout-spacing">
                 <div class="widget widget-table-three">
                     <div class="widget-heading">
-                        <h5 class="">Quincena por modelos</h5>
+                        <h5 class="">Periodo por modelos</h5>
                     </div>
                     <div class="widget-content">
                         <div class="table-responsive">
@@ -540,7 +544,7 @@
                         data: totalPagos,
                     }],
                     title: {
-                        text: 'Facturado por quincena en dolares',
+                        text: 'Facturado por periodo en dolares',
                         align: 'left'
                     },
                     grid: {

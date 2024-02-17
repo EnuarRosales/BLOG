@@ -15,6 +15,8 @@ use Illuminate\Http\Request;
 use Spatie\Permission\Models\Permission;
 use Spatie\Permission\Models\Role;
 use Yajra\DataTables\Facades\DataTables;
+use Illuminate\Support\Facades\Auth;
+
 
 class AsignacionMultaController extends Controller
 {
@@ -41,7 +43,8 @@ class AsignacionMultaController extends Controller
      */
     public function create()
     {
-        $users = User::orderBy('id', 'desc');
+        $users = User::where('active', 1)
+        ->orderBy('id', 'desc');
         $tipoMultas = TipoMulta::orderBy('id', 'desc');
         return view('admin.asignacionMultas.create', compact('users', 'tipoMultas'));
     }
@@ -57,6 +60,7 @@ class AsignacionMultaController extends Controller
         $request->validate([
             'user_id' => 'required',
             'tipoMulta_id' => 'required',
+            // 'observacion' => 'required',
         ]);
 
 
@@ -80,7 +84,8 @@ class AsignacionMultaController extends Controller
      */
     public function edit(AsignacionMulta $asignacionMulta)
     {
-        $users = User::orderBy('id', 'desc');
+        $users = User::where('active', 1)
+        ->orderBy('id', 'desc');
         $tipoMultas = TipoMulta::orderBy('id', 'desc');
 
         return view('admin.asignacionMultas.edit', compact('asignacionMulta', 'users', 'tipoMultas'));
@@ -123,29 +128,35 @@ class AsignacionMultaController extends Controller
         return redirect()->route('admin.asignacionMultas.index')->with('info', 'delete');
     }
 
+
+
     public function datatable()
     {
+
+        //SE PREGUNTA SI EL USUARIO LOGUEADO TIENE ESTOS DOS PERSMISOS
+        // Obtén el usuario autenticado
+        // $userLogueado = Auth::user();   
         $userLogueado = auth()->user();
-        // Llama al método getPermissionIds() con el objeto de usuario como argumento
-        $permissionIds = User::getPermissionIds($userLogueado);
-        // Comprueba si el permiso con ID 63 permiso para ver todos los registros existe en la lista de permisos
-        if (in_array(44, $permissionIds)) {
-            // Si existe el permiso, obtén todos los registros de AsignacionMulta donde descontado == 0
-            $asignacionMultas = AsignacionMulta::where('descontado', 0)->get();
-        } else {
-            // Si el permiso no existe, obtén mis registros de AsignacionMulta donde user_id == $userLogueado->id y descontado == 0
-            $asignacionMultas = AsignacionMulta::where('user_id', $userLogueado->id)
-                                                ->where('descontado', 0)
-                                                ->get();
-        }
-        // Obtén los permisos relacionados con los IDs de permisos obtenidos anteriormente
-        $permission = Permission::select('id', 'name', 'description')->whereIn('id', $permissionIds)->get();
+
+        if ($userLogueado->hasPermissionTo('admin.registroMultas.index')) {
+            if ($userLogueado->hasPermissionTo('registroMultas.personal')) {
+                // El usuario no tiene el permiso "editar_posts"
+                $asignacionMultas = AsignacionMulta::where('user_id', $userLogueado->id)
+                    ->orderBy('id', 'desc')
+                    ->where('descontado', 0)->get();
+                // dd($asignacionMultas);
+            } else {
+                // El usuario tiene el permiso "editar_posts"
+                $asignacionMultas = AsignacionMulta::where('descontado', 0)->get();
+                // dd($asignacionMultas);
+            }
+        }       
 
         return DataTables::of($asignacionMultas)
-            ->addColumn('acciones', function ($row) use ($permission) {
+            ->addColumn('acciones', function ($row) use ($userLogueado) {
                 $acciones = '';
 
-                if ($permission->where('id', 45)->isNotEmpty()) { // rol de editar descuentos
+                if ($userLogueado->hasPermissionTo('admin.registroMultas.edit')) { // rol de editar descuentos
                     $acciones .= '<a href="' . route('admin.asignacionMultas.edit', ['asignacionMulta' => $row->id]) . '">
                                     <svg class="mr-4" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-id="' . $row->id . '">
                                         <path d="M12 20h9"></path>
@@ -154,7 +165,7 @@ class AsignacionMultaController extends Controller
                                 </a>';
                 }
 
-                if ($permission->where('id', 46)->isNotEmpty()) { // rol de eliminar descuentos
+                if ($userLogueado->hasPermissionTo('admin.registroMultas.destroy')) { // rol de eliminar descuentos
                     // $acciones .= '<button class="btn btn-danger action-button" data-id="' . $row->id . '">Eliminar</button>';
                     $acciones .= '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-id="' . $row->id . '" class="feather feather-x-circle table-cancel">
                                     <circle cx="12" cy="12" r="10"></circle>
@@ -179,23 +190,31 @@ class AsignacionMultaController extends Controller
                 $multa = TipoMulta::find($row->tipoMulta_id);
                 return $multa->costo;
             })
-
             ->addColumn('multa_valor_format', function ($row) {
                 $multa = TipoMulta::find($row->tipoMulta_id);
                 return $multa->costo;
             })
+            // ->addColumn('observacion', function ($row) {
+            //     $asignacionMulta = AsignacionMulta::find($row->asignacionMulta_id);
+            //     return $asignacionMulta->observacion;
+            //     dd($asignacionMulta->observacion);
+
+                
+            // })
 
             ->addColumn('fecha', function ($row) {
                 $fechaOriginal = $row->created_at;
                 // Crear un objeto Carbon desde la fecha original
                 $fechaCarbon = Carbon::parse($fechaOriginal)->setTimezone('America/Bogota');
-
                 // Extraer el año, mes y día en formato deseado
                 $anioMesDia = $fechaCarbon->format('Y-m-d');
+
 
                 // Imprimir el resultado
                 return $anioMesDia;
             })
+
+
 
             ->addColumn('generar_descuento', function ($row) {
                 $checked = $row->generar_descuento == 1 ? 'checked' : '';
@@ -204,14 +223,13 @@ class AsignacionMultaController extends Controller
                             <span class="slider round"></span>
                         </label>';
             })
-
             ->rawColumns(['acciones', 'generar_descuento'])
             ->make(true);
     }
 
     public function generarDescuentoMulta($id)
     {
-        
+
         $asignacionMulta = AsignacionMulta::findOrFail($id);
         // dd($asignacionMulta);
         // Invierte el valor de generar_descuento

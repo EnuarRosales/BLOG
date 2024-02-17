@@ -289,53 +289,26 @@ return [
     |
     */
 
+
+
+
     'menu' => [
-        // Navbar items:
-        // [
-        //     'type'         => 'navbar-search',
-        //     'text'         => 'search',
-        //     'topnav_right' => true,
-        // ],
-        // [
-        //     'type'         => 'fullscreen-widget',
-        //     'topnav_right' => true,
-        // ],
-
-        // Sidebar items:
-        // [
-        //     'type' => 'sidebar-menu-search',
-        //     'text' => 'search',
-        // ],
-
-        // [
-        //     'text' => 'blog',
-        //     'url'  => 'admin/blog',
-        //     'can'  => 'manage-blog',
-        // ],
-        // [
-        //     'text'        => 'Dashborad',
-        //     'url'         => '/',
-        //     'can'         => 'admin.dashboard',
-        //     'icon'        => 'far fa-fw fa-file',
-
+        // 'MAIN NAVIGATION',
         // ], //ojo que aca inicia para modificar el menu
 
         ['header' => 'ADMINISTRADOR'],
-
-
         [
             'text' => 'Estudios',
             'route'  => 'admin.tenants.index',
             'icon' => '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-layers"><polygon points="12 2 2 7 12 12 22 7 12 2"></polygon><polyline points="2 17 12 22 22 17"></polyline><polyline points="2 12 12 17 22 12"></polyline></svg>',
-            'can' => 'admin.tenants.index',
+            // 'can' => 'admin.tenants.index',
             'submenu' => [
-
+  
                 [
                     'text' => 'Dominios',
                     'route'  => 'admin.tenants.index',
                     'can' => 'admin.tenants.index',
                     'icon' => 'fas fa-fw fa-user',
-
                 ],
 
                 [
@@ -359,7 +332,14 @@ return [
                 ],
 
 
-            ]
+            ],
+        ],
+
+        [
+            'text' => 'Dashboard',
+            'route'  => 'home',
+            'icon' => '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-pie-chart"><path d="M21.21 15.89A10 10 0 1 1 8 2.83"></path><path d="M22 12A10 10 0 0 0 12 2v10z"></path></svg>',
+            'can' => 'admin.dashboard',
         ],
 
         [
@@ -368,6 +348,7 @@ return [
             'icon' => '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-users"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>',
             'can' => 'admin.users',
             'submenu' => [
+
 
                 [
                     'text' => 'Usuarios',
@@ -380,23 +361,18 @@ return [
                     'text' => 'Asignacion Turnos',
                     'route'  => 'admin.asignacionTurnos.index',
                     'can' => 'admin.asignacionTurnos.index',
-                    
                     'icon' => '	far fa-address-book',
                 ],
 
                 [
                     'text' => 'Asignacion Room',
-                    'route'  => 'admin.asignacionRooms.index',                            
-                    // 'can' => ['admin.asignacionRooms.index', 'asignacionRooms.personal'],                         
-                    'can'=> [
-                        'can' => 'admin.asignacionRooms.index',
-                        'can' => 'asignacionRooms.personal',
-                    ],
-
+                    'route'  => 'admin.asignacionRooms.index',
+                    'can' => 'admin.asignacionRooms.index',
+                    // 'can' => 'asignacionRooms.personal',
                     'icon' => ' fas fa-house-user',
                 ],
 
-            ]
+            ],
         ],
 
         [
@@ -406,6 +382,9 @@ return [
             'can' => 'admin.roles.index'
 
         ],
+
+
+
 
         // [
         //     'text' => 'Dashboard',
@@ -569,7 +548,7 @@ return [
             'text'       => 'Registro Multas',
             'icon' => '<svg style="color: red; fill:red;" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="transparent" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-octagon"><polygon points="7.86 2 16.14 2 22 7.86 22 16.14 16.14 22 7.86 22 2 16.14 2 7.86 7.86 2"></polygon></svg>',
             'route'        => 'admin.asignacionMultas.index',
-            'can' =>           'admin.registroMultas.index'
+            'can' =>           'admin.registroMultas.index' 
         ],
         [
             'text'       => 'Registro Asistencias',
@@ -602,9 +581,11 @@ return [
             'text' => 'Suscripciones',
             'icon' => '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-shopping-cart"><circle cx="9" cy="21" r="1"></circle><circle cx="20" cy="21" r="1"></circle><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path></svg>',
             'route' => 'admin.pasarelaPago',
-            // 'can' => 'admin.reportePaginas.index',
+            'can' => 'admin.suscripciones.index',
         ],
     ],
+
+
 
 
 

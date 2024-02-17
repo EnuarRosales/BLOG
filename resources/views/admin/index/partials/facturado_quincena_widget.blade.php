@@ -1,7 +1,7 @@
 <div class="col-xl-3 col-lg-12 col-md-6 col-sm-12 col-12 layout-top-spacing">
     <div class="widget widget-table-one" style="padding-top: 2rem; height: 31.0rem;">
         <div class="widget-heading">
-            <h5 class="">Facturado por quincena en dolares</h5>
+            <h5 class="">Facturado por periodo en dolares</h5>
         </div>
         <div style="max-height: 400px; overflow-y: auto;">
             <div class="widget-content">
@@ -21,7 +21,7 @@
                                 </div>
                                 <div class="t-name">
                                     <h4>{{ $index }}</h4>
-                                    <p class="meta-date">Quincena</p>
+                                    <p class="meta-date">Periodo</p>
                                 </div>
                             </div>
                             <div class="t-name">

@@ -24,15 +24,9 @@ class AsignacionRoomController extends Controller
      */
     public function index()
     {
-
         // Obtén el usuario autenticado
         $user = Auth::user();
-        //Obtén el ID del usuario autenticado
-        $userId = Auth::id();
-
-        // dd($user->id);
-
-        // Verifica si el usuario tiene el permiso "editar_posts"
+      
         if ($user->hasPermissionTo('admin.asignacionRooms.index')) {
             if ($user->hasPermissionTo('asignacionRooms.personal')) {
                 // El usuario no tiene el permiso "editar_posts"
@@ -79,7 +73,8 @@ class AsignacionRoomController extends Controller
      */
     public function create()
     {
-        $users = User::orderBy('id', 'desc');
+        $users = User::where('active', 1)
+        ->orderBy('id', 'desc');
         $rooms = Room::orderBy('id', 'desc');
         return view('admin.asignacionRooms.create', compact('users', 'rooms'));
     }
@@ -121,7 +116,8 @@ class AsignacionRoomController extends Controller
      */
     public function edit(AsignacionRoom $asignacionRoom)
     {
-        $users = User::orderBy('id', 'desc');
+        $users = User::where('active', 1)
+        ->orderBy('id', 'desc');
         $rooms = Room::orderBy('id', 'desc');
 
         return view('admin.asignacionRooms.edit', compact('asignacionRoom', 'users', 'rooms'));

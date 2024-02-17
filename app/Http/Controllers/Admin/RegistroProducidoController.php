@@ -249,31 +249,44 @@ class RegistroProducidoController extends Controller
         }
         $permission = Permission::select('id', 'name', 'description')->whereIn('id', $permissionIds)->get();
         return DataTables::of($registroProducidos)
-            ->addColumn('meta_nombre', function ($row) {
-                return $row->meta->nombre;
-            })
-            ->addColumn('pagina_nombre', function ($row) {
-                return $row->pagina->nombre;
-            })
-            ->addColumn('user_nombre', function ($row) {
-                return $row->user->name;
-            })
-            ->addColumn('valorProducidoFormat', function ($row) {
-                return $row->valorProducido;
-            })
-            ->addColumn('acciones', function ($row) use ($permission) {
-                $acciones = '';
+        ->addColumn('meta_nombre', function ($row) {
+            return $row->meta->nombre; // Reemplaza 'nombre' con el nombre real de la columna
+        })
+        ->addColumn('pagina_nombre', function ($row) {
+            return $row->pagina->nombre; // Reemplaza 'nombre' con el nombre real de la columna
+        })
+        ->addColumn('user_nombre', function ($row) {
+            return $row->user->name; // Reemplaza 'nombre' con el nombre real de la columna
+        })
+        ->addColumn('valorProducidoFormat', function ($row) {
+            // dd($row);
+            return $row->valorProducido;
+        })
+        // ->addColumn('acciones', function ($row) {
+        //     $acciones = '';
+        //     return $acciones;
+        // })
+        ->addColumn('acciones', function ($row) use ($userLogueado) {
+            $acciones = '';
 
-                if ($permission->where('id', 55)->isNotEmpty()) {
-                    $acciones .= '<a href="' . route('admin.registroProducidos.edit', ['registroProducido' => $row->id]) . '">
+            if ($userLogueado->hasPermissionTo('admin.registroProduccion.edit')) { // rol de editar descuentos 
+                $acciones .= '<a href="' . route('admin.registroProducidos.edit', ['registroProducido' => $row->id]) . '">
                                 <svg class="mr-4" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-id="' . $row->id . '">
                                     <path d="M12 20h9"></path>
                                     <path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"></path>
                                 </svg>
                             </a>';
+<<<<<<< HEAD
                 }
                 if ($permission->where('id', 56)->isNotEmpty()) {
                     $acciones .= '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-id="' . $row->id . '" class="feather feather-x-circle table-cancel">
+=======
+            }
+
+            if ($userLogueado->hasPermissionTo('admin.registroProduccion.destroy')) { // rol de eliminar descuentos
+                // $acciones .= '<button class="btn btn-danger action-button" data-id="' . $row->id . '">Eliminar</button>';
+                $acciones .= '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-id="' . $row->id . '" class="feather feather-x-circle table-cancel">
+>>>>>>> main
                                 <circle cx="12" cy="12" r="10"></circle>
                                 <line x1="15" y1="9" x2="9" y2="15"></line>
                                 <line x1="9" y1="9" x2="15" y2="15"></line>

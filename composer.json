@@ -27,7 +27,16 @@
         "simplesoftwareio/simple-qrcode": "^4.2",
         "spatie/laravel-permission": "^5.10",
         "stancl/tenancy": "^3.7",
-        "yajra/laravel-datatables": "9.0"
+        "yajra/laravel-datatables": "9.0",
+
+        "symfony/css-selector": "^6.0",
+        "symfony/event-dispatcher": "^6.0",
+        "symfony/mailer": "^6.0",
+        "symfony/string": "^6.0"
+    
+
+
+
     },
     "require-dev": {
         "spatie/laravel-ignition": "^1.0",

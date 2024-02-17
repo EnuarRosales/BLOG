@@ -559,20 +559,17 @@ class ReportePaginaController extends Controller
         $reportePaginas = ReportePagina::with('user', 'pagina')->where('verificado', 0)->get();
 
         return DataTables::of($reportePaginas)
-            ->addColumn('acciones', function ($row) use ($permission) {
+            ->addColumn('acciones', function ($row) use ($userLogueado) {
                 $acciones = '';
 
-                if ($permission->where('id', 55)->isNotEmpty()) { // rol de editar descuentos
+                if ($userLogueado->hasPermissionTo('admin.reportePaginas.index')) { // rol de editar descuentos
                     $acciones .= '<a href="' . route('admin.reportePaginas.edit', ['reportePagina' => $row->id]) . '">
                                     <svg class="mr-4" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-id="' . $row->id . '">
                                         <path d="M12 20h9"></path>
                                         <path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"></path>
                                     </svg>
                                 </a>';
-                }
 
-                if ($permission->where('id', 56)->isNotEmpty()) { // rol de eliminar descuentos
-                    // $acciones .= '<button class="btn btn-danger action-button" data-id="' . $row->id . '">Eliminar</button>';
                     $acciones .= '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-id="' . $row->id . '" class="feather feather-x-circle table-cancel">
                                     <circle cx="12" cy="12" r="10"></circle>
                                     <line x1="15" y1="9" x2="9" y2="15"></line>
@@ -580,6 +577,16 @@ class ReportePaginaController extends Controller
                                 </svg>
                             </button>';
                 }
+
+                // if ($permission->where('id', 56)->isNotEmpty()) { // rol de eliminar descuentos
+                //     // $acciones .= '<button class="btn btn-danger action-button" data-id="' . $row->id . '">Eliminar</button>';
+                //     $acciones .= '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-id="' . $row->id . '" class="feather feather-x-circle table-cancel">
+                //                     <circle cx="12" cy="12" r="10"></circle>
+                //                     <line x1="15" y1="9" x2="9" y2="15"></line>
+                //                     <line x1="9" y1="9" x2="15" y2="15"></line>
+                //                 </svg>
+                //             </button>';
+                // }
                 return $acciones;
             })
             ->addColumn('usuario_name', function ($row) {

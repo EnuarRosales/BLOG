@@ -7,7 +7,7 @@
 @endsection
 
 @section('content_header')
-    <h2 class="ml-3">Lista multas</h2>
+    <h2 class="ml-3">Lista multas</h2> 
 @stop
 
 @section('styles')
@@ -48,11 +48,12 @@
                             <th>Tipo multa</th>
                             <th>Valor Multa</th>
                             <th>Valor Multa</th>
-                            <th>Fecha</th>
+                            <th>Fecha</th>                            
+                            <th>Observacion</th>
                             <th>Descontar</th>
-                            @can('admin.registroMultas.edit')
+                            {{-- @can('admin.registroMultas.edit') --}}
                                 <th>Acciones</th>
-                            @endcan
+                            {{-- @endcan --}}
                         </tr>
                     </thead>
                     <tbody>
@@ -65,11 +66,12 @@
                             <th>Tipo multa</th>
                             <th>Valor Multa</th>
                             <th>Valor Multa</th>
-                            <th>Fecha</th>
+                            <th>Fecha</th>                            
+                            <th>Observacion</th>
                             <th>Descontar</th>
-                            @can('admin.registroMultas.edit')
+                            {{-- @can('admin.registroMultas.edit') --}}
                                 <th>Acciones</th>
-                            @endcan
+                            {{-- @endcan --}}
 
                         </tr>
                     </tfoot>
@@ -158,18 +160,33 @@
                     data: 'fecha',
                     name: 'fecha',
                 },
+
+                //NO ENTIENDO PORQUE TRAE ESTOS DATOS
+                {
+                    data: 'observacion',
+                    name: 'observacion',
+                },
+                
                 {
                     data: 'generar_descuento',
                     name: 'generar_descuento',
-                    @can('admin.registroMultas.create')
+                    @can('admin.registroMultas.descontar')
                         visible: true,
                     @else
                         visible: false,
                     @endcan
                 },
+
+                
+
                 {
                     data: 'acciones',
-                    name: 'acciones'
+                    name: 'acciones',
+                    @can('admin.registroMultas.edit')
+                        visible: true,
+                    @else
+                        visible: false,
+                    @endcan
                 },
             ],
             "oLanguage": {

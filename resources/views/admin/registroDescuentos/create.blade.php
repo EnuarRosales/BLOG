@@ -36,7 +36,7 @@
                 {!! Form::label('tipoDescuento_id', 'Tipo de Descuento') !!}
                 {!! Form::select('tipoDescuento_id', $tipoDescuentos->pluck('nombre', 'id'), null, [
                     'class' => 'form-control',
-                    'placeholder' => 'Seleccione Un Usuario',
+                    'placeholder' => 'Seleccione Un Descuento',
                 ]) !!}
                 @error('tipoDescuento_id')
                     <br>

@@ -15,8 +15,6 @@ class TipoUsuarioSeeder extends Seeder
      */
     public function run()
     {
-
-
         TipoUsuario::firstOrCreate(['nombre'=> 'Administrador']);
         TipoUsuario::firstOrCreate(['nombre'=> 'Modelo']);
         TipoUsuario::firstOrCreate(['nombre'=> 'Modelo Satélite']);

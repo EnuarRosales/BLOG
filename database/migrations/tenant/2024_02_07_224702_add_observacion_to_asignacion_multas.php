@@ -13,9 +13,9 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::table('asignacion_multas', function (Blueprint $table) {
-            $table->boolean('generar_descuento')->default(false);
-            
+        Schema::table('asignacion_multas', function (Blueprint $table) {            
+            $table->string('observacion',230)->nullable();
+            //
         });
     }
 
@@ -27,7 +27,7 @@ return new class extends Migration
     public function down()
     {
         Schema::table('asignacion_multas', function (Blueprint $table) {
-            $table->dropColumn('generar_descuento');
+            //
         });
     }
 };

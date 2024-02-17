@@ -16,8 +16,20 @@ class RoleController extends Controller
      */
     public function index()
     {
-        $roles = Role::orderBy('id', 'desc')->paginate();
+
+        // $roles = Role::orderBy('id', 'desc')->paginate();
+
+
+        $roles = Role::whereNotIn('name', ['role_super_admin'])->get();
         return view('admin.roles.index', compact('roles'));
+    }
+
+    // ESTO METODO EXCLUYE LOS PERMISOS QUE NO QUEREMOS QUE SE VEAN EN LA LISTA DE PERMISOS, CUANDO ASIGNAMOS PERMISOS A LOS ROLES
+    public function ocultarPermisosSuperAdministrador()
+    {
+        $excludePermissions = ['admin.tenants.index', 'admin.tenants.create', 'admin.tenants.edit', 'admin.tenants.destroy', 'admin.tenants.seeders'];
+        $permissions = Permission::whereNotIn('name', $excludePermissions)->get();
+        return $permissions;
     }
 
     /**
@@ -27,7 +39,7 @@ class RoleController extends Controller
      */
     public function create()
     {
-        $permissions = Permission::all();
+        $permissions = $this->ocultarPermisosSuperAdministrador();
         return view('admin.roles.create', compact('permissions'));
     }
 
@@ -39,13 +51,13 @@ class RoleController extends Controller
      */
     public function store(Request $request)
     {
-        //VALiDACION FORMULARIO 
+        //VALiDACION FORMULARIO
         $request->validate([
             'name' => 'required',
 
         ]);
         $role = Role::create($request->all()); //se crea un nuevo rol
-        $role->permissions()->sync($request->permissions); // asignamos distintos permisos a ese rol 
+        $role->permissions()->sync($request->permissions); // asignamos distintos permisos a ese rol
         return redirect()->route('admin.roles.index', $role->id)->with('info', 'store');
     }
 
@@ -68,8 +80,8 @@ class RoleController extends Controller
      */
     public function edit(Role $role)
     {
-        $permissions = Permission::all();
-        return view('admin.roles.edit', compact('role','permissions'));
+        $permissions = $this->ocultarPermisosSuperAdministrador();
+        return view('admin.roles.edit', compact('role', 'permissions'));
     }
 
     /**
@@ -81,7 +93,7 @@ class RoleController extends Controller
      */
     public function update(Request $request, Role $role)
     {
-        //VALiDACION FORMULARIO 
+        //VALiDACION FORMULARIO
 
         $request->validate([
             'name' => 'required',

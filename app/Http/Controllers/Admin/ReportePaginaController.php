@@ -198,10 +198,11 @@ class ReportePaginaController extends Controller
         $reporteUser = ReportePagina::where('user_id', $request->user_id)
             ->where('enviarPago', 0)
             ->first();
-
-            if ($request->fecha != $reporteUser->fecha ) {
-               return redirect()->route('admin.reportePaginas.index')->with('info', 'error');
+        if ($reporteUser) {
+            if ($request->fecha != $reporteUser->fecha) {
+                return redirect()->route('admin.reportePaginas.index')->with('info', 'error');
             }
+        }
 
         $reportePagina = ReportePagina::create([
             'fecha' => $request->fecha,

@@ -6,6 +6,7 @@ use App\Events\metas_widget;
 use App\Http\Controllers\Controller;
 use App\Models\Meta;
 use Illuminate\Http\Request;
+use App\Models\ResgistroProducido;
 
 class TipoMetaController extends Controller
 {
@@ -17,7 +18,7 @@ class TipoMetaController extends Controller
     public function index()
     {
         $tipoMetas = Meta::orderBy('id', 'desc')->paginate();
-        return view('admin.tipoMetas.index',compact('tipoMetas'));
+        return view('admin.tipoMetas.index', compact('tipoMetas'));
     }
 
     /**
@@ -46,7 +47,7 @@ class TipoMetaController extends Controller
 
         ]);
 
-        $tipoMeta= Meta::create($request->all());
+        $tipoMeta = Meta::create($request->all());
         event(new metas_widget());
         return redirect()->route('admin.tipoMetas.index', $tipoMeta->id)->with('info', 'store');
     }
@@ -70,7 +71,7 @@ class TipoMetaController extends Controller
      */
     public function edit(Meta $tipoMeta)
     {
-        return view('admin.tipoMetas.edit',compact('tipoMeta'));
+        return view('admin.tipoMetas.edit', compact('tipoMeta'));
     }
 
     /**
@@ -103,7 +104,12 @@ class TipoMetaController extends Controller
      */
     public function destroy(Meta $tipoMeta)
     {
+        $producido = ResgistroProducido::where('meta_id', $tipoMeta->id)->count();
+        if ($producido > 0) {
+            return redirect()->route('admin.tipoMetas.index')->with('error', 'delete');
+        }
         $tipoMeta->delete();
-        return redirect()->route('admin.tipoMetas.index')->with('info','delete');
+        return redirect()->route('admin.tipoMetas.index')->with('info', 'delete');
+
     }
 }

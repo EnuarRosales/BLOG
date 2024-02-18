@@ -21,8 +21,6 @@
 
 @stop
 @section('content')
-
-    {{-- CONFIRMACION SI HAY ALGO MAL --}}
     @if (isset($errors) && $errors->any())
         @include('admin.reportePaginas.partials.modal-error')
     @endif
@@ -33,9 +31,6 @@
                 <div class="col">
                     <a class="btn btn-primary float-right mr-4" href="{{ route('admin.reportePaginas.index') }}">Volver</a>
                     <a class="btn btn-info float-right mr-2" href="{{ route('admin.pagos.enviarPago') }}">Enviar Pagos</a>
-                    {{-- <a class="btn btn-dark float-right mr-4" href="{{ route('admin.reportePaginas.index') }}">Volver</a> --}}
-
-
                 </div>
             </div>
             <div class="table-responsive mb-4 mt-4">
@@ -83,7 +78,6 @@
 
 @section('js')
     <script src="{{ asset('template/plugins/table/datatable/datatables.js') }}"></script>
-    <!-- NOTE TO Use Copy CSV Excel PDF Print Options You Must Include These Files  -->
     <script src="{{ asset('template/plugins/table/datatable/button-ext/dataTables.buttons.min.js') }}"></script>
     <script src="{{ asset('template/plugins/table/datatable/button-ext/jszip.min.js') }}"></script>
     <script src="{{ asset('template/plugins/table/datatable/button-ext/buttons.html5.min.js') }}"></script>
@@ -96,23 +90,20 @@
                         extend: 'excel',
                         className: 'btn',
                         exportOptions: {
-                            columns: [0, 1, 3, 5, 7, 9, 11,{
+                            columns: [0, 1, 3, 5, 7, 9, 11, {
                                 visible: false,
                                 columns: [3, 5, 7, 9, 11]
                             }, ]
                         },
                         customize: function(xlsx) {
                             var sheet = xlsx.xl.worksheets['sheet1.xml'];
-
-                            // Aplicar formato numérico a la columna oculta (columna 3 en base 0)
                             $('c[r^="D"]', sheet).each(function() {
                                 var numFmtId = $('numFmt', this).attr('numFmtId');
                                 if (!numFmtId) {
                                     numFmtId =
-                                        2; // ID para el formato de número en Excel (puedes ajustar según tus necesidades)
+                                        2;
                                     $('numFmt', this).attr('numFmtId', numFmtId);
                                 }
-                                // $(this).attr('s', '2'); // Establecer el estilo de celda como número
                             });
                         },
                     },
@@ -211,41 +202,49 @@
                     visible: false,
                 },
             ],
-            "oLanguage": {
-                "oPaginate": {
-                    "sPrevious": '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-arrow-left"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>',
-                    "sNext": '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-arrow-right"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>'
+            language: {
+                "decimal": ",",
+                "emptyTable": "No hay datos disponibles en la tabla",
+                "info": "Mostrando _START_ a _END_ de _TOTAL_ registros",
+                "infoEmpty": "Mostrando 0 a 0 de 0 registros",
+                "infoFiltered": "(filtrado de _MAX_ registros en total)",
+                "infoPostFix": "",
+                "thousands": ".",
+                "lengthMenu": "Mostrar _MENU_ registros por página",
+                "loadingRecords": "Cargando...",
+                "processing": "Procesando...",
+                "search": "Buscar:",
+                "zeroRecords": "No se encontraron registros coincidentes",
+                "paginate": {
+                    "first": "Primero",
+                    "last": "Último",
+                    "next": '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-arrow-right"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>',
+                    "previous": '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-arrow-left"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>',
                 },
-                "sInfo": "Página _PAGE_ de _PAGES_",
-                "sSearch": '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-search"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>',
-                "sSearchPlaceholder": "Buscar...",
-                "sLengthMenu": "Mostrar _MENU_ resultados por página",
+                "aria": {
+                    "sortAscending": ": activar para ordenar la columna ascendente",
+                    "sortDescending": ": activar para ordenar la columna descendente"
+                },
             },
             "stripeClasses": [],
-            "lengthMenu": [7, 10, 20, 50],
-            "pageLength": 7,
+            "pageLength": 300,
             initComplete: function() {
                 var api = this.api();
                 api.rows().every(function() {
-                    // Obtiene el valor de la columna "ID" en la fila actual
                     var id = this.data().id;
-
-                    // Agrega el atributo data-id a la fila
                     $(this.node()).attr('data-id', id);
                 });
             },
             order: [
-                [0, 'asc'] // 1 es el índice de la columna que contiene las fechas
+                [0, 'asc']
             ],
         });
 
         function formatCurrency(value) {
-            // Puedes personalizar esta función según tus necesidades
             var options = {
                 style: 'currency',
                 currency: 'COP',
-                minimumFractionDigits: value % 1 === 0 ? 0 :
-                2, // 0 decimales si es un número entero, 2 decimales en caso contrario
+                minimumFractionDigits: value % 1 === 0 ? 0 : 2,
             };
 
             return new Intl.NumberFormat('es-CO', options).format(value);
@@ -323,23 +322,6 @@
             })
 
         })
-    </script>
-
-
-
-
-    {{-- DATATATABLE --}}
-    <script>
-        $(document).ready(function() {
-            $('#reportePaginas').DataTable({
-                dom: 'Blfrtip',
-
-                buttons: [
-                    'copy', 'csv', 'excel', 'pdf', 'print'
-                ]
-            });
-
-        });
     </script>
 
     <script type="text/javascript" src="https://code.jquery.com/jquery-3.5.1.js"></script>

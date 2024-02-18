@@ -18,7 +18,7 @@
         @include('admin.reportePaginas.partials.modal-error')
     @endif
 
-    <div class="col-xl-12 col-lg-12 col-sm-12  layout-spacing">
+    <div class="col-xl-12 col-lg-12 col-sm-12  layout-spacing card-body">
         <div class="widget-content widget-content-area br-6">
             <div class="row">
                 <div class="col ">

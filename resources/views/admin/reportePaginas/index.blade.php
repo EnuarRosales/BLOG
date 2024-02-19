@@ -22,7 +22,7 @@
         <div class="widget-content widget-content-area br-6">
             <div class="row">
                 <div class="col ">
-                    <div class="mq-960">
+                    <div class="mq-970">
                         <a id="verificadoMasivoBtn" class="btn btn-info float-right mr-3"
                             href="{{ route('admin.reportePaginas.verificadoMasivo') }}">Verificado Masivo</a>
                         <a class="btn btn-primary float-right"

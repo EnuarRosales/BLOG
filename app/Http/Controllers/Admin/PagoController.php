@@ -155,8 +155,7 @@ class PagoController extends Controller
                 ]);
             $item->pagoNeto = $item->suma - $item->sumaDescuentos - $item->multas - $item->impuesto;
             if ($item->pagoNeto < 0) {
-                $datoMasReciente = Meta::latest()->first();
-                $mensaje = "Saldo Faltante Ciclo " . $datoMasReciente->nombre;
+                $mensaje = "Saldo Negativo ";
                 $tipoDescuento = TipoDescuento::where('nombre', $mensaje)->first();
                 if (!$tipoDescuento) {
                     $crearTipoDescuento = TipoDescuento::create([

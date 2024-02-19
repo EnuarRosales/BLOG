@@ -36,7 +36,19 @@ class RegistroProducidoController extends Controller
         $users = User::orderBy('id', 'desc')->get();
         $meta = Meta::latest()->first();
         $paginas = Pagina::orderBy('id', 'desc')->get();
-        // $turnos = Turno::orderBy('id','desc');
+        $messages = [];
+        if ($users->isEmpty()) {
+            $messages[] = "Verifica Usuarios, No hay usuarios Disponibles.";
+        }
+        if (!$meta) {
+            $messages[] = "Verifica las Metas, No hay datos de meta Disponibles.";
+        }
+        if ($paginas->isEmpty()) {
+            $messages[] = "Verifica las Paginas, No hay páginas Disponibles.";
+        }
+        if ($messages) {
+            return view('admin.registroProducidos.index')->with('messages', $messages);
+        }
         return view('admin.registroProducidos.create', compact('users', 'meta', 'paginas'));
     }
 

@@ -349,6 +349,18 @@
                 timer: 2000
             })
         </script>
+    @elseif(!empty($messages))
+        @foreach ($messages as $message)
+            <script>
+                Swal.fire({
+                    position: 'top-end',
+                    type: 'error',
+                    title: '{{ $message }}',
+                    showConfirmButton: true,
+                    // timer: 4000
+                });
+            </script>
+        @endforeach
     @elseif(session('info') == 'storeExcel')
         <script>
             Swal.fire({

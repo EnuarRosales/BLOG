@@ -8,8 +8,10 @@ use App\Models\Descontado;
 use App\Models\Descuento;
 use App\Models\Empresa;
 use App\Models\Impuesto;
+use App\Models\Meta;
 use App\Models\Pago;
 use App\Models\ReportePagina;
+use App\Models\TipoDescuento;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Barryvdh\DomPDF\Facade\Pdf;
@@ -105,64 +107,44 @@ class PagoController extends Controller
          * EN LA PRIMERA PARTA INSTANCIA DE LA CALSE PAGOCONTROLLER CON EL FIN DE IMPLEMENTAR UN METODO
          */
         $cambiarEstados = new PagoController;
-
         $descuentos = 0;
         $impuestos = Impuesto::where('estado', 1)->first();
-
         $pagos = ReportePagina::with('user', 'pagina')
             ->selectRaw('SUM(netoPesos) as suma, user_id, fecha')
             ->where('verificado', 1)
             ->where('enviarPago', 0)
             ->groupBy('fecha', 'user_id')
             ->get();
-
         $fechas = $pagos->pluck('fecha')->unique();
         $dias = [];
-
         foreach ($fechas as $key => $value) {
             $diferencia = $key > 0 ? strtotime($value) - strtotime($fechas[$key - 1]) : 15 * 24 * 60 * 60;
             $dias[] = ['dias' => $diferencia / (60 * 60 * 24), 'fecha' => $value];
         }
-
         $colecciónDias = collect($dias);
-
         foreach ($pagos as $item) {
-
             $dias = $colecciónDias->where('fecha', $item->fecha)->values();
-
             $descontado = Descontado::with('descuento')
                 ->where('descontado', 0)
                 ->whereHas('descuento', function ($query) use ($item) {
                     $query->where('user_id', $item->user_id);
                 });
-                // ->whereDate('created_at', '>', date('Y-m-d', strtotime("-{$dias->first()['dias']} days", strtotime($item->fecha))))
-                // ->whereDate('created_at', '<=', $item->fecha);
-
             $item->sumaDescuentos = $descontado->sum('valor');
-
             $descontado->update([
                 'descontado' => 1,
                 'fechaDescontado' => $item->fecha,
             ]);
-
             $multas = AsignacionMulta::with('tipoMulta')
                 ->where('descontado', 0)
                 ->where('generar_descuento', 1)
                 ->where('user_id', $item->user_id)
-                // ->whereDate('updated_at', '>', date('Y-m-d', strtotime("-{$dias->first()['dias']} days", strtotime($item->fecha))))
-                // ->whereDate('updated_at', '<=', $item->fecha)
                 ->get();
-
-
-
             if ($item->suma > $impuestos->mayorQue) {
                 $item->impuesto = ($impuestos->porcentaje / 100) * $item->suma;
             } else {
                 $item->impuesto = 0;
             }
-
             $item->multas = $multas->sum('tipoMulta.costo');
-
             $multas = AsignacionMulta::with('tipoMulta')
                 ->where('descontado', 0)
                 ->where('generar_descuento', 1)
@@ -171,8 +153,32 @@ class PagoController extends Controller
                     'descontado' => 1,
                     'fechaDescontado' => $item->fecha,
                 ]);
-
             $item->pagoNeto = $item->suma - $item->sumaDescuentos - $item->multas - $item->impuesto;
+            if ($item->pagoNeto < 0) {
+                $datoMasReciente = Meta::latest()->first();
+                $mensaje = "Saldo Faltante Ciclo " . $datoMasReciente->nombre;
+                $tipoDescuento = TipoDescuento::where('nombre', $mensaje)->first();
+                if (!$tipoDescuento) {
+                    $crearTipoDescuento = TipoDescuento::create([
+                        'nombre' => $mensaje
+                    ]);
+                    $crearDescuento = Descuento::create([
+                        'montoDescuento' => abs($item->pagoNeto),
+                        'montoDescontado' => 0,
+                        'saldo' =>  abs($item->pagoNeto),
+                        'tipoDescuento_id' => $crearTipoDescuento->id,
+                        'user_id' => $item->user_id
+                    ]);
+                } else {
+                    $crearDescuento = Descuento::create([
+                        'montoDescuento' => abs($item->pagoNeto),
+                        'montoDescontado' => 0,
+                        'saldo' =>  abs($item->pagoNeto),
+                        'tipoDescuento_id' => $tipoDescuento->id,
+                        'user_id' => $item->user_id
+                    ]);
+                }
+            };
 
             Pago::create([
                 'fecha' => $item->fecha,
@@ -184,7 +190,6 @@ class PagoController extends Controller
                 'user_id' => $item->user_id,
             ]);
         }
-
         $cambiarEstados->enviarPagoCambiarEstado();
         $cambiarEstados->aplicarImpuesto(); //!!!verificar este metodo esta restando doble el impuesto
         return redirect()->route('admin.reportePaginas.pagos')->with('info', 'enviarPagos');

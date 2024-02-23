@@ -57,13 +57,13 @@
                             @php
                                 $i++;
                             @endphp
-                            @if (auth()->user()->hasRole('Administrador'))
+                            {{-- @if (auth()->user()->hasRole('Administrador')) --}}
                                 @include('admin.users.partials.tableCertificacionTiempo')
-                            @elseif (auth()->user()->hasRole('Monitor'))
-                                @include('admin.users.partials.tableCertificacionTiempo')
+                            {{-- @elseif (auth()->user()->hasRole('Monitor')) --}}
+                                {{-- @include('admin.users.partials.tableCertificacionTiempo')
                             @elseif($user->id == $userLogueado)
                                 @include('admin.users.partials.tableCertificacionTiempo')
-                            @endif
+                            @endif --}}
                         @endforeach
                     </tbody>
                     <tfoot>

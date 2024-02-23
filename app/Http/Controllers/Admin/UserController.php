@@ -19,6 +19,7 @@ use Carbon\Carbon;
 use Exception;
 use Illuminate\Database\QueryException;
 use SimpleSoftwareIO\QrCode\Facades\QrCode;
+use Illuminate\Support\Facades\Auth;
 
 class UserController extends Controller
 {
@@ -46,39 +47,107 @@ class UserController extends Controller
 
     public function userCertificacion()
     {
-        try {
-            $users = User::with('tipoUsuario')
-            ->where('active', 1)->get(); 
-            $date = Carbon::now()->locale('es');
-            $userLogueado = auth()->user()->id;
+        // Obtén el usua rio autenticado
+        $user = Auth::user();
+        //Obtén el ID del usuario autenticado
+        $userId = Auth::id();
+        // dd($user->id);
+        // Verifica si el usuario tiene el permiso "editar_posts"
+        if ($user->hasPermissionTo('admin.certificacion.laboral')) {
+            if ($user->hasPermissionTo('certificaciones.personal')) {
+                try {
+                    $users = User::where('id', $user->id)->where('active', 1)->get();
+                    $date = Carbon::now()->locale('es');
+                    $fechaReciente = Carbon::now();
+                    foreach ($users  as $user) {
+                        $fechaAntigua1 = Carbon::parse($user->fechaIngreso);
+                        $fechaAntigua = $fechaAntigua1->locale('es');
+                        $cantidadAno = $fechaAntigua->diff($fechaReciente);
+                        $year[] = $cantidadAno->y;
+                        $month[] = $cantidadAno->m;
+                        $day[] = $cantidadAno->d;
+                    }
+                    $i = 0;
+                    return view('admin.users.certificacionTiempo', compact('users', 'year', 'month', 'day', 'i'));
+                } catch (\Exception $exception) {
+                    Log::error("Error UC index: {$exception->getMessage()}, File: {$exception->getFile()}, Line: {$exception->getLine()}");
+                }
+            }
+            try {
 
-            return view('admin.users.certificacionLaboral', compact('users', 'userLogueado'));
-        } catch (\Exception $exception) {
-            Log::error("Error UC index: {$exception->getMessage()}, File: {$exception->getFile()}, Line: {$exception->getLine()}");
+                $userLogueado = auth()->user()->id;
+                $users = User::all()->where('active', 1);
+                $date = Carbon::now()->locale('es');
+                $fechaReciente = Carbon::now();
+                foreach ($users  as $user) {
+                    $fechaAntigua1 = Carbon::parse($user->fechaIngreso);
+                    $fechaAntigua = $fechaAntigua1->locale('es');
+                    $cantidadAno = $fechaAntigua->diff($fechaReciente);
+                    $year[] = $cantidadAno->y;
+                    $month[] = $cantidadAno->m;
+                    $day[] = $cantidadAno->d;
+                }
+                $i = 0;
+                return view('admin.users.certificacionTiempo', compact('users', 'year', 'month', 'day', 'i'));
+            } catch (\Exception $exception) {
+                Log::error("Error UC index: {$exception->getMessage()}, File: {$exception->getFile()}, Line: {$exception->getLine()}");
+            }
         }
     }
+
+
 
     public function certificacionTiempo()
-    {
-        try {
-            $userLogueado = auth()->user()->id;
-            $users = User::all()->where('active', 1);
-            $date = Carbon::now()->locale('es');
-            $fechaReciente = Carbon::now();
-            foreach ($users  as $user) {
-                $fechaAntigua1 = Carbon::parse($user->fechaIngreso);
-                $fechaAntigua = $fechaAntigua1->locale('es');
-                $cantidadAno = $fechaAntigua->diff($fechaReciente);
-                $year[] = $cantidadAno->y;
-                $month[] = $cantidadAno->m;
-                $day[] = $cantidadAno->d;
+    {    // Obtén el usua rio autenticado
+        $user = Auth::user();
+        //Obtén el ID del usuario autenticado
+        $userId = Auth::id();
+        // dd($user->id);
+        // Verifica si el usuario tiene el permiso "editar_posts"
+        if ($user->hasPermissionTo('admin.certificacion.tiempo')) {
+            if ($user->hasPermissionTo('certificaciones.personal')) {
+                try {
+                    // $userLogueado = auth()->user()->id;
+                    $users = User::where('id', $user->id)->where('active', 1)->get();
+                    $date = Carbon::now()->locale('es');
+                    $fechaReciente = Carbon::now();
+                    foreach ($users  as $user) {
+                        $fechaAntigua1 = Carbon::parse($user->fechaIngreso);
+                        $fechaAntigua = $fechaAntigua1->locale('es');
+                        $cantidadAno = $fechaAntigua->diff($fechaReciente);
+                        $year[] = $cantidadAno->y;
+                        $month[] = $cantidadAno->m;
+                        $day[] = $cantidadAno->d;
+                    }
+                    $i = 0;
+                    return view('admin.users.certificacionTiempo', compact('users', 'year', 'month', 'day', 'i'));
+                } catch (\Exception $exception) {
+                    Log::error("Error UC index: {$exception->getMessage()}, File: {$exception->getFile()}, Line: {$exception->getLine()}");
+                }
             }
-            $i = 0;
-            return view('admin.users.certificacionTiempo', compact('userLogueado', 'users', 'year', 'month', 'day', 'i'));
-        } catch (\Exception $exception) {
-            Log::error("Error UC index: {$exception->getMessage()}, File: {$exception->getFile()}, Line: {$exception->getLine()}");
+            try {
+
+                $userLogueado = auth()->user()->id;
+                $users = User::all()->where('active', 1);
+                $date = Carbon::now()->locale('es');
+                $fechaReciente = Carbon::now();
+                foreach ($users  as $user) {
+                    $fechaAntigua1 = Carbon::parse($user->fechaIngreso);
+                    $fechaAntigua = $fechaAntigua1->locale('es');
+                    $cantidadAno = $fechaAntigua->diff($fechaReciente);
+                    $year[] = $cantidadAno->y;
+                    $month[] = $cantidadAno->m;
+                    $day[] = $cantidadAno->d;
+                }
+                $i = 0;
+                return view('admin.users.certificacionTiempo', compact('users', 'year', 'month', 'day', 'i'));
+            } catch (\Exception $exception) {
+                Log::error("Error UC index: {$exception->getMessage()}, File: {$exception->getFile()}, Line: {$exception->getLine()}");
+            }
         }
     }
+
+
 
     public function certificacionLaboralPDF(User $user)
     {

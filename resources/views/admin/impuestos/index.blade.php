@@ -59,8 +59,6 @@
                                 <th>Activo</th>
                                 <th>Editar</th>
                                 <th>Eliminar</th>
-
-
                             </tr>
                         </thead>
                         <tbody>

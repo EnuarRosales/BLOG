@@ -17,6 +17,7 @@ use Illuminate\Support\Facades\DB;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Carbon\Carbon;
 use SimpleSoftwareIO\QrCode\Facades\QrCode;
+use Illuminate\Support\Facades\Auth;
 
 class PagoController extends Controller
 {
@@ -27,9 +28,20 @@ class PagoController extends Controller
      */
     public function index()
     {
-        $pagos = Pago::all();
-        $userLogueado = auth()->user()->id;
-        return view('admin.pagos.index', compact('pagos', 'userLogueado'));
+        // Obtén el usua rio autenticado
+        $user = Auth::user();
+        //Obtén el ID del usuario autenticado
+        $userId = Auth::id();
+        // dd($user->id);
+        // Verifica si el usuario tiene el permiso "editar_posts"
+        if ($user->hasPermissionTo('admin.certificacion.pago')) {
+            if ($user->hasPermissionTo('certificaciones.personal')) {
+                $pagos = Pago::where('user_id', $user->id)->get();
+                return view('admin.pagos.index', compact('pagos'));
+            }
+            $pagos = Pago::all();
+            return view('admin.pagos.index', compact('pagos'));
+        }
     }
 
     /**

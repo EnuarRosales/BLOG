@@ -36,7 +36,7 @@ class RolSeeder extends Seeder
         //ASI MISMO SE LE  ASIGNA ESTEPERMISO A UN ROL
         //PERMISOS USUARIOS
 
-        
+
 
         //PERMISOS TENANTS
         Permission::firstOrCreate([
@@ -223,7 +223,7 @@ class RolSeeder extends Seeder
             'description' => 'Eliminar meta modelos'
         ])->syncRoles([$role_admin]);
 
-       
+
         //EMPRESA
         Permission::firstOrCreate([
             'name' => 'admin.empresas',
@@ -277,6 +277,11 @@ class RolSeeder extends Seeder
             'name' => 'admin.certificaciones',
             'description' => 'Ver menu certificaiones'
         ])->syncRoles([$role_admin, $role_modelo]);
+
+        Permission::firstOrCreate([
+            'name' => 'certificaciones.personal',
+            'description' => 'limitar vista de la asignación de certificaciones a pesonal'
+        ])->syncRoles([$role_modelo]);
 
         Permission::firstOrCreate([
             'name' => 'admin.certificacion.laboral',
@@ -364,7 +369,7 @@ class RolSeeder extends Seeder
             'description' => 'Crear produccion'
         ])->syncRoles([$role_admin, $role_monitor]);
         Permission::firstOrCreate([
-            'name' => 'admin.registroProduccion.edit', 
+            'name' => 'admin.registroProduccion.edit',
             'description' => 'Editar produccion'
         ])->syncRoles([$role_admin, $role_monitor]);
         Permission::firstOrCreate([
@@ -373,7 +378,7 @@ class RolSeeder extends Seeder
         ])->syncRoles([$role_admin, $role_monitor]);
 
         //PERMISOS REGISTRO DESCUENTOS
-        Permission::firstOrCreate([ 
+        Permission::firstOrCreate([
             'name' => 'admin.registroDescuentos.index',
             'description' => 'Ver listado de descuentos'
         ])->syncRoles([$role_admin, $role_monitor, $role_modelo]);
@@ -424,7 +429,7 @@ class RolSeeder extends Seeder
             'description' => 'Ver modulo de suscripciones'
         ])->syncRoles([$role_super_admin]);
 
-      
+
 
         $userEmail = 'admin@gmail.com';
         $userCedula = '111111111';

@@ -76,12 +76,12 @@ class RolSeeder extends Seeder
         Permission::firstOrCreate([
             'name' => 'admin.users',
             'description' => 'Ver modulo de usuarios'
-        ])->syncRoles([$role_admin, $role_modelo]);
+        ])->syncRoles([$role_admin, $role_modelo, $role_contador]);
 
         Permission::firstOrCreate([
             'name' => 'admin.users.index',
             'description' => 'Ver listado de usuarios'
-        ])->syncRoles([$role_admin]);
+        ])->syncRoles([$role_admin, $role_contador]);
 
         Permission::firstOrCreate([
             'name' => 'admin.users.create',
@@ -276,32 +276,32 @@ class RolSeeder extends Seeder
         Permission::firstOrCreate([
             'name' => 'admin.certificaciones',
             'description' => 'Ver menu certificaiones'
-        ])->syncRoles([$role_admin, $role_modelo]);
-
-        Permission::firstOrCreate([
-            'name' => 'certificaciones.personal',
-            'description' => 'limitar vista de la asignación de certificaciones a pesonal'
-        ])->syncRoles([$role_modelo]);
+        ])->syncRoles([$role_admin, $role_modelo, $role_contador]);        
 
         Permission::firstOrCreate([
             'name' => 'admin.certificacion.laboral',
             'description' => 'Ver y generar  menu certificacion laboral'
-        ])->syncRoles([$role_admin, $role_modelo]);
+        ])->syncRoles([$role_admin, $role_modelo, $role_contador]);
 
         Permission::firstOrCreate([
             'name' => 'admin.certificacion.tiempo',
             'description' => 'Ver y generar  menu certificacion tiempo'
-        ])->syncRoles([$role_admin, $role_modelo]);
+        ])->syncRoles([$role_admin, $role_modelo, $role_contador]);
 
         Permission::firstOrCreate([
             'name' => 'admin.certificacion.impuesto',
             'description' => 'Ver y generar  menu certificacion impuesto'
-        ])->syncRoles([$role_admin, $role_modelo]);
+        ])->syncRoles([$role_admin, $role_modelo, $role_contador]);
 
         Permission::firstOrCreate([
             'name' => 'admin.certificacion.pago',
             'description' => 'Ver y generar  menu certificacion pago'
-        ])->syncRoles([$role_admin, $role_modelo]);
+        ])->syncRoles([$role_admin, $role_modelo, $role_contador]);
+
+        Permission::firstOrCreate([
+            'name' => 'certificaciones.personal',
+            'description' => 'limitar vista de certificaciones a pesonal'
+        ])->syncRoles([$role_modelo]);
 
 
         //PERMISOS REGISTRO MULTAS
@@ -354,6 +354,12 @@ class RolSeeder extends Seeder
             'name' => 'admin.registroAsistencias.control',
             'description' => 'Ver columna de control'
         ])->syncRoles([$role_admin, $role_monitor, $role_modelo]);
+        Permission::firstOrCreate([
+            'name' => 'admin.registroAsistencias.historial',
+            'description' => 'Ver boton del historial de asistencias'
+        ])->syncRoles([$role_admin, $role_monitor, $role_modelo]);
+
+
 
         //PERMISOS REGISTRO PRODUCCION
         Permission::firstOrCreate([

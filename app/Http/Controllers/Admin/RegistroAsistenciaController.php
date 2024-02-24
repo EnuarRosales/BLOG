@@ -166,7 +166,7 @@ class RegistroAsistenciaController extends Controller
             } else {
                 $registroAsistencia->update($request->except('multa'));
             }
-        } else {
+        } else {  
             $multa = AsignacionMulta::find($request->multa_id);
             if ($multa) {
                 $multa->delete();

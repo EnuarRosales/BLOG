@@ -56,7 +56,7 @@
                             <button class="btn btn-primary float-right mr-4" data-toggle="modal"
                                 data-target="#configModal">Tiempo de Advertencia</button>
                         @endcan
-                        @can('admin.registroAsistencias.create')
+                        @can('admin.registroAsistencias.historial')
                             <a class="btn btn-primary float-right mr-4"
                                 href="{{ route('admin.registrarAsistencia.historial') }}">Historial Asistencia</a>
                         @endcan

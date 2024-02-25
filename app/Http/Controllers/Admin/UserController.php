@@ -38,7 +38,8 @@ class UserController extends Controller
     {
         try {
             // $users = User::all();
-            $users = User::with('tipoUsuario')->get();
+            $users = User::with('tipoUsuario')
+                ->get();
             return view('admin.users.index', compact('users'));
         } catch (\Exception $exception) {
             Log::error("Error UC index: {$exception->getMessage()}, File: {$exception->getFile()}, Line: {$exception->getLine()}");
@@ -226,12 +227,22 @@ class UserController extends Controller
      */
     public function create()
     {
-
         // return "entro";
+        $user = Auth::user();
+        $rolActualUsuarioLogueado = $user->getRoleNames()->first();
 
-        $tipoUsuarios = TipoUsuario::orderBy('id', 'desc');
-        $empresas = Empresa::orderBy('id', 'desc');
-        return view('admin.users.create', compact('tipoUsuarios', 'empresas'));
+        if ($rolActualUsuarioLogueado != "Administrador") {
+            // dd($rolActualUsuarioLogueado);
+            $tipoUsuarios = TipoUsuario::where('nombre', '!=', 'Administrador')
+                ->orderBy('id', 'desc')->get();
+            $empresas = Empresa::orderBy('id', 'desc');
+            return view('admin.users.create', compact('tipoUsuarios', 'empresas'));
+        } else {
+            // dd($rolActualUsuarioLogueado);
+            $tipoUsuarios = TipoUsuario::orderBy('id', 'desc')->get();
+            $empresas = Empresa::orderBy('id', 'desc')->get();
+            return view('admin.users.create', compact('tipoUsuarios', 'empresas'));
+        };
     }
 
     /**
@@ -299,11 +310,26 @@ class UserController extends Controller
 
     public function rol(User $user)
     {
-        try {
-            $roles = Role::all();
-            return view('admin.users.rol', compact('user', 'roles'));
-        } catch (\Exception $exception) {
-            Log::error("Error UC rol: {$exception->getMessage()}, File: {$exception->getFile()}, Line: {$exception->getLine()}");
+
+        $user = Auth::user();
+        $rolActualUsuarioLogueado = $user->getRoleNames()->first();
+        $rolesExcluidos = ['Administrador', 'SuperAdmin']; // Agrega los roles que deseas excluir en este array
+
+        if ($rolActualUsuarioLogueado != "Administrador") {
+            // dd($rolActualUsuarioLogueado);
+            try {
+                $roles = Role::whereNotIn('name', $rolesExcluidos)->get();
+                return view('admin.users.rol', compact('user', 'roles'));
+            } catch (\Exception $exception) {
+                Log::error("Error UC rol: {$exception->getMessage()}, File: {$exception->getFile()}, Line: {$exception->getLine()}");
+            }
+        } else {
+            try {
+                $roles = Role::where('name', '!=', 'SuperAdmin')->get();
+                return view('admin.users.rol', compact('user', 'roles'));
+            } catch (\Exception $exception) {
+                Log::error("Error UC rol: {$exception->getMessage()}, File: {$exception->getFile()}, Line: {$exception->getLine()}");
+            }
         }
     }
 

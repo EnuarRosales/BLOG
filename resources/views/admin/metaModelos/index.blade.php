@@ -26,12 +26,14 @@
 
     <div class="col-xl-12 col-lg-12 col-sm-12  layout-spacing">
         <div class="widget-content widget-content-area br-6">
-            <div class="row g-2">
-                <div class="col">
-                    <a class="btn btn-primary float-right mr-4" href="{{ route('admin.metaModelos.create') }}">Agregar Meta
-                        Modelo</a>
+            @can('admin.metaModelos.create')
+                <div class="row g-5">
+                    <div class="col">
+                        <a class="btn btn-primary float-right mr-4" href="{{ route('admin.metaModelos.create') }}">Agregar Meta
+                            Modelo</a>
+                    </div>
                 </div>
-            </div>
+            @endcan
             <div class="table-responsive mb-4 mt-4">
                 <table id="html5-extension" class="table table-hover non-hover" style="width:100%">
                     <div class="row">
@@ -53,8 +55,12 @@
                             <th>ID</th>
                             <th>Mayor Que</th>
                             <th>Porcentaje</th>
-                            <th>Editar</th>
-                            <th>Eliminar</th>
+                            @can('admin.metaModelos.edit')
+                                <th>Editar</th>
+                            @endcan
+                            @can('admin.metaModelos.destroy')
+                                <th>Eliminar</th>
+                            @endcan
                         </tr>
                     </thead>
                     <tbody>
@@ -63,33 +69,35 @@
                                 <td>{{ $metaModelo->id }}</td>
                                 <td>{{ $metaModelo->mayorQue }}</td>
                                 <td>{{ $metaModelo->porcentaje }}</td>
-                                <td width="10px">
-                                    <a href="{{ route('admin.metaModelos.edit', $metaModelo) }}" class=" bs-tooltip"
-                                        data-placement="top" title="Editar">
-                                        <svg class="rounded mr-2" xmlns="http://www.w3.org/2000/svg" width="24"
-                                            height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                                            stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-                                            class="feather feather-edit-3">
-                                            <path d="M12 20h9"></path>
-                                            <path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"></path>
-                                        </svg>
-                                    </a>
-                                </td>
-
-                                <td width="10px">
-                                    <a href="javascript:void(0);" class="ml-2 eliminar-registro rounded bs-tooltip"
-                                        data-placement="top" title="Eliminar" data-metaModelo-id="{{ $metaModelo->id }}">
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
-                                            viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-                                            stroke-linecap="round" stroke-linejoin="round"
-                                            class="feather feather-x-circle table-cancel">
-                                            <circle cx="12" cy="12" r="10"></circle>
-                                            <line x1="15" y1="9" x2="9" y2="15"></line>
-                                            <line x1="9" y1="9" x2="15" y2="15"></line>
-                                        </svg>
-                                    </a>
-
-                                </td>
+                                @can('admin.metaModelos.edit')
+                                    <td width="10px">
+                                        <a href="{{ route('admin.metaModelos.edit', $metaModelo) }}" class=" bs-tooltip"
+                                            data-placement="top" title="Editar">
+                                            <svg class="rounded mr-2" xmlns="http://www.w3.org/2000/svg" width="24"
+                                                height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                                stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                                                class="feather feather-edit-3">
+                                                <path d="M12 20h9"></path>
+                                                <path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"></path>
+                                            </svg>
+                                        </a>
+                                    </td>
+                                @endcan
+                                @can('admin.metaModelos.destroy')
+                                    <td width="10px">
+                                        <a href="javascript:void(0);" class="ml-2 eliminar-registro rounded bs-tooltip"
+                                            data-placement="top" title="Eliminar" data-metaModelo-id="{{ $metaModelo->id }}">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                                viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                                stroke-linecap="round" stroke-linejoin="round"
+                                                class="feather feather-x-circle table-cancel">
+                                                <circle cx="12" cy="12" r="10"></circle>
+                                                <line x1="15" y1="9" x2="9" y2="15"></line>
+                                                <line x1="9" y1="9" x2="15" y2="15"></line>
+                                            </svg>
+                                        </a>
+                                    </td>
+                                @endcan
                             </tr>
                         @endforeach
                     </tbody>
@@ -98,8 +106,12 @@
                             <th>ID</th>
                             <th>Mayor Que</th>
                             <th>Porcentaje</th>
+                            @can('admin.metaModelos.edit')
                             <th>Editar</th>
+                            @endcan
+                            @can('admin.metaModelos.destroy')
                             <th>Eliminar</th>
+                            @endcan
                         </tr>
                     </tfoot>
                 </table>
@@ -174,7 +186,7 @@
                             // Crear un formulario dinámicamente
                             const formulario = document.createElement('form');
                             formulario.action =
-                            `metaModelos/${metaModelosId}`; // Ruta de eliminación
+                                `metaModelos/${metaModelosId}`; // Ruta de eliminación
                             formulario.method = 'POST'; // Método POST
                             formulario.style.display = 'none'; // Ocultar el formulario
 

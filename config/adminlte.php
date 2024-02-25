@@ -303,7 +303,7 @@ return [
             'icon' => '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-layers"><polygon points="12 2 2 7 12 12 22 7 12 2"></polygon><polyline points="2 17 12 22 22 17"></polyline><polyline points="2 12 12 17 22 12"></polyline></svg>',
             'can' => 'admin.tenants.index',
             'submenu' => [
-  
+
                 [
                     'text' => 'Dominios',
                     'route'  => 'admin.tenants.index',
@@ -424,25 +424,36 @@ return [
             'can' => 'admin.configuraciones.menu',
             'submenu' => [
 
-
                 [
-                    'text'    => 'METAS',
-                    'url'     => '#',
-                    'can' => 'admin.configuraciones.metas',
-                    'subsubmenu' => [
-                        [
-                            'text' => 'Metas Estudio',
-                            'route'     => 'admin.tipoMetas.index',
-                            'can' => 'admin.metaEstudios.index',
-                        ],
-                        [
-                            'text' => 'Metas Modelo',
-                            'route'     => 'admin.metaModelos.index',
-                            'can' => 'admin.metaModelos.index',
-                        ],
-
-                    ],
+                    'text' => 'Metas Estudio',
+                    'route'     => 'admin.tipoMetas.index',
+                    'can' => 'admin.metaEstudios.index',
                 ],
+                [
+                    'text' => 'Metas Modelo',
+                    'route'     => 'admin.metaModelos.index',
+                    'can' => 'admin.metaModelos.index',
+                ],
+
+
+                // [
+                //     'text'    => 'METAS',
+                //     'url'     => '#',
+                //     'can' => 'admin.configuraciones.metas',
+                //     'subsubmenu' => [
+                //         [
+                //             'text' => 'Metas Estudio',
+                //             'route'     => 'admin.tipoMetas.index',
+                //             'can' => 'admin.metaEstudios.index',
+                //         ],
+                //         [
+                //             'text' => 'Metas Modelo',
+                //             'route'     => 'admin.metaModelos.index',
+                //             'can' => 'admin.metaModelos.index',
+                //         ],
+
+                //     ],
+                // ],
 
 
 
@@ -548,7 +559,7 @@ return [
             'text'       => 'Registro Multas',
             'icon' => '<svg style="color: red; fill:red;" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="transparent" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-octagon"><polygon points="7.86 2 16.14 2 22 7.86 22 16.14 16.14 22 7.86 22 2 16.14 2 7.86 7.86 2"></polygon></svg>',
             'route'        => 'admin.asignacionMultas.index',
-            'can' =>           'admin.registroMultas.index' 
+            'can' =>           'admin.registroMultas.index'
         ],
         [
             'text'       => 'Registro Asistencias',

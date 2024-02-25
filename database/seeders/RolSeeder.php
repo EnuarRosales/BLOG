@@ -30,7 +30,7 @@ class RolSeeder extends Seeder
         $role_modelo_satelite = Role::firstOrCreate(['name' => 'Modelo Satélite']);
         $role_monitor = Role::firstOrCreate(['name' => 'Monitor']);
         $role_contador = Role::firstOrCreate(['name' => 'Contador']);
-        $role_super_admin = Role::firstOrCreate(['name' => 'Super Admin']);
+        $role_super_admin = Role::firstOrCreate(['name' => 'SuperAdmin']);
 
         //CREACION DE PERMISOS OJO IMPORTAR EL MODELO PERMISION DESDE LA UBICACION DE SPATIE
         //ASI MISMO SE LE  ASIGNA ESTEPERMISO A UN ROL

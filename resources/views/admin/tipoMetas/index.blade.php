@@ -37,13 +37,15 @@
                         </select>
                         <span class="ml-2 mt-2"></span>
                     </div>
-                    {{-- @can('admin.metaModelos.create') --}}
+
                     <div class="mq-960">
-                        <a class="btn btn-primary float-right mr-4" href="{{ route('admin.tipoMetas.create') }}">Agregar
-                            tipo
-                            meta</a>
+                        @can('admin.metaEstudio.create')
+                            <a class="btn btn-primary float-right mr-4" href="{{ route('admin.tipoMetas.create') }}">Agregar
+                                tipo
+                                meta</a>
+                        @endcan
                     </div>
-                    {{-- @endcan --}}
+
 
                 </div>
             </div>
@@ -55,8 +57,12 @@
                             <th>Nombre</th>
                             <th>Valor</th>
                             <th>Numero dias</th>
-                            <th>Editar</th>
-                            <th>Eliminar</th>
+                            @can('admin.metaEstudio.edit')
+                                <th>Editar</th>
+                            @endcan
+                            @can('admin.metaEstudio.destroy')
+                                <th>Eliminar</th>
+                            @endcan
                         </tr>
                     </thead>
                     <tbody>
@@ -66,31 +72,35 @@
                                 <td>{{ $tipoMeta->nombre }}</td>
                                 <td>{{ $tipoMeta->valor }}</td>
                                 <td>{{ $tipoMeta->dias }}</td>
-                                <td width="10px">
-                                    <a href="{{ route('admin.tipoMetas.edit', $tipoMeta) }}" class=" bs-tooltip"
-                                        data-placement="top" title="Editar">
-                                        <svg class="rounded mr-2" xmlns="http://www.w3.org/2000/svg" width="24"
-                                            height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                                            stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-                                            class="feather feather-edit-3">
-                                            <path d="M12 20h9"></path>
-                                            <path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"></path>
-                                        </svg>
-                                    </a>
-                                </td>
-                                <td width="10px">
-                                    <a href="javascript:void(0);" class="ml-2 eliminar-registro rounded bs-tooltip"
-                                        data-placement="top" title="Eliminar" data-tipoMeta-id="{{ $tipoMeta->id }}">
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
-                                            viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-                                            stroke-linecap="round" stroke-linejoin="round"
-                                            class="feather feather-x-circle table-cancel">
-                                            <circle cx="12" cy="12" r="10"></circle>
-                                            <line x1="15" y1="9" x2="9" y2="15"></line>
-                                            <line x1="9" y1="9" x2="15" y2="15"></line>
-                                        </svg>
-                                    </a>
-                                </td>
+                                @can('admin.metaEstudio.edit')
+                                    <td width="10px">
+                                        <a href="{{ route('admin.tipoMetas.edit', $tipoMeta) }}" class=" bs-tooltip"
+                                            data-placement="top" title="Editar">
+                                            <svg class="rounded mr-2" xmlns="http://www.w3.org/2000/svg" width="24"
+                                                height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                                stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                                                class="feather feather-edit-3">
+                                                <path d="M12 20h9"></path>
+                                                <path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"></path>
+                                            </svg>
+                                        </a>
+                                    </td>
+                                @endcan
+                                @can('admin.metaEstudio.destroy')
+                                    <td width="10px">
+                                        <a href="javascript:void(0);" class="ml-2 eliminar-registro rounded bs-tooltip"
+                                            data-placement="top" title="Eliminar" data-tipoMeta-id="{{ $tipoMeta->id }}">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                                viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                                stroke-linecap="round" stroke-linejoin="round"
+                                                class="feather feather-x-circle table-cancel">
+                                                <circle cx="12" cy="12" r="10"></circle>
+                                                <line x1="15" y1="9" x2="9" y2="15"></line>
+                                                <line x1="9" y1="9" x2="15" y2="15"></line>
+                                            </svg>
+                                        </a>
+                                    </td>
+                                @endcan
                             </tr>
                         @endforeach
                     </tbody>
@@ -100,8 +110,12 @@
                             <th>Nombre</th>
                             <th>Valor</th>
                             <th>Numero dias</th>
-                            <th>Editar</th>
-                            <th>Eliminar</th>
+                            @can('admin.metaEstudio.edit')
+                                <th>Editar</th>
+                            @endcan
+                            @can('admin.metaEstudio.destroy')
+                                <th>Eliminar</th>
+                            @endcan
                         </tr>
                     </tfoot>
 

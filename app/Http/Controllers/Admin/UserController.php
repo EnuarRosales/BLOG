@@ -311,8 +311,8 @@ class UserController extends Controller
     public function rol(User $user)
     {
 
-        $user = Auth::user();
-        $rolActualUsuarioLogueado = $user->getRoleNames()->first();
+        $userLogueado = Auth::user();
+        $rolActualUsuarioLogueado = $userLogueado ->getRoleNames()->first();
         $rolesExcluidos = ['Administrador', 'SuperAdmin']; // Agrega los roles que deseas excluir en este array
 
         if ($rolActualUsuarioLogueado != "Administrador") {

@@ -428,17 +428,17 @@ return [
                 [
                     'text'    => 'METAS',
                     'url'     => '#',
-                    // 'can' => 'admin.metaModelos.index',
+                    'can' => 'admin.configuraciones.metas',
                     'subsubmenu' => [
                         [
                             'text' => 'Metas Estudio',
                             'route'     => 'admin.tipoMetas.index',
-                            // 'can' => 'admin.configuraciones.tipoMetas',
+                            'can' => 'admin.metaEstudios.index',
                         ],
                         [
                             'text' => 'Metas Modelo',
                             'route'     => 'admin.metaModelos.index',
-                            // 'can' => 'admin.metaModelos.index',
+                            'can' => 'admin.metaModelos.index',
                         ],
 
                     ],

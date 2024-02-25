@@ -20,7 +20,7 @@ class AsignacionTurnoController extends Controller
     public function index()
     {
 
-
+ 
         // $asignacionTurnos = AsignacionTurno::all();
         // $asignacionTurnos = AsignacionTurno::with('turno','user.tipoUsuario')->get();
         // return view('admin.asignacionTurnos.index', compact('asignacionTurnos'));

@@ -70,38 +70,38 @@ class RolSeeder extends Seeder
         Permission::firstOrCreate([
             'name' => 'admin.dashboard',
             'description' => 'Ver dashboard'
-        ])->syncRoles([$role_admin]);
+        ])->syncRoles([$role_admin,$role_monitor]);
 
         //PERMISOS USERS
         Permission::firstOrCreate([
             'name' => 'admin.users',
             'description' => 'Ver modulo de usuarios'
-        ])->syncRoles([$role_admin, $role_modelo, $role_contador]);
+        ])->syncRoles([$role_admin, $role_modelo, $role_contador,$role_monitor]);
 
         Permission::firstOrCreate([
             'name' => 'admin.users.index',
             'description' => 'Ver listado de usuarios'
-        ])->syncRoles([$role_admin, $role_contador]);
+        ])->syncRoles([$role_admin, $role_contador,$role_monitor]);
 
         Permission::firstOrCreate([
             'name' => 'admin.users.create',
             'description' => 'Crear usuarios'
-        ])->syncRoles([$role_admin]);
+        ])->syncRoles([$role_admin,$role_monitor]);
 
         Permission::firstOrCreate([
             'name' => 'admin.users.edit',
             'description' => 'Editar usuarios'
-        ])->syncRoles([$role_admin]);
+        ])->syncRoles([$role_admin,$role_monitor]);
 
         Permission::firstOrCreate([
             'name' => 'admin.users.destroy',
             'description' => 'Eliminar usuarios'
-        ])->syncRoles([$role_admin]);
+        ])->syncRoles([$role_admin,$role_monitor]);
 
         Permission::firstOrCreate([
             'name' => 'admin.users.asignarRol',
             'description' => 'Ver boton asinacion rol'
-        ])->syncRoles([$role_admin]);
+        ])->syncRoles([$role_admin,$role_monitor]);
 
 
 
@@ -110,20 +110,17 @@ class RolSeeder extends Seeder
             'name' => 'admin.asignacionTurnos.index',
             'description' => 'Ver listado de asignacion de turno'
         ])->syncRoles([$role_admin, $role_monitor, $role_modelo]);
-
         Permission::firstOrCreate([
             'name' => 'asignacionTurnos.personal',
             'description' => 'limitar vista de la asignación de turnos a pesonal'
         ])->syncRoles([$role_modelo]);
-
-
         Permission::firstOrCreate([
             'name' => 'admin.asignacionTurnos.create',
-            'description' => 'Crear una asignación de Turno'
+            'description' => 'Crear asignación de Turno'
         ])->syncRoles([$role_admin, $role_monitor]);
         Permission::firstOrCreate([
             'name' => 'admin.asignacionTurnos.edit',
-            'description' => 'Editar una asignación de Turno'
+            'description' => 'Editar asignación de Turno'
         ])->syncRoles([$role_admin, $role_monitor]);
         Permission::firstOrCreate([
             'name' => 'admin.asignacionTurnos.destroy',
@@ -131,18 +128,14 @@ class RolSeeder extends Seeder
         ])->syncRoles([$role_admin, $role_monitor]);
 
         //PERMISOS ASIGNACION ROOM
-
         Permission::firstOrCreate([
             'name' => 'admin.asignacionRooms.index',
             'description' => 'Ver listado de asignación de rooms'
         ])->syncRoles([$role_admin, $role_monitor, $role_modelo]);
-
         Permission::firstOrCreate([
             'name' => 'asignacionRooms.personal',
             'description' => 'limitar vista de la asignación de rooms a pesonal'
         ])->syncRoles([$role_modelo]);
-
-
         Permission::firstOrCreate([
             'name' => 'admin.asignacionRooms.create',
             'description' => 'Crear asignación de rooms'
@@ -187,7 +180,7 @@ class RolSeeder extends Seeder
         ])->syncRoles([$role_admin]);
 
         //METAS ESTUDIO
-        Permission::firstOrCreate([
+        Permission::firstOrCreate([ 
             'name' => 'admin.metaEstudios.index',
             'description' => 'Ver listado de metas estudio'
         ])->syncRoles([$role_admin]);
@@ -203,7 +196,6 @@ class RolSeeder extends Seeder
             'name' => 'admin.metaEstudio.destroy',
             'description' => 'Eliminar meta estudio'
         ])->syncRoles([$role_admin]);
-
 
         //METAS MODELOS
         Permission::firstOrCreate([
@@ -222,7 +214,6 @@ class RolSeeder extends Seeder
             'name' => 'admin.metaModelos.destroy',
             'description' => 'Eliminar meta modelos'
         ])->syncRoles([$role_admin]);
-
 
         //EMPRESA
         Permission::firstOrCreate([
@@ -276,28 +267,23 @@ class RolSeeder extends Seeder
         Permission::firstOrCreate([
             'name' => 'admin.certificaciones',
             'description' => 'Ver menu certificaiones'
-        ])->syncRoles([$role_admin, $role_modelo, $role_contador]);        
-
+        ])->syncRoles([$role_admin, $role_modelo, $role_contador,$role_monitor]);       
         Permission::firstOrCreate([
             'name' => 'admin.certificacion.laboral',
             'description' => 'Ver y generar  menu certificacion laboral'
-        ])->syncRoles([$role_admin, $role_modelo, $role_contador]);
-
+        ])->syncRoles([$role_admin, $role_modelo, $role_contador,$role_monitor]);
         Permission::firstOrCreate([
             'name' => 'admin.certificacion.tiempo',
             'description' => 'Ver y generar  menu certificacion tiempo'
-        ])->syncRoles([$role_admin, $role_modelo, $role_contador]);
-
+        ])->syncRoles([$role_admin, $role_modelo, $role_contador,$role_monitor]);
         Permission::firstOrCreate([
             'name' => 'admin.certificacion.impuesto',
             'description' => 'Ver y generar  menu certificacion impuesto'
-        ])->syncRoles([$role_admin, $role_modelo, $role_contador]);
-
+        ])->syncRoles([$role_admin, $role_modelo, $role_contador,$role_monitor]);
         Permission::firstOrCreate([
             'name' => 'admin.certificacion.pago',
             'description' => 'Ver y generar  menu certificacion pago'
-        ])->syncRoles([$role_admin, $role_modelo, $role_contador]);
-
+        ])->syncRoles([$role_admin, $role_modelo, $role_contador,$role_monitor]);
         Permission::firstOrCreate([
             'name' => 'certificaciones.personal',
             'description' => 'limitar vista de certificaciones a pesonal'
@@ -309,17 +295,14 @@ class RolSeeder extends Seeder
             'name' => 'admin.registroMultas.index',
             'description' => 'Ver listado de multas'
         ])->syncRoles([$role_admin, $role_monitor, $role_modelo]);
-
         Permission::firstOrCreate([
             'name' => 'registroMultas.personal',
             'description' => 'limitar vista del registro de multas a pesonal'
         ])->syncRoles([$role_modelo]);
-
         Permission::firstOrCreate([
             'name' => 'admin.registroMultas.descontar',
             'description' => 'ver el boton de descuento de multas'
         ])->syncRoles([$role_admin]);
-
         Permission::firstOrCreate([
             'name' => 'admin.registroMultas.create',
             'description' => 'Crear multas'
@@ -338,6 +321,10 @@ class RolSeeder extends Seeder
             'name' => 'admin.registroAsistencias.index',
             'description' => 'Ver listado de asistencia'
         ])->syncRoles([$role_admin, $role_monitor, $role_modelo]);
+        Permission::firstOrCreate([
+            'name' => 'registroAsistencias.personal',
+            'description' => 'limitar vista de asistencia a pesonal'
+        ])->syncRoles([$role_modelo]);
         Permission::firstOrCreate([
             'name' => 'admin.registroAsistencias.create',
             'description' => 'Crear asistencia'
@@ -358,8 +345,6 @@ class RolSeeder extends Seeder
             'name' => 'admin.registroAsistencias.historial',
             'description' => 'Ver boton del historial de asistencias'
         ])->syncRoles([$role_admin, $role_monitor, $role_modelo]);
-
-
 
         //PERMISOS REGISTRO PRODUCCION
         Permission::firstOrCreate([
@@ -388,12 +373,10 @@ class RolSeeder extends Seeder
             'name' => 'admin.registroDescuentos.index',
             'description' => 'Ver listado de descuentos'
         ])->syncRoles([$role_admin, $role_monitor, $role_modelo]);
-
         Permission::firstOrCreate([
             'name' => 'registroDescuentos.personal',
             'description' => 'limitar vista de descuentos a pesonal'
         ])->syncRoles([$role_modelo]);
-
         Permission::firstOrCreate([
             'name' => 'admin.registroDescuentos.create',
             'description' => 'Crear descuentos'
@@ -415,19 +398,11 @@ class RolSeeder extends Seeder
             'description' => 'Ver boton descuento parcial'
         ])->syncRoles([$role_admin, $role_monitor, $role_modelo]);
 
-
         //PERMISOS REPORTE APGINAS
         Permission::firstOrCreate([
             'name' => 'admin.reportePaginas.index',
             'description' => 'Ver y operar modulo de reporte paginas'
-        ])->syncRoles([$role_admin, $role_monitor]);
-
-
-
-
-
-
-
+        ])->syncRoles([$role_admin]);
 
         //PERMISOS MODULO DE SUSCRIPCIONES
         Permission::firstOrCreate([

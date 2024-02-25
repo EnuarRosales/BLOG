@@ -91,11 +91,11 @@
                     </thead>
                     <tbody>
                         @foreach ($asistenciasHoy as $asistencia)
-                            @if (auth()->user()->hasRole('Administrador') ||
+                            {{-- @if (auth()->user()->hasRole('Administrador') ||
                                     auth()->user()->hasRole('Monitor') ||
-                                    $asistencia->user->id == $userLogueado)
+                                    $asistencia->user->id == $userLogueado) --}}
                                 @include('admin.registroAsistencias.partials.table')
-                            @endif
+                            {{-- @endif --}}
                         @endforeach
                     </tbody>
                     <tfoot>

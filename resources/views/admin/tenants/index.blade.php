@@ -42,10 +42,10 @@
                         <span class="ml-2 mt-2"></span>
                     </div>
                     <div class="mq-960">
-                        @can('admin.tenants.create')
+                        {{-- @can('admin.tenants.create') --}}
                             <a class="btn btn-primary float-right mr-4" href="{{ route('admin.tenants.create') }}">Agregar
                                 Inquilino</a>
-                        @endcan
+                        {{-- @endcan --}}
                     </div>
                 </div>
             </div>
@@ -55,15 +55,15 @@
                         <tr>
                             <th>Id</th>
                             <th>Dominio</th>
-                            @can('admin.tenants.seeders')
+                            {{-- @can('admin.tenants.seeders') --}}
                                 <th>Seeders</th>
-                            @endcan
-                            @can('admin.tenants.edit')
+                            {{-- @endcan --}}
+                            {{-- @can('admin.tenants.edit') --}}
                                 <th>Editar</th>
-                            @endcan
-                            @can('admin.tenants.destroy')
+                            {{-- @endcan --}}
+                            {{-- @can('admin.tenants.destroy') --}}
                                 <th>Eliminar</th>
-                            @endcan
+                            {{-- @endcan --}}
                         </tr>
                     </thead>
                     <tbody>
@@ -72,7 +72,7 @@
                                 <td>{{ $tenant->id }}</td>
                                 <td>{{ $tenant->domains->first()->domain ?? '' }}</td>
 
-                                @can('admin.tenants.seeders')
+                                {{-- @can('admin.tenants.seeders') --}}
                                     <td width="10px">
 
                                         <a class="ml-1 bs-tooltip" data-placement="top" title="Run" width="10px"
@@ -84,9 +84,9 @@
                                                 <polygon points="5 3 19 12 5 21 5 3"></polygon>
                                             </svg></a>
                                     </td>
-                                @endcan
+                                {{-- @endcan --}}
 
-                                @can('admin.tenants.edit')
+                                {{-- @can('admin.tenants.edit') --}}
                                     <td width="10px">
                                         <a href="{{ route('admin.tenants.edit', $tenant) }}" class="ml-1 bs-tooltip"
                                             data-placement="top" title="Editar">
@@ -99,8 +99,8 @@
                                             </svg>
                                         </a>
                                     </td>
-                                @endcan
-                                @can('admin.tenants.destroy')
+                                {{-- @endcan --}}
+                                {{-- @can('admin.tenants.destroy') --}}
                                     <td class="" width="10px">
                                         <a href="javascript:void(0);" class="ml-2 eliminar-registro rounded bs-tooltip"
                                             data-placement="top" title="Eliminar" data-tenant-id="{{ $tenant->id }}">
@@ -114,7 +114,7 @@
                                             </svg>
                                         </a>
                                     </td>
-                                @endcan
+                                {{-- @endcan --}}
                             </tr>
                         @endforeach
                     </tbody>
@@ -122,15 +122,15 @@
                         <tr>
                             <th>Id</th>
                             <th>Dominio</th>
-                            @can('admin.tenants.seeders')
+                            {{-- @can('admin.tenants.seeders') --}}
                                 <th>Seeders</th>
-                            @endcan
-                            @can('admin.tenants.edit')
+                            {{-- @endcan --}}
+                            {{-- @can('admin.tenants.edit') --}}
                                 <th>Editar</th>
-                            @endcan
-                            @can('admin.tenants.destroy')
+                            {{-- @endcan --}}
+                            {{-- @can('admin.tenants.destroy') --}}
                                 <th>Eliminar</th>
-                            @endcan
+                            {{-- @endcan --}}
                         </tr>
                     </tfoot>
                 </table>

@@ -54,13 +54,7 @@
                     </thead>
                     <tbody>
                         @foreach ($pagos as $pago)
-                            @if (auth()->user()->hasRole('Administrador'))
-                                @include('admin.impuestos.partials.table')
-                            @elseif (auth()->user()->hasRole('Monitor'))
-                                @include('admin.impuestos.partials.table')
-                            @elseif($pago->user->id == $userLogueado)
-                                @include('admin.impuestos.partials.table')
-                            @endif
+                            @include('admin.impuestos.partials.table')
                         @endforeach
                     </tbody>
                     <tfoot>

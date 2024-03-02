@@ -11,6 +11,7 @@ use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use SimpleSoftwareIO\QrCode\Facades\QrCode;
+use Illuminate\Support\Facades\Auth;
 
 class ImpuestoController extends Controller
 {
@@ -27,10 +28,22 @@ class ImpuestoController extends Controller
 
     public function comprobanteImpuesto()
     {
-        $impuestos = Impuesto::all();
-        $userLogueado = auth()->user()->id;
-        $pagos = Pago::all()->where('pagado', 1);
-        return view('admin.impuestos.comprobanteImpuesto', compact('pagos', 'impuestos', 'userLogueado'));
+        $user = Auth::user();
+        $userId = Auth::id();
+
+        if ($user->hasPermissionTo('admin.certificacion.pago')) {
+            if ($user->hasPermissionTo('certificaciones.personal')) {
+                $impuestos = Impuesto::all();
+                // $impuestos = Impuesto::where('user_id', $user->id)->get();
+                // $userLogueado = auth()->user()->id;
+                $pagos = Pago::where('user_id', $user->id)->where('pagado', 1)->get();
+                return view('admin.impuestos.comprobanteImpuesto', compact('pagos', 'impuestos'));
+            }
+            $impuestos = Impuesto::all();
+            $userLogueado = auth()->user()->id;
+            $pagos = Pago::all()->where('pagado', 1);
+            return view('admin.impuestos.comprobanteImpuesto', compact('pagos', 'impuestos'));
+        }
     }
 
     /**

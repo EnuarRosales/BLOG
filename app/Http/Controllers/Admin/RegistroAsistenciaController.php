@@ -14,6 +14,7 @@ use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Auth;
 
 class RegistroAsistenciaController extends Controller
 {
@@ -24,26 +25,60 @@ class RegistroAsistenciaController extends Controller
      */
     public function index()
     {
-        $hoy =  Carbon::now()->toDateString();
-        $userLogueado = auth()->user()->id;
 
-        // Consulta las asistencias para el día actual
-        $asistencias = Asistencia::with('user', 'user.asignacionTurnos', 'user.asignacionTurnos.turno')
-            ->get()
-            ->sortByDesc('updated_at');
+        // Obtén el usua rio autenticado
+        $user = Auth::user();
+        //Obtén el ID del usuario autenticado
+        $userId = Auth::id();
+        // dd($user->id);
+        // Verifica si el usuario tiene el permiso "editar_posts"
+        if ($user->hasPermissionTo('admin.registroAsistencias.index')) {
+            if ($user->hasPermissionTo('registroAsistencias.personal')) {
 
-        $asistenciasHoy = Asistencia::with('user', 'user.asignacionTurnos', 'user.asignacionTurnos.turno')
-            ->whereDate('fecha', $hoy)
-            ->get()
-            ->sortByDesc('updated_at');
+                $hoy =  Carbon::now()->toDateString();
+                // $userLogueado = auth()->user()->id;
+                // Consulta las asistencias para el día actual
+                $asistencias = Asistencia::with('user', 'user.asignacionTurnos', 'user.asignacionTurnos.turno')
+                    ->where('user_id', $user->id)
+                    ->get()
+                    ->sortByDesc('updated_at');
 
-        $configAsistencia = AsistenciaTiempoConfig::find(1);
+                $asistenciasHoy = Asistencia::with('user', 'user.asignacionTurnos', 'user.asignacionTurnos.turno')
+                    ->where('user_id', $user->id)
+                    ->whereDate('fecha', $hoy)
+                    ->get()
+                    ->sortByDesc('updated_at');
 
-        foreach ($asistencias as $asistencia) {
-            $user = $asistencia->user; // Accedes a la relación user
-            $asignacionTurno = $user->asignacionTurnos; // Accedes a la relación asignacionTurno dentro de la relación user
+                $configAsistencia = AsistenciaTiempoConfig::find(1);
+
+                foreach ($asistencias as $asistencia) {
+                    $user = $asistencia->user; // Accedes a la relación user
+                    $asignacionTurno = $user->asignacionTurnos; // Accedes a la relación asignacionTurno dentro de la relación user
+                }
+                return view('admin.registroAsistencias.index', compact('asistencias', 'configAsistencia', 'asistenciasHoy'));
+            }
+
+            $hoy =  Carbon::now()->toDateString();
+            // $userLogueado = auth()->user()->id;
+
+            // Consulta las asistencias para el día actual
+            $asistencias = Asistencia::with('user', 'user.asignacionTurnos', 'user.asignacionTurnos.turno')
+                ->get()
+                ->sortByDesc('updated_at');
+
+            $asistenciasHoy = Asistencia::with('user', 'user.asignacionTurnos', 'user.asignacionTurnos.turno')
+                ->whereDate('fecha', $hoy)
+                ->get()
+                ->sortByDesc('updated_at');
+
+            $configAsistencia = AsistenciaTiempoConfig::find(1);
+
+            foreach ($asistencias as $asistencia) {
+                $user = $asistencia->user; // Accedes a la relación user
+                $asignacionTurno = $user->asignacionTurnos; // Accedes a la relación asignacionTurno dentro de la relación user
+            }
+            return view('admin.registroAsistencias.index', compact('asistencias', 'configAsistencia', 'asistenciasHoy'));
         }
-        return view('admin.registroAsistencias.index', compact('asistencias', 'userLogueado', 'configAsistencia', 'asistenciasHoy'));
     }
 
     /**
@@ -54,8 +89,8 @@ class RegistroAsistenciaController extends Controller
     public function create()
     {
         $users = User::with('asignacionTurnos', 'asignacionTurnos.turno')
-        ->where('active', 1)
-        ->orderBy('id', 'desc')->get();
+            ->where('active', 1)
+            ->orderBy('id', 'desc')->get();
         $asistencia = AsistenciaTiempoConfig::all();
         return view('admin.registroAsistencias.create', compact('users', 'asistencia'));
     }
@@ -128,9 +163,9 @@ class RegistroAsistenciaController extends Controller
     public function edit(Asistencia $registroAsistencia)
     {
         $users = User::with('asignacionTurnos', 'asignacionTurnos.turno')
-        ->where('active', 1)
-        ->orderBy('id', 'desc')->get();
-        
+            ->where('active', 1)
+            ->orderBy('id', 'desc')->get();
+
         $asistencia = AsistenciaTiempoConfig::all();
         return view('admin.registroAsistencias.edit', compact('registroAsistencia', 'users', 'asistencia'));
     }
@@ -208,25 +243,57 @@ class RegistroAsistenciaController extends Controller
 
     public function historial(Request $request)
     {
-        $hoy =  Carbon::now()->toDateString();
-        $userLogueado = auth()->user()->id;
+        // Obtén el usua rio autenticado
+        $user = Auth::user();
+        //Obtén el ID del usuario autenticado
+        $userId = Auth::id();
+        // dd($user->id);
+        // Verifica si el usuario tiene el permiso "editar_posts"
+        if ($user->hasPermissionTo('admin.registroAsistencias.index')) {
+            if ($user->hasPermissionTo('registroAsistencias.personal')) {
 
-        // Consulta las asistencias para el día actual
-        $asistencias = Asistencia::with('user', 'user.asignacionTurnos', 'user.asignacionTurnos.turno')
-            ->get()
-            ->sortByDesc('updated_at');
+                $hoy =  Carbon::now()->toDateString();
+                $userLogueado = auth()->user()->id;
 
-        $asistenciasHoy = Asistencia::with('user', 'user.asignacionTurnos', 'user.asignacionTurnos.turno')
-            ->whereDate('fecha', $hoy)
-            ->get()
-            ->sortByDesc('updated_at');
+                // Consulta las asistencias para el día actual
+                $asistencias = Asistencia::with('user', 'user.asignacionTurnos', 'user.asignacionTurnos.turno')
+                    ->where('user_id', $user->id)
+                    ->get()
+                    ->sortByDesc('updated_at');
 
-        $configAsistencia = AsistenciaTiempoConfig::find(1);
+                $asistenciasHoy = Asistencia::with('user', 'user.asignacionTurnos', 'user.asignacionTurnos.turno')
+                    ->where('user_id', $user->id)
+                    ->whereDate('fecha', $hoy)
+                    ->get()
+                    ->sortByDesc('updated_at');
 
-        foreach ($asistencias as $asistencia) {
-            $user = $asistencia->user; // Accedes a la relación user
-            $asignacionTurno = $user->asignacionTurnos; // Accedes a la relación asignacionTurno dentro de la relación user
+                $configAsistencia = AsistenciaTiempoConfig::find(1);
+
+                foreach ($asistencias as $asistencia) {
+                    $user = $asistencia->user; // Accedes a la relación user
+                    $asignacionTurno = $user->asignacionTurnos; // Accedes a la relación asignacionTurno dentro de la relación user
+                }
+                return view('admin.registroAsistencias.historial', compact('asistencias', 'userLogueado', 'configAsistencia', 'asistenciasHoy'));
+            }
+            $hoy =  Carbon::now()->toDateString();
+            // $userLogueado = auth()->user()->id;
+            // Consulta las asistencias para el día actual
+            $asistencias = Asistencia::with('user', 'user.asignacionTurnos', 'user.asignacionTurnos.turno')
+                ->get()
+                ->sortByDesc('updated_at');
+
+            $asistenciasHoy = Asistencia::with('user', 'user.asignacionTurnos', 'user.asignacionTurnos.turno')
+                ->whereDate('fecha', $hoy)
+                ->get()
+                ->sortByDesc('updated_at');
+
+            $configAsistencia = AsistenciaTiempoConfig::find(1);
+
+            foreach ($asistencias as $asistencia) {
+                $user = $asistencia->user; // Accedes a la relación user
+                $asignacionTurno = $user->asignacionTurnos; // Accedes a la relación asignacionTurno dentro de la relación user
+            }
+            return view('admin.registroAsistencias.historial', compact('asistencias','configAsistencia', 'asistenciasHoy'));
         }
-        return view('admin.registroAsistencias.historial', compact('asistencias', 'userLogueado', 'configAsistencia', 'asistenciasHoy'));
     }
 }

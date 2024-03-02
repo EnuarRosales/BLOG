@@ -14,11 +14,9 @@
 
 @section('styles')
 
-
     <link rel="stylesheet" type="text/css" href="{{ asset('template/plugins/table/datatable/datatables.css') }}">
     <link rel="stylesheet" type="text/css" href="{{ asset('template/plugins/table/datatable/custom_dt_html5.css') }}">
     <link rel="stylesheet" type="text/css" href="{{ asset('template/plugins/table/datatable/dt-global_style.css') }}">
-
 
 @endsection
 
@@ -40,11 +38,12 @@
                         </select>
                         <span class="ml-2 mt-2"></span>
                     </div>
-                    <div class="mq-960">
-                        <a class="btn btn-primary float-right mr-4" href="{{ route('admin.users.create') }}">Agregar
-                            Usuario</a>
-
-                    </div>
+                    @can('admin.users.create')
+                        <div class="mq-960">
+                            <a class="btn btn-primary float-right mr-4" href="{{ route('admin.users.create') }}">Agregar
+                                Usuario</a>
+                        </div>
+                    @endcan
 
                 </div>
             </div>

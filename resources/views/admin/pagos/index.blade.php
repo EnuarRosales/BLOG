@@ -93,13 +93,7 @@
 
                     <tbody>
                         @foreach ($pagos as $pago)
-                            @if (auth()->user()->hasRole('Administrador'))
                                 @include('admin.pagos.partials.tableIndex')
-                            @elseif (auth()->user()->hasRole('Monitor'))
-                                @include('admin.pagos.partials.tableIndex')
-                            @elseif($pago->user->id == $userLogueado)
-                                @include('admin.pagos.partials.tableIndex')
-                            @endif
                         @endforeach
 
                     </tbody>

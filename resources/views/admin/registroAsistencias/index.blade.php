@@ -56,7 +56,7 @@
                             <button class="btn btn-primary float-right mr-4" data-toggle="modal"
                                 data-target="#configModal">Tiempo de Advertencia</button>
                         @endcan
-                        @can('admin.registroAsistencias.create')
+                        @can('admin.registroAsistencias.historial')
                             <a class="btn btn-primary float-right mr-4"
                                 href="{{ route('admin.registrarAsistencia.historial') }}">Historial Asistencia</a>
                         @endcan
@@ -91,11 +91,11 @@
                     </thead>
                     <tbody>
                         @foreach ($asistenciasHoy as $asistencia)
-                            @if (auth()->user()->hasRole('Administrador') ||
+                            {{-- @if (auth()->user()->hasRole('Administrador') ||
                                     auth()->user()->hasRole('Monitor') ||
-                                    $asistencia->user->id == $userLogueado)
+                                    $asistencia->user->id == $userLogueado) --}}
                                 @include('admin.registroAsistencias.partials.table')
-                            @endif
+                            {{-- @endif --}}
                         @endforeach
                     </tbody>
                     <tfoot>

@@ -8,9 +8,12 @@
 
 @section('content')
     <div class="card">
-        <div class="card-body">
-            <a class="btn btn-primary" href="{{ route('admin.users.create') }}">Agregar Usuario</a>
-        </div>
+        @can('admin.users.create')
+            <div class="card-body">
+                <a class="btn btn-primary" href="{{ route('admin.users.create') }}">Agregar Usuario</a>
+            </div>
+        @endcan
+
         <table id="users" class="table table-striped table-bordered shadow-lg mt-4">
             <thead>
                 <tr>
@@ -34,13 +37,13 @@
                 @foreach ($users as $usuario)
                     <tr>
                         <td>{{ $usuario->id }}</td>
-                        <td>{{ $usuario->fechaIngreso}}</td>
+                        <td>{{ $usuario->fechaIngreso }}</td>
                         <td>{{ $usuario->name }}</td>
                         <td>{{ $usuario->cedula }}</td>
                         <td>{{ $usuario->celular }}</td>
                         <td>{{ $usuario->direccion }}</td>
                         <td>{{ $usuario->email }}</td>
-                        <td>{{ $usuario->tipoUsuario->nombre}}</td>
+                        <td>{{ $usuario->tipoUsuario->nombre }}</td>
 
                         @can('admin.users.edit')
                             <td width="10px">
@@ -159,7 +162,7 @@
                 dom: 'Blfrtip',
 
                 buttons: [
-                    'copy', 'csv', 'excel','pdf', 'print'
+                    'copy', 'csv', 'excel', 'pdf', 'print'
                 ]
             });
 

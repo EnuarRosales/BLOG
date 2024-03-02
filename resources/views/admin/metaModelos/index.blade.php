@@ -26,28 +26,28 @@
 
     <div class="col-xl-12 col-lg-12 col-sm-12  layout-spacing">
         <div class="widget-content widget-content-area br-6">
+            <div class="row">
+                <div style="display: flex;">
+                    <label class="mt-2 ml-3 mr-1">Registros :</label>
+                    <select id="records-per-page" class="form-control custom-width-20">
+                        <!-- Agregamos la clase form-control-sm -->
+                        <option value="7">7</option>
+                        <option value="10">10</option>
+                        <option value="20">20</option>
+                        <option value="50">50</option>
+                    </select>
+                    <span class="ml-2 mt-2"></span>
+                </div>
+            </div>
             <div class="row g-2">
                 <div class="col">
                     <a class="btn btn-primary float-right mr-4" href="{{ route('admin.metaModelos.create') }}">Agregar Meta
                         Modelo</a>
                 </div>
             </div>
-            <div class="table-responsive mb-4 mt-4">
+            <div class="mb-4 mt-4">
                 <table id="html5-extension" class="table table-hover non-hover" style="width:100%">
-                    <div class="row">
-                        <div class="col-md-6 d-flex align-items-center ml-3">
-                            <label class="mb-0 mr-2">Mostrar:</label>
-                            <select id="records-per-page" class="form-control form-control-sm custom-width-20">
-                                <!-- Agregamos la clase form-control-sm -->
-                                <option value="7">7</option>
-                                <option value="10">10</option>
-                                <option value="20">20</option>
-                                <option value="50">50</option>
-                            </select>
-                            <span class="ml-2">registros por página</span>
-                            <!-- Agregamos un espacio después del select -->
-                        </div>
-                    </div>
+
                     <thead>
                         <tr>
                             <th>ID</th>
@@ -138,15 +138,29 @@
                     }
                 ]
             },
-            "oLanguage": {
-                "oPaginate": {
-                    "sPrevious": '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-arrow-left"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>',
-                    "sNext": '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-arrow-right"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>'
+            language: {
+                "decimal": ",",
+                "emptyTable": "No hay datos disponibles en la tabla",
+                "info": "Mostrando _START_ a _END_ de _TOTAL_ registros",
+                "infoEmpty": "Mostrando 0 a 0 de 0 registros",
+                "infoFiltered": "(filtrado de _MAX_ registros en total)",
+                "infoPostFix": "",
+                "thousands": ".",
+                "lengthMenu": "Mostrar _MENU_ registros por página",
+                "loadingRecords": "Cargando...",
+                "processing": "Procesando...",
+                "search": "Buscar:",
+                "zeroRecords": "No se encontraron registros coincidentes",
+                "paginate": {
+                    "first": "Primero",
+                    "last": "Último",
+                    "next": '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-arrow-right"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>',
+                    "previous": '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-arrow-left"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>',
                 },
-                "sInfo": "Página _PAGE_ de _PAGES_",
-                "sSearch": '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-search"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>',
-                "sSearchPlaceholder": "Buscar...",
-                "sLengthMenu": "Mostrar _MENU_ resultados por página",
+                "aria": {
+                    "sortAscending": ": activar para ordenar la columna ascendente",
+                    "sortDescending": ": activar para ordenar la columna descendente"
+                },
             },
             "stripeClasses": [],
             "lengthMenu": [7, 10, 20, 50],
@@ -174,7 +188,7 @@
                             // Crear un formulario dinámicamente
                             const formulario = document.createElement('form');
                             formulario.action =
-                            `metaModelos/${metaModelosId}`; // Ruta de eliminación
+                                `metaModelos/${metaModelosId}`; // Ruta de eliminación
                             formulario.method = 'POST'; // Método POST
                             formulario.style.display = 'none'; // Ocultar el formulario
 

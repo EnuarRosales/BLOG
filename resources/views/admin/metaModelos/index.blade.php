@@ -26,20 +26,21 @@
 
     <div class="col-xl-12 col-lg-12 col-sm-12  layout-spacing">
         <div class="widget-content widget-content-area br-6">
-            <div class="row">
-                <div style="display: flex;">
-                    <label class="mt-2 ml-3 mr-1">Registros :</label>
-                    <select id="records-per-page" class="form-control custom-width-20">
-                        <!-- Agregamos la clase form-control-sm -->
-                        <option value="7">7</option>
-                        <option value="10">10</option>
-                        <option value="20">20</option>
-                        <option value="50">50</option>
-                    </select>
-                    <span class="ml-2 mt-2"></span>
+
+            <<div class="row g-2">
+                <div class="col">
+                    <div style="display: flex;">
+                        <label class="mt-2 ml-3 mr-1">Registros :</label>
+                        <select id="records-per-page" class="form-control custom-width-20">
+                            <!-- Agregamos la clase form-control-sm -->
+                            <option value="7">7</option>
+                            <option value="10">10</option>
+                            <option value="20">20</option>
+                            <option value="50">50</option>
+                        </select>
+                        <span class="ml-2 mt-2"></span>
+                    </div>
                 </div>
-            </div>
-            <div class="row g-2">
                 <div class="col">
                     <a class="btn btn-primary float-right mr-4" href="{{ route('admin.metaModelos.create') }}">Agregar Meta
                         Modelo</a>

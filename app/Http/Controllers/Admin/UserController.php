@@ -38,6 +38,7 @@ class UserController extends Controller
         try {
             // $users = User::all();
             $users = User::with('tipoUsuario')->get();
+
             return view('admin.users.index', compact('users'));
         } catch (\Exception $exception) {
             Log::error("Error UC index: {$exception->getMessage()}, File: {$exception->getFile()}, Line: {$exception->getLine()}");

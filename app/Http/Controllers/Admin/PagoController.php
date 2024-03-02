@@ -28,8 +28,14 @@ class PagoController extends Controller
     public function index()
     {
         $pagos = Pago::all();
+        foreach ($pagos as $pago) {
+            $fecha = Carbon::parse($pago->fecha);
+            $pago->mes = $fecha->format('m');
+            $pago->anio = $fecha->format('Y');
+        }
         $userLogueado = auth()->user()->id;
-        return view('admin.pagos.index', compact('pagos', 'userLogueado'));
+        $anios = $pagos->unique('anio')->pluck('anio');
+        return view('admin.pagos.index', compact('pagos', 'anios', 'userLogueado'));
     }
 
     /**

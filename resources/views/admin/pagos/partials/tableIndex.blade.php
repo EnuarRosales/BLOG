@@ -24,6 +24,8 @@
             </svg></a>
 
     </td>
+    <td hidden>{{ str_pad($pago->mes, 2, '0', STR_PAD_LEFT) }}</td>
+    <td hidden>{{ ($pago->anio) }}</td>
 
     {{-- <td width="10px">
         <a class="btn btn-secondary btn-sm" href="{{ route('admin.pagos.comprobantePagoPDF', $pago) }}">Editar</a>

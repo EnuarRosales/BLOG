@@ -7,7 +7,7 @@
 @endsection
 
 @section('content_header')
-    <h2 class="ml-3">Lista multas</h2> 
+    <h2 class="ml-3">Lista multas</h2>
 @stop
 
 @section('styles')
@@ -48,11 +48,11 @@
                             <th>Tipo multa</th>
                             <th>Valor Multa</th>
                             <th>Valor Multa</th>
-                            <th>Fecha</th>                            
+                            <th>Fecha</th>
                             <th>Observacion</th>
                             <th>Descontar</th>
                             {{-- @can('admin.registroMultas.edit') --}}
-                                <th>Acciones</th>
+                            <th>Acciones</th>
                             {{-- @endcan --}}
                         </tr>
                     </thead>
@@ -66,11 +66,11 @@
                             <th>Tipo multa</th>
                             <th>Valor Multa</th>
                             <th>Valor Multa</th>
-                            <th>Fecha</th>                            
+                            <th>Fecha</th>
                             <th>Observacion</th>
                             <th>Descontar</th>
                             {{-- @can('admin.registroMultas.edit') --}}
-                                <th>Acciones</th>
+                            <th>Acciones</th>
                             {{-- @endcan --}}
 
                         </tr>
@@ -166,7 +166,7 @@
                     data: 'observacion',
                     name: 'observacion',
                 },
-                
+
                 {
                     data: 'generar_descuento',
                     name: 'generar_descuento',
@@ -177,7 +177,7 @@
                     @endcan
                 },
 
-                
+
 
                 {
                     data: 'acciones',
@@ -189,15 +189,29 @@
                     @endcan
                 },
             ],
-            "oLanguage": {
-                "oPaginate": {
-                    "sPrevious": '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-arrow-left"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>',
-                    "sNext": '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-arrow-right"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>'
+            language: {
+                "decimal": ",",
+                "emptyTable": "No hay datos disponibles en la tabla",
+                "info": "Mostrando _START_ a _END_ de _TOTAL_ registros",
+                "infoEmpty": "Mostrando 0 a 0 de 0 registros",
+                "infoFiltered": "(filtrado de _MAX_ registros en total)",
+                "infoPostFix": "",
+                "thousands": ".",
+                "lengthMenu": "Mostrar _MENU_ registros por página",
+                "loadingRecords": "Cargando...",
+                "processing": "Procesando...",
+                "search": "Buscar:",
+                "zeroRecords": "No se encontraron registros coincidentes",
+                "paginate": {
+                    "first": "Primero",
+                    "last": "Último",
+                    "next": '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-arrow-right"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>',
+                    "previous": '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-arrow-left"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>',
                 },
-                "sInfo": "Página _PAGE_ de _PAGES_",
-                "sSearch": '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-search"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>',
-                "sSearchPlaceholder": "Buscar...",
-                "sLengthMenu": "Mostrar _MENU_ resultados por página",
+                "aria": {
+                    "sortAscending": ": activar para ordenar la columna ascendente",
+                    "sortDescending": ": activar para ordenar la columna descendente"
+                },
             },
             "stripeClasses": [],
             "lengthMenu": [7, 10, 20, 50],

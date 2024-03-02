@@ -6,7 +6,6 @@
 
 @section('page-title')
     <a href="{{ route('admin.paginas.index') }}"> Configuracion-Paginas</a>
-
 @endsection
 
 @section('content_header')
@@ -14,54 +13,45 @@
 @stop
 
 @section('content')
-    <div class="col-xl-12 col-lg-12 col-sm-12  layout-spacing">
+    <div class="col-xl-12 col-lg-12 col-sm-12 layout-spacing">
         <div class="widget-content widget-content-area br-6">
-
-            {!! Form::open(['route' => 'admin.paginas.store']) !!}
-
-            <div class="form-group">
-                {!! Form::label('name', 'Nombre') !!}
-                {{-- ojo que en la linea siguiente va el nombre de la columa =( --}}
-                {!! Form::text('nombre', null, ['class' => 'form-control', 'placeholder' => 'Favor ingrese un nombre']) !!}
-
-                @error('nombre')
-                    <br>
-                    <span class="text-danger">{{ $message }}</span>
-                    <br>
-                @enderror
+            <form action="{{ route('admin.paginas.store') }}" method="POST">
+                @csrf
+                <div class="form-group">
+                    <label for="nombre">Nombre</label>
+                    <input type="text" name="nombre" class="form-control" placeholder="Favor ingrese un nombre">
+                    @error('nombre')
+                        <br>
+                        <span class="text-danger">{{ $message }}</span>
+                        <br>
+                    @enderror
+                </div>
 
                 <div class="form-group">
-                    {!! Form::label('moneda', 'Moneda') !!}
-
-                    {!! Form::select('moneda', ['dolar' => 'dolar', 'euro' => 'euro'], 2, [
-                        'id' => 'moneda',
-                        'class' => 'form-control',
-                    ]) !!}
-
+                    <label for="moneda">Moneda</label>
+                    <select name="moneda" id="moneda" class="form-control">
+                        <option value="dolar">dolar</option>
+                        <option value="euro">euro</option>
+                    </select>
                     @error('moneda')
                         <br>
                         <span class="text-danger">{{ $message }}</span>
                         <br>
                     @enderror
+                </div>
 
-                    {!! Form::label('name', 'valor') !!}
-                    {{-- ojo que en la linea siguiente va el nombre de la columa =( --}}
-                    {!! Form::text('valor', null, ['class' => 'form-control', 'placeholder' => 'Favor ingrese un valor']) !!}
+                <div class="form-group">
+                    <label for="valor">Valor</label>
+                    <input type="text" name="valor" class="form-control" placeholder="Ingrese un valor" pattern="^(\d+)?(?:\.\d{1,2})?$" title="Ingrese un número válido no se puede usar la (,) (puede tener hasta dos decimales)">
                     @error('valor')
                         <br>
                         <span class="text-danger">{{ $message }}</span>
                         <br>
                     @enderror
-
-
                 </div>
 
-                {!! Form::submit('Crear Pagina', ['class' => 'btn btn-primary']) !!}
-                {!! Form::close() !!}
-
-            </div>
-
-
+                <button type="submit" class="btn btn-primary">Crear Pagina</button>
+            </form>
         </div>
     </div>
 @stop

@@ -37,7 +37,7 @@ class AsignacionTurnoController extends Controller
                 // El usuario no tiene el permiso "editar_posts"
                 $asignacionTurnos = AsignacionTurno::where('user_id', $user->id)
                     ->orderBy('id', 'desc')
-                    ->paginate();
+                    ->get();
                 return view('admin.asignacionTurnos.index', compact('asignacionTurnos'));
             }
             // El usuario tiene el permiso "editar_posts"

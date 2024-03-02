@@ -26,17 +26,17 @@ class AsignacionRoomController extends Controller
     {
         // Obtén el usuario autenticado
         $user = Auth::user();
-      
+
         if ($user->hasPermissionTo('admin.asignacionRooms.index')) {
             if ($user->hasPermissionTo('asignacionRooms.personal')) {
                 // El usuario no tiene el permiso "editar_posts"
                 $asignacionRooms = AsignacionRoom::where('user_id', $user->id)
                     ->orderBy('id', 'desc')
-                    ->paginate();
+                    ->get();
                 return view('admin.asignacionRooms.index', compact('asignacionRooms'));
             }
             // El usuario tiene el permiso "editar_posts"
-            $asignacionRooms = AsignacionRoom::orderBy('id', 'desc')->paginate();
+            $asignacionRooms = AsignacionRoom::orderBy('id', 'desc')->get();
             return view('admin.asignacionRooms.index', compact('asignacionRooms'));
         }
     }
@@ -59,7 +59,7 @@ class AsignacionRoomController extends Controller
         // else(dd("no"));
         // $user->hasAnyRole(['writer', 'reader']);
 
-        // $userLogueado = auth()->user()->getPermissionNames();       
+        // $userLogueado = auth()->user()->getPermissionNames();
 
 
     //     $asignacionRooms = AsignacionRoom::orderBy('id', 'desc')->paginate();
@@ -79,14 +79,14 @@ class AsignacionRoomController extends Controller
         return view('admin.asignacionRooms.create', compact('users', 'rooms'));
     }
 
-    /** 
+    /**
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
-    { //VALiDACION FORMULARIO 
+    { //VALiDACION FORMULARIO
         $request->validate([
             'user_id' => 'required',
             'room_id' => 'required',
@@ -132,7 +132,7 @@ class AsignacionRoomController extends Controller
      */
     public function update(Request $request, AsignacionRoom $asignacionRoom)
     {
-        //VALiDACION FORMULARIO 
+        //VALiDACION FORMULARIO
         $request->validate([
             'user_id' => 'required',
             'room_id' => 'required',

@@ -44,7 +44,7 @@ class PaginaController extends Controller
         //VALiDACION FORMULARIO
        $request->validate([
         'nombre'=>'required',
-        'valor' => ['required', 'regex:/^\d+(\.\d{1,2})?$/'], 
+        'valor' => ['required', 'regex:/^\d+(\.\d{1,2})?$/'],
         'moneda'=>'required',
 
     ]);
@@ -89,7 +89,7 @@ class PaginaController extends Controller
         //VALLIDACION DE FORMULARIOS
         $request->validate([
             'nombre'=>'required',
-            'valor'=>'required',
+            'valor' => ['required', 'regex:/^\d+(\.\d{1,2})?$/'], 
             'moneda'=>'required',
 
         ]);

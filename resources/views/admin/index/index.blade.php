@@ -57,7 +57,9 @@
 
 
 
-            <div class="row">
+            {{-- 1 IMAGEN COMENTADA HASTA QUE ESTE LISTO TODO --}}
+
+            {{-- <div class="row">
                 <div class="col-lg-12 mb-4">
                     <div class="statbox widget box box-shadow">
                         <div class="widget-header">
@@ -84,7 +86,8 @@
                         </div>
                     </div>
                 </div>
-            </div>
+            </div> --}}
+
 
             <!-- En tu archivo Blade -->
 
@@ -99,13 +102,13 @@
             <div class="row">
                 @include('admin.index.partials.grafico_quincena')
 
-
-
                 @include('admin.index.partials.facturado_quincena_widget')
             </div>
         </div>
-        <div class="row">
 
+        
+        
+        {{-- <div class="row">
             <div id="chartColumn" class="col-xl-12 layout-spacing">
                 <div class="statbox widget box box-shadow">
                     <div class="widget-header">
@@ -120,9 +123,9 @@
                     </div>
                 </div>
             </div>
-        </div>
+        </div> --}}
 
-        <div class="row">
+        {{-- <div class="row">
             <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 layout-spacing">
                 <div class="widget widget-table-three">
                     <div class="widget-heading">
@@ -153,7 +156,7 @@
                                                         {{ $total['sumatoriaNetoPesos'] }} COP</span>
                                                 </td>
 
-                                                {{-- <td>{{ $total['sumatoriaDolarers'] }}</td> --}}
+                                               
                                             @endforeach
                                             <td> ${{ $dataModelosQuincena['totalespesonetoquincena'][$userId] }} COP</td>
                                         </tr>
@@ -164,7 +167,7 @@
                     </div>
                 </div>
             </div>
-        </div>
+        </div> --}}
     @endcan
 @endsection
 

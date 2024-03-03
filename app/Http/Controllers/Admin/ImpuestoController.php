@@ -42,7 +42,13 @@ class ImpuestoController extends Controller
             $impuestos = Impuesto::all();
             $userLogueado = auth()->user()->id;
             $pagos = Pago::all()->where('pagado', 1);
-            return view('admin.impuestos.comprobanteImpuesto', compact('pagos', 'impuestos'));
+            foreach ($pagos as $pago) {
+                $fecha = Carbon::parse($pago->fecha);
+                $pago->mes = $fecha->format('m');
+                $pago->anio = $fecha->format('Y');
+            }
+            $anios = $pagos->unique('anio')->pluck('anio');
+            return view('admin.impuestos.comprobanteImpuesto', compact('pagos', 'anios', 'impuestos'));
         }
     }
 

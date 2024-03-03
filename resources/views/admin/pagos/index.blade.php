@@ -246,7 +246,7 @@
 
         $(document).ready(function() {
             const fechaActual = new Date();
-            var mesActual = fechaActual.getMonth();
+            var mesActual = fechaActual.getMonth()+1;
             if (mesActual < 10) {
                 mesActual = '0' + mesActual;
             }

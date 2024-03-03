@@ -19,15 +19,21 @@
     <link rel="stylesheet" type="text/css" href="{{ asset('template/plugins/table/datatable/custom_dt_html5.css') }}">
     <link rel="stylesheet" type="text/css" href="{{ asset('template/plugins/table/datatable/dt-global_style.css') }}">
 
+    <style>
+        .dt-center {
+            text-align: center;
+        }
+    </style>
+
 @endsection
 
 @section('content')
 
     <div class="col-xl-12 col-lg-12 col-sm-12  layout-spacing">
         <div class="widget-content widget-content-area br-6">
-            <div class="row g-2">
-                <div class="col">
-                    <div style="display: flex;">
+            <div class="row">
+                <div class="col-2">
+                    <div style="display: flex; padding-top:20px">
                         <label class="mt-2 ml-3 mr-1">Registros :</label>
                         <select id="records-per-page" class="form-control custom-width-20">
                             <!-- Agregamos la clase form-control-sm -->
@@ -37,6 +43,40 @@
                             <option value="50">50</option>
                         </select>
                     </div>
+                </div>
+                <div class="col-5">
+                </div>
+                <div class="col-md-2">
+                    <label for="mes">Año:</label>
+                    <select name="anio" id="anio" class="form-control">
+                        <option value="">Seleccionar año</option>
+                        @foreach ($anios as $anio)
+                            <option value="{{ $anio }}">{{ $anio }}</option>
+                        @endforeach
+                    </select>
+                </div>
+                <div class="col-md-2">
+                    <div class="form-group">
+                        <label for="mes">Mes:</label>
+                        <select name="mes" id="mes" class="form-control">
+                            <option value="" selected>Seleccione un mes</option>
+                            <option value="01">01 - Enero</option>
+                            <option value="02">02 - Febrero</option>
+                            <option value="03">03 - Marzo</option>
+                            <option value="04">04 - Abril</option>
+                            <option value="05">05 - Mayo</option>
+                            <option value="06">06 - Junio</option>
+                            <option value="07">07 - Julio</option>
+                            <option value="08">08 - Agosto</option>
+                            <option value="09">09 - Septiembre</option>
+                            <option value="10">10 - Octubre</option>
+                            <option value="11">11 - Noviembre</option>
+                            <option value="12">12 - Diciembre</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="col-md-1" style="padding: 33px">
+                    <button type="submit" class="btn btn-primary" id="btnFiltrar">Filtrar</button>
                 </div>
             </div>
             <div class="table-responsive mb-4 mt-4">
@@ -49,6 +89,8 @@
                             <th style="text-align:center">Porcentaje</th>
                             <th style="text-align:center">Valor</th>
                             <th style="text-align:center">Comprobante</th>
+                            <th hidden>Mes</th>
+                            <th hidden>Año</th>
 
                         </tr>
                     </thead>
@@ -72,22 +114,7 @@
             </div>
         </div>
     </div>
-
-    {{-- <div class="card">
-        <div class="card-body">
-
-
-        </div>
-        <table id="registroAsistencias" class="table table-striped table-bordered shadow-lg mt-4">
-
-
-
-        </table>
-
-    </div> --}}
-
 @stop
-
 
 @section('js')
     <script src="{{ asset('template/plugins/table/datatable/datatables.js') }}"></script>
@@ -145,6 +172,11 @@
             "stripeClasses": [],
             "lengthMenu": [7, 10, 20, 50],
             "pageLength": 7,
+            columnDefs: [{
+                className: 'dt-center',
+                targets: '_all'
+                // targets: [1,3]
+            }]
         });
 
         // Vincular eventos de clic para eliminar
@@ -152,10 +184,7 @@
             document.querySelectorAll('.eliminar-registro').forEach(botonEliminar => {
                 botonEliminar.addEventListener('click', function(e) {
                     e.preventDefault();
-
                     const paginasId = this.getAttribute('data-pagina-id');
-
-
                     Swal.fire({
                         title: '¿Estás seguro?',
                         text: '¡Este registro se eliminará definitivamente!',
@@ -210,6 +239,33 @@
 
         // Vincular eventos de clic para eliminar inicialmente
         bindDeleteEvents();
+
+        function filtrarTabla() {
+            const mes = $('#mes').val();
+            const anio = $('#anio').val();
+            table.column(6).search(mes).column(7).search(anio);
+            table.draw();
+        }
+
+        const btnFiltrar = document.getElementById('btnFiltrar');
+        btnFiltrar.addEventListener('click', filtrarTabla);
+
+        $(document).ready(function() {
+            const fechaActual = new Date();
+            var mesActual = fechaActual.getMonth() + 1;
+            if (mesActual < 10) {
+                mesActual = '0' + mesActual;
+            }
+            const anioActual = fechaActual.getFullYear();
+            console.log(mesActual);
+            filtrarTablaIncial(mesActual, anioActual);
+        });
+
+        function filtrarTablaIncial(mes, anio) {
+            table.column(6).search(mes)
+                .column(7).search(anio);
+            table.draw();
+        }
     </script>
     <script></script>
 
@@ -256,10 +312,4 @@
             });
         </script>
     @endif
-
-
-
-
-
-
 @stop

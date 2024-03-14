@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\AsignacionMulta;
+use App\Models\AsignacionRoom;
 use App\Models\Descontado;
 use App\Models\Descuento;
 use App\Models\Empresa;
@@ -27,16 +28,35 @@ class PagoController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function index()
-    {
-        $pagos = Pago::all();
-        foreach ($pagos as $pago) {
-            $fecha = Carbon::parse($pago->fecha);
-            $pago->mes = $fecha->format('m');
-            $pago->anio = $fecha->format('Y');
+    {        // Obtén el usuario autenticado
+        $user = Auth::user();
+
+        if ($user->hasPermissionTo('admin.certificacion.pago')) {
+            if ($user->hasPermissionTo('certificaciones.personal')) {
+                // El usuario no tiene el permiso "editar_posts"
+                $pagos = Pago::where('user_id', $user->id)
+                    ->orderBy('id', 'desc')
+                    ->get();
+                foreach ($pagos as $pago) {
+                    $fecha = Carbon::parse($pago->fecha);
+                    $pago->mes = $fecha->format('m');
+                    $pago->anio = $fecha->format('Y');
+                }
+                $userLogueado = auth()->user()->id;
+                $anios = $pagos->unique('anio')->pluck('anio');
+                return view('admin.pagos.index', compact('pagos', 'anios', 'userLogueado'));
+            }
+
+            $pagos = Pago::all();
+            foreach ($pagos as $pago) {
+                $fecha = Carbon::parse($pago->fecha);
+                $pago->mes = $fecha->format('m');
+                $pago->anio = $fecha->format('Y');
+            }
+            $userLogueado = auth()->user()->id;
+            $anios = $pagos->unique('anio')->pluck('anio');
+            return view('admin.pagos.index', compact('pagos', 'anios', 'userLogueado'));
         }
-        $userLogueado = auth()->user()->id;
-        $anios = $pagos->unique('anio')->pluck('anio');
-        return view('admin.pagos.index', compact('pagos', 'anios', 'userLogueado'));
     }
 
     /**

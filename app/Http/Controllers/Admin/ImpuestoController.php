@@ -34,10 +34,17 @@ class ImpuestoController extends Controller
         if ($user->hasPermissionTo('admin.certificacion.pago')) {
             if ($user->hasPermissionTo('certificaciones.personal')) {
                 $impuestos = Impuesto::all();
-                // $impuestos = Impuesto::where('user_id', $user->id)->get();
-                // $userLogueado = auth()->user()->id;
-                $pagos = Pago::where('user_id', $user->id)->where('pagado', 1)->get();
-                return view('admin.impuestos.comprobanteImpuesto', compact('pagos', 'impuestos'));
+                $pagos = Pago::where('pagado', 1)
+                ->where('user_id', $user->id)
+                ->get();
+
+                foreach ($pagos as $pago) {
+                    $fecha = Carbon::parse($pago->fecha);
+                    $pago->mes = $fecha->format('m');
+                    $pago->anio = $fecha->format('Y');
+                }
+                $anios = $pagos->unique('anio')->pluck('anio');
+                return view('admin.impuestos.comprobanteImpuesto', compact('pagos', 'anios', 'impuestos'));
             }
             $impuestos = Impuesto::all();
             $userLogueado = auth()->user()->id;

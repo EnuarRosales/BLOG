@@ -2,15 +2,23 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Curso; 
+use App\Models\Curso;
 use Illuminate\Http\Request;
 
 
 class CursoController extends Controller
 {
+
+
+
+    public function sumar($numero1 =1, $numero2 =1){
+        $suma = $numero1 + $numero2;
+    }
+
+
     public function index(){
-        $cursos  = Curso::orderBy('id','desc')->paginate();       
-        return view('admin.cursos.index', compact('cursos'));    
+        $cursos  = Curso::orderBy('id','desc')->paginate();
+        return view('admin.cursos.index', compact('cursos'));
     }
 
     public function create(){
@@ -27,7 +35,7 @@ class CursoController extends Controller
         ]);
 
         //ASIGNACION MASIVA CON ESTO  TOMAMOS LA INFORMACION Y LA CARGAMOS A CADA VARIABLE
-        //LO QUE NOS PERMITE AHOORAR LAS LINEA DE CODIGO QUE ESTAN MAS ABAJO 
+        //LO QUE NOS PERMITE AHOORAR LAS LINEA DE CODIGO QUE ESTAN MAS ABAJO
         $curso = Curso::create($request->all());
         return redirect()->route('cursos.show', $curso->id);
 
@@ -42,13 +50,13 @@ class CursoController extends Controller
 
     }
 
-    //OJO QUE ACA ESTA RETORNANDO UNA VARIABLE PARA MOSTRAR EN LA VISTA 
-    public function show(Curso $curso){      
+    //OJO QUE ACA ESTA RETORNANDO UNA VARIABLE PARA MOSTRAR EN LA VISTA
+    public function show(Curso $curso){
         return view('admin.cursos.show',compact('curso'));
     }
 
 
-    public function edit(Curso $curso){        
+    public function edit(Curso $curso){
         return view('admin.cursos.edit', compact('curso'));
         }
 
@@ -58,11 +66,11 @@ class CursoController extends Controller
             'name' => 'required',
             'descripcion' => 'required',
             'categoria'=> 'required',
-        ]);    
-        //ASIGNACION MASIVA   
+        ]);
+        //ASIGNACION MASIVA
         $curso->update($request->all());
-        return redirect()->route('cursos.show', $curso->id);       
-       
+        return redirect()->route('cursos.show', $curso->id);
+
     }
 
     public function destroy(Curso $curso){

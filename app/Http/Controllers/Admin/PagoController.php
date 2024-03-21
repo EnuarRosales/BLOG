@@ -13,6 +13,7 @@ use App\Models\Meta;
 use App\Models\Pago;
 use App\Models\ReportePagina;
 use App\Models\TipoDescuento;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Barryvdh\DomPDF\Facade\Pdf;
@@ -28,8 +29,10 @@ class PagoController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function index()
-    {        // Obtén el usuario autenticado
+    {
+        // Obtén el usuario autenticado
         $user = Auth::user();
+        $users = User::withTrashed()->get();
 
         if ($user->hasPermissionTo('admin.certificacion.pago')) {
             if ($user->hasPermissionTo('certificaciones.personal')) {
@@ -47,7 +50,10 @@ class PagoController extends Controller
                 return view('admin.pagos.index', compact('pagos', 'anios', 'userLogueado'));
             }
 
-            $pagos = Pago::all();
+            $pagos = Pago::leftJoin('users', 'users.id', '=', 'pagos.user_id')
+                ->select('users.name', 'pagos.*')
+                ->get();
+
             foreach ($pagos as $pago) {
                 $fecha = Carbon::parse($pago->fecha);
                 $pago->mes = $fecha->format('m');
@@ -272,11 +278,18 @@ class PagoController extends Controller
 
     public function comprobantePagoPDF(Pago $pago)
     {
-        /*
-         *
-         * MUESTRA LAS PAGINAS Y LA TRM ESTA PRIMER CONSULTA.
-         *
-         */
+
+
+        //CONSULTADO USUARIOS ASI ESTES ELIMINADOS
+        $user = User::withTrashed()
+            ->where('id', $pago->user_id)->get();
+
+        foreach ($user as $i) {
+            $nombreUsuario = $i->name;
+            $cedulaUsuario = $i->cedula;
+        }
+
+
         $reportePaginas = ReportePagina::with('user', 'pagina')->select(
             // DB::raw('sum(netoPesos) as suma'),
             DB::raw('Cantidad'),
@@ -345,9 +358,18 @@ class PagoController extends Controller
             $logoEmpresa = $empresa->logo;
         }
 
+        $user = User::withTrashed()
+            ->where('id', $pago->user_id)->get();
+
+        $name = "nombre";
+
+        foreach ($user as $n) {
+            $name = $n;
+        }
+
         $codigoQR = QrCode::size(80)->generate(
             "COMPROBANTE DE PAGO" . "\n" .
-                "NOMBRE: " . $pago->user->name . "\n" .
+                "NOMBRE: " . $nombreUsuario . "\n" .
                 "FECHA: " . $pago->fecha . "\n" .
                 "DEVENGADO: " . "$ " . number_format($pago->devengado, 2, '.', ',') . "\n" .
                 "DESCUENTO: " . "$ " . number_format($pago->descuento, 2, '.', ',') . "\n" .
@@ -358,7 +380,7 @@ class PagoController extends Controller
 
         $date = Carbon::now()->locale('es');
         try {
-            $pdf = Pdf::loadView('admin.pagos.comprobantePago', compact('reportePaginas', 'pago', 'descuentos', 'multasDescuentos', 'multasDescuentosArray', 'descuentosArray', 'date', 'nitEmpresa', 'nombreEmpresa', 'codigoQR', 'logoEmpresa'));
+            $pdf = Pdf::loadView('admin.pagos.comprobantePago', compact('reportePaginas', 'pago', 'descuentos', 'multasDescuentos', 'multasDescuentosArray', 'descuentosArray', 'date', 'nitEmpresa', 'nombreEmpresa', 'codigoQR', 'logoEmpresa', 'nombreUsuario', 'cedulaUsuario'));
         } catch (\Exception $e) {
             $errorMessage = $e->getMessage();
             $message = substr($errorMessage, strpos($errorMessage, '$') + 1);

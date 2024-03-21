@@ -35,8 +35,8 @@ class ImpuestoController extends Controller
             if ($user->hasPermissionTo('certificaciones.personal')) {
                 $impuestos = Impuesto::all();
                 $pagos = Pago::where('pagado', 1)
-                ->where('user_id', $user->id)
-                ->get();
+                    ->where('user_id', $user->id)
+                    ->get();
 
                 foreach ($pagos as $pago) {
                     $fecha = Carbon::parse($pago->fecha);
@@ -48,7 +48,12 @@ class ImpuestoController extends Controller
             }
             $impuestos = Impuesto::all();
             $userLogueado = auth()->user()->id;
-            $pagos = Pago::all()->where('pagado', 1);
+
+            $pagos = Pago::leftJoin('users', 'users.id', '=', 'pagos.user_id')
+                //   ->select('users.name', 'pagos.id','pagos.fecha','pagos.pagado', 'pagos.devengado', 'pagos.descuento', 'pagos.impuestoDescuento', 'pagos.multaDescuento')
+                ->select('users.name', 'pagos.*')
+                ->get();
+
             foreach ($pagos as $pago) {
                 $fecha = Carbon::parse($pago->fecha);
                 $pago->mes = $fecha->format('m');
@@ -164,6 +169,17 @@ class ImpuestoController extends Controller
 
     public function comprobanteImpuestoPDF(Pago $pago)
     {
+        // $pagoId = $pagos->id;
+
+        // dd($pagos);
+
+        // $pago = Pago::leftJoin('users', 'users.id', '=', 'pagos.user_id')
+        //     // ->where('pagos.id', $pagoId)
+        //     ->select('users.name', 'pagos.*')
+        //     ->get();
+        //     dd($pago);
+
+
         // dd($pago);
         $empresas = Empresa::all();
         foreach ($empresas as $empresa) {

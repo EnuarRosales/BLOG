@@ -604,7 +604,8 @@ class HomeController extends Controller
         $userIds = $registrosAgrupados->keys();
 
         foreach ($userIds as $userId) {
-            $modelo = User::where('id', $userId)->first();
+            $modelo = User::withTrashed()
+            ->where('id', $userId)->first();
             $nombreModelo = $modelo->name; // Reemplaza 'nombreModelo' con el nombre de la columna que contiene el nombre del modelo
 
             $nombresModelosPorUsuario[$userId] = $nombreModelo;

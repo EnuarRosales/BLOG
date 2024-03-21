@@ -30,11 +30,9 @@ class CreateUsersTable extends Migration
                 ->references('id')->on('tipo_usuarios') //tabla
                 ->onDelete('cascade');
 
-
             $table->foreign('empresa_id')->nullable()
                 ->references('id')->on('empresas') //tabla
                 ->onDelete('cascade');
-
 
             $table->timestamps();
             $table->string('password')->nullable();

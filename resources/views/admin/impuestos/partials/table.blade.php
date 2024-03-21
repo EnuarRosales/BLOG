@@ -1,6 +1,6 @@
 <tr>
     <td>{{ $pago->fecha }}</td>
-    <td>{{ $pago->user->name }}</td>
+    <td>{{ $pago->name }}</td>
     <td>
         @foreach ($impuestos as $impuesto)
             @if ($impuesto->id == $pago->impuesto_id)

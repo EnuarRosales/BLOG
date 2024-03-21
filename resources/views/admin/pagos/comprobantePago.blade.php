@@ -32,12 +32,11 @@
 
     </footer>
 
-
     <div class="content ex1">
         <p style="text-align:center;"> <b> HACE CONSTAR </b></p>
 
         <p class="Paragrap" style="text-align: justify;">
-            Que el (la) Señor (a) {{ $pago->user->name }} identificado con CC No. {{ $pago->user->cedula }},
+            Que el (la) Señor (a) {{ $nombreUsuario }} identificado con CC No. {{ $cedulaUsuario}},
             En la quincena del {{ $pago->fecha }} , se le consignaron los siguientes haberes:
         </p>
         @include('admin.pagos.partials.tablePagina')

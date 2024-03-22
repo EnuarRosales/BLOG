@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Empresa;
 use App\Models\Impuesto;
 use App\Models\Pago;
+use App\Models\User;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -169,18 +170,18 @@ class ImpuestoController extends Controller
 
     public function comprobanteImpuestoPDF(Pago $pago)
     {
-        // $pagoId = $pagos->id;
 
-        // dd($pagos);
+        //CONSULTADO USUARIOS ASI ESTES ELIMINADOS
+        $user = User::withTrashed()
+            ->where('id', $pago->user_id)->get();
 
-        // $pago = Pago::leftJoin('users', 'users.id', '=', 'pagos.user_id')
-        //     // ->where('pagos.id', $pagoId)
-        //     ->select('users.name', 'pagos.*')
-        //     ->get();
-        //     dd($pago);
+        foreach ($user as $i) {
+            $nombreUsuario = $i->name;
+            $cedulaUsuario = $i->cedula;
+        }
+       
 
 
-        // dd($pago);
         $empresas = Empresa::all();
         foreach ($empresas as $empresa) {
             $nombreEmpresa = $empresa->name;
@@ -190,7 +191,7 @@ class ImpuestoController extends Controller
 
         $codigoQR = QrCode::size(80)->generate(
             "CERTIFICACION IMPUESTO" . "\n" .
-                "NOMBRE: " . $pago->user->name . "\n" .
+                "NOMBRE: " . $nombreUsuario . "\n" .
                 "FECHA: " . $pago->fecha . "\n" .
                 "CONCEPTO: " . ($pago->impuestos->nombre ?? 'N/A') . "\n" .  // Usar 'N/A' si el nombre es nulo
                 "PORCENTAJE: " . $pago->impuestoPorcentaje . " %" . "\n" .
@@ -202,7 +203,7 @@ class ImpuestoController extends Controller
         // $pagos = Pago::where('user_id', $pago->id)->get();
         $date = Carbon::now()->locale('es');
         try {
-            $pdf = Pdf::loadView('admin.impuestos.comprobanteImpuestoPDF', compact('pago', 'date', 'nombreEmpresa', 'nitEmpresa', 'codigoQR', 'logoEmpresa'));
+            $pdf = Pdf::loadView('admin.impuestos.comprobanteImpuestoPDF', compact('cedulaUsuario','nombreUsuario','pago', 'date', 'nombreEmpresa', 'nitEmpresa', 'codigoQR', 'logoEmpresa'));
         } catch (\Exception $e) {
             $errorMessage = $e->getMessage();
             $message = substr($errorMessage, strpos($errorMessage, '$') + 1);
